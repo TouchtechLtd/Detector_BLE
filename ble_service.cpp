@@ -34,17 +34,22 @@ void Service::on_ble_evt(ble_evt_t * p_ble_evt)
 
 Service::Service(uint16_t custom_uuid, ble_uuid128_t base_uuid)
 {
-	Service();
+	_init();
 	createCustomService(custom_uuid, base_uuid);
 }
 
 Service::Service(uint16_t sig_uuid)
 {
-	Service();
+	_init();
 	createSIGService(sig_uuid);
 }
 
 Service::Service()
+{
+	_init();
+}
+
+void Service::_init()
 {
     memset(&_service, 0, sizeof(_service));
     // Configuring Client Characteristic Configuration Descriptor metadata and add to char_md structure
@@ -53,7 +58,6 @@ Service::Service()
     memset(&_base_uuid, 0, sizeof(_base_uuid));
     _charCount = 0;
 }
-
 
 /**@brief Function for initiating our new service.
  *

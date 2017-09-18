@@ -572,20 +572,20 @@ int main(void)
     Service my_service(0xC001, BLE_UUID_OUR_BASE_UUID);
     NRF_LOG_INFO("Service created.\r\n");
 
-    my_service.addCharacteristic(0xC00F);
-    NRF_LOG_INFO("Char added.\r\n");
 
     Service my_service2(0xC006, BLE_UUID_OUR_BASE_UUID);
     NRF_LOG_INFO("Service created.\r\n");
 
-/*
-    //ble_manager.addService(&my_service);
-    ble_manager.addService(BLE_UUID_OUR_SERVICE_UUID_2);
-    //ble_manager.addSIGService(BLE_UUID_BATTERY_SERVICE);
-    //ble_manager.addService(0xBEEF);
+    my_service2.addCharacteristic(0xC00F);
+    NRF_LOG_INFO("Char added.\r\n");
 
-    //my_service.addCharacteristic(0x1EAF);
-*/
+
+    ble_manager.addService(&my_service);
+    ble_manager.addService(BLE_UUID_OUR_SERVICE_UUID_2);
+    ble_manager.addSIGService(BLE_UUID_BATTERY_SERVICE);
+    ble_manager.addService(0xBEEF);
+
+
     // Start execution.
     NRF_LOG_INFO("Blinky example started.\r\n");
     //NRF_LOG_INFO("%d", customService_id);

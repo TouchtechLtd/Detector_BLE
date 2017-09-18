@@ -34,6 +34,8 @@ class Service {
 	    ble_uuid_t        service_uuid;
 	    ble_uuid128_t		_base_uuid;
 	    uint8_t		_charCount;
+
+	    void _init();
 	public:
 	    Service();
 	    Service(uint16_t custom_uuid, ble_uuid128_t base_uuid);
