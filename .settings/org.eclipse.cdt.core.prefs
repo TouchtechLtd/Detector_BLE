@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.259732186/PATH/delimiter=\:
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.259732186/PATH/operation=append
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.259732186/PATH/value=$PATH\:/Users/michaelmcadam/SDK/Nordic_nf52/nRF5x-Command-Line-Tools_9_4_0_OSX/nrfjprog
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.259732186/append=true
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.259732186/appendContributed=true
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.934373387/PATH/delimiter=\:
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.934373387/PATH/operation=append
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.934373387/PATH/value=$PATH\:/Users/michaelmcadam/SDK/Nordic_nf52/nRF5x-Command-Line-Tools_9_4_0_OSX/nrfjprog
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.934373387/append=true
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.934373387/appendContributed=true
