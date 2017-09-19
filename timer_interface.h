@@ -40,11 +40,11 @@ class Timer {
 		static bool _timerInitiliased;
 
 		static void lfclk_config(void);
-		static void init(void);
 		//static void timer_a_handler(void * p_context);
 		app_timer_id_t _id;
 
 	public:
+		static void init();
 		static void startTimer(app_timer_t* const timer_id,
 								uint32_t ms,
 								app_timer_timeout_handler_t handler);

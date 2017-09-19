@@ -108,25 +108,34 @@ void log_init(void)
 
 int main(void)
 {
-	//UART::init();
-	log_init();
+	UART::init();
+	Timer::init();
+
 	GPIO::init();
     BLE::init();
-    NRF_LOG_INFO("BLE Manager Initialised.\r\n");
+    UART::write("BLE Manager Initialised.\r\n");
 
-    //BLE ble_manager;
-    //ble_manager.setBaseUUID(BLE_UUID_OUR_BASE_UUID);
+    BLE ble_manager;
+    ble_manager.setBaseUUID(BLE_UUID_OUR_BASE_UUID);
 
-    //Service my_service(0xC001, BLE_UUID_OUR_BASE_UUID);
-    //NRF_LOG_INFO("Service created.\r\n");
+    Service my_service(0xC001, BLE_UUID_OUR_BASE_UUID);
+    UART::write("Service created.\r\n");
 
-    //BLE::adv.start(APP_ADV_DEFAULT_INTERVAL);
+    Characteristic trapTriggered(0xFEE1);
+    trapTriggered.enableRead();
+    trapTriggered.enableNotification();
+    uint8_t initValue = { 0x00 };
+    trapTriggered.initValue(&initValue, 1);
+    trapTriggered.setMaxLength(50);
+
+    ble_char_id_t trapTriggered_id = my_service.addCharacteristic(&trapTriggered);
+
+    BLE::adv.start(APP_ADV_DEFAULT_INTERVAL);
 
 	GPIO::setOutput(LED_1_PIN, HIGH);
 	GPIO::setOutput(LED_2_PIN, HIGH);
 	GPIO::setOutput(LED_3_PIN, HIGH);
 	GPIO::setOutput(LED_4_PIN, HIGH);
-
 
 
 	GPIO::initIntInput(BUTTON_1_PIN,
@@ -139,9 +148,9 @@ int main(void)
 
 	GPIO::interruptEnable(BUTTON_1_PIN);
 
-
 	ADC adc_5(ADC_5);
 	adc_5.setLimit(0, 100, limit_test);
+
 
 	ADC::start();
 
@@ -154,6 +163,7 @@ int main(void)
 
     while(true)
     {
+
     	GPIO::toggle(LED_4_PIN);
     	//UART::write("Toggled the pin!!");
 
@@ -167,6 +177,9 @@ int main(void)
 				//curEvent.start();
 				adc_5.setLimit(50, 0, low_limit_test);
 				adc_5.attachSampleCallback(sampleHandler_test);
+
+			    uint8_t value = { 0xAA };
+			    trapTriggered.update(&value, 1);
 
 				trapEventFlag = false;
 			}
@@ -200,7 +213,9 @@ int main(void)
 		}
 		nrf_delay_ms(500);
 		//UART::write("%d", i++);
+
     }
+
 }
 
 

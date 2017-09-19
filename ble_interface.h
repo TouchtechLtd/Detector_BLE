@@ -24,6 +24,7 @@ class BLE {
 		static void gatt_init();
 		static void conn_params_init();
 		static void on_conn_params_evt(ble_conn_params_evt_t * p_evt);
+		static void conn_params_error_handler(uint32_t nrf_error);
 
 		Service serviceList[MAX_NUMBER_SERVICES];
 		uint8_t _serviceCount;
