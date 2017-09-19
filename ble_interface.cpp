@@ -45,8 +45,6 @@
 
 #include <stdint.h>
 #include <string.h>
-#include <stdlib.h>
-#include <vector>
 #include "nordic_common.h"
 #include "nrf.h"
 #include "app_error.h"
@@ -104,8 +102,6 @@ static uint16_t       m_conn_handle = BLE_CONN_HANDLE_INVALID;                  
 static nrf_ble_gatt_t m_gatt;                                                   /**< GATT module instance. */
 static ble_lbs_t      m_lbs;                                                    /**< LED Button Service instance. */
 
-ble_os_t m_our_service;
-
 Advertising BLE::adv;
 
 /**@brief Function for assert macro callback.
@@ -157,165 +153,6 @@ uint8_t BLE::addSIGService(uint16_t service_uuid) {
 	serviceList[_serviceCount].createSIGService(service_uuid);
 	return _serviceCount++;
 }
-
-
-/**@brief Function for the LEDs initialization.
- *
- * @details Initializes all LEDs used by the application.
- */
-static void leds_init(void)
-{
-    bsp_board_leds_init();
-}
-
-
-void temperature_read_handler(void* p_context) {
-	int32_t temperature = 0;
-	sd_temp_get(&temperature);
-	our_termperature_characteristic_update(&m_our_service, &temperature);
-	nrf_gpio_pin_toggle(LED_4);
-}
-
-/**@brief Function for the Timer initialization.
- *
- * @details Initializes the timer module.
- */
-static void timers_init(void)
-{
-    // Initialize timer module, making it use the scheduler
-    ret_code_t err_code = app_timer_init();
-    APP_ERROR_CHECK(err_code);
-}
-
-
-
-/**@brief Function for the GAP initialization.
- *
- * @details This function sets up all the necessary GAP (Generic Access Profile) parameters of the
- *          device including the device name, appearance, and the preferred connection parameters.
- */
-void BLE::gap_params_init(void)
-{
-    ret_code_t              err_code;
-    ble_gap_conn_params_t   gap_conn_params;
-
-
-    adv.setName(DEVICE_NAME);
-
-    memset(&gap_conn_params, 0, sizeof(gap_conn_params));
-
-    gap_conn_params.min_conn_interval = MIN_CONN_INTERVAL;
-    gap_conn_params.max_conn_interval = MAX_CONN_INTERVAL;
-    gap_conn_params.slave_latency     = SLAVE_LATENCY;
-    gap_conn_params.conn_sup_timeout  = CONN_SUP_TIMEOUT;
-
-    err_code = sd_ble_gap_ppcp_set(&gap_conn_params);
-    APP_ERROR_CHECK(err_code);
-}
-
-
-/**@brief Function for initializing the GATT module.
- */
-void BLE::gatt_init(void)
-{
-    ret_code_t err_code = nrf_ble_gatt_init(&m_gatt, NULL);
-    APP_ERROR_CHECK(err_code);
-}
-
-
-
-
-/**@brief Function for handling write events to the LED characteristic.
- *
- * @param[in] p_lbs     Instance of LED Button Service to which the write applies.
- * @param[in] led_state Written/desired state of the LED.
- */
-static void led_write_handler(uint16_t conn_handle, ble_lbs_t * p_lbs, uint8_t led_state)
-{
-    if (led_state)
-    {
-        bsp_board_led_on(LEDBUTTON_LED);
-        NRF_LOG_INFO("Received LED ON!\r\n");
-    }
-    else
-    {
-        bsp_board_led_off(LEDBUTTON_LED);
-        NRF_LOG_INFO("Received LED OFF!\r\n");
-    }
-}
-
-
-/**@brief Function for initializing services that will be used by the application.
- */
-void services_init(void)
-{
-    ret_code_t     err_code;
-    ble_lbs_init_t init;
-
-    init.led_write_handler = led_write_handler;
-
-    err_code = ble_lbs_init(&m_lbs, &init);
-    APP_ERROR_CHECK(err_code);
-
-    our_service_init(&m_our_service);
-}
-
-
-/**@brief Function for handling the Connection Parameters Module.
- *
- * @details This function will be called for all events in the Connection Parameters Module that
- *          are passed to the application.
- *
- * @note All this function does is to disconnect. This could have been done by simply
- *       setting the disconnect_on_fail config parameter, but instead we use the event
- *       handler mechanism to demonstrate its use.
- *
- * @param[in] p_evt  Event received from the Connection Parameters Module.
- */
-void BLE::on_conn_params_evt(ble_conn_params_evt_t * p_evt)
-{
-    ret_code_t err_code;
-
-    if (p_evt->evt_type == BLE_CONN_PARAMS_EVT_FAILED)
-    {
-        err_code = sd_ble_gap_disconnect(m_conn_handle, BLE_HCI_CONN_INTERVAL_UNACCEPTABLE);
-        APP_ERROR_CHECK(err_code);
-    }
-}
-
-
-/**@brief Function for handling a Connection Parameters error.
- *
- * @param[in] nrf_error  Error code containing information about what went wrong.
- */
-static void conn_params_error_handler(uint32_t nrf_error)
-{
-    APP_ERROR_HANDLER(nrf_error);
-}
-
-
-/**@brief Function for initializing the Connection Parameters module.
- */
-void BLE::conn_params_init(void)
-{
-    ret_code_t             err_code;
-    ble_conn_params_init_t cp_init;
-
-    memset(&cp_init, 0, sizeof(cp_init));
-
-    cp_init.p_conn_params                  = NULL;
-    cp_init.first_conn_params_update_delay = FIRST_CONN_PARAMS_UPDATE_DELAY;
-    cp_init.next_conn_params_update_delay  = NEXT_CONN_PARAMS_UPDATE_DELAY;
-    cp_init.max_conn_params_update_count   = MAX_CONN_PARAMS_UPDATE_COUNT;
-    cp_init.start_on_notify_cccd_handle    = BLE_GATT_HANDLE_INVALID;
-    cp_init.disconnect_on_fail             = false;
-    cp_init.evt_handler                    = on_conn_params_evt;
-    cp_init.error_handler                  = conn_params_error_handler;
-
-    err_code = ble_conn_params_init(&cp_init);
-    APP_ERROR_CHECK(err_code);
-}
-
 
 
 /**@brief Function for handling the Application's BLE stack events.
@@ -433,8 +270,101 @@ void BLE::ble_evt_dispatch(ble_evt_t * p_ble_evt)
     ble_conn_params_on_ble_evt(p_ble_evt);
     ble_lbs_on_ble_evt(&m_lbs, p_ble_evt);
     nrf_ble_gatt_on_ble_evt(&m_gatt, p_ble_evt);
-    ble_our_service_on_ble_evt(&m_our_service, p_ble_evt);
+    //ble_our_service_on_ble_evt(&m_our_service, p_ble_evt);
 }
+
+
+/**@brief Function for the GAP initialization.
+ *
+ * @details This function sets up all the necessary GAP (Generic Access Profile) parameters of the
+ *          device including the device name, appearance, and the preferred connection parameters.
+ */
+void BLE::gap_params_init(void)
+{
+    ret_code_t              err_code;
+    ble_gap_conn_params_t   gap_conn_params;
+
+
+    adv.setName(DEVICE_NAME);
+
+    memset(&gap_conn_params, 0, sizeof(gap_conn_params));
+
+    gap_conn_params.min_conn_interval = MIN_CONN_INTERVAL;
+    gap_conn_params.max_conn_interval = MAX_CONN_INTERVAL;
+    gap_conn_params.slave_latency     = SLAVE_LATENCY;
+    gap_conn_params.conn_sup_timeout  = CONN_SUP_TIMEOUT;
+
+    err_code = sd_ble_gap_ppcp_set(&gap_conn_params);
+    APP_ERROR_CHECK(err_code);
+}
+
+
+/**@brief Function for initializing the GATT module.
+ */
+void BLE::gatt_init(void)
+{
+    ret_code_t err_code = nrf_ble_gatt_init(&m_gatt, NULL);
+    APP_ERROR_CHECK(err_code);
+}
+
+
+
+/**@brief Function for handling the Connection Parameters Module.
+ *
+ * @details This function will be called for all events in the Connection Parameters Module that
+ *          are passed to the application.
+ *
+ * @note All this function does is to disconnect. This could have been done by simply
+ *       setting the disconnect_on_fail config parameter, but instead we use the event
+ *       handler mechanism to demonstrate its use.
+ *
+ * @param[in] p_evt  Event received from the Connection Parameters Module.
+ */
+void BLE::on_conn_params_evt(ble_conn_params_evt_t * p_evt)
+{
+    ret_code_t err_code;
+
+    if (p_evt->evt_type == BLE_CONN_PARAMS_EVT_FAILED)
+    {
+        err_code = sd_ble_gap_disconnect(m_conn_handle, BLE_HCI_CONN_INTERVAL_UNACCEPTABLE);
+        APP_ERROR_CHECK(err_code);
+    }
+}
+
+
+/**@brief Function for handling a Connection Parameters error.
+ *
+ * @param[in] nrf_error  Error code containing information about what went wrong.
+ */
+static void conn_params_error_handler(uint32_t nrf_error)
+{
+    APP_ERROR_HANDLER(nrf_error);
+}
+
+
+/**@brief Function for initializing the Connection Parameters module.
+ */
+void BLE::conn_params_init(void)
+{
+    ret_code_t             err_code;
+    ble_conn_params_init_t cp_init;
+
+    memset(&cp_init, 0, sizeof(cp_init));
+
+    cp_init.p_conn_params                  = NULL;
+    cp_init.first_conn_params_update_delay = FIRST_CONN_PARAMS_UPDATE_DELAY;
+    cp_init.next_conn_params_update_delay  = NEXT_CONN_PARAMS_UPDATE_DELAY;
+    cp_init.max_conn_params_update_count   = MAX_CONN_PARAMS_UPDATE_COUNT;
+    cp_init.start_on_notify_cccd_handle    = BLE_GATT_HANDLE_INVALID;
+    cp_init.disconnect_on_fail             = false;
+    cp_init.evt_handler                    = on_conn_params_evt;
+    cp_init.error_handler                  = conn_params_error_handler;
+
+    err_code = ble_conn_params_init(&cp_init);
+    APP_ERROR_CHECK(err_code);
+}
+
+
 
 
 /**@brief Function for initializing the BLE stack.
@@ -463,7 +393,7 @@ void BLE::ble_stack_init(void)
     ble_cfg.gap_cfg.role_count_cfg.periph_role_count  = BLE_GAP_ROLE_COUNT_PERIPH_DEFAULT;
     ble_cfg.gap_cfg.role_count_cfg.central_role_count = 0;
     ble_cfg.gap_cfg.role_count_cfg.central_sec_count  = 0;
-    //ble_cfg.common_cfg.vs_uuid_cfg.vs_uuid_count = 20;
+    ble_cfg.common_cfg.vs_uuid_cfg.vs_uuid_count = 2;
     err_code = sd_ble_cfg_set(BLE_GAP_CFG_ROLE_COUNT, &ble_cfg, ram_start);
     APP_ERROR_CHECK(err_code);
 
@@ -475,62 +405,6 @@ void BLE::ble_stack_init(void)
     err_code = softdevice_ble_evt_handler_set(BLE::ble_evt_dispatch);
     APP_ERROR_CHECK(err_code);
 }
-
-
-/**@brief Function for handling events from the button handler module.
- *
- * @param[in] pin_no        The pin that the event applies to.
- * @param[in] button_action The button action (press/release).
- */
-static void button_event_handler(uint8_t pin_no, uint8_t button_action)
-{
-    ret_code_t err_code;
-
-    switch (pin_no)
-    {
-        case LEDBUTTON_BUTTON:
-            NRF_LOG_INFO("Send button state change.\r\n");
-            err_code = ble_lbs_on_button_change(m_conn_handle, &m_lbs, button_action);
-            if (err_code != NRF_SUCCESS &&
-                err_code != BLE_ERROR_INVALID_CONN_HANDLE &&
-                err_code != NRF_ERROR_INVALID_STATE &&
-                err_code != BLE_ERROR_GATTS_SYS_ATTR_MISSING)
-            {
-                APP_ERROR_CHECK(err_code);
-            }
-            break;
-
-        default:
-            APP_ERROR_HANDLER(pin_no);
-            break;
-    }
-}
-
-
-/**@brief Function for initializing the button handler module.
- */
-static void buttons_init(void)
-{
-    ret_code_t err_code;
-
-    //The array must be static because a pointer to it will be saved in the button handler module.
-    static app_button_cfg_t buttons[] =
-    {
-        {LEDBUTTON_BUTTON, false, BUTTON_PULL, button_event_handler}
-    };
-
-    err_code = app_button_init(buttons, sizeof(buttons) / sizeof(buttons[0]),
-                               BUTTON_DETECTION_DELAY);
-    APP_ERROR_CHECK(err_code);
-}
-
-
-void log_init(void)
-{
-    ret_code_t err_code = NRF_LOG_INIT(NULL);
-    APP_ERROR_CHECK(err_code);
-}
-
 
 void BLE::init(void) {
     ble_stack_init();
@@ -548,11 +422,12 @@ void power_manage(void)
 }
 
 
-void* operator new(size_t size) { return malloc(size); }
-void operator delete(void* ptr) { if (ptr) free(ptr); }
 
 /**@brief Function for application main entry.
  */
+
+
+/*
 int main(void)
 {
     // Initialize.
@@ -561,7 +436,6 @@ int main(void)
     log_init();
     buttons_init();
     BLE::init();
-    BLE ble_manager;
     NRF_LOG_INFO("BLE Manager Initialised.\r\n");
 
 
@@ -572,12 +446,33 @@ int main(void)
     Service my_service(0xC001, BLE_UUID_OUR_BASE_UUID);
     NRF_LOG_INFO("Service created.\r\n");
 
+    ble_char_id_t testChar = my_service.addCharacteristic(0xC20F);
+    my_service.addCharacteristic(0xC200);
+    my_service.addCharacteristic(0xC20C);
+    my_service.addCharacteristic(0xC220);
+    my_service.addCharacteristic(0xC224);
+    my_service.addCharacteristic(0xC227);
+    my_service.addCharacteristic(0xC22A);
+
 
     Service my_service2(0xC006, BLE_UUID_OUR_BASE_UUID);
     NRF_LOG_INFO("Service created.\r\n");
 
+    Characteristic trapTriggered(0xFEE1);
+    trapTriggered.enableRead();
+    trapTriggered.enableNotification();
+    uint8_t initValue = { 0x01 };
+    trapTriggered.initValue(&initValue, 1);
+    trapTriggered.setMaxLength(50);
+
+    ble_char_id_t trapTriggered_id = my_service2.addCharacteristic(&trapTriggered);
+
     my_service2.addCharacteristic(0xC00F);
+    my_service2.addCharacteristic(0xC20F);
+    my_service2.addCharacteristic(0xC2EF);
     NRF_LOG_INFO("Char added.\r\n");
+
+
 
 
     ble_manager.addService(&my_service);
@@ -598,8 +493,8 @@ int main(void)
 
     // Enter main loop.
 
-//    uint8_t inData[20] = { 0x44, 0x55, 0x66, 0x77, 0x99, 0x44, 0x55, 0x66, 0x77, 0x99, 0x44, 0x55, 0x66, 0x77, 0x99, 0x44, 0x55, 0x66, 0x77, 0x99 };
-//    my_service._charList[testChar.id].update(inData, 20);
+    uint8_t inData[20] = { 0x44, 0x55, 0x66, 0x77, 0x99, 0x44, 0x55, 0x66, 0x77, 0x99, 0x44, 0x55, 0x66, 0x77, 0x99, 0x44, 0x55, 0x66, 0x77, 0x99 };
+    my_service2._charList[trapTriggered_id.id].update(inData, 20);
     //uint8_t inData2 = 0x88;
     //my_service._charList[testChar_id].update(&inData2, 1);
 
@@ -614,7 +509,7 @@ int main(void)
     }
 }
 
-
+*/
 /**
  * @}
  */

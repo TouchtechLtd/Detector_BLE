@@ -75,7 +75,38 @@ _build/nrf52832_xxaa_main.cpp.o: ../../../main.cpp \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/string.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/sdk_os.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/app_util.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/sdk_macros.h
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/sdk_macros.h \
+ ../../../ble_interface.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_conn_params.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_ranges.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_types.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_gap.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/nrf_svc.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_l2cap.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_err.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/nrf_error.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_gatt.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_gattc.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_gatts.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_srv_common.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_types.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_gap.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_gatt.h \
+ ../../../ble_service.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_srv_common.h \
+ ../../../ble_characteristic.h ../../../ble_advertising.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_advdata.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/log/nrf_log.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/strerror/nrf_strerror.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/log/src/nrf_log_internal.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/log/nrf_log_ctrl.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/log/src/nrf_log_ctrl_internal.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/app_util_platform.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/nrf_soc.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/nrf_error_soc.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/nrf_nvic.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/nrf_assert.h
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/lib/gcc/arm-none-eabi/6.3.1/include/stdbool.h:
 
@@ -232,3 +263,67 @@ _build/nrf52832_xxaa_main.cpp.o: ../../../main.cpp \
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/app_util.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/sdk_macros.h:
+
+../../../ble_interface.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_conn_params.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_ranges.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_types.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_gap.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/nrf_svc.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_l2cap.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_err.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/nrf_error.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_gatt.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_gattc.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_gatts.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_srv_common.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_types.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_gap.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_gatt.h:
+
+../../../ble_service.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_srv_common.h:
+
+../../../ble_characteristic.h:
+
+../../../ble_advertising.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_advdata.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/log/nrf_log.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/strerror/nrf_strerror.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/log/src/nrf_log_internal.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/log/nrf_log_ctrl.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/log/src/nrf_log_ctrl_internal.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/app_util_platform.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/nrf_soc.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/nrf_error_soc.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/nrf_nvic.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/nrf_assert.h:

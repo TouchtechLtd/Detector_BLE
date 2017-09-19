@@ -33,8 +33,13 @@
 #include "uart_interface.h"
 #include "timer_interface.h"
 #include "adc_interface.h"
+#include "ble_interface.h"
 //#include "TrapEvent.h"
 //#include "Detector.h"
+
+#define NRF_LOG_MODULE_NAME "MAIN"
+#include "nrf_log.h"
+#include "nrf_log_ctrl.h"
 
 
 #define ADC_STATE_DETECT 0
@@ -94,12 +99,28 @@ void sampleHandler_test (int sampleValue) {
 }
 
 
-/*
+void log_init(void)
+{
+    ret_code_t err_code = NRF_LOG_INIT(NULL);
+    APP_ERROR_CHECK(err_code);
+}
+
 
 int main(void)
 {
-	UART::init();
+	//UART::init();
+	log_init();
 	GPIO::init();
+    BLE::init();
+    NRF_LOG_INFO("BLE Manager Initialised.\r\n");
+
+    //BLE ble_manager;
+    //ble_manager.setBaseUUID(BLE_UUID_OUR_BASE_UUID);
+
+    //Service my_service(0xC001, BLE_UUID_OUR_BASE_UUID);
+    //NRF_LOG_INFO("Service created.\r\n");
+
+    //BLE::adv.start(APP_ADV_DEFAULT_INTERVAL);
 
 	GPIO::setOutput(LED_1_PIN, HIGH);
 	GPIO::setOutput(LED_2_PIN, HIGH);
@@ -130,10 +151,6 @@ int main(void)
 
 
 	int adcState = ADC_STATE_RESET;
-
-	//Detector detector;
-
-	//detector.Moving();
 
     while(true)
     {
@@ -185,7 +202,7 @@ int main(void)
 		//UART::write("%d", i++);
     }
 }
-*/
+
 
 /**
  *@}

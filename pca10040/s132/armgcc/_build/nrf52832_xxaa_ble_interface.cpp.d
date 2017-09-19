@@ -19,51 +19,6 @@ _build/nrf52832_xxaa_ble_interface.cpp.o: ../../../ble_interface.cpp \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/lock.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/cdefs.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/string.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/stdlib.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/cstdlib \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/arm-none-eabi/thumb/v7e-m/fpv4-sp/hard/bits/c++config.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/arm-none-eabi/thumb/v7e-m/fpv4-sp/hard/bits/os_defines.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/arm-none-eabi/thumb/v7e-m/fpv4-sp/hard/bits/cpu_defines.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/stdlib.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/stdlib.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/vector \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_algobase.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/functexcept.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/exception_defines.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/cpp_type_traits.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/ext/type_traits.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/ext/numeric_traits.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_pair.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/move.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/concept_check.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/type_traits \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_iterator_base_types.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_iterator_base_funcs.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/debug/assertions.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_iterator.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/ptr_traits.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/debug/debug.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/predefined_ops.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/allocator.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/arm-none-eabi/thumb/v7e-m/fpv4-sp/hard/bits/c++allocator.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/ext/new_allocator.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/new \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/exception \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/atomic_lockfree_defines.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/exception_ptr.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/nested_exception.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/memoryfwd.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_construct.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/ext/alloc_traits.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/alloc_traits.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_uninitialized.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_vector.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/initializer_list \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_bvector.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/functional_hash.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/hash_bytes.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/range_access.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/vector.tcc \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/nordic_common.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/device/nrf.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/device/nrf52.h \
@@ -111,6 +66,13 @@ _build/nrf52832_xxaa_ble_interface.cpp.o: ../../../ble_interface.cpp \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_conn_params.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_srv_common.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/common/softdevice_handler/softdevice_handler.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/stdlib.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/cstdlib \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/arm-none-eabi/thumb/v7e-m/fpv4-sp/hard/bits/c++config.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/arm-none-eabi/thumb/v7e-m/fpv4-sp/hard/bits/os_defines.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/arm-none-eabi/thumb/v7e-m/fpv4-sp/hard/bits/cpu_defines.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/stdlib.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/stdlib.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/nrf_sdm.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/nrf_soc.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/nrf_error_soc.h \
@@ -186,96 +148,6 @@ _build/nrf52832_xxaa_ble_interface.cpp.o: ../../../ble_interface.cpp \
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/cdefs.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/string.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/stdlib.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/cstdlib:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/arm-none-eabi/thumb/v7e-m/fpv4-sp/hard/bits/c++config.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/arm-none-eabi/thumb/v7e-m/fpv4-sp/hard/bits/os_defines.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/arm-none-eabi/thumb/v7e-m/fpv4-sp/hard/bits/cpu_defines.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/stdlib.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/stdlib.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/vector:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_algobase.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/functexcept.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/exception_defines.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/cpp_type_traits.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/ext/type_traits.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/ext/numeric_traits.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_pair.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/move.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/concept_check.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/type_traits:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_iterator_base_types.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_iterator_base_funcs.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/debug/assertions.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_iterator.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/ptr_traits.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/debug/debug.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/predefined_ops.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/allocator.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/arm-none-eabi/thumb/v7e-m/fpv4-sp/hard/bits/c++allocator.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/ext/new_allocator.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/new:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/exception:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/atomic_lockfree_defines.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/exception_ptr.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/nested_exception.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/memoryfwd.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_construct.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/ext/alloc_traits.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/alloc_traits.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_uninitialized.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_vector.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/initializer_list:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/stl_bvector.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/functional_hash.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/hash_bytes.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/range_access.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/vector.tcc:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/nordic_common.h:
 
@@ -370,6 +242,20 @@ _build/nrf52832_xxaa_ble_interface.cpp.o: ../../../ble_interface.cpp \
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_srv_common.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/common/softdevice_handler/softdevice_handler.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/stdlib.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/cstdlib:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/arm-none-eabi/thumb/v7e-m/fpv4-sp/hard/bits/c++config.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/arm-none-eabi/thumb/v7e-m/fpv4-sp/hard/bits/os_defines.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/arm-none-eabi/thumb/v7e-m/fpv4-sp/hard/bits/cpu_defines.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/stdlib.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/stdlib.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/nrf_sdm.h:
 

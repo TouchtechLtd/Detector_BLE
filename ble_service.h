@@ -25,15 +25,14 @@ typedef struct
 {
     uint16_t                    conn_handle;    /**< Handle of the current connection (as provided by the BLE stack, is BLE_CONN_HANDLE_INVALID if not in a connection).*/
     uint16_t                    service_handle; /**< Handle of Our Service (as provided by the BLE stack). */
-    uint8_t						uuid_type;
+    ble_uuid_t        			uuid;
 }ble_gs_t;
 
 class Service {
 	private:
 		ble_gs_t 			_service;
-	    ble_uuid_t        service_uuid;
 	    ble_uuid128_t		_base_uuid;
-	    uint8_t		_charCount;
+	    uint8_t				_charCount;
 
 	    void _init();
 	public:
@@ -43,6 +42,7 @@ class Service {
 		void createCustomService(uint16_t uuid, ble_uuid128_t base_uuid);
 		void createSIGService(uint16_t uuid);
 		ble_char_id_t addCharacteristic(uint16_t char_uuid);
+		ble_char_id_t addCharacteristic(Characteristic* p_char);
 		void on_ble_evt(ble_evt_t * p_ble_evt);
 
 	    Characteristic	_charList[MAX_NUMBER_CHAR];

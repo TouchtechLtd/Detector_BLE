@@ -8,6 +8,7 @@
 #ifndef BLE_INTERFACE_H_
 #define BLE_INTERFACE_H_
 
+#include "ble_conn_params.h"
 #include "ble_service.h"
 #include "ble_advertising.h"
 
