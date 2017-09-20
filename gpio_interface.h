@@ -10,6 +10,8 @@
 
 #include "nrf_gpio.h"
 #include "app_gpiote.h"
+#include "nrf_drv_gpiote.h"
+#include "boards.h"
 
 
 // Pins for LED's and buttons.

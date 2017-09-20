@@ -30,9 +30,13 @@ typedef struct
 
 class Service {
 	private:
+
+		static uint16_t serviceCount;
+
 		ble_gs_t 			_service;
 	    ble_uuid128_t		_base_uuid;
 	    uint8_t				_charCount;
+	    uint16_t 			_id;
 
 	    void _init();
 	public:
@@ -43,9 +47,12 @@ class Service {
 		void createSIGService(uint16_t uuid);
 		ble_char_id_t addCharacteristic(uint16_t char_uuid);
 		ble_char_id_t addCharacteristic(Characteristic* p_char);
-		void onEvent(ble_evt_t * p_ble_evt);
+		void eventHandler(ble_evt_t * p_ble_evt);
 
-	    Characteristic	_charList[MAX_NUMBER_CHAR];
+		uint16_t getID() { return _id; }
+		uint8_t getCharCount() { return _charCount; }
+
+	    Characteristic*	_charList[MAX_NUMBER_CHAR];
 
 };	// SERVICE
 #endif  /* _ BLE_SERVICE_H__ */

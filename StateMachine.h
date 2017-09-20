@@ -2,66 +2,46 @@
 #define _STATE_MACHINE_H
 //#include <stdio.h>
 
-#ifndef NULL
-#define NULL 0
-#endif
 
-class EventData
-{
-public:
-    //virtual ~EventData() {};
-};
+typedef enum {
+	DETECT_STATE,
+	READ_STATE,
+	PROCESS_STATE,
+	MAX_STATES,
+	IGNORED
+} state_e;
 
-struct StateStruct;
 
-// base class for state machines
+typedef enum {
+	TRIGGERED_EVENT,
+	READ_FINISHED_EVENT,
+	PROCESSING_FINISHED_EVENT,
+	MAX_EVENTS
+} event_e;
+
+
+typedef void (*state_event_handler_t)(void);
+
+
+
 class StateMachine
 {
 public:
-    StateMachine(unsigned char maxStates);
-    //virtual ~StateMachine() {}
+    StateMachine(state_e i_initState);
+	void transition(event_e event);
+	void registerTransition(state_e startState,
+							state_e endState,
+							event_e event,
+							state_event_handler_t event_handler);
 
 private:
-    const unsigned char _maxStates;
-    bool _eventGenerated;
-    EventData* _pEventData;
-    void StateEngine(void);
+    unsigned char _currentState;
 
+    state_event_handler_t event_table[MAX_STATES][MAX_EVENTS];
+    state_e transition_table[MAX_STATES][MAX_EVENTS];
 
-protected:
-    enum { EVENT_IGNORED = 0xFE, CANNOT_HAPPEN };
-    unsigned char currentState;
-    void ExternalEvent(unsigned char, EventData* = NULL);
-    void InternalEvent(unsigned char, EventData* = NULL);
-    virtual const StateStruct* GetStateMap() = 0;
+    static void error_handler(void);
+
 };
-
-typedef void (StateMachine::*StateFunc)(EventData *);
-struct StateStruct
-{
-    StateFunc pStateFunc;
-};
-
-#define BEGIN_STATE_MAP \
-public:\
-const StateStruct* GetStateMap() {\
-    static const StateStruct StateMap[] = {
-
-#define STATE_MAP_ENTRY(stateFunc)\
-    { reinterpret_cast<StateFunc>(stateFunc) },
-
-#define END_STATE_MAP \
-    }; \
-    return &StateMap[0]; }
-
-#define BEGIN_TRANSITION_MAP \
-    static const unsigned char TRANSITIONS[] = {\
-
-#define TRANSITION_MAP_ENTRY(entry)\
-    entry,
-
-#define END_TRANSITION_MAP(data) \
-    0 };\
-    ExternalEvent(TRANSITIONS[currentState], data);
 
 #endif //STATE_MACHINE_H

@@ -26,21 +26,21 @@ class BLE {
 		static void on_conn_params_evt(ble_conn_params_evt_t * p_evt);
 		static void conn_params_error_handler(uint32_t nrf_error);
 
-		Service serviceList[MAX_NUMBER_SERVICES];
-		uint8_t _serviceCount;
-		ble_uuid128_t _base_uuid;
+		static Service serviceList[MAX_NUMBER_SERVICES];
+		static uint8_t _serviceCount;
+		static ble_uuid128_t _base_uuid;
 
 	public:
 		static void init(void);
-		void setDeviceName(const char* deviceName);
+		static void setDeviceName(const char* deviceName);
 
-		BLE();
-		BLE(ble_uuid128_t base_uuid);
-		uint8_t addService(Service* in_service);
-		uint8_t addService(uint16_t service_uuid);
-		uint8_t addSIGService(uint16_t service_uuid);
-		void addCharacteristic(uint8_t serviceID);
-		void setBaseUUID(ble_uuid128_t base_uuid);
+		//BLE();
+		//BLE(ble_uuid128_t base_uuid);
+		static uint8_t addService(Service* in_service);
+		static uint8_t addService(uint16_t service_uuid);
+		static uint8_t addSIGService(uint16_t service_uuid);
+		static void addCharacteristic(uint8_t serviceID);
+		static void setBaseUUID(ble_uuid128_t base_uuid);
 
 		static void on_ble_evt(ble_evt_t * p_ble_evt);
 		static void ble_evt_dispatch(ble_evt_t * p_ble_evt);

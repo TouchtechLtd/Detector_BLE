@@ -6,73 +6,36 @@
  */
 
 #include "StateMachine.h"
+#include "uart_interface.h"
 
-StateMachine::StateMachine(unsigned char maxStates) :
-    _maxStates(maxStates),
-    _eventGenerated(false),
-    _pEventData(NULL),
-	currentState(0)
-{
-}
-
-// generates an external event. called once per external event
-// to start the state machine executing
-void StateMachine::ExternalEvent(unsigned char newState,
-                                 EventData* pData)
-{
-    // if we are supposed to ignore this event
-    if (newState == EVENT_IGNORED) {
-        // just delete the event data, if any
-        if (pData)
-            delete pData;
+StateMachine::StateMachine(state_e i_initState) {
+    for (int i = 0; i < MAX_STATES; i++) {
+    	for (int j = 0; j < MAX_EVENTS; j++) {
+    		event_table[i][j] = &StateMachine::error_handler;
+    		transition_table[i][j] = IGNORED;
+    	}
     }
-    else {
-		// TODO - capture software lock here for thread-safety if necessary
-
-        // generate the event and execute the state engine
-        InternalEvent(newState, pData);
-        StateEngine();
-
-		// TODO - release software lock here
-    }
+    _currentState = i_initState;
 }
 
-// generates an internal event. called from within a state
-// function to transition to a new state
-void StateMachine::InternalEvent(unsigned char newState,
-                                 EventData* pData)
+
+void StateMachine::error_handler() {
+	UART::write("Error - cannot make this transition");
+}
+
+
+void StateMachine::registerTransition(	state_e startState,
+										state_e endState,
+										event_e event,
+										state_event_handler_t event_handler)
 {
-	if (pData == NULL)
-		pData = new EventData();
-
-    _pEventData = pData;
-    _eventGenerated = true;
-    currentState = newState;
+	event_table[startState][event] = event_handler;
+	transition_table[startState][event] = endState;
 }
 
-// the state engine executes the state machine states
-void StateMachine::StateEngine(void)
-{
-    EventData* pDataTemp = NULL;
 
-    // while events are being generated keep executing states
-    while (_eventGenerated) {
-        pDataTemp = _pEventData;  // copy of event data pointer
-        _pEventData = NULL;       // event data used up, reset ptr
-        _eventGenerated = false;  // event used up, reset flag
-
-        //assert(currentState < _maxStates);
-
-		// get state map
-        const StateStruct* pStateMap = GetStateMap();
-
-        // execute the state passing in event data, if any
-        (this->*pStateMap[currentState].pStateFunc)(pDataTemp);
-
-        // if event data was used, then delete it
-        if (pDataTemp) {
-            delete pDataTemp;
-            pDataTemp = NULL;
-        }
-    }
+void StateMachine::transition(event_e event) {
+	event_table[_currentState][event]();
+	_currentState = transition_table[_currentState][event];
 }
+

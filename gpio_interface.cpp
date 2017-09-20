@@ -17,7 +17,6 @@
 #include "boards.h"
 
 #include "uart_interface.h"
-#include "nrf_drv_gpiote.h"
 #include "gpio_interface.h"
 
 

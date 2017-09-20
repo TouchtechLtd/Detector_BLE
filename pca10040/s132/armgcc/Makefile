@@ -68,8 +68,7 @@ SRC_FILES += \
   $(PROJ_DIR)/gpio_interface.cpp \
   $(PROJ_DIR)/adc_interface.cpp \
   $(PROJ_DIR)/timer_interface.cpp \
-  $(PROJ_DIR)/ble_lbs.c \
-  $(PROJ_DIR)/our_service.c \
+  $(PROJ_DIR)/StateMachine.cpp \
   $(PROJ_DIR)/ble_interface.cpp \
   $(PROJ_DIR)/ble_service.cpp \
   $(PROJ_DIR)/ble_characteristic.cpp \

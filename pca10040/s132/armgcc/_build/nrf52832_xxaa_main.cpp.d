@@ -106,6 +106,7 @@ _build/nrf52832_xxaa_main.cpp.o: ../../../main.cpp \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_srv_common.h \
  ../../../ble_characteristic.h ../../../ble_advertising.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_advdata.h \
+ ../../../StateMachine.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/log/nrf_log.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/strerror/nrf_strerror.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/log/src/nrf_log_internal.h \
@@ -334,6 +335,8 @@ _build/nrf52832_xxaa_main.cpp.o: ../../../main.cpp \
 ../../../ble_advertising.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_advdata.h:
+
+../../../StateMachine.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/log/nrf_log.h:
 

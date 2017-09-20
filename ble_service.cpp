@@ -11,6 +11,11 @@
 #include "nrf_log_ctrl.h"
 
 
+#include "gpio_interface.h"
+#include "uart_interface.h"
+
+
+uint16_t Service::serviceCount = 0;
 
 Service::Service(uint16_t custom_uuid, ble_uuid128_t base_uuid)
 {
@@ -34,10 +39,11 @@ void Service::_init()
     memset(&_service, 0, sizeof(_service));
     memset(&_base_uuid, 0, sizeof(_base_uuid));
     _charCount = 0;
+	_id = serviceCount++;
 }
 
 
-void Service::onEvent(ble_evt_t * p_ble_evt)
+void Service::eventHandler(ble_evt_t * p_ble_evt)
 {
 	switch (p_ble_evt->header.evt_id)
 	{
@@ -51,6 +57,10 @@ void Service::onEvent(ble_evt_t * p_ble_evt)
 	        // No implementation needed.
 	        break;
 	}
+    for (int i = 0; i<_charCount; i++)
+    {
+    	_charList[i]->setConnHandle(_service.conn_handle);
+    }
 }
 
 
@@ -106,7 +116,7 @@ void Service::createSIGService(uint16_t uuid)
 
 ble_char_id_t Service::addCharacteristic(uint16_t i_uuid) {
 
-	_charList[_charCount].add(&_service.service_handle, i_uuid, _service.uuid.type);
+	_charList[_charCount]->add(_service.service_handle, i_uuid, _service.uuid.type);
 
 	ble_char_id_t charId;
 	charId.id =_charCount++;
@@ -117,11 +127,13 @@ ble_char_id_t Service::addCharacteristic(uint16_t i_uuid) {
 ble_char_id_t Service::addCharacteristic(Characteristic* p_char) {
 
 	p_char->setUUIDType(_service.uuid.type);
-	p_char->add(&_service.service_handle);
-	_charList[_charCount] = *p_char;
+	p_char->add(_service.service_handle);
+	_charList[_charCount] = p_char;
 
 	ble_char_id_t charId;
 	charId.id =_charCount++;
 	return charId;
 }
+
+
 

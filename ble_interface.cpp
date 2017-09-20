@@ -93,7 +93,9 @@ static nrf_ble_gatt_t m_gatt;                                                   
 
 
 Advertising BLE::adv;
-
+uint8_t BLE::_serviceCount = 0;
+ble_uuid128_t BLE::_base_uuid;
+Service BLE::serviceList[MAX_NUMBER_SERVICES];
 
 /**@brief Function for assert macro callback.
  *
@@ -112,7 +114,7 @@ void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name)
 }
 
 
-
+/*
 BLE::BLE(ble_uuid128_t base_uuid)
 {
 	setBaseUUID(base_uuid);
@@ -123,7 +125,7 @@ BLE::BLE()
 {
 	_serviceCount = 0;
 }
-
+*/
 
 
 void BLE::setBaseUUID(ble_uuid128_t base_uuid) {
@@ -253,6 +255,10 @@ void BLE::ble_evt_dispatch(ble_evt_t * p_ble_evt)
     on_ble_evt(p_ble_evt);
     ble_conn_params_on_ble_evt(p_ble_evt);
     nrf_ble_gatt_on_ble_evt(&m_gatt, p_ble_evt);
+    for (int i = 0; i<_serviceCount; i++)
+	{
+		serviceList[i].eventHandler(p_ble_evt);
+	}
 }
 
 

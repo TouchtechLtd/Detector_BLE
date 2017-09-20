@@ -73,6 +73,12 @@ adc_sample_handler_t ADC::sampleCallback[MAX_ADC_CHANNELS] = {0};
 
 
 ADC::ADC(adc_input_t adc_input) {
+	attachADC(adc_input);
+}
+
+
+void ADC::attachADC(adc_input_t adc_input) {
+
 	if (adcStarted) { return; }
 
 	if (!adcInitialised) { init(); }

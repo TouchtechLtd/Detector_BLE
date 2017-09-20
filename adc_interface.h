@@ -48,9 +48,10 @@ class ADC {
 
 	public:
 
-
+	ADC() { }
 	ADC(adc_input_t adc_input);
 	ADC(adc_input_t adc_input, adc_sample_handler_t sample_handler);
+	void attachADC(adc_input_t adc_input);
 	void setLimit(uint16_t lowLimit, uint16_t highLimit, adc_limit_handler_t handler);
 	void clearLimit();
 	void channelConfig(adc_input_t adc_input, uint8_t channel);

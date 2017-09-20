@@ -11,6 +11,8 @@
 #include "nrf_log_ctrl.h"
 
 
+#include "uart_interface.h"
+
 Characteristic::Characteristic() {
     // Add read/write properties to our characteristic
 
@@ -41,7 +43,7 @@ void Characteristic::_init()
 		_notificationEnabled = false;
 		_readEnabled = false;
 
-		_p_service_handle = NULL;
+		_conn_handle = BLE_CONN_HANDLE_INVALID;
 }
 
 
@@ -64,7 +66,7 @@ void Characteristic::configureUUID (uint16_t i_uuid, uint8_t i_type)
 	_uuidConfigured = true;
 }
 
-void Characteristic::add(uint16_t * p_serviceHandle)
+void Characteristic::add(uint16_t i_serviceHandle)
 {
 	if (_uuidConfigured && !_charAdded) {
 		// Configure the characteristic value attribute
@@ -75,14 +77,13 @@ void Characteristic::add(uint16_t * p_serviceHandle)
 
 		//  Add our new characteristic to the service
 		uint32_t            err_code;
-		err_code = sd_ble_gatts_characteristic_add(*p_serviceHandle,
+		err_code = sd_ble_gatts_characteristic_add(i_serviceHandle,
 										   &_char_md,
 										   &_attr_char_value,
 										   &_char_handle);
 
 		APP_ERROR_CHECK(err_code);
 
-		_p_service_handle = p_serviceHandle;
 		_charAdded = true;
 	}
 	else { NRF_LOG_INFO("Please set UUID before adding service"); }
@@ -96,10 +97,10 @@ void Characteristic::add(uint16_t * p_serviceHandle)
  *
  */
 
-void Characteristic::add(uint16_t* p_serviceHandle, uint16_t i_uuid, uint8_t i_uuidType)
+void Characteristic::add(uint16_t i_serviceHandle, uint16_t i_uuid, uint8_t i_uuidType)
 {
 	configureUUID(i_uuid, i_uuidType);
-	add(p_serviceHandle);
+	add(i_serviceHandle);
 }
 
 
@@ -161,8 +162,8 @@ void Characteristic::notify(uint8_t * i_data, uint16_t * data_length)
 {
 	if (_notificationEnabled && _charAdded) {
 		// Update characteristic value
-		//if (_service_handle != BLE_CONN_HANDLE_INVALID)
-		//{
+		if ( _conn_handle != BLE_CONN_HANDLE_INVALID)
+		{
 			memset(&_hvx_params, 0, sizeof(_hvx_params));
 			_hvx_params.handle = _char_handle.value_handle;
 			_hvx_params.type   = BLE_GATT_HVX_NOTIFICATION;
@@ -171,9 +172,9 @@ void Characteristic::notify(uint8_t * i_data, uint16_t * data_length)
 			_hvx_params.p_data = i_data;
 
 			uint32_t err_code;
-			err_code = sd_ble_gatts_hvx(*_p_service_handle, &_hvx_params);
-			APP_ERROR_CHECK(err_code);
-		//}
+			err_code = sd_ble_gatts_hvx(_conn_handle, &_hvx_params);
+			//APP_ERROR_CHECK(err_code);
+		}
 	}
 	else { NRF_LOG_INFO("Notify not enabled"); }
 
@@ -196,6 +197,13 @@ void Characteristic::update(uint8_t * i_data, uint16_t data_length)
 		else { NRF_LOG_INFO("Value too long"); }
 	}
 	else { NRF_LOG_INFO("Value not updated"); }
+}
 
 
+
+
+
+void Characteristic::setConnHandle(uint16_t i_connHandle)
+{
+	_conn_handle = i_connHandle;
 }
