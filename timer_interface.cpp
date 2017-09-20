@@ -90,11 +90,13 @@ void Timer::startCountdown(app_timer_t* const timer_id,
 
 void Timer::init(void) {
 
-	lfclk_config();
+	if (!_timerInitialised) {
+		lfclk_config();
 
-    // Initialize the application timer module.
-    app_timer_init();
+		// Initialize the application timer module.
+		app_timer_init();
 
-    _timerInitialised = true;
+		_timerInitialised = true;
+	}
 }
 

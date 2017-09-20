@@ -43,7 +43,7 @@ class Service {
 		void createSIGService(uint16_t uuid);
 		ble_char_id_t addCharacteristic(uint16_t char_uuid);
 		ble_char_id_t addCharacteristic(Characteristic* p_char);
-		void on_ble_evt(ble_evt_t * p_ble_evt);
+		void onEvent(ble_evt_t * p_ble_evt);
 
 	    Characteristic	_charList[MAX_NUMBER_CHAR];
 

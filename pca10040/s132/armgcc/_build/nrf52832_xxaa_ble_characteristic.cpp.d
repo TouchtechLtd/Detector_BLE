@@ -19,6 +19,7 @@ _build/nrf52832_xxaa_ble_characteristic.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/_types.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/lock.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/cdefs.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/xlocale.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/string.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/drivers_nrf/hal/nrf_gpio.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/device/nrf.h \
@@ -40,6 +41,13 @@ _build/nrf52832_xxaa_ble_characteristic.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/stdio.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/lib/gcc/arm-none-eabi/6.3.1/include/stdarg.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/types.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/endian.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/_endian.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/select.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_sigset.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_timeval.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/timespec.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_timespec.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_pthreadtypes.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/types.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/stdio.h \
@@ -56,6 +64,7 @@ _build/nrf52832_xxaa_ble_characteristic.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/arm-none-eabi/thumb/v7e-m/fpv4-sp/hard/bits/cpu_defines.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/stdlib.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/stdlib.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/alloca.h \
  ../../../ble_characteristic.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_ranges.h \
@@ -129,6 +138,8 @@ _build/nrf52832_xxaa_ble_characteristic.cpp.o: \
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/cdefs.h:
 
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/xlocale.h:
+
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/string.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/drivers_nrf/hal/nrf_gpio.h:
@@ -171,6 +182,20 @@ _build/nrf52832_xxaa_ble_characteristic.cpp.o: \
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/types.h:
 
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/endian.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/_endian.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/select.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_sigset.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_timeval.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/timespec.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_timespec.h:
+
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_pthreadtypes.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/types.h:
@@ -202,6 +227,8 @@ _build/nrf52832_xxaa_ble_characteristic.cpp.o: \
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/stdlib.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/stdlib.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/alloca.h:
 
 ../../../ble_characteristic.h:
 

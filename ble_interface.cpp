@@ -94,6 +94,7 @@ static nrf_ble_gatt_t m_gatt;                                                   
 
 Advertising BLE::adv;
 
+
 /**@brief Function for assert macro callback.
  *
  * @details This function will be called in case of an assert in the SoftDevice.

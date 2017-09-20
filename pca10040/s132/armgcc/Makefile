@@ -1,4 +1,4 @@
-PROJECT_NAME     := ble_app_template_pca10040_s132
+PROJECT_NAME     := Detector_BLE_pca10040_s132
 TARGETS          := nrf52832_xxaa
 OUTPUT_DIRECTORY := _build
 
@@ -25,6 +25,7 @@ SRC_FILES += \
   $(SDK_ROOT)/components/libraries/hardfault/hardfault_implementation.c \
   $(SDK_ROOT)/components/libraries/util/nrf_assert.c \
   $(SDK_ROOT)/components/libraries/strerror/nrf_strerror.c \
+   $(SDK_ROOT)/components/libraries/uart/retarget.c \
   $(SDK_ROOT)/components/libraries/util/sdk_mapped_flags.c \
   $(SDK_ROOT)/components/libraries/sensorsim/sensorsim.c \
   $(SDK_ROOT)/components/boards/boards.c \
@@ -33,6 +34,8 @@ SRC_FILES += \
   $(SDK_ROOT)/components/drivers_nrf/gpiote/nrf_drv_gpiote.c \
   $(SDK_ROOT)/components/libraries/uart/app_uart_fifo.c \
   $(SDK_ROOT)/components/drivers_nrf/uart/nrf_drv_uart.c \
+  $(SDK_ROOT)/components/drivers_nrf/timer/nrf_drv_timer.c \
+  $(SDK_ROOT)/components/drivers_nrf/ppi/nrf_drv_ppi.c \
   $(SDK_ROOT)/components/libraries/bsp/bsp.c \
   $(SDK_ROOT)/components/libraries/bsp/bsp_btn_ble.c \
   $(SDK_ROOT)/components/libraries/bsp/bsp_nfc.c \
@@ -215,9 +218,8 @@ CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 CFLAGS += -ffunction-sections -fdata-sections -fno-strict-aliasing
 CFLAGS += -fno-builtin --short-enums 
 
-CXX += g++ $(CXXFLAGS)
 # C++ flags common to all targets
-CXXFLAGS += -std=c++11 -g
+CXXFLAGS += \
 
 # Assembler flags common to all targets
 ASMFLAGS += -x assembler-with-cpp
@@ -250,7 +252,6 @@ LDFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 LDFLAGS += -Wl,--gc-sections
 # use newlib in nano version
 LDFLAGS += --specs=nano.specs -lc -lnosys
-LDFLAGS += -lstdc++
 
 
 .PHONY: $(TARGETS) default all clean help flash flash_softdevice

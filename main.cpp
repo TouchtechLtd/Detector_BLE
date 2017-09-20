@@ -128,9 +128,10 @@ int main(void)
     trapTriggered.initValue(&initValue, 1);
     trapTriggered.setMaxLength(50);
 
-    ble_char_id_t trapTriggered_id = my_service.addCharacteristic(&trapTriggered);
+    my_service.addCharacteristic(&trapTriggered);
 
     BLE::adv.start(APP_ADV_DEFAULT_INTERVAL);
+    BLE::adv.advertiseName();
 
 	GPIO::setOutput(LED_1_PIN, HIGH);
 	GPIO::setOutput(LED_2_PIN, HIGH);
@@ -148,6 +149,7 @@ int main(void)
 
 	GPIO::interruptEnable(BUTTON_1_PIN);
 
+
 	ADC adc_5(ADC_5);
 	adc_5.setLimit(0, 100, limit_test);
 
@@ -160,6 +162,9 @@ int main(void)
 
 
 	int adcState = ADC_STATE_RESET;
+
+	uint8_t value = 0;
+	uint16_t length = 1;
 
     while(true)
     {
@@ -177,9 +182,8 @@ int main(void)
 				//curEvent.start();
 				adc_5.setLimit(50, 0, low_limit_test);
 				adc_5.attachSampleCallback(sampleHandler_test);
-
-			    uint8_t value = { 0xAA };
-			    trapTriggered.update(&value, 1);
+				//value++;
+			    //trapTriggered.notify(&value, &length);
 
 				trapEventFlag = false;
 			}

@@ -32,7 +32,7 @@ class Characteristic {
 		ble_gatts_hvx_params_t 		_hvx_params;
 		ble_gatts_char_handles_t 	_char_handle;
 
-		uint16_t _service_handle;
+		uint16_t* _p_service_handle;
 
 		bool _uuidConfigured;
 		bool _charAdded;
@@ -47,8 +47,8 @@ class Characteristic {
 	    void setUUID (uint16_t i_uuid);
 	    void setUUIDType(uint8_t i_type);
 	    void configureUUID (uint16_t i_uuid, uint8_t i_type);
-	    void add(uint16_t i_serviceHandle);
-	    void add(uint16_t serviceHandle, uint16_t i_uuid, uint8_t i_uuidType);
+	    void add(uint16_t* i_serviceHandle);
+	    void add(uint16_t* serviceHandle, uint16_t i_uuid, uint8_t i_uuidType);
 	    void notify(uint8_t * i_data, uint16_t * data_length);
 	    void update(uint8_t * i_data, uint16_t data_length);
 	    void enableRead();

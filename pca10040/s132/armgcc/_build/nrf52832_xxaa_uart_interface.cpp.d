@@ -21,6 +21,13 @@ _build/nrf52832_xxaa_uart_interface.cpp.o: ../../../uart_interface.cpp \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/_types.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/lock.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/types.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/endian.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/_endian.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/select.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_sigset.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_timeval.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/timespec.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_timespec.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_pthreadtypes.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/types.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/stdio.h \
@@ -65,8 +72,10 @@ _build/nrf52832_xxaa_uart_interface.cpp.o: ../../../uart_interface.cpp \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/arm-none-eabi/thumb/v7e-m/fpv4-sp/hard/bits/cpu_defines.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/stdlib.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/stdlib.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/alloca.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/boards/pca10040.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/string.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/xlocale.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/string.h \
  ../../../uart_interface.h
 
@@ -113,6 +122,20 @@ _build/nrf52832_xxaa_uart_interface.cpp.o: ../../../uart_interface.cpp \
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/lock.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/types.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/endian.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/_endian.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/select.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_sigset.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_timeval.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/timespec.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_timespec.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_pthreadtypes.h:
 
@@ -202,9 +225,13 @@ _build/nrf52832_xxaa_uart_interface.cpp.o: ../../../uart_interface.cpp \
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/stdlib.h:
 
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/alloca.h:
+
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/boards/pca10040.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/string.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/xlocale.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/string.h:
 
