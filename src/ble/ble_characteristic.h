@@ -53,7 +53,7 @@ class Characteristic {
 	    void setUUID (uint16_t i_uuid);
 	    void setUUIDType(uint8_t i_type);
 	    void configureUUID (uint16_t i_uuid, uint8_t i_type);
-	    void add(uint16_t i_serviceHandle);
+	    void attachToService(uint16_t i_serviceHandle);
 	    void add(uint16_t i_serviceHandle, uint16_t i_uuid, uint8_t i_uuidType);
 	    void notify(uint8_t * i_data, uint16_t * data_length);
 	    void update(uint8_t * i_data, uint16_t data_length);
@@ -65,6 +65,8 @@ class Characteristic {
 	    void initValue(uint8_t* p_value, uint16_t i_len);
 	    void setMaxLength(uint16_t i_maxLen);
 	    void setConnHandle(uint16_t i_connHandle);
+
+	    uint8_t isInit();
 
 };	// CHARACTERISTIC
 

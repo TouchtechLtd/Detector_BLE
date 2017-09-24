@@ -76,7 +76,7 @@ void BLE::setBaseUUID(ble_uuid128_t base_uuid) {
 }
 
 uint8_t BLE::addService(uint16_t service_uuid) {
-	serviceList[_serviceCount].createCustomService(service_uuid, _base_uuid);
+	serviceList[_serviceCount].createCustom(service_uuid, _base_uuid);
 	return _serviceCount++;
 }
 
@@ -86,7 +86,7 @@ uint8_t BLE::addService(Service* service) {
 }
 
 uint8_t BLE::addSIGService(uint16_t service_uuid) {
-	serviceList[_serviceCount].createSIGService(service_uuid);
+	serviceList[_serviceCount].createSIG(service_uuid);
 	return _serviceCount++;
 }
 

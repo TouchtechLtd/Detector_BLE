@@ -17,7 +17,6 @@
 
 Characteristic::Characteristic() {
     // Add read/write properties to our characteristic
-
     _init();
 }
 
@@ -66,9 +65,11 @@ void Characteristic::configureUUID (uint16_t i_uuid, uint8_t i_type)
 	_uuidConfigured = true;
 }
 
-void Characteristic::add(uint16_t i_serviceHandle)
+void Characteristic::attachToService(uint16_t i_serviceHandle)
 {
-	if (_uuidConfigured && !_charAdded) {
+
+	if (_uuidConfigured && !_charAdded)
+	{
 		// Configure the characteristic value attribute
 		_attr_md.vloc        = BLE_GATTS_VLOC_STACK;
 		_attr_char_value.p_uuid      = &_char_uuid;
@@ -98,7 +99,7 @@ void Characteristic::add(uint16_t i_serviceHandle)
 void Characteristic::add(uint16_t i_serviceHandle, uint16_t i_uuid, uint8_t i_uuidType)
 {
 	configureUUID(i_uuid, i_uuidType);
-	add(i_serviceHandle);
+	attachToService(i_serviceHandle);
 }
 
 
@@ -199,7 +200,9 @@ void Characteristic::update(uint8_t * i_data, uint16_t data_length)
 }
 
 
-
+uint8_t Characteristic::isInit() {
+  return _charAdded;
+}
 
 
 void Characteristic::setConnHandle(uint16_t i_connHandle)

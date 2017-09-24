@@ -43,7 +43,7 @@ class Service {
     uint8_t				_charCount;
     uint16_t 			_id;
 
-    uint8_t m_initialised;
+    uint8_t m_isUUIDSet;
 
     void _init();
 
@@ -51,17 +51,19 @@ class Service {
     Service();
     Service(uint16_t custom_uuid, ble_uuid128_t base_uuid);
     Service(uint16_t sig_uuid);
-		void createCustomService(uint16_t uuid, ble_uuid128_t base_uuid);
-		void createSIGService(uint16_t uuid);
+    void attachService();
+		void createCustom(uint16_t uuid, ble_uuid128_t base_uuid);
+		void createSIG(uint16_t uuid);
 		ble_char_id_t addCharacteristic(uint16_t char_uuid);
-		ble_char_id_t addCharacteristic(Characteristic* p_char);
+		ble_char_id_t attachCharacteristic(Characteristic* p_char);
+		Characteristic* getCharacteristic(uint8_t charID);
 		void eventHandler(ble_evt_t * p_ble_evt);
 
 		uint16_t getID() { return _id; }
 		uint8_t getCharCount() { return _charCount; }
-		uint8_t isInit() { return m_initialised; }
+		uint8_t isInit() { return m_isUUIDSet; }
 
-    Characteristic*	_charList[MAX_NUMBER_CHAR];
+    Characteristic	_charList[MAX_NUMBER_CHAR];
 
 };	// SERVICE
 #endif  /* _ _GOODNATURE_BLE_BLE_SERVICE_H__ */

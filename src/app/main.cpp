@@ -118,7 +118,8 @@ int main(void)
 	detectorADC.setLimit(0, 100, highLimitHandler);
 	ADC::start();
 
-	DEBUG("Working: %d", BLE::getService(0)->isInit());
+	BLE_Manager::manager().checkService();
+	BLE_Manager::manager().checkChar();
 
 	createTransitionTable();
 	Timer::startTimer(TIMER_0, 100, adcHandler);

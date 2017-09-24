@@ -24,13 +24,13 @@ uint16_t Service::serviceCount = 0;
 Service::Service(uint16_t custom_uuid, ble_uuid128_t base_uuid)
 {
 	_init();
-	createCustomService(custom_uuid, base_uuid);
+	createCustom(custom_uuid, base_uuid);
 }
 
 Service::Service(uint16_t sig_uuid)
 {
 	_init();
-	createSIGService(sig_uuid);
+	createSIG(sig_uuid);
 }
 
 Service::Service()
@@ -44,7 +44,7 @@ void Service::_init()
   memset(&_base_uuid, 0, sizeof(_base_uuid));
   _charCount = 0;
   _id = serviceCount++;
-  m_initialised = 0;
+  m_isUUIDSet = 0;
 }
 
 
@@ -64,34 +64,43 @@ void Service::eventHandler(ble_evt_t * p_ble_evt)
 	}
   for (int i = 0; i<_charCount; i++)
   {
-    _charList[i]->setConnHandle(_service.conn_handle);
+    _charList[i].setConnHandle(_service.conn_handle);
   }
 }
 
 
+void Service::attachService()
+{
+  if (m_isUUIDSet == true) {
+    uint32_t err_code = sd_ble_gatts_service_add(BLE_GATTS_SRVC_TYPE_PRIMARY,
+                                        &_service.uuid,
+                                        &_service.service_handle);
+
+    ERROR_CHECK(err_code);
+
+  }
+}
+
+
+
 /**@brief Function for initiating our new service.
  *
  * @param[in]   p_our_service        Our Service structure.
  *
  */
-void Service::createCustomService(uint16_t uuid, ble_uuid128_t base_uuid)
+void Service::createCustom(uint16_t uuid, ble_uuid128_t base_uuid)
 {
 	_base_uuid = base_uuid;
 
 	// Declare 16-bit service and 128-bit base UUIDs and add them to the BLE stack
-    uint32_t   err_code;
-    err_code = sd_ble_uuid_vs_add(&_base_uuid, &_service.uuid.type);
-    ERROR_CHECK(err_code);
+  uint32_t   err_code;
+  err_code = sd_ble_uuid_vs_add(&_base_uuid, &_service.uuid.type);
+  ERROR_CHECK(err_code);
 
-    _service.uuid.uuid		= uuid;
-    _service.conn_handle = BLE_CONN_HANDLE_INVALID;
+  _service.uuid.uuid		= uuid;
+  _service.conn_handle = BLE_CONN_HANDLE_INVALID;
 
-    err_code = sd_ble_gatts_service_add(BLE_GATTS_SRVC_TYPE_PRIMARY,
-                                        &_service.uuid,
-                                        &_service.service_handle);
-
-    m_initialised = 1;
-    ERROR_CHECK(err_code);
+  m_isUUIDSet = true;
 }
 
 
@@ -102,7 +111,7 @@ void Service::createCustomService(uint16_t uuid, ble_uuid128_t base_uuid)
  * @param[in]   p_our_service        Our Service structure.
  *
  */
-void Service::createSIGService(uint16_t uuid)
+void Service::createSIG(uint16_t uuid)
 {
     // Declare 16-bit service and 128-bit base UUIDs and add them to the BLE stack
     _service.uuid.uuid = uuid;
@@ -111,36 +120,23 @@ void Service::createSIGService(uint16_t uuid)
     // Set our service connection handle to default value. I.e. an invalid handle since we are not yet in a connection.
     _service.conn_handle = BLE_CONN_HANDLE_INVALID;
 
-    // Add our service
-    uint32_t   err_code;
-    err_code = sd_ble_gatts_service_add(BLE_GATTS_SRVC_TYPE_PRIMARY,
-                                        &_service.uuid,
-                                        &_service.service_handle);
-    ERROR_CHECK(err_code);
-
+    m_isUUIDSet = true;
 }
 
 
-ble_char_id_t Service::addCharacteristic(uint16_t i_uuid) {
 
-	_charList[_charCount]->add(_service.service_handle, i_uuid, _service.uuid.type);
-
-	ble_char_id_t charId;
-	charId.id =_charCount++;
-	return charId;
-}
-
-
-ble_char_id_t Service::addCharacteristic(Characteristic* p_char) {
+ble_char_id_t Service::attachCharacteristic(Characteristic* p_char) {
 
 	p_char->setUUIDType(_service.uuid.type);
-	p_char->add(_service.service_handle);
-	_charList[_charCount] = p_char;
+	p_char->attachToService(_service.service_handle);
+	_charList[_charCount] = *p_char;
 
 	ble_char_id_t charId;
 	charId.id =_charCount++;
 	return charId;
 }
 
-
+Characteristic* Service::getCharacteristic(uint8_t charID) {
+  return &_charList[charID];
+}
 
