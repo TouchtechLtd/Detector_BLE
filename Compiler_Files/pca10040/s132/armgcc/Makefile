@@ -69,6 +69,7 @@ SRC_FILES += \
   $(PROJ_DIR)/peripheral/adc_interface.cpp \
   $(PROJ_DIR)/peripheral/timer_interface.cpp \
   $(PROJ_DIR)/app/state_machine.cpp \
+  $(PROJ_DIR)/ble/ble_manager.cpp \
   $(PROJ_DIR)/ble/ble_interface.cpp \
   $(PROJ_DIR)/ble/ble_service.cpp \
   $(PROJ_DIR)/ble/ble_characteristic.cpp \

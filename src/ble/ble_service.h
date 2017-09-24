@@ -43,6 +43,8 @@ class Service {
     uint8_t				_charCount;
     uint16_t 			_id;
 
+    uint8_t m_initialised;
+
     void _init();
 
 	public:
@@ -57,7 +59,7 @@ class Service {
 
 		uint16_t getID() { return _id; }
 		uint8_t getCharCount() { return _charCount; }
-		uint8_t returnOne() { return 1; }
+		uint8_t isInit() { return m_initialised; }
 
     Characteristic*	_charList[MAX_NUMBER_CHAR];
 

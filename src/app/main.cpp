@@ -17,6 +17,7 @@
 #include "nrf_drv_gpiote.h"
 
 #include "app/state_machine.h"
+#include "ble/ble_manager.h"
 #include "ble/ble_interface.h"
 #include "debug/DEBUG.h"
 #include "peripheral/timer_interface.h"
@@ -32,8 +33,6 @@ static ADC detectorADC;
 //TrapEvent curEvent;
 
 static bool shouldProcessData = false;
-
-static Characteristic trapTriggered;
 
 
 void inPinHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
@@ -66,13 +65,13 @@ void triggeredEventTransition() {
 
 	GPIO::setOutput(LED_1_PIN, LOW);
 
-	static uint8_t value = 0;
-	static uint16_t length = 1;
+	//static uint8_t value = 0;
+	//static uint16_t length = 1;
 
 	//curEvent.start();
 	detectorADC.attachSampleCallback(detectorADCSampleHandler);
-	value++;
-	trapTriggered.notify(&value, &length);
+	//value++;
+	//trapTriggered.notify(&value, &length);
 }
 
 void readEventTransition() {
@@ -110,17 +109,8 @@ int main(void)
   BLE::setBaseUUID(BLE_UUID_OUR_BASE_UUID);
   DEBUG("BLE Manager Initialised.");
 
-  Service my_service(0xC001, BLE_UUID_OUR_BASE_UUID);
-  trapTriggered.setUUID(0xFEE1);
-  trapTriggered.enableRead();
-  trapTriggered.enableNotification();
-  uint8_t initValue = { 0x00 };
-  trapTriggered.initValue(&initValue, 1);
-  trapTriggered.setMaxLength(50);
-  my_service.addCharacteristic(&trapTriggered);
+  BLE_Manager::manager().createDetectorDataService();
 
-  BLE::addService(&my_service);
-  BLE::addService(0x1345);
 
   BLE::adv.start(APP_ADV_DEFAULT_INTERVAL);
   BLE::adv.advertiseName();
@@ -134,7 +124,7 @@ int main(void)
 	detectorADC.setLimit(0, 100, highLimitHandler);
 	ADC::start();
 
-	DEBUG("Working: %d", BLE::getService(1)->returnOne());
+	DEBUG("Working: %d", BLE::getService(0)->isInit());
 
 	createTransitionTable();
 	Timer::startTimer(TIMER_0, 100, adcHandler);

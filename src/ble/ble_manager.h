@@ -51,7 +51,9 @@ class BLE_Manager {
 	private:
 
 	public:
+    void createDetectorDataService();
 
+    static BLE_Manager & manager();
 
 };	// BLE_Manager
 #endif  /* _ _GOODNATURE_BLE_BLE_MANAGER_H__ */

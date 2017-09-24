@@ -44,6 +44,7 @@ void Service::_init()
   memset(&_base_uuid, 0, sizeof(_base_uuid));
   _charCount = 0;
   _id = serviceCount++;
+  m_initialised = 0;
 }
 
 
@@ -88,6 +89,8 @@ void Service::createCustomService(uint16_t uuid, ble_uuid128_t base_uuid)
     err_code = sd_ble_gatts_service_add(BLE_GATTS_SRVC_TYPE_PRIMARY,
                                         &_service.uuid,
                                         &_service.service_handle);
+
+    m_initialised = 1;
     ERROR_CHECK(err_code);
 }
 
