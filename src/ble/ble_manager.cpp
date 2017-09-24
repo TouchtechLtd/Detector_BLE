@@ -37,6 +37,15 @@ void BLE_Manager::createDetectorDataService() {
 }
 
 
+void BLE_Manager::createBLEService() {
+  BLE::init();
+  DEBUG("BLE Manager Initialised.");
+
+  createDetectorDataService();
+
+  BLE::adv.start(APP_ADV_DEFAULT_INTERVAL);
+  BLE::adv.advertiseName();
+}
 
 
 

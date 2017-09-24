@@ -105,15 +105,9 @@ int main(void)
 	GPIO::init();
 	Timer::init();
 
-  BLE::init();
-  BLE::setBaseUUID(BLE_UUID_OUR_BASE_UUID);
-  DEBUG("BLE Manager Initialised.");
 
-  BLE_Manager::manager().createDetectorDataService();
+  BLE_Manager::manager().createBLEService();
 
-
-  BLE::adv.start(APP_ADV_DEFAULT_INTERVAL);
-  BLE::adv.advertiseName();
 
 	GPIO::setOutput(LED_1_PIN, HIGH);
 	GPIO::setOutput(LED_2_PIN, HIGH);

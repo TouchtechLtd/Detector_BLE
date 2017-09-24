@@ -51,6 +51,8 @@ class BLE_Manager {
 	private:
 
 	public:
+    void createBLEService();
+
     void createDetectorDataService();
 
     static BLE_Manager & manager();
