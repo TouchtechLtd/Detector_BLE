@@ -43,6 +43,8 @@ class BLE {
 		static void addCharacteristic(uint8_t serviceID);
 		static void setBaseUUID(ble_uuid128_t base_uuid);
 
+		static Service* getService(uint8_t serviceID);
+
 		static void on_ble_evt(ble_evt_t * p_ble_evt);
 		static void ble_evt_dispatch(ble_evt_t * p_ble_evt);
 		static Advertising adv;

@@ -120,6 +120,7 @@ int main(void)
   my_service.addCharacteristic(&trapTriggered);
 
   BLE::addService(&my_service);
+  BLE::addService(0x1345);
 
   BLE::adv.start(APP_ADV_DEFAULT_INTERVAL);
   BLE::adv.advertiseName();
@@ -132,6 +133,8 @@ int main(void)
 	detectorADC.attachADC(ADC_5);
 	detectorADC.setLimit(0, 100, highLimitHandler);
 	ADC::start();
+
+	DEBUG("Working: %d", BLE::getService(1)->returnOne());
 
 	createTransitionTable();
 	Timer::startTimer(TIMER_0, 100, adcHandler);

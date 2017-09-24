@@ -91,6 +91,11 @@ uint8_t BLE::addSIGService(uint16_t service_uuid) {
 }
 
 
+Service* BLE::getService(uint8_t serviceID) {
+  return &serviceList[serviceID];
+}
+
+
 /**@brief Function for handling the Application's BLE stack events.
  *
  * @param[in] p_ble_evt  Bluetooth stack event.

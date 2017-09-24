@@ -57,6 +57,7 @@ class Service {
 
 		uint16_t getID() { return _id; }
 		uint8_t getCharCount() { return _charCount; }
+		uint8_t returnOne() { return 1; }
 
     Characteristic*	_charList[MAX_NUMBER_CHAR];
 
