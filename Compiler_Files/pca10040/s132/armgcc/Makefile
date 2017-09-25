@@ -74,6 +74,8 @@ SRC_FILES += \
   $(PROJ_DIR)/ble/ble_service.cpp \
   $(PROJ_DIR)/ble/ble_characteristic.cpp \
   $(PROJ_DIR)/ble/ble_advertising.cpp \
+  $(PROJ_DIR)/app/trap_event.cpp \
+  $(PROJ_DIR)/app/current_time.cpp \
   $(PROJ_DIR)/app/main.cpp \
   
   

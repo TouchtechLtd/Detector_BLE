@@ -7,91 +7,122 @@
  */
 
 #include "app/trap_event.h"
+#include "peripheral/timer_interface.h"
 #include "debug/DEBUG.h"
 
 #include <stdio.h>
-#include <algorithm>
-#include <numeric>
+#include <stdint.h>
 
-#define MAX_ADC_VALUE 4095
-#define AVERAGE_SIZE 300
+#define MAX_ADC_VALUE 1024
 
-
+uint8_t TrapEvent::numberOfKills = 0;
 
 TrapEvent::TrapEvent() {
-	eventTriggered = false;
-	didClip = false;
-	dataProcessed = false;
+  m_eventTriggered = false;
+  m_didClip = false;
+  m_dataProcessed = false;
 
-	timeStamp = 0;
-	responseStartTime = 0;
-	responseEndTime = 0;
-	responseLength = 0;
+	m_timeStamp = 0;
+	m_responseStartTime = 0;
+	m_responseEndTime = 0;
+	m_responseLength = 0;
 
-	peakValue = 0;
-	responseSize = 0;
+	m_peakValue = 0;
+	m_responseSize = 0;
+	m_dataCount = 0;
+
+	m_killNumber = 0;
 }
 
 
 void TrapEvent::addData(int dataPoint) {
-	if (eventTriggered) rawData.push_back(dataPoint);
+	if (m_dataCount < AVERAGE_SIZE)
+	{
+	  m_rawData[m_dataCount] = dataPoint;
+	  m_dataCount++;
+	}
+	findPeak(dataPoint);
+}
+
+void TrapEvent::findPeak(int dataPoint) {
+  if (dataPoint > m_peakValue)
+    {
+    m_peakValue = dataPoint;
+    }
 }
 
 
 void TrapEvent::clear(void) {
-	dataProcessed = false;
-	eventTriggered = false;
+  m_dataProcessed = false;
+	m_eventTriggered = false;
 
-	timeStamp = 0;
-	responseStartTime = 0;
-	responseEndTime = 0;
+	m_timeStamp = 0;
+	m_responseStartTime = 0;
+	m_responseEndTime = 0;
 
-	peakValue = 0;
-	responseSize = 0;
-	rawData.clear();
+	m_peakValue = 0;
+	m_responseSize = 0;
+	m_dataCount = 0;
 }
 
 void TrapEvent::start(void) {
-	eventTriggered = true;
-	responseStartTime = 0;
+  m_eventTriggered = true;
+	m_responseStartTime = Timer::getTicks();
 }
 
 void TrapEvent::end(void) {
-	eventTriggered = false;
-	responseEndTime = 10;
+  m_eventTriggered = false;
+	m_responseEndTime = Timer::getTicks();
 }
 
 void TrapEvent::processData(void) {
+  m_killNumber = ++numberOfKills;
 	calculateLength();
-	findPeakValue();
+	//findPeakValue();
 	checkForClipping();
 	findResponseSize();
 }
 
 void TrapEvent::printData(void) {
-	UART::write("Response Length: %lu\n", responseLength);
-	UART::write("Peak Value: %u\n", peakValue);
-	UART::write("Response Size: %u\n", responseSize);
-	UART::write("Clipping: %d\n", didClip);
+  DEBUG("Kill Number: %d", m_killNumber);
+	DEBUG("Response Length: %d", m_responseLength);
+	DEBUG("Peak Value: %d", m_peakValue);
+	DEBUG("Response Size: %d", m_responseSize);
+	DEBUG("Clipping: %d", m_didClip);
 }
 
 
 void TrapEvent::checkForClipping(void) {
-	didClip = (peakValue == MAX_ADC_VALUE);
+  m_didClip = (m_peakValue == MAX_ADC_VALUE);
 }
 
 void TrapEvent::calculateLength(void) {
-	//responseLength = responseEndTime - responseStartTime;
-	responseLength = rawData.size();
+  m_responseLength = Timer::getDiff(m_responseStartTime, m_responseEndTime);
+	//responseLength = rawData.size();
 }
 
 void TrapEvent::findPeakValue(void) {
-	peakValue = *std::max_element(rawData.begin(),rawData.end());
+  //m_peakValue = *std::max_element(m_rawData.begin(),m_rawData.end());
 }
 
 void TrapEvent::findResponseSize(void) {
-	if (rawData.size() > AVERAGE_SIZE)
-	responseSize = std::accumulate(rawData.begin(), rawData.begin() + AVERAGE_SIZE, 0LL) / AVERAGE_SIZE;
+  if (m_dataCount > 0) {
+    uint32_t sum = 0;
+    for (int i = 0; i < m_dataCount; i++)
+    {
+      sum += m_rawData[i];
+    }
+    DEBUG("Sum: %d", sum);
+    DEBUG("Data Count: %d", m_dataCount);
+    m_responseSize = sum / m_dataCount;
+  }
+
+  //if (rawData.size() > AVERAGE_SIZE)
+	//responseSize = std::accumulate(rawData.begin(), rawData.begin() + AVERAGE_SIZE, 0LL) / AVERAGE_SIZE;
 }
 
+
+void TrapEvent::setTimeStamp(uint32_t currentTime) {
+  m_timeStamp = currentTime;
+}
 

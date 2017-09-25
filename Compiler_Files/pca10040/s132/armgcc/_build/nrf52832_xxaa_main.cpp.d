@@ -108,7 +108,8 @@ _build/nrf52832_xxaa_main.cpp.o: ../../../../src/app/main.cpp \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/app_util.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/sdk_macros.h \
  ../../../../src/peripheral/gpio_interface.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/gpiote/app_gpiote.h
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/gpiote/app_gpiote.h \
+ ../../../../src/app/current_time.h ../../../../src/app/trap_event.h
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/lib/gcc/arm-none-eabi/6.3.1/include/stdbool.h:
 
@@ -333,3 +334,7 @@ _build/nrf52832_xxaa_main.cpp.o: ../../../../src/app/main.cpp \
 ../../../../src/peripheral/gpio_interface.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/gpiote/app_gpiote.h:
+
+../../../../src/app/current_time.h:
+
+../../../../src/app/trap_event.h:

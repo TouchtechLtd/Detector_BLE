@@ -23,14 +23,15 @@
 #include "peripheral/timer_interface.h"
 #include "peripheral/adc_interface.h"
 #include "peripheral/gpio_interface.h"
-//#include "TrapEvent.h"
+#include "app/current_time.h"
+#include "app/trap_event.h"
 
 
 
 
 static StateMachine stateMachine(DETECT_STATE);
 static ADC detectorADC;
-//TrapEvent curEvent;
+TrapEvent curEvent;
 
 static bool shouldProcessData = false;
 
@@ -56,7 +57,8 @@ void highLimitHandler(void) {
 }
 
 void detectorADCSampleHandler (int sampleValue) {
-	//curEvent.addData(sampleValue);
+  INFO("%d", sampleValue);
+	curEvent.addData(sampleValue);
 }
 
 
@@ -65,21 +67,17 @@ void triggeredEventTransition() {
 
 	GPIO::setOutput(LED_1_PIN, LOW);
 
-	static uint8_t value = 0;
-	static uint16_t length = 1;
-
-	//curEvent.start();
-	detectorADC.attachSampleCallback(detectorADCSampleHandler);
-	value++;
-	//trapTriggered.notify(&value, &length);
-	BLE_Manager::manager().notifyCharacteristic(SERVICE_DETECTOR_DATA, CHAR_DETECTOR_NUMBER_OF_KILLS, &value, &length);
+	curEvent.start();
+	//detectorADC.attachSampleCallback(detectorADCSampleHandler);
 }
 
 void readEventTransition() {
 	DEBUG("Reading finished");
 
 	GPIO::setOutput(LED_1_PIN, HIGH);
-	detectorADC.detachSampleCallback();
+
+	curEvent.end();
+	//detectorADC.detachSampleCallback();
 	shouldProcessData = true;
 }
 
@@ -104,8 +102,8 @@ int main(void)
 {
 	DEBUG_INIT();
 	GPIO::init();
-	Timer::init();
-
+	Timer::initialisePeripheral();
+	CurrentTime::startClock();
 
   BLE_Manager::manager().createBLEService();
 
@@ -123,24 +121,30 @@ int main(void)
 	BLE_Manager::manager().checkChar();
 
 	createTransitionTable();
-	Timer::startTimer(TIMER_0, 100, adcHandler);
-	Timer::startTimer(TIMER_2, 100000, ADC::timed_recalibrate);
+	Timer adcSampleTimer;
+	Timer adcRecalibrationTimer;
+	adcSampleTimer.startTimer(100, adcHandler);
+	adcRecalibrationTimer.startTimer(1000, ADC::timed_recalibrate);
 
+	detectorADC.attachSampleCallback(detectorADCSampleHandler);
 
+	uint32_t prevValue = 0;
+	uint32_t currentValue = 0;
     while(true)
     {
-
+      //currentValue = Timer::getTicks();
+      //DEBUG("%d", Timer::getDiff(currentValue, prevValue));
+      prevValue = currentValue;
     	GPIO::toggle(LED_4_PIN);
-    	//UART::write("Toggled the pin!!");
 
     	if (shouldProcessData) {
-    		//curEvent.processData();
-			//curEvent.printData();
-			//curEvent.clear();
+    	  curEvent.setTimeStamp(CurrentTime::getCurrentTime());
+    		curEvent.processData();
+    		curEvent.printData();
+    		curEvent.clear();
     		stateMachine.transition(PROCESSING_FINISHED_EVENT);
     	}
 		nrf_delay_ms(500);
-		//UART::write("%d", i++);
 
     }
 

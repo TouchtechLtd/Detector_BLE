@@ -8,42 +8,50 @@
 
 #ifndef CPP_TRAP_EVENT_H
 #define CPP_TRAP_EVENT_H
-#include <vector>
+#include <stdint.h>
 
 
 #define TRAP_EVENT_THRESHOLD 100
 #define MAX_TRAP_EVENTS 100
+#define AVERAGE_SIZE 20
 
 class TrapEvent {
 	private:
 
-		unsigned long timeStamp;
-		unsigned long responseStartTime;
-		unsigned long responseEndTime;
-		unsigned long responseLength;
+    static uint8_t numberOfKills;
 
-		unsigned int peakValue;
-		unsigned int responseSize;
+		uint32_t m_timeStamp;
+		uint32_t m_responseStartTime;
+		uint32_t m_responseEndTime;
+		uint32_t m_responseLength;
 
-		bool eventTriggered;
-		bool didClip;
-		bool dataProcessed;
+		uint16_t m_peakValue;
+		uint32_t m_responseSize;
+		uint16_t m_dataCount;
+
+		bool m_eventTriggered;
+		bool m_didClip;
+		bool m_dataProcessed;
 
 		void checkForClipping();
 		void findPeakValue();
 		void findResponseSize();
 		void calculateLength();
 
+		uint16_t m_rawData[AVERAGE_SIZE];
+
+		uint8_t m_killNumber;
+
 	public:
 		TrapEvent();
 		void addData(int dataPoint);
+		void findPeak(int dataPoint);
 		void processData();
 		void clear();
 		void start();
 		void end();
+		void setTimeStamp(uint32_t currentTime);
 		void printData();
-
-		std::vector<int> rawData;
 
 	}; // End TrapEvent
 

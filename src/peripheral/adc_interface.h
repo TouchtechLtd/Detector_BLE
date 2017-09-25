@@ -12,6 +12,7 @@
 
 #include "nrf_drv_saadc.h"
 
+#define SAMPLES_IN_BUFFER 1
 #define MAX_ADC_CHANNELS 7
 
 typedef void (*adc_limit_handler_t)(void);
@@ -36,9 +37,12 @@ typedef enum
 class ADC {
 	private:
 
+  static nrf_saadc_value_t     m_buffer_pool[2][SAMPLES_IN_BUFFER];
+
 	static bool isPeripheralInitialised;
 	static bool isPeripheralStarted;
 	static bool isCalibrating;
+	static bool m_isSamplingEnabled;
 
 	static uint8_t peripheralCount;
 
@@ -62,6 +66,7 @@ class ADC {
 	void detachSampleCallback();
 
 	static void start();
+	static void restart();
 	static void sample();
 	static void abort();
 	static bool busy();
