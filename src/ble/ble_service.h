@@ -38,12 +38,13 @@ class Service {
 	private:
 		static uint16_t serviceCount;
 
-		ble_gs_t 			_service;
-    ble_uuid128_t		_base_uuid;
-    uint8_t				_charCount;
-    uint16_t 			_id;
+		ble_gs_t 			    _service;
+    ble_uuid128_t		  _base_uuid;
+    uint8_t				    _charCount;
+    uint16_t 			    _id;
 
-    uint8_t m_isUUIDSet;
+    uint8_t           m_isUUIDSet;
+    bool              m_isRunning;
 
     void _init();
 
@@ -54,14 +55,14 @@ class Service {
     void attachService();
 		void createCustom(uint16_t uuid, ble_uuid128_t base_uuid);
 		void createSIG(uint16_t uuid);
-		ble_char_id_t addCharacteristic(uint16_t char_uuid);
-		ble_char_id_t attachCharacteristic(Characteristic* p_char);
+		void addCharacteristic(Characteristic* p_char, uint8_t charID);
 		Characteristic* getCharacteristic(uint8_t charID);
 		void eventHandler(ble_evt_t * p_ble_evt);
 
 		uint16_t getID() { return _id; }
 		uint8_t getCharCount() { return _charCount; }
 		uint8_t isInit() { return m_isUUIDSet; }
+		bool isRunning() { return m_isRunning; }
 
     Characteristic	_charList[MAX_NUMBER_CHAR];
 

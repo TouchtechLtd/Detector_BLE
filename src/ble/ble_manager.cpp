@@ -20,11 +20,14 @@
 
 #include "debug/DEBUG.h"
 
+
+
+
+
 void BLE_Manager::createDetectorDataService() {
 
   Service detectorData;
   detectorData.createCustom(0xC001, BLE_UUID_OUR_BASE_UUID);
-  detectorData.attachService();
 
   Characteristic trapTriggered;
   trapTriggered.setUUID(0xFEE1);
@@ -33,18 +36,31 @@ void BLE_Manager::createDetectorDataService() {
   uint8_t initValue = { 0x00 };
   trapTriggered.initValue(&initValue, 1);
   trapTriggered.setMaxLength(50);
-  detectorData.attachCharacteristic(&trapTriggered);
+  detectorData.addCharacteristic(&trapTriggered, CHAR_DETECTOR_NUMBER_OF_KILLS);
 
-  BLE::addService(&detectorData);
+  detectorData.attachService();
+  BLE::addService(&detectorData, SERVICE_DETECTOR_DATA);
+}
+
+
+
+void BLE_Manager::updateCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t length)
+{
+  BLE::getService(serviceID)->getCharacteristic(charID)->update(p_data, length);
+}
+
+void BLE_Manager::notifyCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t* length)
+{
+  BLE::getService(serviceID)->getCharacteristic(charID)->notify(p_data, length);
 }
 
 
 void BLE_Manager::checkService() {
-  DEBUG("Service is working: %d", BLE::getService(0)->isInit());
+  DEBUG("Service is working: %d", BLE::getService(SERVICE_DETECTOR_DATA)->isInit());
 }
 
 void BLE_Manager::checkChar() {
-  uint8_t charIsInit = BLE::getService(0)->getCharacteristic(0)->isInit();
+  uint8_t charIsInit = BLE::getService(SERVICE_DETECTOR_DATA)->getCharacteristic(CHAR_DETECTOR_NUMBER_OF_KILLS)->isInit();
   DEBUG("Char is working: %d", charIsInit);
 }
 

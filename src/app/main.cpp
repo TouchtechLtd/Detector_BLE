@@ -65,13 +65,14 @@ void triggeredEventTransition() {
 
 	GPIO::setOutput(LED_1_PIN, LOW);
 
-	//static uint8_t value = 0;
-	//static uint16_t length = 1;
+	static uint8_t value = 0;
+	static uint16_t length = 1;
 
 	//curEvent.start();
 	detectorADC.attachSampleCallback(detectorADCSampleHandler);
-	//value++;
+	value++;
 	//trapTriggered.notify(&value, &length);
+	BLE_Manager::manager().notifyCharacteristic(SERVICE_DETECTOR_DATA, CHAR_DETECTOR_NUMBER_OF_KILLS, &value, &length);
 }
 
 void readEventTransition() {

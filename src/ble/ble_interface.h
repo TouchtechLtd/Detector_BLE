@@ -31,24 +31,20 @@ class BLE {
 		static uint8_t _serviceCount;
 		static ble_uuid128_t _base_uuid;
 
+		static bool m_isConnected;
+
 	public:
 		static void init(void);
 		static void setDeviceName(const char* deviceName);
 
-		//BLE();
-		//BLE(ble_uuid128_t base_uuid);
-		static uint8_t addService(Service* in_service);
-		static uint8_t addService(uint16_t service_uuid);
-		static uint8_t addSIGService(uint16_t service_uuid);
-		static void addCharacteristic(uint8_t serviceID);
-		static void setBaseUUID(ble_uuid128_t base_uuid);
-
+		static void addService(Service* service, uint8_t serviceID);
 		static Service* getService(uint8_t serviceID);
 
 		static void on_ble_evt(ble_evt_t * p_ble_evt);
 		static void ble_evt_dispatch(ble_evt_t * p_ble_evt);
 		static Advertising adv;
 
+		static bool isConnected() { return m_isConnected; }
 
 
 	}; // End BLE

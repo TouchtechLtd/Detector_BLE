@@ -32,12 +32,14 @@ void Characteristic::_init()
 {
 	// Add read/write properties to our characteristic
   memset(&_char_handle, 0, sizeof(_char_handle));
+  memset(&_char_uuid, 0, sizeof(_char_uuid));
   memset(&_cccd_md, 0, sizeof(_cccd_md));
   memset(&_char_md, 0, sizeof(_char_md));
   memset(&_attr_md, 0, sizeof(_attr_md));
   memset(&_attr_char_value, 0, sizeof(_attr_char_value));
 
-  _uuidConfigured = false;
+  m_isUUIDSet = false;
+  m_isRunning = false;
   _charAdded = false;
   _notificationEnabled = false;
   _readEnabled = false;
@@ -49,26 +51,26 @@ void Characteristic::_init()
 void Characteristic::setUUID(uint16_t i_uuid)
 {
 	_char_uuid.uuid = i_uuid;
-	if (_char_uuid.type != 0) { _uuidConfigured = true; }
+	if (_char_uuid.type != 0) { m_isUUIDSet = true; }
 }
 
 void Characteristic::setUUIDType(uint8_t i_type)
 {
 	_char_uuid.type = i_type;
-	if (_char_uuid.uuid != 0) { _uuidConfigured = true; }
+	if (_char_uuid.uuid != 0) { m_isUUIDSet = true; }
 }
 
 void Characteristic::configureUUID (uint16_t i_uuid, uint8_t i_type)
 {
 	_char_uuid.uuid = i_uuid;
 	_char_uuid.type = i_type;
-	_uuidConfigured = true;
+	m_isUUIDSet = true;
 }
 
 void Characteristic::attachToService(uint16_t i_serviceHandle)
 {
 
-	if (_uuidConfigured && !_charAdded)
+	if (m_isUUIDSet && !m_isRunning)
 	{
 		// Configure the characteristic value attribute
 		_attr_md.vloc        = BLE_GATTS_VLOC_STACK;
@@ -83,9 +85,10 @@ void Characteristic::attachToService(uint16_t i_serviceHandle)
 
 		ERROR_CHECK(err_code);
 
-		_charAdded = true;
+		m_isRunning = true;
+	} else {
+	  DEBUG("Please set UUID before adding service");
 	}
-	else { DEBUG("Please set UUID before adding service"); }
 }
 
 
@@ -159,7 +162,7 @@ void Characteristic::setMaxLength(uint16_t i_maxLen)
 
 void Characteristic::notify(uint8_t * i_data, uint16_t * data_length)
 {
-	if (_notificationEnabled && _charAdded) {
+	if (_notificationEnabled && m_isRunning) {
 		// Update characteristic value
 		if ( _conn_handle != BLE_CONN_HANDLE_INVALID)
 		{
@@ -174,6 +177,7 @@ void Characteristic::notify(uint8_t * i_data, uint16_t * data_length)
 			err_code = sd_ble_gatts_hvx(_conn_handle, &_hvx_params);
 			ERROR_CHECK(err_code);
 		}
+		else { DEBUG("Connection handle = invalid"); }
 	}
 	else { DEBUG("Notify not enabled"); }
 
@@ -182,7 +186,7 @@ void Characteristic::notify(uint8_t * i_data, uint16_t * data_length)
 
 void Characteristic::update(uint8_t * i_data, uint16_t data_length)
 {
-	if (_readEnabled && _charAdded) {
+	if (_readEnabled && m_isRunning) {
 		if (data_length <= _attr_char_value.max_len) {
 
 		  ble_gatts_value_t new_value;
@@ -201,7 +205,7 @@ void Characteristic::update(uint8_t * i_data, uint16_t data_length)
 
 
 uint8_t Characteristic::isInit() {
-  return _charAdded;
+  return m_isUUIDSet;
 }
 
 

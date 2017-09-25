@@ -40,7 +40,8 @@ class Characteristic {
 
 		uint16_t _conn_handle;
 
-		bool _uuidConfigured;
+		bool m_isUUIDSet;
+		bool m_isRunning;
 		bool _charAdded;
 		bool _notificationEnabled;
 		bool _readEnabled;
@@ -67,6 +68,7 @@ class Characteristic {
 	    void setConnHandle(uint16_t i_connHandle);
 
 	    uint8_t isInit();
+	    bool isRunning() { return m_isRunning; }
 
 };	// CHARACTERISTIC
 

@@ -51,8 +51,8 @@ static nrf_ble_gatt_t m_gatt;                                                   
 
 Advertising BLE::adv;
 uint8_t BLE::_serviceCount = 0;
-ble_uuid128_t BLE::_base_uuid;
 Service BLE::serviceList[MAX_NUMBER_SERVICES];
+bool m_isConnected = false;
 
 /**@brief Function for assert macro callback.
  *
@@ -71,23 +71,10 @@ void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name)
 }
 
 
-void BLE::setBaseUUID(ble_uuid128_t base_uuid) {
-	_base_uuid = base_uuid;
-}
 
-uint8_t BLE::addService(uint16_t service_uuid) {
-	serviceList[_serviceCount].createCustom(service_uuid, _base_uuid);
-	return _serviceCount++;
-}
-
-uint8_t BLE::addService(Service* service) {
-	serviceList[_serviceCount] = *service;
-	return _serviceCount++;
-}
-
-uint8_t BLE::addSIGService(uint16_t service_uuid) {
-	serviceList[_serviceCount].createSIG(service_uuid);
-	return _serviceCount++;
+void BLE::addService(Service* service, uint8_t serviceID) {
+	serviceList[serviceID] = *service;
+	_serviceCount++;
 }
 
 
@@ -110,11 +97,13 @@ void BLE::on_ble_evt(ble_evt_t * p_ble_evt)
         case BLE_GAP_EVT_CONNECTED:
             INFO("Device connected to BLE");
             m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
+            m_isConnected = true;
             break; // BLE_GAP_EVT_CONNECTED
 
         case BLE_GAP_EVT_DISCONNECTED:
             INFO("Deviced disconnected from BLE");
             m_conn_handle = BLE_CONN_HANDLE_INVALID;
+            m_isConnected = false;
             BLE::adv.start(APP_ADV_DEFAULT_INTERVAL);
             break; // BLE_GAP_EVT_DISCONNECTED
 
@@ -199,12 +188,12 @@ void BLE::on_ble_evt(ble_evt_t * p_ble_evt)
  */
 void BLE::ble_evt_dispatch(ble_evt_t * p_ble_evt)
 {
-    on_ble_evt(p_ble_evt);
-    ble_conn_params_on_ble_evt(p_ble_evt);
-    nrf_ble_gatt_on_ble_evt(&m_gatt, p_ble_evt);
-    for (int i = 0; i<_serviceCount; i++)
+  on_ble_evt(p_ble_evt);
+  ble_conn_params_on_ble_evt(p_ble_evt);
+  nrf_ble_gatt_on_ble_evt(&m_gatt, p_ble_evt);
+  for (int i = 0; i < MAX_NUMBER_SERVICES; i++)
 	{
-		serviceList[i].eventHandler(p_ble_evt);
+		if (serviceList[i].isRunning()) { serviceList[i].eventHandler(p_ble_evt); }
 	}
 }
 

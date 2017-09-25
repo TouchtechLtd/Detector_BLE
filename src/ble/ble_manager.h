@@ -53,6 +53,9 @@ class BLE_Manager {
 	public:
     void createBLEService();
 
+    void updateCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t length);
+    void notifyCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t* length);
+
     void checkService();
     void checkChar();
     void createDetectorDataService();

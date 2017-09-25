@@ -42,9 +42,11 @@ void Service::_init()
 {
   memset(&_service, 0, sizeof(_service));
   memset(&_base_uuid, 0, sizeof(_base_uuid));
+
   _charCount = 0;
   _id = serviceCount++;
   m_isUUIDSet = 0;
+  m_isRunning = false;
 }
 
 
@@ -62,9 +64,9 @@ void Service::eventHandler(ble_evt_t * p_ble_evt)
 	        // No implementation needed.
 	        break;
 	}
-  for (int i = 0; i<_charCount; i++)
+  for (int i = 0; i< MAX_NUMBER_CHAR; i++)
   {
-    _charList[i].setConnHandle(_service.conn_handle);
+    if (_charList[i].isRunning()) { _charList[i].setConnHandle(_service.conn_handle); }
   }
 }
 
@@ -77,7 +79,12 @@ void Service::attachService()
                                         &_service.service_handle);
 
     ERROR_CHECK(err_code);
+    for (int i = 0; i < MAX_NUMBER_CHAR; i++)
+    {
+      if (_charList[i].isInit()) { _charList[i].attachToService(_service.service_handle); }
+    }
 
+    m_isRunning = true;
   }
 }
 
@@ -125,15 +132,10 @@ void Service::createSIG(uint16_t uuid)
 
 
 
-ble_char_id_t Service::attachCharacteristic(Characteristic* p_char) {
+void Service::addCharacteristic(Characteristic* p_char, uint8_t charID) {
 
 	p_char->setUUIDType(_service.uuid.type);
-	p_char->attachToService(_service.service_handle);
-	_charList[_charCount] = *p_char;
-
-	ble_char_id_t charId;
-	charId.id =_charCount++;
-	return charId;
+	_charList[charID] = *p_char;
 }
 
 Characteristic* Service::getCharacteristic(uint8_t charID) {
