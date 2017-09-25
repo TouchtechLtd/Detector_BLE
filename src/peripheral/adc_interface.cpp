@@ -19,12 +19,11 @@
 #include "peripheral/timer_interface.h"
 #include "peripheral/adc_interface.h"
 
-#define SAADC_CALIBRATION_INTERVAL 100
+
 
 bool ADC::isPeripheralInitialised = false;
 bool ADC::isPeripheralStarted = false;
 uint8_t ADC::peripheralCount = 0;
-bool ADC::isCalibrating = false;
 bool ADC::m_isSamplingEnabled = false;
 adc_limit_handler_t ADC::limitCallbacks[MAX_ADC_CHANNELS] = {0};
 adc_sample_handler_t ADC::sampleCallbacks[MAX_ADC_CHANNELS] = {0};
@@ -104,33 +103,16 @@ void ADC::clearLimit() {
 void ADC::saadc_callback(nrf_drv_saadc_evt_t const * p_event)
 {
 	if (p_event->type == NRF_DRV_SAADC_EVT_DONE)
-	{
-		if(isCalibrating == true && busy()) {                                 //Evaluate if offset calibration should be performed. Configure the SAADC_CALIBRATION_INTERVAL constant to change the calibration frequency
-		  m_isSamplingEnabled = false;
-		  abort();						    							 // Abort all ongoing conversions. Calibration cannot be run if SAADC is busy
-			Timer adcRecalibrationCountdown;
-			adcRecalibrationCountdown.startCountdown(1, recalibrate);                 // Set flag to trigger calibration in main context when SAADC is stopped
-		}
-
-		if (isCalibrating == false) {
-
-      ret_code_t err_code = nrf_drv_saadc_buffer_convert(p_event->data.done.p_buffer, SAMPLES_IN_BUFFER);
+  {
+      uint32_t err_code = nrf_drv_saadc_buffer_convert(p_event->data.done.p_buffer, SAMPLES_IN_BUFFER);
       if (err_code != NRF_SUCCESS) { ERROR_CHECK(err_code); }
 
-	    if (ADC::sampleCallbacks[0] != 0) {
-	      for (int i = 0; i < SAMPLES_IN_BUFFER; i++) {
-	        ADC::sampleCallbacks[0](p_event->data.done.p_buffer[i]);
-	      }
-	    }
-		}
-	}
-
-	else if (p_event->type == NRF_DRV_SAADC_EVT_CALIBRATEDONE)
-	{
-		restart();
-		isCalibrating = false;
-		DEBUG("SAADC calibration complete.");
-	}
+      if (ADC::sampleCallbacks[0] != 0) {
+        for (int i = 0; i < SAMPLES_IN_BUFFER; i++) {
+          ADC::sampleCallbacks[0](p_event->data.done.p_buffer[i]);
+        }
+      }
+    }
 
 	else if (p_event->type == NRF_DRV_SAADC_EVT_LIMIT) {
 		ADC::limitCallbacks[p_event->data.limit.channel]();
@@ -172,16 +154,6 @@ void ADC::start() {
 }
 
 
-void ADC::restart() {
-  uint32_t err_code;
-  err_code = nrf_drv_saadc_buffer_convert(m_buffer_pool[0], SAMPLES_IN_BUFFER);
-  ERROR_CHECK(err_code);
-
-  isPeripheralStarted = true;
-  m_isSamplingEnabled = true;
-}
-
-
 
 void ADC::sample() {
   if (m_isSamplingEnabled) {
@@ -196,15 +168,5 @@ void ADC::abort() {
 
 bool ADC::busy(void) {
 	return nrf_drv_saadc_is_busy();
-}
-
-void ADC::timed_recalibrate(void* p_context) {
-	DEBUG("Triggering calibration");
-	isCalibrating = true;
-}
-
-void ADC::recalibrate(void* p_context) {
-  DEBUG("Calibration in progress");
-	while (nrf_drv_saadc_calibrate_offset() != NRF_SUCCESS);		//Trigger calibration task
 }
 

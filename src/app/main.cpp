@@ -124,7 +124,6 @@ int main(void)
 	Timer adcSampleTimer;
 	Timer adcRecalibrationTimer;
 	adcSampleTimer.startTimer(100, adcHandler);
-	adcRecalibrationTimer.startTimer(1000, ADC::timed_recalibrate);
 
 	detectorADC.attachSampleCallback(detectorADCSampleHandler);
 

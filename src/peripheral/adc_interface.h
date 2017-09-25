@@ -41,7 +41,6 @@ class ADC {
 
 	static bool isPeripheralInitialised;
 	static bool isPeripheralStarted;
-	static bool isCalibrating;
 	static bool m_isSamplingEnabled;
 
 	static uint8_t peripheralCount;
@@ -66,12 +65,9 @@ class ADC {
 	void detachSampleCallback();
 
 	static void start();
-	static void restart();
 	static void sample();
 	static void abort();
 	static bool busy();
-	static void recalibrate(void*);
-	static void timed_recalibrate(void*);
 
 	}; // End ADC
 
