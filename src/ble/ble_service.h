@@ -15,12 +15,6 @@
 #include "ble/ble_characteristic.h"
 
 
-// FROM_SERVICE_TUTORIAL: Defining 16-bit service and 128-bit base UUIDs
-#define BLE_UUID_OUR_SERVICE_UUID_1                0xF00D // Just a random, but recognizable value
-#define BLE_UUID_OUR_SERVICE_UUID_2                0xFEED // Just a random, but recognizable value
-
-
-
 #define MAX_NUMBER_CHAR	10
 
 // This structure contains various status information for our service.

@@ -40,8 +40,8 @@ void Timer::lfclk_config(void)
 
 // Create timers
 void Timer::startTimer(app_timer_t* const timer_id,
-						uint32_t ms,
-						app_timer_timeout_handler_t handler)
+						            uint32_t ms,
+						            app_timer_timeout_handler_t handler)
 {
     if (!_timerInitialised) { init(); }
 

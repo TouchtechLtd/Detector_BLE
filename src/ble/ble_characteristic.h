@@ -14,17 +14,10 @@
 #include "ble_srv_common.h"
 
 
-
-// ALREADY_DONE_FOR_YOU: Defining 16-bit characteristic UUID
-#define BLE_UUID_OUR_CHARACTERISTC_UUID          0xBEEF // Just a random, but recognizable value
-#define BLE_UUID_OUR_BASE_UUID              {{0x23, 0xD1, 0x13, 0xEF, 0x5F, 0x78, 0x23, 0x15, 0xDE, 0xEF, 0x12, 0x12, 0x00, 0x00, 0x00, 0x00}} // 128-bit base UUID
-
-
 typedef struct
 {
     uint8_t						id;
 }ble_char_id_t;
-
 
 
 class Characteristic {

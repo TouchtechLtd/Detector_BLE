@@ -58,7 +58,9 @@ class BLE_Manager {
 
     void checkService();
     void checkChar();
+
     void createDetectorDataService();
+    void createDeviceInfoService();
 
     static BLE_Manager & manager();
 

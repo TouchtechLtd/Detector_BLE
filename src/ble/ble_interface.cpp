@@ -52,7 +52,7 @@ static nrf_ble_gatt_t m_gatt;                                                   
 Advertising BLE::adv;
 uint8_t BLE::_serviceCount = 0;
 Service BLE::serviceList[MAX_NUMBER_SERVICES];
-bool m_isConnected = false;
+bool BLE::m_isConnected = false;
 
 /**@brief Function for assert macro callback.
  *
@@ -188,6 +188,11 @@ void BLE::on_ble_evt(ble_evt_t * p_ble_evt)
  */
 void BLE::ble_evt_dispatch(ble_evt_t * p_ble_evt)
 {
+  /*
+  DEBUG("Event in dispatch: %d", p_ble_evt->header.evt_id);
+  if (p_ble_evt->header.evt_id == BLE_GATTS_EVT_WRITE) {
+    DEBUG("Write requested for UUID: %x", p_ble_evt->evt.gatts_evt.params.write.uuid.uuid);
+  }*/
   on_ble_evt(p_ble_evt);
   ble_conn_params_on_ble_evt(p_ble_evt);
   nrf_ble_gatt_on_ble_evt(&m_gatt, p_ble_evt);
