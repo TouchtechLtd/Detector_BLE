@@ -25,6 +25,7 @@ class Timer {
 		static uint32_t getTicks();
 		static uint32_t getDiff(uint32_t   ticks_to,
 		                        uint32_t   ticks_from);
+    static uint32_t getFrequency();
 
     Timer();
 		void startTimer(uint32_t ms,

@@ -85,7 +85,7 @@ void TrapEvent::processData(void) {
 
 void TrapEvent::printData(void) {
   DEBUG("Kill Number: %d", m_killNumber);
-	DEBUG("Response Length: %d", m_responseLength);
+	DEBUG("Response Length: %d s", m_responseLength);
 	DEBUG("Peak Value: %d", m_peakValue);
 	DEBUG("Response Size: %d", m_responseSize);
 	DEBUG("Clipping: %d", m_didClip);
@@ -97,8 +97,7 @@ void TrapEvent::checkForClipping(void) {
 }
 
 void TrapEvent::calculateLength(void) {
-  m_responseLength = Timer::getDiff(m_responseStartTime, m_responseEndTime);
-	//responseLength = rawData.size();
+  m_responseLength = Timer::getDiff(m_responseEndTime, m_responseStartTime) / Timer::getFrequency();
 }
 
 void TrapEvent::findPeakValue(void) {
@@ -112,8 +111,6 @@ void TrapEvent::findResponseSize(void) {
     {
       sum += m_rawData[i];
     }
-    DEBUG("Sum: %d", sum);
-    DEBUG("Data Count: %d", m_dataCount);
     m_responseSize = sum / m_dataCount;
   }
 

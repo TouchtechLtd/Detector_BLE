@@ -52,7 +52,7 @@ void lowLimitHandler(void) {
 }
 
 void highLimitHandler(void) {
-	detectorADC.setLimit(50, 0, lowLimitHandler);
+	detectorADC.setLimit(100, 0, lowLimitHandler);
 	stateMachine.transition(TRIGGERED_EVENT);
 }
 
@@ -68,7 +68,7 @@ void triggeredEventTransition() {
 	GPIO::setOutput(LED_1_PIN, LOW);
 
 	curEvent.start();
-	//detectorADC.attachSampleCallback(detectorADCSampleHandler);
+	detectorADC.attachSampleCallback(detectorADCSampleHandler);
 }
 
 void readEventTransition() {
@@ -77,7 +77,7 @@ void readEventTransition() {
 	GPIO::setOutput(LED_1_PIN, HIGH);
 
 	curEvent.end();
-	//detectorADC.detachSampleCallback();
+	detectorADC.detachSampleCallback();
 	shouldProcessData = true;
 }
 
@@ -125,27 +125,24 @@ int main(void)
 	Timer adcRecalibrationTimer;
 	adcSampleTimer.startTimer(100, adcHandler);
 
-	detectorADC.attachSampleCallback(detectorADCSampleHandler);
+	//detectorADC.attachSampleCallback(detectorADCSampleHandler);
 
-	uint32_t prevValue = 0;
-	uint32_t currentValue = 0;
-    while(true)
-    {
-      //currentValue = Timer::getTicks();
-      //DEBUG("%d", Timer::getDiff(currentValue, prevValue));
-      prevValue = currentValue;
-    	GPIO::toggle(LED_4_PIN);
+  while(true)
+  {
+    GPIO::toggle(LED_4_PIN);
 
-    	if (shouldProcessData) {
-    	  curEvent.setTimeStamp(CurrentTime::getCurrentTime());
-    		curEvent.processData();
-    		curEvent.printData();
-    		curEvent.clear();
-    		stateMachine.transition(PROCESSING_FINISHED_EVENT);
-    	}
-		nrf_delay_ms(500);
+    if (shouldProcessData) {
+      curEvent.setTimeStamp(CurrentTime::getCurrentTime());
+      curEvent.processData();
+      curEvent.printData();
+      //BLE_Manager::manager().updateCharacteristic(SERVICE_DETECTOR_DATA, CHAR_DETECTOR_NUMBER_OF_KILLS, curEvent.getNumberKills, 1);
 
+      curEvent.clear();
+      stateMachine.transition(PROCESSING_FINISHED_EVENT);
     }
+    nrf_delay_ms(500);
+
+  }
 
 }
 

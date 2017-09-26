@@ -125,3 +125,7 @@ void Timer::startCountdown(uint32_t ms,
 }
 
 
+uint32_t Timer::getFrequency() {
+  return APP_TIMER_CLOCK_FREQ;
+}
+
