@@ -82,6 +82,11 @@ Service* BLE::getService(uint8_t serviceID) {
   return &serviceList[serviceID];
 }
 
+bool BLE::isConnected()
+{
+  return m_isConnected;
+}
+
 
 /**@brief Function for handling the Application's BLE stack events.
  *

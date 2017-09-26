@@ -6,6 +6,18 @@
  *      Author: michaelmcadam
  */
 
+#include <stdint.h>
+#include <string.h>
+#include "nrf_gpio.h"
+#include "ble_srv_common.h"
+#include "app_error.h"
+
+#include "ble/ble_manager.h"
+#include "ble/ble_interface.h"
+#include "ble/ble_service.h"
+#include "ble/ble_characteristic.h"
+
+#include "debug/DEBUG.h"
 
 #define BLE_UUID_OUR_CHARACTERISTC_UUID          0xBEEF // Just a random, but recognizable value
 #define BLE_UUID_GOODNATURE_BASE              {{0x23, 0xD1, 0x13, 0xEF, 0x5F, 0x78, 0x23, 0x15, 0xDE, 0xEF, 0x12, 0x12, 0x00, 0x00, 0x00, 0x00}} // 128-bit base UUID
@@ -20,22 +32,13 @@
 #define BLE_UUID_SIG_SERVICE_BATTERY_LEVEL                 0x180F
 #define BLE_UUID_SIG_SERVICE_CURRENT_TIME                  0x1805
 
-
-#define BLE_UUID_CHAR_DETECTOR_NUMBER_OF_KILLS            0xFEE1
-
-
-#include <stdint.h>
-#include <string.h>
-#include "nrf_gpio.h"
-#include "ble_srv_common.h"
-#include "app_error.h"
-
-#include "ble/ble_manager.h"
-#include "ble/ble_interface.h"
-#include "ble/ble_service.h"
-#include "ble/ble_characteristic.h"
-
-#include "debug/DEBUG.h"
+enum BLE_UUID_DetectorData {
+  BLE_UUID_CHAR_DETECTOR_NUMBER_OF_KILLS = 0xFEE1,
+  BLE_UUID_CHAR_DETECTOR_DID_CLIP,
+  BLE_UUID_CHAR_DETECTOR_PEAK_VALUE,
+  BLE_UUID_CHAR_DETECTOR_RESPONSE_SIZE,
+  BLE_UUID_CHAR_DETECTOR_RESPONSE_LENGTH
+};
 
 
 
@@ -46,17 +49,62 @@ void BLE_Manager::createDetectorDataService() {
   Service detectorData;
   detectorData.createCustom(BLE_UUID_SERVICE_DETECTOR_DATA, BLE_UUID_GOODNATURE_BASE);
 
-  Characteristic trapTriggered;
-  trapTriggered.setUUID(BLE_UUID_CHAR_DETECTOR_NUMBER_OF_KILLS);
-  trapTriggered.enableRead();
-  trapTriggered.enableWrite();
-  trapTriggered.enableNotification();
-
   uint8_t initValue = { 0x00 };
-  trapTriggered.initValue(&initValue, 1);
-  trapTriggered.setMaxLength(50);
 
-  detectorData.addCharacteristic(&trapTriggered, CHAR_DETECTOR_NUMBER_OF_KILLS);
+  //// Kill number characteristic ////
+  Characteristic killNumber;
+  killNumber.setUUID(BLE_UUID_CHAR_DETECTOR_NUMBER_OF_KILLS);
+  killNumber.enableRead();
+  killNumber.enableNotification();
+
+  killNumber.initValue(&initValue, 1);
+  killNumber.setMaxLength(1);
+
+  detectorData.addCharacteristic(&killNumber, CHAR_DETECTOR_NUMBER_OF_KILLS);
+
+  //// Did clip characteristic ////
+  Characteristic didClip;
+  didClip.setUUID(BLE_UUID_CHAR_DETECTOR_DID_CLIP);
+  didClip.enableRead();
+  didClip.enableNotification();
+  didClip.initValue(&initValue, 1);
+  didClip.setMaxLength(1);
+
+  detectorData.addCharacteristic(&didClip, CHAR_DETECTOR_DID_CLIP);
+
+
+  //// Peak Value characteristic ////
+  Characteristic peakValue;
+  peakValue.setUUID(BLE_UUID_CHAR_DETECTOR_PEAK_VALUE);
+  peakValue.enableRead();
+  peakValue.enableNotification();
+  peakValue.initValue(&initValue, 1);
+  peakValue.setMaxLength(2);
+
+  detectorData.addCharacteristic(&peakValue, CHAR_DETECTOR_PEAK_VALUE);
+
+
+  //// Response size characteristic ////
+  Characteristic responseSize;
+  responseSize.setUUID(BLE_UUID_CHAR_DETECTOR_RESPONSE_SIZE);
+  responseSize.enableRead();
+  responseSize.enableNotification();
+  responseSize.initValue(&initValue, 1);
+  responseSize.setMaxLength(2);
+
+  detectorData.addCharacteristic(&responseSize, CHAR_DETECTOR_RESPONSE_SIZE);
+
+
+  //// Response length characteristic ////
+  Characteristic responseLength;
+  responseLength.setUUID(BLE_UUID_CHAR_DETECTOR_RESPONSE_LENGTH);
+  responseLength.enableRead();
+  responseLength.enableNotification();
+  responseLength.initValue(&initValue, 1);
+  responseLength.setMaxLength(4);
+
+  detectorData.addCharacteristic(&responseLength, CHAR_DETECTOR_RESPONSE_LENGTH);
+
 
   detectorData.attachService();
   BLE::addService(&detectorData, SERVICE_DETECTOR_DATA);
@@ -80,9 +128,16 @@ void BLE_Manager::updateCharacteristic(uint8_t serviceID, uint8_t charID, uint8_
   BLE::getService(serviceID)->getCharacteristic(charID)->update(p_data, length);
 }
 
-void BLE_Manager::notifyCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t* length)
+void BLE_Manager::notifyCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t length)
 {
-  BLE::getService(serviceID)->getCharacteristic(charID)->notify(p_data, length);
+  uint16_t localLength = length;
+  BLE::getService(serviceID)->getCharacteristic(charID)->notify(p_data, &localLength);
+}
+
+void BLE_Manager::setCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t length)
+{
+  if (BLE::isConnected()) { notifyCharacteristic(serviceID, charID, p_data, length); }
+  else                    { updateCharacteristic(serviceID, charID, p_data, length); }
 }
 
 
@@ -105,6 +160,7 @@ void BLE_Manager::createBLEService() {
 
   BLE::adv.start(APP_ADV_DEFAULT_INTERVAL);
   BLE::adv.advertiseName();
+  BLE::adv.advertiseUUID(BLE::getService(SERVICE_DETECTOR_DATA)->getUUID());
 }
 
 

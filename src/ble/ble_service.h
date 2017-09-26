@@ -57,6 +57,7 @@ class Service {
 		uint8_t getCharCount() { return _charCount; }
 		uint8_t isInit() { return m_isUUIDSet; }
 		bool isRunning() { return m_isRunning; }
+		ble_uuid_t getUUID() { return _service.uuid; }
 
     Characteristic	_charList[MAX_NUMBER_CHAR];
 

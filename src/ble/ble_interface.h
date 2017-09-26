@@ -44,7 +44,7 @@ class BLE {
 		static void ble_evt_dispatch(ble_evt_t * p_ble_evt);
 		static Advertising adv;
 
-		static bool isConnected() { return m_isConnected; }
+		static bool isConnected();
 
 
 	}; // End BLE

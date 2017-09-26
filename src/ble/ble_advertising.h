@@ -35,6 +35,7 @@ class Advertising {
 	    void setName(const char* deviceName);
 	    void updateName(const char * deviceName);
 	    void advertiseName();
+	    void advertiseUUID(ble_uuid_t uuid);
 	    void advertiseData(uint8_t * p_data, uint8_t i_len);
 
 };	// SERVICE

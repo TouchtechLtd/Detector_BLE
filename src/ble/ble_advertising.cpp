@@ -99,6 +99,15 @@ void Advertising::advertiseName(void)
     updateAdvertisingData();
 }
 
+
+void Advertising::advertiseUUID(ble_uuid_t uuid)
+{
+  ble_uuid_t adv_uuids[] = { uuid };
+  _advdata.uuids_complete.uuid_cnt = 1;
+  _advdata.uuids_complete.p_uuids = adv_uuids;
+  updateAdvertisingData();
+}
+
 void Advertising::advertiseData(uint8_t * p_data, uint8_t i_len)
 {
     memset(&manuf_data, 0, sizeof(manuf_data));

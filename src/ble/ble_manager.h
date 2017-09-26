@@ -24,7 +24,11 @@ enum Services {
 
 
 enum Characteristic_DetectorData {
-  CHAR_DETECTOR_NUMBER_OF_KILLS
+  CHAR_DETECTOR_NUMBER_OF_KILLS,
+  CHAR_DETECTOR_DID_CLIP,
+  CHAR_DETECTOR_PEAK_VALUE,
+  CHAR_DETECTOR_RESPONSE_SIZE,
+  CHAR_DETECTOR_RESPONSE_LENGTH
 };
 
 enum Characteristic_DeviceInfo {
@@ -54,7 +58,8 @@ class BLE_Manager {
     void createBLEService();
 
     void updateCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t length);
-    void notifyCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t* length);
+    void notifyCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t length);
+    void setCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t length);
 
     void checkService();
     void checkChar();

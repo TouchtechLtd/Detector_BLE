@@ -97,11 +97,46 @@ void createTransitionTable(void) {
 
 
 
-union TwoBytes
+uint8_t* bit16Converter(uint16_t inputInt)
 {
-  uint16_t u16;
-  uint8_t u8[2];
+  static uint8_t result[2];
+  result[0] = (inputInt & 0xff00) >> 8;
+  result[1] = (inputInt & 0x00ff);
+  return result;
 };
+
+uint8_t* bit32Converter(uint16_t inputInt)
+{
+  static uint8_t result[4];
+  result[0] = (inputInt & 0xff000000) >> 24;
+  result[1] = (inputInt & 0x00ff0000) >> 16;
+  result[2] = (inputInt & 0x0000ff00) >> 8;
+  result[3] = (inputInt & 0x000000ff);
+  return result;
+};
+
+
+
+void updateEventBLE(TrapEvent event)
+{
+  uint8_t killNumber = curEvent.getKillNumber();
+  BLE_Manager::manager().setCharacteristic(SERVICE_DETECTOR_DATA, CHAR_DETECTOR_NUMBER_OF_KILLS, &killNumber, sizeof(killNumber));
+
+  uint8_t didClip = curEvent.getDidClip();
+  BLE_Manager::manager().setCharacteristic(SERVICE_DETECTOR_DATA, CHAR_DETECTOR_DID_CLIP, &didClip, sizeof(didClip));
+
+  uint16_t peakValue = curEvent.getPeakValue();
+  BLE_Manager::manager().setCharacteristic(SERVICE_DETECTOR_DATA, CHAR_DETECTOR_PEAK_VALUE, bit16Converter(peakValue), sizeof(peakValue));
+
+  uint16_t responseSize = curEvent.getResponseSize();
+  BLE_Manager::manager().setCharacteristic(SERVICE_DETECTOR_DATA, CHAR_DETECTOR_RESPONSE_SIZE, bit16Converter(responseSize), sizeof(responseSize));
+
+  uint32_t responseLength = curEvent.getResponseLength();
+  BLE_Manager::manager().setCharacteristic(SERVICE_DETECTOR_DATA, CHAR_DETECTOR_RESPONSE_LENGTH, bit32Converter(responseLength), sizeof(responseLength));
+
+}
+
+
 
 int main(void)
 {
@@ -133,8 +168,8 @@ int main(void)
 	//detectorADC.attachSampleCallback(detectorADCSampleHandler);
 
 	uint16_t x = 1567;
-	uint8_t* array = reinterpret_cast<uint8_t*>(&x);
-	DEBUG("%d", sizeof(x));
+	uint8_t* array = bit16Converter(x);
+	DEBUG("%d", array[1]);
 
   while(true)
   {
@@ -144,9 +179,7 @@ int main(void)
       curEvent.setTimeStamp(CurrentTime::getCurrentTime());
       curEvent.processData();
       curEvent.printData();
-      uint16_t killNumber = curEvent.getPeakValue();
-      BLE_Manager::manager().updateCharacteristic(SERVICE_DETECTOR_DATA, CHAR_DETECTOR_NUMBER_OF_KILLS, reinterpret_cast<uint8_t*>(&killNumber), sizeof(killNumber));
-
+      updateEventBLE(curEvent);
       curEvent.clear();
       stateMachine.transition(PROCESSING_FINISHED_EVENT);
     }
