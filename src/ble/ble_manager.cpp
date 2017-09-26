@@ -109,6 +109,7 @@ void BLE_Manager::createBLEService() {
 
 
 
+
 BLE_Manager & BLE_Manager::manager(){
   static BLE_Manager manager;
   return manager;

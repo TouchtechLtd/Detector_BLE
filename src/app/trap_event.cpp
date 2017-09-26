@@ -91,6 +91,25 @@ void TrapEvent::printData(void) {
 	DEBUG("Clipping: %d", m_didClip);
 }
 
+uint8_t TrapEvent::getKillNumber() {
+  return m_killNumber;
+}
+
+uint32_t TrapEvent::getResponseLength() {
+  return m_responseLength;
+}
+
+uint16_t TrapEvent::getPeakValue() {
+  return m_peakValue;
+}
+
+uint16_t TrapEvent::getResponseSize() {
+  return (uint16_t)m_responseSize;
+}
+
+uint8_t TrapEvent::getDidClip() {
+    return m_didClip;
+}
 
 void TrapEvent::checkForClipping(void) {
   m_didClip = (m_peakValue == MAX_ADC_VALUE);

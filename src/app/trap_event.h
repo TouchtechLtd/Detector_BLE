@@ -53,6 +53,12 @@ class TrapEvent {
 		void setTimeStamp(uint32_t currentTime);
 		void printData();
 
+		uint8_t getKillNumber();
+		uint32_t getResponseLength();
+		uint16_t getPeakValue();
+		uint16_t getResponseSize();
+		uint8_t getDidClip();
+
 	}; // End TrapEvent
 
 #endif /* CPP_TRAP_EVENT_H */

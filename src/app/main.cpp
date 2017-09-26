@@ -97,6 +97,11 @@ void createTransitionTable(void) {
 
 
 
+union TwoBytes
+{
+  uint16_t u16;
+  uint8_t u8[2];
+};
 
 int main(void)
 {
@@ -127,6 +132,10 @@ int main(void)
 
 	//detectorADC.attachSampleCallback(detectorADCSampleHandler);
 
+	uint16_t x = 1567;
+	uint8_t* array = reinterpret_cast<uint8_t*>(&x);
+	DEBUG("%d", sizeof(x));
+
   while(true)
   {
     GPIO::toggle(LED_4_PIN);
@@ -135,7 +144,8 @@ int main(void)
       curEvent.setTimeStamp(CurrentTime::getCurrentTime());
       curEvent.processData();
       curEvent.printData();
-      //BLE_Manager::manager().updateCharacteristic(SERVICE_DETECTOR_DATA, CHAR_DETECTOR_NUMBER_OF_KILLS, curEvent.getNumberKills, 1);
+      uint16_t killNumber = curEvent.getPeakValue();
+      BLE_Manager::manager().updateCharacteristic(SERVICE_DETECTOR_DATA, CHAR_DETECTOR_NUMBER_OF_KILLS, reinterpret_cast<uint8_t*>(&killNumber), sizeof(killNumber));
 
       curEvent.clear();
       stateMachine.transition(PROCESSING_FINISHED_EVENT);
