@@ -51,29 +51,31 @@ void lowLimitHandler(void) {
 	stateMachine.transition(READ_FINISHED_EVENT);
 }
 
+void detectorADCSampleHandler (int sampleValue) {
+  INFO("%d", sampleValue);
+  curEvent.addData(sampleValue);
+}
+
 void highLimitHandler(void) {
-	detectorADC.setLimit(100, 0, lowLimitHandler);
+  INFO("~");
+  curEvent.start();
+  detectorADC.attachSampleCallback(detectorADCSampleHandler);
+	detectorADC.setLimit(50, 0, lowLimitHandler);
 	stateMachine.transition(TRIGGERED_EVENT);
 }
 
-void detectorADCSampleHandler (int sampleValue) {
-  INFO("%d", sampleValue);
-	curEvent.addData(sampleValue);
-}
 
 
 void triggeredEventTransition() {
-	DEBUG("Trap got triggered");
+  //INFO("Trap got triggered");
 
 	GPIO::setOutput(LED_1_PIN, LOW);
 
-	curEvent.start();
-	detectorADC.attachSampleCallback(detectorADCSampleHandler);
 }
 
 void readEventTransition() {
-	DEBUG("Reading finished");
-
+  INFO("!");
+  //INFO("Reading finished");
 	GPIO::setOutput(LED_1_PIN, HIGH);
 
 	curEvent.end();
@@ -82,8 +84,8 @@ void readEventTransition() {
 }
 
 void processEventTransition() {
-	DEBUG("Processing finished");
-	detectorADC.setLimit(0, 100, highLimitHandler);
+  //INFO("Processing finished");
+	detectorADC.setLimit(0, 50, highLimitHandler);
 	shouldProcessData = false;
 }
 
@@ -100,18 +102,18 @@ void createTransitionTable(void) {
 uint8_t* bit16Converter(uint16_t inputInt)
 {
   static uint8_t result[2];
-  result[0] = (inputInt & 0xff00) >> 8;
-  result[1] = (inputInt & 0x00ff);
+  result[0] = (inputInt & 0x00ff);
+  result[1] = (inputInt & 0xff00) >> 8;
   return result;
 };
 
 uint8_t* bit32Converter(uint16_t inputInt)
 {
   static uint8_t result[4];
-  result[0] = (inputInt & 0xff000000) >> 24;
-  result[1] = (inputInt & 0x00ff0000) >> 16;
-  result[2] = (inputInt & 0x0000ff00) >> 8;
-  result[3] = (inputInt & 0x000000ff);
+  result[0] = (inputInt & 0x000000ff);
+  result[1] = (inputInt & 0x0000ff00) >> 8;
+  result[2] = (inputInt & 0x00ff0000) >> 16;
+  result[3] = (inputInt & 0xff000000) >> 24;
   return result;
 };
 
@@ -154,7 +156,7 @@ int main(void)
 	GPIO::setOutput(LED_4_PIN, HIGH);
 
 	detectorADC.attachADC(ADC_5);
-	detectorADC.setLimit(0, 100, highLimitHandler);
+	detectorADC.setLimit(0, 50, highLimitHandler);
 	ADC::start();
 
 	BLE_Manager::manager().checkService();

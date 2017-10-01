@@ -38,8 +38,8 @@ TrapEvent::TrapEvent() {
 void TrapEvent::addData(int dataPoint) {
 	if (m_dataCount < AVERAGE_SIZE)
 	{
-	  m_rawData[m_dataCount] = dataPoint;
 	  m_dataCount++;
+	  m_rawData[m_dataCount] = dataPoint;
 	}
 	findPeak(dataPoint);
 }
@@ -84,11 +84,12 @@ void TrapEvent::processData(void) {
 }
 
 void TrapEvent::printData(void) {
-  DEBUG("Kill Number: %d", m_killNumber);
-	DEBUG("Response Length: %d s", m_responseLength);
-	DEBUG("Peak Value: %d", m_peakValue);
-	DEBUG("Response Size: %d", m_responseSize);
-	DEBUG("Clipping: %d", m_didClip);
+  INFO("Kill Number: %d", m_killNumber);
+  INFO("Response Length: %d s", m_responseLength);
+  INFO("Peak Value: %d", m_peakValue);
+  INFO("Response Size: %d", m_responseSize);
+  INFO("Clipping: %d", m_didClip);
+  INFO("");
 }
 
 uint8_t TrapEvent::getKillNumber() {
@@ -116,7 +117,7 @@ void TrapEvent::checkForClipping(void) {
 }
 
 void TrapEvent::calculateLength(void) {
-  m_responseLength = Timer::getDiff(m_responseEndTime, m_responseStartTime) / Timer::getFrequency();
+  m_responseLength = Timer::getDiff(m_responseEndTime, m_responseStartTime) / (Timer::getFrequency() / 1000);
 }
 
 void TrapEvent::findPeakValue(void) {
