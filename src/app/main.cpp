@@ -53,13 +53,13 @@ void lowLimitHandler(void) {
 
 void detectorADCSampleHandler (int sampleValue) {
   INFO("%d", sampleValue);
-  curEvent.addData(sampleValue);
+  //curEvent.addData(sampleValue);
 }
 
 void highLimitHandler(void) {
   INFO("~");
   curEvent.start();
-  detectorADC.attachSampleCallback(detectorADCSampleHandler);
+  //detectorADC.attachSampleCallback(detectorADCSampleHandler);
 	detectorADC.setLimit(50, 0, lowLimitHandler);
 	stateMachine.transition(TRIGGERED_EVENT);
 }
@@ -79,7 +79,7 @@ void readEventTransition() {
 	GPIO::setOutput(LED_1_PIN, HIGH);
 
 	curEvent.end();
-	detectorADC.detachSampleCallback();
+	//detectorADC.detachSampleCallback();
 	shouldProcessData = true;
 }
 
@@ -150,22 +150,23 @@ int main(void)
   BLE_Manager::manager().createBLEService();
 
 
-	GPIO::setOutput(LED_1_PIN, HIGH);
+	GPIO::setOutput(LED_1_PIN, LOW);
 	GPIO::setOutput(LED_2_PIN, HIGH);
 	GPIO::setOutput(LED_3_PIN, HIGH);
 	GPIO::setOutput(LED_4_PIN, HIGH);
 
-	detectorADC.attachADC(ADC_5);
-	detectorADC.setLimit(0, 50, highLimitHandler);
-	ADC::start();
 
-	BLE_Manager::manager().checkService();
-	BLE_Manager::manager().checkChar();
+	//detectorADC.attachADC(ADC_5);
+	//detectorADC.setLimit(0, 50, highLimitHandler);
+	//ADC::start();
 
-	createTransitionTable();
-	Timer adcSampleTimer;
-	Timer adcRecalibrationTimer;
-	adcSampleTimer.startTimer(100, adcHandler);
+	//BLE_Manager::manager().checkService();
+	//BLE_Manager::manager().checkChar();
+
+	//createTransitionTable();
+	//Timer adcSampleTimer;
+	//Timer adcRecalibrationTimer;
+	//adcSampleTimer.startTimer(100, adcHandler);
 
 	//detectorADC.attachSampleCallback(detectorADCSampleHandler);
 
@@ -175,7 +176,8 @@ int main(void)
 
   while(true)
   {
-    GPIO::toggle(LED_4_PIN);
+    DEBUG("Hello");
+    GPIO::toggle(LED_1_PIN);
 
     if (shouldProcessData) {
       curEvent.setTimeStamp(CurrentTime::getCurrentTime());
