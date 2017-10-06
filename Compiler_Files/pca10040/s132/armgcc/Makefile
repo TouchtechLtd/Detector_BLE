@@ -35,6 +35,7 @@ SRC_FILES += \
   $(SDK_ROOT)/components/libraries/uart/app_uart_fifo.c \
   $(SDK_ROOT)/components/drivers_nrf/uart/nrf_drv_uart.c \
   $(SDK_ROOT)/components/drivers_nrf/timer/nrf_drv_timer.c \
+  $(SDK_ROOT)/components/drivers_nrf/spi_master/nrf_drv_spi.c \
   $(SDK_ROOT)/components/drivers_nrf/ppi/nrf_drv_ppi.c \
   $(SDK_ROOT)/components/libraries/bsp/bsp.c \
   $(SDK_ROOT)/components/libraries/bsp/bsp_btn_ble.c \
@@ -68,6 +69,8 @@ SRC_FILES += \
   $(PROJ_DIR)/peripheral/gpio_interface.cpp \
   $(PROJ_DIR)/peripheral/adc_interface.cpp \
   $(PROJ_DIR)/peripheral/timer_interface.cpp \
+  $(PROJ_DIR)/peripheral/LIS2DH12.cpp \
+  $(PROJ_DIR)/peripheral/spi.cpp \
   $(PROJ_DIR)/app/state_machine.cpp \
   $(PROJ_DIR)/ble/ble_manager.cpp \
   $(PROJ_DIR)/ble/ble_interface.cpp \

@@ -139,7 +139,7 @@ void updateEventBLE(TrapEvent event)
 }
 
 
-
+/*
 int main(void)
 {
 	DEBUG_INIT();
@@ -160,8 +160,8 @@ int main(void)
 	//detectorADC.setLimit(0, 50, highLimitHandler);
 	//ADC::start();
 
-	//BLE_Manager::manager().checkService();
-	//BLE_Manager::manager().checkChar();
+	BLE_Manager::manager().checkService();
+	BLE_Manager::manager().checkChar();
 
 	//createTransitionTable();
 	//Timer adcSampleTimer;
@@ -176,7 +176,6 @@ int main(void)
 
   while(true)
   {
-    DEBUG("Hello");
     GPIO::toggle(LED_1_PIN);
 
     if (shouldProcessData) {
@@ -192,7 +191,7 @@ int main(void)
   }
 
 }
-
+*/
 
 /**
  *@}
