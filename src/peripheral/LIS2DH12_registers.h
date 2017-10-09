@@ -9,43 +9,43 @@
 #define _LIS2DH12REG_H_
 
 //Registers
-#define LIS2DH_STATUS_REG_AUX 	0x07
-#define LIS2DH_OUT_TEMP_L 		0x0C
-#define LIS2DH_OUT_TEMP_H 		0x0D
-#define LIS2DH_WHO_AM_I 		0x0F
-#define LIS2DH_TEMP_CFG_REG 	0x1F /*rw */
-#define LIS2DH_CTRL_REG1 		0x20 /*rw */
-#define LIS2DH_CTRL_REG2 		0x21 /*rw */
-#define LIS2DH_CTRL_REG3 		0x22 /*rw */
-#define LIS2DH_CTRL_REG4 		0x23 /*rw */
-#define LIS2DH_CTRL_REG5 		0x24 /*rw */
-#define LIS2DH_CTRL_REG6 		0x25 /*rw */
-#define LIS2DH_REFERENCE 		0x26 /*rw */
-#define LIS2DH_STATUS_REG 		0x27
-#define LIS2DH_OUT_X_L 			0x28
-#define LIS2DH_OUT_X_H 			0x29
-#define LIS2DH_OUT_Y_L 			0x2A
-#define LIS2DH_OUT_Y_H 			0x2B
-#define LIS2DH_OUT_Z_L 			0x2C
-#define LIS2DH_OUT_Z_H 			0x2D
-#define LIS2DH_FIFO_CTRL_REG 	0x2E /*rw */
-#define LIS2DH_FIFO_SRC_REG 	0x2F
-#define LIS2DH_INT1_CFG 		0x30 /*rw */
-#define LIS2DH_INT1_SOURCE 		0x31
-#define LIS2DH_INT1_THS 		0x32 /*rw */
-#define LIS2DH_INT1_DURATION 	0x33 /*rw */
-#define LIS2DH_INT_CFG 			0x34 /*rw */
-#define LIS2DH_INT2_SOURCE 		0x35
-#define LIS2DH_INT2_THS 		0x36 /*rw */
-#define LIS2DH_INT2_DURATION 	0x37 /*rw */
-#define LIS2DH_CLICK_CFG 		0x38 /*rw */
-#define LIS2DH_CLICK_SRC 		0x39
-#define LIS2DH_CLICK_THS 		0x3A /*rw */
-#define LIS2DH_TIME_LIMIT 		0x3B /*rw */
-#define LIS2DH_TIME_LATENCY 	0x3C /*rw */
-#define LIS2DH_TIME_WINDOW 		0x3D /*rw */
-#define LIS2DH_ACT_THS 			0x3E /*rw */
-#define LIS2DH_ACT_DUR 			0x3F /*rw */
+#define LIS2DH_STATUS_REG_AUX 	    0x07
+#define LIS2DH_OUT_TEMP_L 		      0x0C
+#define LIS2DH_OUT_TEMP_H 		      0x0D
+#define LIS2DH_WHO_AM_I 		        0x0F
+#define LIS2DH_TEMP_CFG_REG         0x1F /*rw */
+#define LIS2DH_CTRL_REG1 		        0x20 /*rw */
+#define LIS2DH_CTRL_REG2 		        0x21 /*rw */
+#define LIS2DH_CTRL_REG3 		        0x22 /*rw */
+#define LIS2DH_CTRL_REG4 		        0x23 /*rw */
+#define LIS2DH_CTRL_REG5 		        0x24 /*rw */
+#define LIS2DH_CTRL_REG6 		        0x25 /*rw */
+#define LIS2DH_REFERENCE 		        0x26 /*rw */
+#define LIS2DH_STATUS_REG 		      0x27
+#define LIS2DH_OUT_X_L 			        0x28
+#define LIS2DH_OUT_X_H 			        0x29
+#define LIS2DH_OUT_Y_L 			        0x2A
+#define LIS2DH_OUT_Y_H 			        0x2B
+#define LIS2DH_OUT_Z_L 			        0x2C
+#define LIS2DH_OUT_Z_H 			        0x2D
+#define LIS2DH_FIFO_CTRL_REG 	      0x2E /*rw */
+#define LIS2DH_FIFO_SRC_REG 	      0x2F
+#define LIS2DH_INT1_CFG 		        0x30 /*rw */
+#define LIS2DH_INT1_SOURCE 		      0x31
+#define LIS2DH_INT1_THS 		        0x32 /*rw */
+#define LIS2DH_INT1_DURATION      	0x33 /*rw */
+#define LIS2DH_INT_CFG 			        0x34 /*rw */
+#define LIS2DH_INT2_SOURCE 		      0x35
+#define LIS2DH_INT2_THS 		        0x36 /*rw */
+#define LIS2DH_INT2_DURATION 	      0x37 /*rw */
+#define LIS2DH_CLICK_CFG 		        0x38 /*rw */
+#define LIS2DH_CLICK_SRC 		        0x39
+#define LIS2DH_CLICK_THS 		        0x3A /*rw */
+#define LIS2DH_TIME_LIMIT 		      0x3B /*rw */
+#define LIS2DH_TIME_LATENCY 	      0x3C /*rw */
+#define LIS2DH_TIME_WINDOW 		      0x3D /*rw */
+#define LIS2DH_ACT_THS 			        0x3E /*rw */
+#define LIS2DH_ACT_DUR 			        0x3F /*rw */
 
 //Register Masks
 
@@ -88,6 +88,8 @@
 // CTRL_REG3 masks
 #define LIS2DH_I1_CLICK 		0x80
 #define LIS2DH_I1_AOI 			0x60
+#define LIS2DH_I1_IA1       0x40
+#define LIS2DH_I1_IA2       0x20
 #define LIS2DH_I1_DRDY 			0x18
 #define LIS2DH_I1_DRDY1         0x08
 #define LIS2DH_I1_DRDY2         0x10
@@ -111,12 +113,15 @@
 #define LIS2DH_D4D_INT2_MASK	0x01
 
 // CTRL_REG6 masks
-#define LIS2DH_I2C_CCK_EN_MASK	0x80
-#define LIS2DH_I2C_INT1_MASK 	0x40
-#define LIS2DH_I2C_INT2_MASK 	0x20
-#define LIS2DH_BOOT_I2_MASK 	0x10
-#define LIS2DH_P2_ACT_MASK 		0x08
-#define LIS2DH_H_LACTIVE_MASK 	0x02
+#define LIS2DH_I2_CLICK     0x80
+#define LIS2DH_I2_AOI       0x60
+#define LIS2DH_I2_IA1       0x40
+#define LIS2DH_I2_IA2       0x20
+#define LIS2DH_I2_BOOT      0x10
+#define LIS2DH_I2_DRDY1         0x08
+#define LIS2DH_I2_DRDY2         0x10
+#define LIS2DH_I2_WTM       0x04
+#define LIS2DH_I2_OVERRUN     0x02
 
 // REF masks
 // none
@@ -151,6 +156,7 @@
 #define LIS2DH_YLIE_MASK 		0x04
 #define LIS2DH_XHIE_MASK 		0x02
 #define LIS2DH_XLIE_MASK 		0x01
+#define LIS2DH_XYZ_HIE_MASK    0x2A
 
 // INT1/2_SRC masks
 #define LIS2DH_INT_IA_MASK 		0x40
