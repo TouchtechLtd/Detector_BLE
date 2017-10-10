@@ -20,6 +20,7 @@ extern "C"
 #include <stdint.h>
 #include "app_error.h"
 
+#include "LIS2DH12_registers.h"
 #include "nrf_drv_gpiote.h"
 #include "app_scheduler.h"
 #include "nordic_common.h"
@@ -44,11 +45,24 @@ typedef enum
 /** Available Power Modes for the LIS2DH12 */
 typedef enum{
 	LIS2DH12_POWER_NORMAL = 0,	/**< Normal Power Mode, 10-bit resoulution, 100Hz, 20uA */
-	LIS2DH12_POWER_LOW,			/**< Low Power Mode, 10-bit resolution, 1Hz, 2uA */
-	LIS2DH12_POWER_FAST,		/**< Low Power Mode, 8-bit resolution, 1620Hz, 100uA */
-	LIS2DH12_POWER_HIGHRES,		/**< High Power Mode, 12-bit resolution, 1344Hz, 185uA  */
-	LIS2DH12_POWER_DOWN			/**< Stop Operation */
+	LIS2DH12_POWER_LOW,			    /**< Low Power Mode, 10-bit resolution, 1Hz, 2uA */
+	LIS2DH12_POWER_HIGHRES,		  /**< High Power Mode, 12-bit resolution, 1344Hz, 185uA  */
+	LIS2DH12_POWER_DOWN			    /**< Stop Operation */
 } LIS2DH12_PowerMode;
+
+
+/** Available Sampling Frequencies for the LIS2DH12 */
+typedef enum{
+  LIS2DH12_SAMPLE_1HZ = LIS2DH_ODR_MASK_1HZ,      /**< 1Hz,   2uA,  2uA,  2uA */
+  LIS2DH12_SAMPLE_10HZ = LIS2DH_ODR_MASK_10HZ,    /**< 10Hz,  3uA,  4uA,  4uA */
+  LIS2DH12_SAMPLE_25HZ = LIS2DH_ODR_MASK_25HZ,    /**< 25Hz,  4uA,  6uA,  6uA */
+  LIS2DH12_SAMPLE_50HZ = LIS2DH_ODR_MASK_50HZ,    /**< 50Hz,  6uA,  11uA, 11uA */
+  LIS2DH12_SAMPLE_100HZ = LIS2DH_ODR_MASK_100HZ,  /**< 100Hz, 10uA, 20uA, 20uA */
+  LIS2DH12_SAMPLE_200HZ = LIS2DH_ODR_MASK_200HZ,  /**< 200Hz, 18uA, 38uA, 38uA */
+  LIS2DH12_SAMPLE_400HZ = LIS2DH_ODR_MASK_400HZ,  /**< 400Hz, 36uA, 73uA, 185uA */
+} LIS2DH12_SampleRate;
+
+
 
 /** Available Scales */
 typedef enum{
@@ -98,7 +112,7 @@ extern LIS2DH12_Ret LIS2DH12_init(LIS2DH12_PowerMode powerMode, LIS2DH12_Scale s
  * @retval LIS2DH12_RET_ERROR       Something went wrong
  *
  */
-extern LIS2DH12_Ret LIS2DH12_setPowerMode(LIS2DH12_PowerMode powerMode);
+extern void LIS2DH12_setPowerMode(LIS2DH12_PowerMode powerMode);
 
 /**
  * Return X acceleration

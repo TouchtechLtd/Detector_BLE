@@ -53,17 +53,6 @@ extern void spi_init(void);
  */
 extern bool spi_isInitialized(void);
 
-/**
- * Send and receive bytes for bme280 environmental sensor
- *
- * @param[in] p_toWrite Data to transfer
- * @param[out] p_toRead Receive buffer
- * @param[in] count Size of p_toRead and p_toWrite
- *
- * @return SPI_RET_OK SPI transfer was successful
- * @return SPI_RET_BUSY SPI is busy with other transfer, please try again
- */
-extern SPI_Ret spi_transfer_bme280(uint8_t* const p_toWrite, uint8_t count, uint8_t* const p_toRead);
 
 /**
  * Send and receive bytes for lis2dh12 Acceleration Sensor
@@ -75,7 +64,7 @@ extern SPI_Ret spi_transfer_bme280(uint8_t* const p_toWrite, uint8_t count, uint
  * @return SPI_RET_OK SPI transfer was successful
  * @return SPI_RET_BUSY SPI is busy with other transfer, please try again
  */
-extern SPI_Ret spi_transfer_lis2dh12(uint8_t* const p_toWrite, uint8_t count, uint8_t* const p_toRead);
+extern SPI_Ret spi_transfer(uint8_t* const p_toWrite, uint8_t count, uint8_t* const p_toRead);
 
 #ifdef __cplusplus
 }

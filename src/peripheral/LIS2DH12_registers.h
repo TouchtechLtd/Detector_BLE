@@ -49,6 +49,8 @@
 
 //Register Masks
 
+#define LIS2DH_CLEAR_REGISTER_MASK 0XFF
+
 //STATUS_AUX_REG masks
 #define LIS2DH_TOR_MASK 		0x40
 #define LIS2DH_TDA_MASK 		0x04
@@ -71,11 +73,13 @@
 #define LIS2DH_ODR_MASK_400HZ   0x70 /*HR / Normal / Low Power */
 #define LIS2DH_ODR_MASK_1620HZ  0x80 /* Low Power Mode only */
 #define LIS2DH_ODR_MASK_HIGH_RES 0x90 /* in HR+Normal: 1344Hz, in Low Power 5376Hz */
+#define LIS2DH_ODR_MASK_CLEAR   0xF0
 #define LIS2DH_LPEN_MASK 		0x08
 #define LIS2DH_Z_EN_MASK 		0x04
 #define LIS2DH_Y_EN_MASK 		0x02
 #define LIS2DH_X_EN_MASK		0x01
 #define LIS2DH_XYZ_EN_MASK		0x07
+#define LIS2DH_XYZ_CLEAR_MASK    0x07
 
 // CTRL_REG2 masks
 #define LIS2DH_HPM_MASK 		0xC0

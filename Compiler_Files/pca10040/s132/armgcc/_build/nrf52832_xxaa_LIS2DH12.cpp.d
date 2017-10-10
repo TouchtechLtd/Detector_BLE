@@ -51,6 +51,7 @@ _build/nrf52832_xxaa_LIS2DH12.cpp.o: \
  ../config/sdk_config.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/nordic_common.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/app_error_weak.h \
+ ../../../../src/peripheral/LIS2DH12_registers.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/drivers_nrf/gpiote/nrf_drv_gpiote.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/drivers_nrf/hal/nrf_gpiote.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/drivers_nrf/hal/nrf_peripherals.h \
@@ -71,7 +72,6 @@ _build/nrf52832_xxaa_LIS2DH12.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/app_util.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/device/compiler_abstraction.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/nordic_common.h \
- ../../../../src/peripheral/LIS2DH12_registers.h \
  ../../../../src/peripheral/spi.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/log/nrf_log.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/sdk_common.h \
@@ -97,11 +97,13 @@ _build/nrf52832_xxaa_LIS2DH12.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/boards/boards.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/boards/pca10040.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/button/app_button.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/drivers_nrf/delay/nrf_delay.h \
  ../../../../src/debug/DEBUG.h \
  ../../../../src/peripheral/uart_interface.h \
  ../../../../src/peripheral/timer_interface.h \
  ../../../../src/peripheral/gpio_interface.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/gpiote/app_gpiote.h
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/gpiote/app_gpiote.h \
+ ../../../../src/peripheral/ruuvitag_b3.h
 
 ../../../../src/peripheral/LIS2DH12.h:
 
@@ -205,6 +207,8 @@ _build/nrf52832_xxaa_LIS2DH12.cpp.o: \
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/app_error_weak.h:
 
+../../../../src/peripheral/LIS2DH12_registers.h:
+
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/drivers_nrf/gpiote/nrf_drv_gpiote.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/drivers_nrf/hal/nrf_gpiote.h:
@@ -244,8 +248,6 @@ _build/nrf52832_xxaa_LIS2DH12.cpp.o: \
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/device/compiler_abstraction.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/nordic_common.h:
-
-../../../../src/peripheral/LIS2DH12_registers.h:
 
 ../../../../src/peripheral/spi.h:
 
@@ -297,6 +299,8 @@ _build/nrf52832_xxaa_LIS2DH12.cpp.o: \
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/button/app_button.h:
 
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/drivers_nrf/delay/nrf_delay.h:
+
 ../../../../src/debug/DEBUG.h:
 
 ../../../../src/peripheral/uart_interface.h:
@@ -306,3 +310,5 @@ _build/nrf52832_xxaa_LIS2DH12.cpp.o: \
 ../../../../src/peripheral/gpio_interface.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/gpiote/app_gpiote.h:
+
+../../../../src/peripheral/ruuvitag_b3.h:
