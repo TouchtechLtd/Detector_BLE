@@ -78,7 +78,7 @@ void GPIO::initIntInput(unsigned long pin,
 						nrf_gpio_pin_pull_t pull,
 						bool is_watcher,
 						bool hi_accuracy,
-						nrf_drv_gpiote_evt_handler_t handler) {
+						gpio_event_handler_t handler) {
 
 
 	nrf_drv_gpiote_in_config_t in_config;

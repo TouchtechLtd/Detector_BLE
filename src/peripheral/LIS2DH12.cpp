@@ -27,7 +27,6 @@ For a detailed description see the detailed description in @ref LIS2DH12.h
 #include "debug/DEBUG.h"
 #include "peripheral/timer_interface.h"
 #include "peripheral/gpio_interface.h"
-#include "peripheral/ruuvitag_b3.h"
 
 #include <string.h>
 
@@ -49,6 +48,12 @@ For a detailed description see the detailed description in @ref LIS2DH12.h
 
 /** Bit Mask to enable auto address incrementation for multi read */
 #define SPI_ADR_INC 0x40U
+
+/** Max */
+#define MAX_INTERRUPT_DURATION 0x7FU
+
+/** Max */
+#define MAX_INTERRUPT_THRESHOLD 0x7FU
 
 /* MACROS *****************************************************************************************/
 
@@ -308,36 +313,85 @@ void int1Event(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 }
 
 
+static uint8_t findInterruptDuration(uint16_t intDuration_ms)
+{
+  float lsbValue = 1000 / g_sampleRateValue;
+  uint8_t outputValue = (uint8_t) (intDuration_ms / lsbValue);
 
-//extern void LIS2DH12_initThresholdInterrupt1(LIS2DH12_InterruptNumber intNum, uint8_t threshold, uint8_t duration)
-extern void LIS2DH12_initThresholdInterrupt1()
+  if (outputValue > MAX_INTERRUPT_DURATION) { outputValue = MAX_INTERRUPT_DURATION; }
+
+  return outputValue;
+}
+
+
+static uint8_t findInterruptThreshold(uint16_t intThreshold_mg)
+{
+  uint16_t scaleValue_mg = ((2 << g_scale));
+  uint16_t thresholdPercent = intThreshold_mg/scaleValue_mg;
+
+  if (thresholdPercent > 1000) { thresholdPercent = 1000; }
+
+  uint8_t outputValue = (uint8_t) (thresholdPercent * (MAX_INTERRUPT_THRESHOLD + 1) / 1000);
+
+  return outputValue;
+}
+
+
+extern void LIS2DH12_initThresholdInterrupt1(uint8_t threshold,
+                                             uint8_t duration,
+                                             LIS2DH12_InterruptPinNumber intPinNum,
+                                             LIS2DH12_InterruptThresholdMask intThreshMask,
+                                             bool hpEnabled,
+                                             bool latchEnabled,
+                                             gpio_event_handler_t handler)
 {
 
+  unsigned long interruptPin = 0;
+  uint8_t interruptRegister = 0;
 
-    GPIO::initIntInput(INT_ACC1_PIN,
-            NRF_GPIOTE_POLARITY_LOTOHI,
-            NRF_GPIO_PIN_NOPULL,
-            false,
-            false,
-            int1Event);
+  if (intPinNum == LIS2DH12_INTERRUPT_PIN_1)
+  {
+    interruptPin  = INT_ACC1_PIN;
+    interruptRegister   = LIS2DH_CTRL_REG3;
+  }
+  else if (intPinNum == LIS2DH12_INTERRUPT_PIN_2)
+  {
+    interruptPin  = INT_ACC2_PIN;
+    interruptRegister   = LIS2DH_CTRL_REG6;
+  }
 
 
-  // Enable HPF on INT1
-  LIS2DH12_enableHighPass();
-  setRegister(LIS2DH_CTRL_REG2, LIS2DH_HPIS1_MASK);
+  GPIO::initIntInput(interruptPin,
+          NRF_GPIOTE_POLARITY_LOTOHI,
+          NRF_GPIO_PIN_NOPULL,
+          false,
+          false,
+          handler);
 
-  // Enable/ Disable Latch on INT1
-  //adjustRegister(LIS2DH_CTRL_REG5, LIS2DH_LIR_INT1_MASK);
+
+  if (hpEnabled) {
+    // Enable HPF on INT1
+    setRegister(LIS2DH_CTRL_REG2, LIS2DH_HPIS1_MASK);
+  }
+
+  if (latchEnabled) {
+    // Enable/ Disable Latch on INT1
+    setRegister(LIS2DH_CTRL_REG5, LIS2DH_LIR_INT1_MASK);
+  }
+
+  // Set duration on INT1
+  uint8_t intDuration = findInterruptDuration(duration);
+  setRegister(LIS2DH_INT1_DURATION, intDuration);
 
   // Set threshold on INT1
-  setRegister(LIS2DH_INT1_THS, 0x10);
-  // Set duration on INT1
-  setRegister(LIS2DH_INT1_DURATION, 0x00);
+  uint8_t intThreshold = findInterruptThreshold(threshold);
+  setRegister(LIS2DH_INT1_THS, intThreshold);
+
   // Set cfg on INT1
-  setRegister(LIS2DH_INT1_CFG, LIS2DH_XYZ_HIE_MASK);
+  setRegister(LIS2DH_INT1_CFG, intThreshMask);
 
   //Enable Interrupt on INT1
-  setRegister(LIS2DH_CTRL_REG3, LIS2DH_I1_IA1);
+  setRegister(interruptRegister, LIS2DH_I1_IA1);
 
 
   GPIO::interruptEnable(INT_ACC1_PIN);
@@ -498,10 +552,10 @@ int main (void)
 
   nrf_delay_ms(20);
 
-  LIS2DH12_init(LIS2DH12_POWER_LOW, LIS2DH12_SCALE2G, LIS2DH12_SAMPLE_400HZ);
-  LIS2DH12_enableHighPass();
+  LIS2DH12_init(LIS2DH12_POWER_LOW, LIS2DH12_SCALE2G, LIS2DH12_SAMPLE_10HZ);
+  //LIS2DH12_enableHighPass();
 
-  LIS2DH12_initThresholdInterrupt1();
+  LIS2DH12_initThresholdInterrupt1(250, 0, LIS2DH12_INTERRUPT_PIN_1, LIS2DH12_INTERRUPT_THRESHOLD_XYZ, true, false, int1Event);
 
 
 

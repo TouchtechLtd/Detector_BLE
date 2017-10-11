@@ -74,8 +74,8 @@ _build/nrf52832_xxaa_gpio_interface.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/stdlib.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/stdlib.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/alloca.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/boards/pca10040.h \
- ../../../../src/debug/DEBUG.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/boards/custom_board.h \
+ ../../../../src/peripheral/ruuvitag_b3.h ../../../../src/debug/DEBUG.h \
  ../../../../src/peripheral/uart_interface.h \
  ../../../../src/peripheral/gpio_interface.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/gpiote/app_gpiote.h \
@@ -232,7 +232,9 @@ _build/nrf52832_xxaa_gpio_interface.cpp.o: \
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/alloca.h:
 
-/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/boards/pca10040.h:
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/boards/custom_board.h:
+
+../../../../src/peripheral/ruuvitag_b3.h:
 
 ../../../../src/debug/DEBUG.h:
 

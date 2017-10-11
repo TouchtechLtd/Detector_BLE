@@ -95,7 +95,8 @@ _build/nrf52832_xxaa_ble_interface.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/device/nrf52832_peripherals.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/nrf_assert.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/app_error.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/boards/pca10040.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/boards/custom_board.h \
+ ../../../../src/peripheral/ruuvitag_b3.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/nrf_ble_gatt/nrf_ble_gatt.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/sdk_errors.h \
  ../../../../src/ble/ble_interface.h ../../../../src/ble/ble_service.h \
@@ -296,7 +297,9 @@ _build/nrf52832_xxaa_ble_interface.cpp.o: \
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/app_error.h:
 
-/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/boards/pca10040.h:
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/boards/custom_board.h:
+
+../../../../src/peripheral/ruuvitag_b3.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/nrf_ble_gatt/nrf_ble_gatt.h:
 

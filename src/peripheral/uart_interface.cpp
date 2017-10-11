@@ -45,10 +45,10 @@ void UART::init(void)
 
     const app_uart_comm_params_t comm_params =
       {
-          4,
-          5,
-          RTS_PIN_NUMBER,
-          CTS_PIN_NUMBER,
+          RX_PIN_NUMBER,
+          TX_PIN_NUMBER,
+          0,
+          0,
           APP_UART_FLOW_CONTROL_DISABLED,
           false,
           UART_BAUDRATE_BAUDRATE_Baud115200

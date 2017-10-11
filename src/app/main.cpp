@@ -38,7 +38,7 @@ static bool shouldProcessData = false;
 
 void inPinHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
-	nrf_gpio_pin_toggle(LED_3_PIN);
+	nrf_gpio_pin_toggle(LED_2_PIN);
 }
 
 void adcHandler(void* p_context)
