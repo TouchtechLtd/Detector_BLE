@@ -154,7 +154,7 @@ void int1Event(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
   GPIO::toggle(LED_2_PIN);
 }
 
-
+/*
 
 int main(void)
 {
@@ -168,8 +168,6 @@ int main(void)
 
 	GPIO::setOutput(LED_1_PIN, LOW);
 	GPIO::setOutput(LED_2_PIN, HIGH);
-	//GPIO::setOutput(LED_3_PIN, HIGH);
-	//GPIO::setOutput(LED_4_PIN, HIGH);
 
   LIS2DH12_init(LIS2DH12_POWER_LOW, LIS2DH12_SCALE2G, LIS2DH12_SAMPLE_1HZ);
   LIS2DH12_enableHighPass();
@@ -178,19 +176,8 @@ int main(void)
   LIS2DH12_initDAInterrupt(int1Event);
 
 
-	//detectorADC.attachADC(ADC_5);
-	//detectorADC.setLimit(0, 50, highLimitHandler);
-	//ADC::start();
-
 	BLE_Manager::manager().checkService();
 	BLE_Manager::manager().checkChar();
-
-	//createTransitionTable();
-	//Timer adcSampleTimer;
-	//Timer adcRecalibrationTimer;
-	//adcSampleTimer.startTimer(100, adcHandler);
-
-	//detectorADC.attachSampleCallback(detectorADCSampleHandler);
 
   static int32_t accX, accY, accZ = 0;
 
@@ -219,7 +206,7 @@ int main(void)
   }
 
 }
-
+*/
 
 /**
  *@}
