@@ -28,6 +28,8 @@ For a detailed description see the detailed description in @ref spi.h
 #include "SEGGER_RTT.h"
 #include "debug/DEBUG.h"
 
+#include "peripheral/gpio_interface.h"
+
 /* CONSTANTS **************************************************************************************/
 #define SPI_INSTANCE  0 /**< SPI instance index. */
 
@@ -35,7 +37,7 @@ For a detailed description see the detailed description in @ref spi.h
 #define SPI_MISO_PIN 28
 #define SPI_MOSI_PIN 25
 #define SPI_SS_PIN 8
-#define SPI_IRQ_PRIORITY 7
+#define SPI_IRQ_PRIORITY 6
 
 
 /* MACROS *****************************************************************************************/
@@ -61,6 +63,7 @@ extern void spi_init(void)
   spi_config.miso_pin = SPI_MISO_PIN;
   spi_config.mosi_pin = SPI_MOSI_PIN;
   spi_config.sck_pin  = SPI_SCK_PIN;
+  spi_config.irq_priority = SPI_IRQ_PRIORITY;
 
   ERROR_CHECK(nrf_drv_spi_init(&spi, &spi_config, spi_event_handler, NULL));
 
@@ -87,10 +90,10 @@ extern SPI_Ret spi_transfer(uint8_t* const p_toWrite, uint8_t count, uint8_t* co
     while (!event_finished)
     {
         //Requires initialized softdevice - TODO
-        //uint32_t err_code = sd_app_evt_wait();
-        //ERROR_CHECK(err_code);
+        uint32_t err_code = sd_app_evt_wait();
+        ERROR_CHECK(err_code);
         //DEBUG("Here");
-        __WFE();
+        //__WFE();
     }
     return  SPI_RET_OK;
 }

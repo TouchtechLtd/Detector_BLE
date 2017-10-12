@@ -87,7 +87,12 @@ _build/nrf52832_xxaa_spi.cpp.o: ../../../../src/peripheral/spi.cpp \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/segger_rtt/SEGGER_RTT.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/segger_rtt/SEGGER_RTT_Conf.h \
  ../../../../src/debug/DEBUG.h \
- ../../../../src/peripheral/uart_interface.h
+ ../../../../src/peripheral/uart_interface.h \
+ ../../../../src/peripheral/gpio_interface.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/gpiote/app_gpiote.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/app_util.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/drivers_nrf/gpiote/nrf_drv_gpiote.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/drivers_nrf/hal/nrf_gpiote.h
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/lib/gcc/arm-none-eabi/6.3.1/include/stdbool.h:
 
@@ -266,3 +271,13 @@ _build/nrf52832_xxaa_spi.cpp.o: ../../../../src/peripheral/spi.cpp \
 ../../../../src/debug/DEBUG.h:
 
 ../../../../src/peripheral/uart_interface.h:
+
+../../../../src/peripheral/gpio_interface.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/gpiote/app_gpiote.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/app_util.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/drivers_nrf/gpiote/nrf_drv_gpiote.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/drivers_nrf/hal/nrf_gpiote.h:

@@ -70,6 +70,7 @@ SRC_FILES += \
   $(PROJ_DIR)/peripheral/adc_interface.cpp \
   $(PROJ_DIR)/peripheral/timer_interface.cpp \
   $(PROJ_DIR)/peripheral/LIS2DH12.cpp \
+  $(PROJ_DIR)/peripheral/LIS2DH12_registers.cpp \
   $(PROJ_DIR)/peripheral/spi.cpp \
   $(PROJ_DIR)/app/state_machine.cpp \
   $(PROJ_DIR)/ble/ble_manager.cpp \

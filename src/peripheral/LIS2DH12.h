@@ -18,29 +18,18 @@ extern "C"
 /* INCLUDES ***************************************************************************************/
 #include <stdbool.h>
 #include <stdint.h>
-#include "app_error.h"
 
 #include "LIS2DH12_registers.h"
-#include "nrf_drv_gpiote.h"
-#include "app_scheduler.h"
 #include "nordic_common.h"
-//#include "app_timer.h"
+
+#include "peripheral/gpio_interface.h"
 
 /* CONSTANTS **************************************************************************************/
 
 /* MACROS *****************************************************************************************/
 
 /* TYPES ******************************************************************************************/
-/** States of the module */
-typedef enum
-{
-    LIS2DH12_RET_OK = 0,   		    /**< Ok */
-    LIS2DH12_RET_NOT_SUPPORTED = 1,	/**< Feature not supported at the moment */
-    LIS2DH12_RET_INVALID = 2,		/**< Returned data may be not valid, because of Power Down Mode or Data not ready */
-    LIS2DH12_RET_NULL = 4,			/**< NULL Pointer detected */
-    LIS2DH12_RET_ERROR_SELFTEST = 8,/**< Selftest  failed */
-    LIS2DH12_RET_ERROR = 16    		/**< Not otherwise specified error */
-} LIS2DH12_Ret;
+
 
 /** Available Power Modes for the LIS2DH12 */
 typedef enum{
@@ -110,7 +99,7 @@ typedef void (*LIS2DH12_drdy_event_t)(void);
  * @retval LIS2DH12_RET_ERROR 		Something went wrong
  * @retval LIS2DH12_NOT_SUPPORTED 	Requested powerMode or scale not yet supported
  */
-extern LIS2DH12_Ret LIS2DH12_init(LIS2DH12_PowerMode powerMode, LIS2DH12_Scale scale, LIS2DH12_drdy_event_t drdyCB);
+extern LIS2DH12_Ret LIS2DH12_init(LIS2DH12_PowerMode powerMode, LIS2DH12_Scale scale, LIS2DH12_SampleRate sampleRate);
 
 
 /**
@@ -128,7 +117,24 @@ extern LIS2DH12_Ret LIS2DH12_init(LIS2DH12_PowerMode powerMode, LIS2DH12_Scale s
  * @retval LIS2DH12_RET_ERROR       Something went wrong
  *
  */
-extern void LIS2DH12_setPowerMode(LIS2DH12_PowerMode powerMode);
+extern LIS2DH12_Ret LIS2DH12_setPowerMode(LIS2DH12_PowerMode powerMode);
+extern LIS2DH12_Ret LIS2DH12_setSampleRate(LIS2DH12_SampleRate sampleRate);
+extern LIS2DH12_Ret LIS2DH12_setScale(LIS2DH12_Scale scale);
+
+extern LIS2DH12_Ret LIS2DH12_sample();
+
+extern LIS2DH12_Ret LIS2DH12_enableHighPass();
+extern LIS2DH12_Ret LIS2DH12_disableHighPass();
+extern LIS2DH12_Ret LIS2DH12_setHighPassReference();
+
+extern LIS2DH12_Ret LIS2DH12_enableX();
+extern LIS2DH12_Ret LIS2DH12_enableY();
+extern LIS2DH12_Ret LIS2DH12_enableZ();
+extern LIS2DH12_Ret LIS2DH12_enableXYZ();
+
+extern LIS2DH12_Ret LIS2DH12_disableX();
+extern LIS2DH12_Ret LIS2DH12_disableY();
+extern LIS2DH12_Ret LIS2DH12_disableZ();
 
 /**
  * Return X acceleration
@@ -176,6 +182,26 @@ extern LIS2DH12_Ret LIS2DH12_getZmG(int32_t* const accZ);
  */
 extern LIS2DH12_Ret LIS2DH12_getALLmG(int32_t* const accX, int32_t* const accY, int32_t* const accZ);
 
+
+
+extern void LIS2DH12_initThresholdInterrupt1(uint8_t threshold,
+                                             uint8_t duration,
+                                             LIS2DH12_InterruptPinNumber intPinNum,
+                                             LIS2DH12_InterruptThresholdMask intThreshMask,
+                                             bool hpEnabled,
+                                             bool latchEnabled,
+                                             gpio_event_handler_t handler);
+
+
+extern void LIS2DH12_initThresholdInterrupt2(uint8_t threshold,
+                                             uint8_t duration,
+                                             LIS2DH12_InterruptPinNumber intPinNum,
+                                             LIS2DH12_InterruptThresholdMask intThreshMask,
+                                             bool hpEnabled,
+                                             bool latchEnabled,
+                                             gpio_event_handler_t handler);
+
+extern void LIS2DH12_initDAInterrupt(gpio_event_handler_t handler);
 
 #ifdef __cplusplus
 }

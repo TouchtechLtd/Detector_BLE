@@ -8,6 +8,19 @@
 #ifndef _LIS2DH12REG_H_
 #define _LIS2DH12REG_H_
 
+#include <stdint.h>
+
+/** States of the module */
+typedef enum
+{
+    LIS2DH12_RET_OK = 0,          /**< Ok */
+    LIS2DH12_RET_NOT_SUPPORTED = 1, /**< Feature not supported at the moment */
+    LIS2DH12_RET_INVALID = 2,   /**< Returned data may be not valid, because of Power Down Mode or Data not ready */
+    LIS2DH12_RET_NULL = 4,      /**< NULL Pointer detected */
+    LIS2DH12_RET_ERROR_SELFTEST = 8,/**< Selftest  failed */
+    LIS2DH12_RET_ERROR = 16       /**< Not otherwise specified error */
+} LIS2DH12_Ret;
+
 //Registers
 #define LIS2DH_STATUS_REG_AUX 	    0x07
 #define LIS2DH_OUT_TEMP_L 		      0x0C
@@ -34,7 +47,7 @@
 #define LIS2DH_INT1_SOURCE 		      0x31
 #define LIS2DH_INT1_THS 		        0x32 /*rw */
 #define LIS2DH_INT1_DURATION      	0x33 /*rw */
-#define LIS2DH_INT_CFG 			        0x34 /*rw */
+#define LIS2DH_INT2_CFG 			        0x34 /*rw */
 #define LIS2DH_INT2_SOURCE 		      0x35
 #define LIS2DH_INT2_THS 		        0x36 /*rw */
 #define LIS2DH_INT2_DURATION 	      0x37 /*rw */
@@ -212,5 +225,30 @@
 // ACT_DUR masks
 // None
 
+
+
+/* PROTOTYPES *************************************************************************************/
+
+
+/**
+ * Read registers
+ *
+ * Read one or more registers from the sensor
+ *
+ * @param[in] address Start address to read from
+ * @param[out] p_toRead Pointer to result buffer
+ * @param[in] cound Number of bytes to read
+ *
+ * @return LIS2DH12_RET_OK No Error
+ * @return LIS2DH12_RET_NULL Result buffer is NULL Pointer
+ * @return LIS2DH12_RET_ERROR Read attempt was not successful
+ */
+extern LIS2DH12_Ret readRegister(uint8_t address, uint8_t* const p_toRead, uint8_t count);
+
+extern LIS2DH12_Ret setRegister(uint8_t address, uint8_t dataToWrite);
+
+extern LIS2DH12_Ret clearRegister(uint8_t address, uint8_t dataToClear);
+
+extern LIS2DH12_Ret LIS2DH12_clearRegisters();
 
 #endif /* _LIS2DH12REG_H_ */

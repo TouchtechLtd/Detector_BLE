@@ -25,7 +25,7 @@
 #include "peripheral/gpio_interface.h"
 #include "app/current_time.h"
 #include "app/trap_event.h"
-
+#include "peripheral/LIS2DH12.h"
 
 
 
@@ -139,7 +139,23 @@ void updateEventBLE(TrapEvent event)
 }
 
 
-/*
+volatile bool da = false;
+void int1Event(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
+{
+  /*
+  readRegister(LIS2DH_OUT_X_L, g_sensorData.raw, SENSOR_DATA_SIZE);
+  static int32_t accX, accY, accZ = 0;
+  LIS2DH12_getALLmG(&accX, &accY, &accZ);
+  DEBUG("X: %d, Y: %d, Z: %d", accX, accY, accZ);
+  */
+  da = true;
+  //DEBUG("Pin: %d", pin);
+
+  GPIO::toggle(LED_2_PIN);
+}
+
+
+
 int main(void)
 {
 	DEBUG_INIT();
@@ -152,8 +168,14 @@ int main(void)
 
 	GPIO::setOutput(LED_1_PIN, LOW);
 	GPIO::setOutput(LED_2_PIN, HIGH);
-	GPIO::setOutput(LED_3_PIN, HIGH);
-	GPIO::setOutput(LED_4_PIN, HIGH);
+	//GPIO::setOutput(LED_3_PIN, HIGH);
+	//GPIO::setOutput(LED_4_PIN, HIGH);
+
+  LIS2DH12_init(LIS2DH12_POWER_LOW, LIS2DH12_SCALE2G, LIS2DH12_SAMPLE_1HZ);
+  LIS2DH12_enableHighPass();
+
+  //LIS2DH12_initThresholdInterrupt1(250, 0, LIS2DH12_INTERRUPT_PIN_2, LIS2DH12_INTERRUPT_THRESHOLD_XYZ, true, false, intThreshEvent);
+  LIS2DH12_initDAInterrupt(int1Event);
 
 
 	//detectorADC.attachADC(ADC_5);
@@ -170,13 +192,17 @@ int main(void)
 
 	//detectorADC.attachSampleCallback(detectorADCSampleHandler);
 
-	uint16_t x = 1567;
-	uint8_t* array = bit16Converter(x);
-	DEBUG("%d", array[1]);
+  static int32_t accX, accY, accZ = 0;
 
   while(true)
   {
-    GPIO::toggle(LED_1_PIN);
+
+    if (da) {
+      LIS2DH12_sample();
+      LIS2DH12_getALLmG(&accX, &accY, &accZ);
+      DEBUG("X: %d, Y: %d, Z: %d", accX, accY, accZ);
+      da = false;
+    }
 
     if (shouldProcessData) {
       curEvent.setTimeStamp(CurrentTime::getCurrentTime());
@@ -186,12 +212,14 @@ int main(void)
       curEvent.clear();
       stateMachine.transition(PROCESSING_FINISHED_EVENT);
     }
+
+    GPIO::toggle(LED_1_PIN);
     nrf_delay_ms(500);
 
   }
 
 }
-*/
+
 
 /**
  *@}
