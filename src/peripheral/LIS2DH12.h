@@ -23,6 +23,7 @@ extern "C"
 #include "nordic_common.h"
 
 #include "peripheral/gpio_interface.h"
+#include "peripheral/timer_interface.h"
 
 /* CONSTANTS **************************************************************************************/
 
@@ -183,6 +184,7 @@ extern LIS2DH12_Ret LIS2DH12_getZmG(int32_t* const accZ);
 extern LIS2DH12_Ret LIS2DH12_getALLmG(int32_t* const accX, int32_t* const accY, int32_t* const accZ);
 
 
+extern void LIS2DH12_clearInterrupts();
 
 extern void LIS2DH12_initThresholdInterrupt1(uint8_t threshold,
                                              uint8_t duration,
@@ -201,7 +203,9 @@ extern void LIS2DH12_initThresholdInterrupt2(uint8_t threshold,
                                              bool latchEnabled,
                                              gpio_event_handler_t handler);
 
-extern void LIS2DH12_initDAInterrupt(gpio_event_handler_t handler);
+extern void LIS2DH12_initDAPolling(app_timer_timeout_handler_t handler);
+extern void LIS2DH12_startDAPolling();
+extern void LIS2DH12_stopDAPolling();
 
 #ifdef __cplusplus
 }

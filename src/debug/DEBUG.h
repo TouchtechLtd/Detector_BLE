@@ -17,13 +17,13 @@
 
 #if defined(INFO_ENABLED) || defined(DEBUG_ENABLED) || defined(ERROR_ENABLED)
 #include "peripheral/uart_interface.h"
-#define DEBUG_INIT() UART::init()
+#define DEBUG_INIT() UART_init()
 #else
 #define DEBUG_INIT()
 #endif
 
 #ifdef DEBUG_ENABLED
-#define DEBUG(fmt, ...) do { UART::write("%s:%d:%s(): " fmt, __FILE__, __LINE__, __func__, ##__VA_ARGS__); } while (0)
+#define DEBUG(fmt, ...) do { UART_write("%s:%d:%s(): " fmt, __FILE__, __LINE__, __func__, ##__VA_ARGS__); } while (0)
 #else
 #define DEBUG(fmt, ...)
 #endif
@@ -31,7 +31,7 @@
 
 
 #ifdef INFO_ENABLED
-#define INFO(fmt, ...) do { UART::write(fmt, ##__VA_ARGS__); } while (0)
+#define INFO(fmt, ...) do { UART_write(fmt, ##__VA_ARGS__); } while (0)
 #else
 #define INFO(fmt, ...)
 #endif
@@ -39,7 +39,7 @@
 
 #ifdef ERROR_ENABLED
 #define ERROR_CHECK(err_code) do { if (err_code != NRF_SUCCESS) \
-									{ UART::write("%s:%d:%s(): %d", __FILE__, __LINE__, __func__, err_code); \
+									{ UART_write("%s:%d:%s(): %d", __FILE__, __LINE__, __func__, err_code); \
                   while(true) } } while (0)
 #else
 #define ERROR_CHECK(err_code) if(err_code) {}

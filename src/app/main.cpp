@@ -140,21 +140,29 @@ void updateEventBLE(TrapEvent event)
 
 
 volatile bool da = false;
-void int1Event(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
+void int1Event(void* p_context)
 {
-  /*
-  readRegister(LIS2DH_OUT_X_L, g_sensorData.raw, SENSOR_DATA_SIZE);
+
+  LIS2DH12_sample();
+
   static int32_t accX, accY, accZ = 0;
   LIS2DH12_getALLmG(&accX, &accY, &accZ);
   DEBUG("X: %d, Y: %d, Z: %d", accX, accY, accZ);
-  */
+
   da = true;
-  //DEBUG("Pin: %d", pin);
+
 
   GPIO::toggle(LED_2_PIN);
 }
 
-/*
+void intThreshEvent(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
+{
+  LIS2DH12_clearInterrupts();
+  stateMachine.transition(TRIGGERED_EVENT);
+}
+
+
+
 
 int main(void)
 {
@@ -165,6 +173,7 @@ int main(void)
 
   BLE_Manager::manager().createBLEService();
 
+  DEBUG("Started");
 
 	GPIO::setOutput(LED_1_PIN, LOW);
 	GPIO::setOutput(LED_2_PIN, HIGH);
@@ -172,24 +181,20 @@ int main(void)
   LIS2DH12_init(LIS2DH12_POWER_LOW, LIS2DH12_SCALE2G, LIS2DH12_SAMPLE_1HZ);
   LIS2DH12_enableHighPass();
 
-  //LIS2DH12_initThresholdInterrupt1(250, 0, LIS2DH12_INTERRUPT_PIN_2, LIS2DH12_INTERRUPT_THRESHOLD_XYZ, true, false, intThreshEvent);
-  LIS2DH12_initDAInterrupt(int1Event);
+  LIS2DH12_initThresholdInterrupt1(100, 0, LIS2DH12_INTERRUPT_PIN_2, LIS2DH12_INTERRUPT_THRESHOLD_XYZ, true, true, intThreshEvent);
+  LIS2DH12_initDAPolling(int1Event);
+  LIS2DH12_startDAPolling();
+
 
 
 	BLE_Manager::manager().checkService();
 	BLE_Manager::manager().checkChar();
 
-  static int32_t accX, accY, accZ = 0;
 
   while(true)
   {
 
-    if (da) {
-      LIS2DH12_sample();
-      LIS2DH12_getALLmG(&accX, &accY, &accZ);
-      DEBUG("X: %d, Y: %d, Z: %d", accX, accY, accZ);
-      da = false;
-    }
+
 
     if (shouldProcessData) {
       curEvent.setTimeStamp(CurrentTime::getCurrentTime());
@@ -200,13 +205,15 @@ int main(void)
       stateMachine.transition(PROCESSING_FINISHED_EVENT);
     }
 
-    GPIO::toggle(LED_1_PIN);
+    //DEBUG("INT1: %d, INT2: %d", GPIO::read(INT_ACC1_PIN), GPIO::read(INT_ACC2_PIN));
+
+    //GPIO::toggle(LED_1_PIN);
     nrf_delay_ms(500);
 
   }
 
 }
-*/
+
 
 /**
  *@}

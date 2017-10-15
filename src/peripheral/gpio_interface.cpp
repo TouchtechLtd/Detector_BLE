@@ -100,3 +100,40 @@ void GPIO::interruptEnable(uint32_t pin) {
 void GPIO::interruptDisable(uint32_t pin) {
 	nrf_drv_gpiote_in_event_disable(pin);
 }
+
+
+
+
+/*
+void gpiote_int_init()
+{
+    nrf_gpio_cfg_sense_input(BUTTON_1, NRF_GPIO_PIN_PULLUP, NRF_GPIO_PIN_SENSE_LOW);
+    nrf_gpio_cfg_sense_input(BUTTON_2, NRF_GPIO_PIN_PULLUP, NRF_GPIO_PIN_SENSE_LOW);
+
+    NRF_GPIOTE->EVENTS_PORT = 0;
+
+    NRF_GPIOTE->INTENSET = (GPIOTE_INTENSET_PORT_Enabled << GPIOTE_INTENSET_PORT_Pos);
+
+    NVIC_SetPriority(GPIOTE_IRQn, APP_IRQ_PRIORITY_LOW);
+    NVIC_EnableIRQ(GPIOTE_IRQn);
+}
+
+extern "C" {
+void GPIOTE_IRQHandler(void)
+{
+  uint32_t input[GPIO_COUNT] = {0};
+    if(NRF_GPIOTE->EVENTS_PORT != 0)
+    {
+        NRF_GPIOTE->EVENTS_PORT = 0;
+        nrf_gpio_ports_read(0, GPIO_COUNT, input);
+        for (int i = 0; i < GPIO_COUNT; i++) {
+          DEBUG("%d", input[i]);
+        }
+
+    }
+}
+}
+*/
+
+
+

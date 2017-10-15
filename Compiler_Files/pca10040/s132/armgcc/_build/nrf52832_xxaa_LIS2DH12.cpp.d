@@ -76,14 +76,14 @@ _build/nrf52832_xxaa_LIS2DH12.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/boards/boards.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/boards/custom_board.h \
  ../../../../src/peripheral/ruuvitag_b3.h \
+ ../../../../src/peripheral/timer_interface.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/timer/app_timer.h \
  ../../../../src/peripheral/spi.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/bsp/bsp.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/button/app_button.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/drivers_nrf/delay/nrf_delay.h \
  ../../../../src/debug/DEBUG.h \
- ../../../../src/peripheral/uart_interface.h \
- ../../../../src/peripheral/timer_interface.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/timer/app_timer.h
+ ../../../../src/peripheral/uart_interface.h
 
 ../../../../src/peripheral/LIS2DH12_registers.h:
 
@@ -237,6 +237,10 @@ _build/nrf52832_xxaa_LIS2DH12.cpp.o: \
 
 ../../../../src/peripheral/ruuvitag_b3.h:
 
+../../../../src/peripheral/timer_interface.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/timer/app_timer.h:
+
 ../../../../src/peripheral/spi.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/bsp/bsp.h:
@@ -248,7 +252,3 @@ _build/nrf52832_xxaa_LIS2DH12.cpp.o: \
 ../../../../src/debug/DEBUG.h:
 
 ../../../../src/peripheral/uart_interface.h:
-
-../../../../src/peripheral/timer_interface.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/timer/app_timer.h:

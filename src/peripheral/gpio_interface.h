@@ -20,8 +20,8 @@
 // clearing a pin will light the LED and setting the pin will turn of the LED.
 #define LED_1_PIN                       BSP_LED_0     // LED 1 on the nRF51-DK or nRF52-DK
 #define LED_2_PIN                       BSP_LED_1     // LED 2 on the nRF51-DK or nRF52-DK
-//#define LED_3_PIN                       BSP_LED_2     // LED 3 on the nRF51-DK or nRF52-DK
-//#define LED_4_PIN                       BSP_LED_3     // LED 4 on the nRF51-DK or nRF52-DK
+#define LED_3_PIN                       BSP_LED_2     // LED 3 on the nRF51-DK or nRF52-DK
+#define LED_4_PIN                       BSP_LED_3     // LED 4 on the nRF51-DK or nRF52-DK
 #define BUTTON_1_PIN                    BSP_BUTTON_0  // Button 1 on the nRF51-DK or nRF52-DK
 #define BUTTON_2_PIN                    BSP_BUTTON_1  // Button 2 on the nRF51-DK or nRF52-DK
 #define BUTTON_3_PIN                    BSP_BUTTON_2  // Button 3 on the nRF51-DK or nRF52-DK

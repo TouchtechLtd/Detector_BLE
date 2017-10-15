@@ -91,6 +91,8 @@ static uint16_t g_sampleRateValue = 0;
 static uint8_t g_mgpb = 1;                              /**< milli-g per bit */
 static uint8_t g_resolution = 10;                        /**< milli-g nb of bits */
 
+static Timer g_daTimer;
+static app_timer_timeout_handler_t g_daHandler;
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
 
@@ -334,6 +336,13 @@ static uint8_t findInterruptThreshold(uint16_t intThreshold_mg)
 }
 
 
+extern void LIS2DH12_clearInterrupts()
+{
+  uint8_t dummyRead[1];
+  readRegister(LIS2DH_INT1_SOURCE, dummyRead, 1);
+  readRegister(LIS2DH_INT2_SOURCE, dummyRead, 1);
+}
+
 extern void LIS2DH12_initThresholdInterrupt1(uint8_t threshold,
                                              uint8_t duration,
                                              LIS2DH12_InterruptPinNumber intPinNum,
@@ -457,20 +466,25 @@ extern void LIS2DH12_initThresholdInterrupt2(uint8_t threshold,
   GPIO::interruptEnable(interruptPin);
 }
 
-extern void LIS2DH12_initDAInterrupt(gpio_event_handler_t handler)
+extern void LIS2DH12_initDAPolling(app_timer_timeout_handler_t handler)
 {
-  GPIO::initIntInput(INT_ACC1_PIN,
-          NRF_GPIOTE_POLARITY_LOTOHI,
-          NRF_GPIO_PIN_NOPULL,
-          false,
-          false,
-          handler);
+  GPIO::setInput(INT_ACC1_PIN);
+  g_daHandler = handler;
 
   setRegister(LIS2DH_CTRL_REG3, LIS2DH_I1_DRDY2);
-
-  GPIO::interruptEnable(INT_ACC1_PIN);
-
 }
+
+extern void LIS2DH12_startDAPolling()
+{
+  g_daTimer.startTimer(1000/ g_sampleRateValue, g_daHandler);
+}
+
+
+extern void LIS2DH12_stopDAPolling()
+{
+  g_daTimer.stopTimer();
+}
+
 
 /* INTERNAL FUNCTIONS *****************************************************************************/
 
@@ -487,16 +501,6 @@ static LIS2DH12_Ret selftest(void)
     return (LIS2DH_I_AM_MASK == value[0]) ? LIS2DH12_RET_OK : LIS2DH12_RET_ERROR;
 }
 
-
-
-
-void intThreshEvent(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
-{
-  //LIS2DH12_setHighPassReference();
-  //DEBUG("Threshold!");
-
-  GPIO::toggle(LED_1_PIN);
-}
 
 
 
