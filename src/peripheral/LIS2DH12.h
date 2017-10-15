@@ -186,22 +186,16 @@ extern LIS2DH12_Ret LIS2DH12_getALLmG(int32_t* const accX, int32_t* const accY, 
 
 extern void LIS2DH12_clearInterrupts();
 
-extern void LIS2DH12_initThresholdInterrupt1(uint8_t threshold,
+extern void LIS2DH12_setInterruptThreshold(uint8_t threshold);
+extern void LIS2DH12_setInterruptDuration(uint8_t duration);
+extern void LIS2DH12_setInterruptHandler(gpio_event_handler_t handler);
+extern void LIS2DH12_initThresholdInterrupt(uint8_t threshold,
                                              uint8_t duration,
-                                             LIS2DH12_InterruptPinNumber intPinNum,
                                              LIS2DH12_InterruptThresholdMask intThreshMask,
-                                             bool hpEnabled,
                                              bool latchEnabled,
                                              gpio_event_handler_t handler);
 
 
-extern void LIS2DH12_initThresholdInterrupt2(uint8_t threshold,
-                                             uint8_t duration,
-                                             LIS2DH12_InterruptPinNumber intPinNum,
-                                             LIS2DH12_InterruptThresholdMask intThreshMask,
-                                             bool hpEnabled,
-                                             bool latchEnabled,
-                                             gpio_event_handler_t handler);
 
 extern void LIS2DH12_initDAPolling(app_timer_timeout_handler_t handler);
 extern void LIS2DH12_startDAPolling();

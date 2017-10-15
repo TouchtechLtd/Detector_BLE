@@ -84,11 +84,12 @@ void Timer::startTimer(uint32_t ms,
 
   if (!_timerPeripheralInitialised) { initialisePeripheral(); }
 
+
   // Create timers
   err_code = app_timer_create(&m_timer_id,
                               APP_TIMER_MODE_REPEATED,
                               handler);
-  APP_ERROR_CHECK(err_code);
+  ERROR_CHECK(err_code);
 
   app_timer_start(m_timer_id, APP_TIMER_TICKS(ms), NULL);
 }
@@ -117,7 +118,7 @@ void Timer::startCountdown(uint32_t ms,
     err_code = app_timer_create(&m_timer_id,
                   APP_TIMER_MODE_SINGLE_SHOT,
                                 handler);
-    APP_ERROR_CHECK(err_code);
+    ERROR_CHECK(err_code);
 
 
     app_timer_start(m_timer_id, APP_TIMER_TICKS(ms), NULL);

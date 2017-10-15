@@ -29,72 +29,84 @@
 
 
 
-static StateMachine stateMachine(DETECT_STATE);
+static StateMachine stateMachine(WAIT_STATE);
 static ADC detectorADC;
 TrapEvent curEvent;
 
-static bool shouldProcessData = false;
+uint8_t g_killNumber = 0;
+
+static bool updateBLE = false;
+Timer movementCountdown;
 
 
-void inPinHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
+
+
+void trapBufferCountdownHandler(void* p_context)
 {
-	nrf_gpio_pin_toggle(LED_2_PIN);
+  stateMachine.transition(BUFFER_END_EVENT);
 }
 
-void adcHandler(void* p_context)
+void moveBufferCountdownHandler(void* p_context)
 {
-	ADC::sample();
+  stateMachine.transition(MOVEMENT_BUFFER_END_EVENT);
 }
 
-void lowLimitHandler(void) {
-	detectorADC.clearLimit();
-	stateMachine.transition(READ_FINISHED_EVENT);
-}
-
-void detectorADCSampleHandler (int sampleValue) {
-  INFO("%d", sampleValue);
-  //curEvent.addData(sampleValue);
-}
-
-void highLimitHandler(void) {
-  INFO("~");
-  curEvent.start();
-  //detectorADC.attachSampleCallback(detectorADCSampleHandler);
-	detectorADC.setLimit(50, 0, lowLimitHandler);
-	stateMachine.transition(TRIGGERED_EVENT);
+void movementCountdownHandler(void* p_context)
+{
+  stateMachine.transition(SET_BUFFER_END_EVENT);
 }
 
 
-
-void triggeredEventTransition() {
-  //INFO("Trap got triggered");
-
-	GPIO::setOutput(LED_1_PIN, LOW);
-
+void triggeredFromWaitTransition()
+{
+  INFO("Triggerd from wait");
+  Timer trapBufferCountdown;
+  trapBufferCountdown.startCountdown(1000, trapBufferCountdownHandler);
 }
 
-void readEventTransition() {
-  INFO("!");
-  //INFO("Reading finished");
-	GPIO::setOutput(LED_1_PIN, HIGH);
-
-	curEvent.end();
-	//detectorADC.detachSampleCallback();
-	shouldProcessData = true;
+void trapBufferEndedTransition()
+{
+  INFO("Trap buffer end");
+  Timer moveBufferCountdown;
+  moveBufferCountdown.startCountdown(5000, moveBufferCountdownHandler);
 }
 
-void processEventTransition() {
-  //INFO("Processing finished");
-	detectorADC.setLimit(0, 50, highLimitHandler);
-	shouldProcessData = false;
+void moveBufferEndedTransition()
+{
+  INFO("Killed");
+  g_killNumber++;
+  updateBLE = true;
 }
 
+
+void triggeredFromMoveTransition()
+{
+  INFO("Triggerd from move");
+  movementCountdown.stopTimer();
+  movementCountdown.startCountdown(10000, movementCountdownHandler);
+}
+
+
+
+
+void accTriggeredHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
+{
+  LIS2DH12_clearInterrupts();
+  stateMachine.transition(TRIGGERED_EVENT);
+  DEBUG("accTriggered");
+}
 
 
 void createTransitionTable(void) {
-	stateMachine.registerTransition(DETECT_STATE, READ_STATE, TRIGGERED_EVENT, &triggeredEventTransition);
-	stateMachine.registerTransition(READ_STATE, PROCESS_STATE, READ_FINISHED_EVENT, &readEventTransition);
-	stateMachine.registerTransition(PROCESS_STATE, DETECT_STATE, PROCESSING_FINISHED_EVENT, &processEventTransition);
+	stateMachine.registerTransition(WAIT_STATE, EVENT_BUFFER_STATE, TRIGGERED_EVENT, &triggeredFromWaitTransition);
+	stateMachine.registerTransition(EVENT_BUFFER_STATE, IGNORED, TRIGGERED_EVENT, NULL);
+	stateMachine.registerTransition(EVENT_BUFFER_STATE, DETECT_MOVE_STATE, BUFFER_END_EVENT, &trapBufferEndedTransition);
+	stateMachine.registerTransition(DETECT_MOVE_STATE, WAIT_STATE, MOVEMENT_BUFFER_END_EVENT, &moveBufferEndedTransition);
+	stateMachine.registerTransition(DETECT_MOVE_STATE, MOVING_STATE, TRIGGERED_EVENT, &triggeredFromMoveTransition);
+	stateMachine.registerTransition(MOVING_STATE, MOVING_STATE, TRIGGERED_EVENT, &triggeredFromMoveTransition);
+	stateMachine.registerTransition(MOVING_STATE, WAIT_STATE, SET_BUFFER_END_EVENT, NULL);
+  stateMachine.registerTransition(MOVING_STATE, IGNORED, MOVEMENT_BUFFER_END_EVENT, NULL);
+
 }
 
 
@@ -117,13 +129,12 @@ uint8_t* bit32Converter(uint16_t inputInt)
   return result;
 };
 
-
-
-void updateEventBLE(TrapEvent event)
+void updateEventBLE()
 {
-  uint8_t killNumber = curEvent.getKillNumber();
+  uint8_t killNumber = g_killNumber;
   BLE_Manager::manager().setCharacteristic(SERVICE_DETECTOR_DATA, CHAR_DETECTOR_NUMBER_OF_KILLS, &killNumber, sizeof(killNumber));
 
+  /*
   uint8_t didClip = curEvent.getDidClip();
   BLE_Manager::manager().setCharacteristic(SERVICE_DETECTOR_DATA, CHAR_DETECTOR_DID_CLIP, &didClip, sizeof(didClip));
 
@@ -135,7 +146,7 @@ void updateEventBLE(TrapEvent event)
 
   uint32_t responseLength = curEvent.getResponseLength();
   BLE_Manager::manager().setCharacteristic(SERVICE_DETECTOR_DATA, CHAR_DETECTOR_RESPONSE_LENGTH, bit32Converter(responseLength), sizeof(responseLength));
-
+*/
 }
 
 
@@ -155,13 +166,13 @@ void int1Event(void* p_context)
   GPIO::toggle(LED_2_PIN);
 }
 
-void intThreshEvent(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
+
+
+
+void buttonHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
-  LIS2DH12_clearInterrupts();
-  stateMachine.transition(TRIGGERED_EVENT);
+  DEBUG("Button pressed");
 }
-
-
 
 
 int main(void)
@@ -170,6 +181,7 @@ int main(void)
 	GPIO::init();
 	Timer::initialisePeripheral();
 	CurrentTime::startClock();
+	createTransitionTable();
 
   BLE_Manager::manager().createBLEService();
 
@@ -178,12 +190,22 @@ int main(void)
 	GPIO::setOutput(LED_1_PIN, LOW);
 	GPIO::setOutput(LED_2_PIN, HIGH);
 
-  LIS2DH12_init(LIS2DH12_POWER_LOW, LIS2DH12_SCALE2G, LIS2DH12_SAMPLE_1HZ);
+  LIS2DH12_init(LIS2DH12_POWER_LOW, LIS2DH12_SCALE2G, LIS2DH12_SAMPLE_10HZ);
   LIS2DH12_enableHighPass();
 
-  LIS2DH12_initThresholdInterrupt1(100, 0, LIS2DH12_INTERRUPT_PIN_2, LIS2DH12_INTERRUPT_THRESHOLD_XYZ, true, true, intThreshEvent);
-  LIS2DH12_initDAPolling(int1Event);
-  LIS2DH12_startDAPolling();
+  LIS2DH12_initThresholdInterrupt(100, 0, LIS2DH12_INTERRUPT_THRESHOLD_XYZ, true, accTriggeredHandler);
+
+
+  //LIS2DH12_initDAPolling(int1Event);
+  //LIS2DH12_startDAPolling();
+
+  GPIO::initIntInput(BUTTON_1,
+      NRF_GPIOTE_POLARITY_HITOLO,
+                NRF_GPIO_PIN_PULLUP,
+                false,
+                false,
+                buttonHandler);
+  GPIO::interruptEnable(BUTTON_1);
 
 
 
@@ -196,19 +218,14 @@ int main(void)
 
 
 
-    if (shouldProcessData) {
-      curEvent.setTimeStamp(CurrentTime::getCurrentTime());
-      curEvent.processData();
-      curEvent.printData();
-      updateEventBLE(curEvent);
-      curEvent.clear();
-      stateMachine.transition(PROCESSING_FINISHED_EVENT);
+    if (updateBLE) {
+      updateEventBLE();
     }
 
     //DEBUG("INT1: %d, INT2: %d", GPIO::read(INT_ACC1_PIN), GPIO::read(INT_ACC2_PIN));
 
     //GPIO::toggle(LED_1_PIN);
-    nrf_delay_ms(500);
+    nrf_delay_ms(1000);
 
   }
 

@@ -9,21 +9,26 @@
 #ifndef _GOODNATURE_APP_STATE_MACHINE_H
 #define _GOODNATURE_APP_STATE_MACHINE_H
 
-
+#include <stdint.h>
 
 typedef enum {
-	DETECT_STATE,
-	READ_STATE,
-	PROCESS_STATE,
+	WAIT_STATE,
+	EVENT_BUFFER_STATE,
+	DETECT_MOVE_STATE,
+	ANIMAL_KILLED_STATE,
+	MOVING_STATE,
 	MAX_STATES,
-	IGNORED
+	IGNORED,
+	ERROR
 } state_e;
 
 
 typedef enum {
 	TRIGGERED_EVENT,
-	READ_FINISHED_EVENT,
-	PROCESSING_FINISHED_EVENT,
+	BUFFER_END_EVENT,
+	ANIMAL_KILLED_EVENT,
+  MOVEMENT_BUFFER_END_EVENT,
+	SET_BUFFER_END_EVENT,
 	MAX_EVENTS
 } event_e;
 
@@ -35,12 +40,14 @@ typedef void (*state_event_handler_t)(void);
 class StateMachine
 {
 public:
-    StateMachine(state_e i_initState);
+  StateMachine(state_e i_initState);
 	void transition(event_e event);
 	void registerTransition(state_e startState,
 							state_e endState,
 							event_e event,
 							state_event_handler_t event_handler);
+
+  uint8_t getCurrentState();
 
 private:
     unsigned char _currentState;

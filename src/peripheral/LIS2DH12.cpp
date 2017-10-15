@@ -343,31 +343,35 @@ extern void LIS2DH12_clearInterrupts()
   readRegister(LIS2DH_INT2_SOURCE, dummyRead, 1);
 }
 
-extern void LIS2DH12_initThresholdInterrupt1(uint8_t threshold,
-                                             uint8_t duration,
-                                             LIS2DH12_InterruptPinNumber intPinNum,
-                                             LIS2DH12_InterruptThresholdMask intThreshMask,
-                                             bool hpEnabled,
-                                             bool latchEnabled,
-                                             gpio_event_handler_t handler)
+
+
+
+extern void LIS2DH12_setInterruptThreshold(uint8_t threshold)
 {
+  // Set threshold on INT1
+  uint8_t intThreshold = findInterruptThreshold(threshold);
+  DEBUG("Threshold: 0x%02x", intThreshold);
+  setRegister(LIS2DH_INT1_THS, intThreshold);
+}
 
-  unsigned long interruptPin = 0;
-  uint8_t interruptRegister = 0;
 
-  if (intPinNum == LIS2DH12_INTERRUPT_PIN_1)
+extern void LIS2DH12_setInterruptDuration(uint8_t duration)
+{
+  // Set duration on INT1
+  uint8_t intDuration = findInterruptDuration(duration);
+  DEBUG("Duration: 0x%02x", intDuration);
+  setRegister(LIS2DH_INT1_DURATION, intDuration);
+}
+
+
+extern void LIS2DH12_setInterruptHandler(gpio_event_handler_t handler)
+{
+  if (GPIO::interruptIsSet(INT_ACC2_PIN))
   {
-    interruptPin  = INT_ACC1_PIN;
-    interruptRegister   = LIS2DH_CTRL_REG3;
-  }
-  else if (intPinNum == LIS2DH12_INTERRUPT_PIN_2)
-  {
-    interruptPin  = INT_ACC2_PIN;
-    interruptRegister   = LIS2DH_CTRL_REG6;
+    GPIO::interruptClear(INT_ACC2_PIN);
   }
 
-
-  GPIO::initIntInput(interruptPin,
+  GPIO::initIntInput(INT_ACC2_PIN,
           NRF_GPIOTE_POLARITY_LOTOHI,
           NRF_GPIO_PIN_NOPULL,
           false,
@@ -375,96 +379,38 @@ extern void LIS2DH12_initThresholdInterrupt1(uint8_t threshold,
           handler);
 
 
-  if (hpEnabled) {
-    // Enable HPF on INT1
-    setRegister(LIS2DH_CTRL_REG2, LIS2DH_HPIS1_MASK);
-    LIS2DH12_setHighPassReference();
-  }
+  GPIO::interruptEnable(INT_ACC2_PIN);
+}
+
+
+extern void LIS2DH12_initThresholdInterrupt(uint8_t threshold,
+                                             uint8_t duration,
+                                             LIS2DH12_InterruptThresholdMask intThreshMask,
+                                             bool latchEnabled,
+                                             gpio_event_handler_t handler)
+{
+
+  // Enable HPF on INT1
+  setRegister(LIS2DH_CTRL_REG2, LIS2DH_HPIS1_MASK);
+  LIS2DH12_setHighPassReference();
 
   if (latchEnabled) {
     // Enable/ Disable Latch on INT1
     setRegister(LIS2DH_CTRL_REG5, LIS2DH_LIR_INT1_MASK);
   }
 
-  // Set duration on INT1
-  uint8_t intDuration = findInterruptDuration(duration);
-  DEBUG("Duration: 0x%02x", intDuration);
-  setRegister(LIS2DH_INT1_DURATION, intDuration);
-
-  // Set threshold on INT1
-  uint8_t intThreshold = findInterruptThreshold(threshold);
-  DEBUG("Threshold: 0x%02x", intThreshold);
-  setRegister(LIS2DH_INT1_THS, intThreshold);
+  LIS2DH12_setInterruptThreshold(threshold);
+  LIS2DH12_setInterruptDuration(duration);
 
   // Set cfg on INT1
   setRegister(LIS2DH_INT1_CFG, intThreshMask);
 
   //Enable Interrupt on INT1
-  setRegister(interruptRegister, LIS2DH_I1_IA1);
+  setRegister(LIS2DH_CTRL_REG6, LIS2DH_I1_IA1);
 
-
-  GPIO::interruptEnable(interruptPin);
+  LIS2DH12_setInterruptHandler(handler);
 }
 
-extern void LIS2DH12_initThresholdInterrupt2(uint8_t threshold,
-                                             uint8_t duration,
-                                             LIS2DH12_InterruptPinNumber intPinNum,
-                                             LIS2DH12_InterruptThresholdMask intThreshMask,
-                                             bool hpEnabled,
-                                             bool latchEnabled,
-                                             gpio_event_handler_t handler)
-{
-
-  unsigned long interruptPin = 0;
-  uint8_t interruptRegister = 0;
-
-  if (intPinNum == LIS2DH12_INTERRUPT_PIN_1)
-  {
-    interruptPin  = INT_ACC1_PIN;
-    interruptRegister   = LIS2DH_CTRL_REG3;
-  }
-  else if (intPinNum == LIS2DH12_INTERRUPT_PIN_2)
-  {
-    interruptPin  = INT_ACC2_PIN;
-    interruptRegister   = LIS2DH_CTRL_REG6;
-  }
-
-
-  GPIO::initIntInput(interruptPin,
-          NRF_GPIOTE_POLARITY_LOTOHI,
-          NRF_GPIO_PIN_NOPULL,
-          false,
-          false,
-          handler);
-
-
-  if (hpEnabled) {
-    // Enable HPF on INT2
-    setRegister(LIS2DH_CTRL_REG2, LIS2DH_HPIS2_MASK);
-  }
-
-  if (latchEnabled) {
-    // Enable/ Disable Latch on INT2
-    setRegister(LIS2DH_CTRL_REG5, LIS2DH_LIR_INT2_MASK);
-  }
-
-  // Set duration on INT2
-  uint8_t intDuration = findInterruptDuration(duration);
-  setRegister(LIS2DH_INT2_DURATION, intDuration);
-
-  // Set threshold on INT2
-  uint8_t intThreshold = findInterruptThreshold(threshold);
-  setRegister(LIS2DH_INT2_THS, intThreshold);
-
-  // Set cfg on INT2
-  setRegister(LIS2DH_INT2_CFG, intThreshMask);
-
-  //Enable Interrupt on INT2
-  setRegister(interruptRegister, LIS2DH_I2_IA2);
-
-
-  GPIO::interruptEnable(interruptPin);
-}
 
 extern void LIS2DH12_initDAPolling(app_timer_timeout_handler_t handler)
 {

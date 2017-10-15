@@ -49,6 +49,8 @@ class GPIO {
 		static void high(uint32_t pin);
 		static void interruptDisable(uint32_t pin);
 		static void interruptEnable(uint32_t pin);
+		static void interruptClear(uint32_t pin);
+		static bool interruptIsSet(uint32_t pin);
 		static bool inRange(uint32_t pin);
 		static void low(uint32_t pin);
 		static void toggle(uint32_t pin);

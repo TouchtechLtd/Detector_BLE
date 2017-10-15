@@ -91,6 +91,16 @@ void GPIO::initIntInput(unsigned long pin,
 	ERROR_CHECK(err_code);
 }
 
+void GPIO::interruptClear(uint32_t pin)
+{
+  nrf_drv_gpiote_in_uninit(pin);
+}
+
+
+bool GPIO::interruptIsSet(uint32_t pin)
+{
+  return nrf_drv_gpiote_in_is_set(pin);
+}
 
 void GPIO::interruptEnable(uint32_t pin) {
 	nrf_drv_gpiote_in_event_enable(pin, true);
