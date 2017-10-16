@@ -12,7 +12,7 @@
 #include <stdint.h>
 #include "ble.h"
 #include "ble_srv_common.h"
-#include "ble/ble_characteristic.h"
+#include "ble/ble_interface.h"
 
 enum Services {
   SERVICE_DETECTOR_DATA,
@@ -20,8 +20,6 @@ enum Services {
   SERVICE_BATTERY_LEVEL,
   SERVICE_CURRENT_TIME
 };
-
-
 
 enum Characteristic_DetectorData {
   CHAR_DETECTOR_NUMBER_OF_KILLS,
@@ -51,11 +49,20 @@ enum Characteristic_CurrentTime {
 };
 
 
+typedef enum {
+  BLE_POWER_LEVEL_HIGH = BLE_POWER_4_DB,
+  BLE_POWER_LEVEL_LOW = BLE_POWER_N_40_DB
+} BLEManagerPowerLevel;
+
 class BLE_Manager {
 	private:
 
 	public:
-    void createBLEService();
+
+    uint8_t* bit16Converter(uint16_t inputInt);
+	  uint8_t* bit16Converter(uint32_t inputInt);
+
+    void createBLEServer();
 
     void updateCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t length);
     void notifyCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t length);
@@ -66,6 +73,8 @@ class BLE_Manager {
 
     void createDetectorDataService();
     void createDeviceInfoService();
+
+    void setPower(BLEManagerPowerLevel powerLevel);
 
     static BLE_Manager & manager();
 

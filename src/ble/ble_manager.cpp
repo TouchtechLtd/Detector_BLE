@@ -42,6 +42,24 @@ enum BLE_UUID_DetectorData {
 
 
 
+uint8_t* bit16Converter(uint16_t inputInt)
+{
+  static uint8_t result[2];
+  result[0] = (inputInt & 0x00ff);
+  result[1] = (inputInt & 0xff00) >> 8;
+  return result;
+};
+
+uint8_t* bit32Converter(uint32_t inputInt)
+{
+  static uint8_t result[4];
+  result[0] = (inputInt & 0x000000ff);
+  result[1] = (inputInt & 0x0000ff00) >> 8;
+  result[2] = (inputInt & 0x00ff0000) >> 16;
+  result[3] = (inputInt & 0xff000000) >> 24;
+  return result;
+};
+
 
 
 void BLE_Manager::createDetectorDataService() {
@@ -151,7 +169,12 @@ void BLE_Manager::checkChar() {
 }
 
 
-void BLE_Manager::createBLEService() {
+void BLE_Manager::setPower(BLEManagerPowerLevel powerLevel)
+{
+  BLE::setPower(BLE_POWER_N_30_DB);
+}
+
+void BLE_Manager::createBLEServer() {
   BLE::init();
   DEBUG("BLE Manager Initialised.");
 
@@ -161,6 +184,8 @@ void BLE_Manager::createBLEService() {
   BLE::adv.start(APP_ADV_DEFAULT_INTERVAL);
   BLE::adv.advertiseName();
   BLE::adv.advertiseUUID(BLE::getService(SERVICE_DETECTOR_DATA)->getUUID());
+
+  setPower(BLE_POWER_LEVEL_LOW);
 }
 
 

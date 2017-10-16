@@ -13,7 +13,7 @@
 #include "ble_advdata.h"
 #include "ble_srv_common.h"
 
-#define APP_ADV_DEFAULT_INTERVAL                40                                      /**< The advertising interval (in units of 0.625 ms; this value corresponds to 40 ms). */
+#define APP_ADV_DEFAULT_INTERVAL                BLE_GAP_SCAN_INTERVAL_MAX                                      /**< The advertising interval (in units of 0.625 ms; this value corresponds to 40 ms). */
 
 class Advertising {
 	private:

@@ -292,6 +292,13 @@ void BLE::conn_params_init(void)
 }
 
 
+void BLE::setPower(BLEPowerLevel powerLevel)
+{
+  uint32_t err_code = sd_ble_gap_tx_power_set(powerLevel);
+  ERROR_CHECK(err_code);
+}
+
+
 /**@brief Function for initializing the BLE stack.
  *
  * @details Initializes the SoftDevice and the BLE event interrupt.

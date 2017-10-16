@@ -28,10 +28,10 @@
 #include "peripheral/LIS2DH12.h"
 
 
+#include "app_util_platform.h"
+
 
 static StateMachine stateMachine(WAIT_STATE);
-static ADC detectorADC;
-TrapEvent curEvent;
 
 uint8_t g_killNumber = 0;
 
@@ -39,6 +39,14 @@ static bool updateBLE = false;
 Timer movementCountdown;
 
 
+void accReadTimerHandler(void* p_context)
+{
+  LIS2DH12_sample();
+
+  static int32_t accX, accY, accZ = 0;
+  LIS2DH12_getALLmG(&accX, &accY, &accZ);
+  DEBUG("X: %d, Y: %d, Z: %d", accX, accY, accZ);
+}
 
 
 void trapBufferCountdownHandler(void* p_context)
@@ -60,6 +68,8 @@ void movementCountdownHandler(void* p_context)
 void triggeredFromWaitTransition()
 {
   INFO("Triggerd from wait");
+  GPIO::setOutput(LED_1_PIN, LOW);
+  GPIO::setOutput(LED_2_PIN, HIGH);
   Timer trapBufferCountdown;
   trapBufferCountdown.startCountdown(1000, trapBufferCountdownHandler);
 }
@@ -67,6 +77,8 @@ void triggeredFromWaitTransition()
 void trapBufferEndedTransition()
 {
   INFO("Trap buffer end");
+  GPIO::setOutput(LED_1_PIN, LOW);
+  GPIO::setOutput(LED_2_PIN, LOW);
   Timer moveBufferCountdown;
   moveBufferCountdown.startCountdown(5000, moveBufferCountdownHandler);
 }
@@ -74,6 +86,8 @@ void trapBufferEndedTransition()
 void moveBufferEndedTransition()
 {
   INFO("Killed");
+  GPIO::setOutput(LED_1_PIN, HIGH);
+  GPIO::setOutput(LED_2_PIN, HIGH);
   g_killNumber++;
   updateBLE = true;
 }
@@ -82,10 +96,19 @@ void moveBufferEndedTransition()
 void triggeredFromMoveTransition()
 {
   INFO("Triggerd from move");
+  GPIO::setOutput(LED_1_PIN, HIGH);
+  GPIO::setOutput(LED_2_PIN, LOW);
   movementCountdown.stopTimer();
   movementCountdown.startCountdown(10000, movementCountdownHandler);
 }
 
+
+void moveToWaitTransition()
+{
+  INFO("Trap set");
+  GPIO::setOutput(LED_1_PIN, HIGH);
+  GPIO::setOutput(LED_2_PIN, HIGH);
+}
 
 
 
@@ -93,41 +116,16 @@ void accTriggeredHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
   LIS2DH12_clearInterrupts();
   stateMachine.transition(TRIGGERED_EVENT);
-  DEBUG("accTriggered");
-}
-
-
-void createTransitionTable(void) {
-	stateMachine.registerTransition(WAIT_STATE, EVENT_BUFFER_STATE, TRIGGERED_EVENT, &triggeredFromWaitTransition);
-	stateMachine.registerTransition(EVENT_BUFFER_STATE, IGNORED, TRIGGERED_EVENT, NULL);
-	stateMachine.registerTransition(EVENT_BUFFER_STATE, DETECT_MOVE_STATE, BUFFER_END_EVENT, &trapBufferEndedTransition);
-	stateMachine.registerTransition(DETECT_MOVE_STATE, WAIT_STATE, MOVEMENT_BUFFER_END_EVENT, &moveBufferEndedTransition);
-	stateMachine.registerTransition(DETECT_MOVE_STATE, MOVING_STATE, TRIGGERED_EVENT, &triggeredFromMoveTransition);
-	stateMachine.registerTransition(MOVING_STATE, MOVING_STATE, TRIGGERED_EVENT, &triggeredFromMoveTransition);
-	stateMachine.registerTransition(MOVING_STATE, WAIT_STATE, SET_BUFFER_END_EVENT, NULL);
-  stateMachine.registerTransition(MOVING_STATE, IGNORED, MOVEMENT_BUFFER_END_EVENT, NULL);
-
+  INFO("accTriggered");
 }
 
 
 
-uint8_t* bit16Converter(uint16_t inputInt)
+void buttonHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
-  static uint8_t result[2];
-  result[0] = (inputInt & 0x00ff);
-  result[1] = (inputInt & 0xff00) >> 8;
-  return result;
-};
+  DEBUG("Button pressed");
+}
 
-uint8_t* bit32Converter(uint16_t inputInt)
-{
-  static uint8_t result[4];
-  result[0] = (inputInt & 0x000000ff);
-  result[1] = (inputInt & 0x0000ff00) >> 8;
-  result[2] = (inputInt & 0x00ff0000) >> 16;
-  result[3] = (inputInt & 0xff000000) >> 24;
-  return result;
-};
 
 void updateEventBLE()
 {
@@ -150,82 +148,83 @@ void updateEventBLE()
 }
 
 
-volatile bool da = false;
-void int1Event(void* p_context)
+
+
+void initGPIO()
 {
-
-  LIS2DH12_sample();
-
-  static int32_t accX, accY, accZ = 0;
-  LIS2DH12_getALLmG(&accX, &accY, &accZ);
-  DEBUG("X: %d, Y: %d, Z: %d", accX, accY, accZ);
-
-  da = true;
-
-
-  GPIO::toggle(LED_2_PIN);
-}
-
-
-
-
-void buttonHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
-{
-  DEBUG("Button pressed");
-}
-
-
-int main(void)
-{
-	DEBUG_INIT();
-	GPIO::init();
-	Timer::initialisePeripheral();
-	CurrentTime::startClock();
-	createTransitionTable();
-
-  BLE_Manager::manager().createBLEService();
-
-  DEBUG("Started");
-
-	GPIO::setOutput(LED_1_PIN, LOW);
-	GPIO::setOutput(LED_2_PIN, HIGH);
-
-  LIS2DH12_init(LIS2DH12_POWER_LOW, LIS2DH12_SCALE2G, LIS2DH12_SAMPLE_10HZ);
-  LIS2DH12_enableHighPass();
-
-  LIS2DH12_initThresholdInterrupt(100, 0, LIS2DH12_INTERRUPT_THRESHOLD_XYZ, true, accTriggeredHandler);
-
-
-  //LIS2DH12_initDAPolling(int1Event);
-  //LIS2DH12_startDAPolling();
+  GPIO::init();
+  GPIO::setOutput(LED_1_PIN, HIGH);
+  GPIO::setOutput(LED_2_PIN, HIGH);
 
   GPIO::initIntInput(BUTTON_1,
-      NRF_GPIOTE_POLARITY_HITOLO,
+                NRF_GPIOTE_POLARITY_HITOLO,
                 NRF_GPIO_PIN_PULLUP,
                 false,
                 false,
                 buttonHandler);
   GPIO::interruptEnable(BUTTON_1);
+}
 
+void initSensors()
+{
+  LIS2DH12_init(LIS2DH12_POWER_LOW, LIS2DH12_SCALE2G, LIS2DH12_SAMPLE_10HZ);
+  LIS2DH12_enableHighPass();
+  LIS2DH12_initThresholdInterrupt(100, 0, LIS2DH12_INTERRUPT_THRESHOLD_XYZ, true, accTriggeredHandler);
+  LIS2DH12_initDAPolling(int1Event);
+  //LIS2DH12_startDAPolling();
+}
 
+void initBLE()
+{
+  BLE_Manager::manager().createBLEServer();
+}
 
-	BLE_Manager::manager().checkService();
-	BLE_Manager::manager().checkChar();
+void initTime()
+{
+  Timer::initialisePeripheral();
+  CurrentTime::startClock();
+}
 
+void createTransitionTable(void)
+{
+  stateMachine.registerTransition(WAIT_STATE, EVENT_BUFFER_STATE, TRIGGERED_EVENT, &triggeredFromWaitTransition);
+  stateMachine.registerTransition(EVENT_BUFFER_STATE, IGNORED, TRIGGERED_EVENT, NULL);
+  stateMachine.registerTransition(EVENT_BUFFER_STATE, DETECT_MOVE_STATE, BUFFER_END_EVENT, &trapBufferEndedTransition);
+  stateMachine.registerTransition(DETECT_MOVE_STATE, WAIT_STATE, MOVEMENT_BUFFER_END_EVENT, &moveBufferEndedTransition);
+  stateMachine.registerTransition(DETECT_MOVE_STATE, MOVING_STATE, TRIGGERED_EVENT, &triggeredFromMoveTransition);
+  stateMachine.registerTransition(MOVING_STATE, MOVING_STATE, TRIGGERED_EVENT, &triggeredFromMoveTransition);
+  stateMachine.registerTransition(MOVING_STATE, WAIT_STATE, SET_BUFFER_END_EVENT, &moveToWaitTransition);
+  stateMachine.registerTransition(MOVING_STATE, IGNORED, MOVEMENT_BUFFER_END_EVENT, NULL);
+
+}
+
+int main(void)
+{
+	DEBUG_INIT();
+  DEBUG("Started");
+
+	createTransitionTable();
+
+	initTimer();
+	initBLE();
+  initGPIO();
+  initSensors();
 
   while(true)
   {
 
+    uint32_t err_code = sd_app_evt_wait();
+    ERROR_CHECK(err_code);
 
 
     if (updateBLE) {
       updateEventBLE();
+      updateBLE = false;
     }
 
-    //DEBUG("INT1: %d, INT2: %d", GPIO::read(INT_ACC1_PIN), GPIO::read(INT_ACC2_PIN));
 
-    //GPIO::toggle(LED_1_PIN);
-    nrf_delay_ms(1000);
+    GPIO::toggle(LED_1_PIN);
+    //nrf_delay_ms(1000);
 
   }
 

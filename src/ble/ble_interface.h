@@ -18,6 +18,22 @@
 
 
 
+/** Available Power Modes for the LIS2DH12 */
+typedef enum{
+  BLE_POWER_N_40_DB = -40,
+  BLE_POWER_N_30_DB = -20,
+  BLE_POWER_N_20_DB = -20,
+  BLE_POWER_N_16_DB = -16,
+  BLE_POWER_N_12_DB = -12,
+  BLE_POWER_N_8_DB  = -8,
+  BLE_POWER_N_4_DB  = -4,
+  BLE_POWER_0_DB    = 0,
+  BLE_POWER_3_DB    = 3,
+  BLE_POWER_4_DB    = 4
+} BLEPowerLevel;
+
+
+
 class BLE {
 	private:
 		static void ble_stack_init();
@@ -45,6 +61,8 @@ class BLE {
 		static Advertising adv;
 
 		static bool isConnected();
+
+		static void setPower(BLEPowerLevel powerLevel);
 
 
 	}; // End BLE

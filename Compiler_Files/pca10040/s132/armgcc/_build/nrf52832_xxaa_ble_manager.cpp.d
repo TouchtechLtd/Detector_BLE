@@ -83,12 +83,12 @@ _build/nrf52832_xxaa_ble_manager.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_gap.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/ble_gatt.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/app_error.h \
- ../../../../src/ble/ble_manager.h \
- ../../../../src/ble/ble_characteristic.h \
- ../../../../src/ble/ble_interface.h \
+ ../../../../src/ble/ble_manager.h ../../../../src/ble/ble_interface.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_conn_params.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_srv_common.h \
- ../../../../src/ble/ble_service.h ../../../../src/ble/ble_advertising.h \
+ ../../../../src/ble/ble_service.h \
+ ../../../../src/ble/ble_characteristic.h \
+ ../../../../src/ble/ble_advertising.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_advdata.h \
  ../../../../src/debug/DEBUG.h \
  ../../../../src/peripheral/uart_interface.h
@@ -261,8 +261,6 @@ _build/nrf52832_xxaa_ble_manager.cpp.o: \
 
 ../../../../src/ble/ble_manager.h:
 
-../../../../src/ble/ble_characteristic.h:
-
 ../../../../src/ble/ble_interface.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_conn_params.h:
@@ -270,6 +268,8 @@ _build/nrf52832_xxaa_ble_manager.cpp.o: \
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_srv_common.h:
 
 ../../../../src/ble/ble_service.h:
+
+../../../../src/ble/ble_characteristic.h:
 
 ../../../../src/ble/ble_advertising.h:
 
