@@ -66,8 +66,9 @@ uint32_t Timer::getDiff(uint32_t   ticks_to,
 
 Timer::Timer()
 {
+  m_is_running = false;
   if (_timerCount >= MAX_NUMBER_TIMERS) {
-    //DEBUG("Timer limit reached!");
+    DEBUG("Timer limit reached!");
   }
   else {
     m_timer_id = &timer_id_data[_timerCount];
@@ -92,16 +93,22 @@ void Timer::startTimer(uint32_t ms,
   ERROR_CHECK(err_code);
 
   app_timer_start(m_timer_id, APP_TIMER_TICKS(ms), NULL);
+  m_is_running = true;
 }
 
 
 void Timer::stopTimer() {
 
-    if (!app_timer_is_running(m_timer_id)) {
-      //DEBUG("Timer not running");
+    if (!app_timer_is_running(m_timer_id) || !m_is_running) {
+      DEBUG("Timer not running");
       return;
     }
 
+  app_timer_stop(m_timer_id);
+  m_is_running = false;
+}
+
+void Timer::killTimer() {
   app_timer_stop(m_timer_id);
 }
 
@@ -122,6 +129,8 @@ void Timer::startCountdown(uint32_t ms,
 
 
     app_timer_start(m_timer_id, APP_TIMER_TICKS(ms), NULL);
+
+    m_is_running = true;
 
 }
 

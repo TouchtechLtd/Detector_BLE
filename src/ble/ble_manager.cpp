@@ -32,8 +32,12 @@
 #define BLE_UUID_SIG_SERVICE_BATTERY_LEVEL                 0x180F
 #define BLE_UUID_SIG_SERVICE_CURRENT_TIME                  0x1805
 
+#define BLE_UUID_SERVICE_CURRENT_TIME                      0xBEAD
+#define BLE_UUID_CHAR_TIME_IN_MINS                         0xBEE5
+
 enum BLE_UUID_DetectorData {
   BLE_UUID_CHAR_DETECTOR_NUMBER_OF_KILLS = 0xFEE1,
+  BLE_UUID_CHAR_DETECTOR_KILL_TIME,
   BLE_UUID_CHAR_DETECTOR_DID_CLIP,
   BLE_UUID_CHAR_DETECTOR_PEAK_VALUE,
   BLE_UUID_CHAR_DETECTOR_RESPONSE_SIZE,
@@ -61,6 +65,16 @@ uint8_t* bit32Converter(uint32_t inputInt)
 };
 
 
+void BLE_Manager::setConnectionHandler(ble_manager_handler_t connectionHandler)
+{
+  m_connectionHandler = connectionHandler;
+}
+void BLE_Manager::setDisconnectHandler(ble_manager_handler_t disconnectHandler)
+{
+  m_disconnectHandler = disconnectHandler;
+}
+
+
 
 void BLE_Manager::createDetectorDataService() {
 
@@ -79,6 +93,18 @@ void BLE_Manager::createDetectorDataService() {
   killNumber.setMaxLength(1);
 
   detectorData.addCharacteristic(&killNumber, CHAR_DETECTOR_NUMBER_OF_KILLS);
+
+
+  //// Kill time characteristic ////
+  Characteristic killTime;
+  killNumber.setUUID(BLE_UUID_CHAR_DETECTOR_KILL_TIME);
+  killNumber.enableRead();
+  killNumber.enableNotification();
+
+  killNumber.initValue(&initValue, 1);
+  killNumber.setMaxLength(4);
+
+  detectorData.addCharacteristic(&killNumber, CHAR_DETECTOR_KILL_TIME);
 
   //// Did clip characteristic ////
   Characteristic didClip;
@@ -138,6 +164,28 @@ void BLE_Manager::createDeviceInfoService() {
   BLE::addService(&deviceInfo, SERVICE_DEVICE_INFO);
 }
 
+void BLE_Manager::createCurrentTimeService() {
+
+  Service currentTime;
+  currentTime.createCustom(BLE_UUID_SERVICE_CURRENT_TIME, BLE_UUID_GOODNATURE_BASE);
+
+  uint8_t initValue = { 0x00 };
+
+  //// Current time in minutes characteristic ////
+  Characteristic timeInMins;
+  timeInMins.setUUID(BLE_UUID_CHAR_TIME_IN_MINS);
+  timeInMins.enableRead();
+  timeInMins.enableWrite();
+  timeInMins.enableNotification();
+
+  timeInMins.initValue(&initValue, 1);
+  timeInMins.setMaxLength(4);
+
+  currentTime.addCharacteristic(&timeInMins, CHAR_TIME_IN_MINS);
+
+  currentTime.attachService();
+  BLE::addService(&currentTime, SERVICE_CURRENT_TIME);
+}
 
 
 
@@ -169,10 +217,47 @@ void BLE_Manager::checkChar() {
 }
 
 
-void BLE_Manager::setPower(BLEManagerPowerLevel powerLevel)
+void BLE_Manager::setPower(BLEPowerLevel powerLevel)
 {
-  BLE::setPower(BLE_POWER_N_30_DB);
+  BLE::setPower(powerLevel);
 }
+
+
+void BLE_Manager::setWriteHandler(uint8_t serviceID, uint8_t charID, char_write_handler_t writeHandler)
+{
+  BLE::getService(serviceID)->getCharacteristic(charID)->setWriteHandler(writeHandler);
+}
+
+void BLE_Manager::bleEventHandler(ble_evt_t * p_ble_evt)
+{
+  manager().m_bleEventHandler(p_ble_evt);
+}
+
+
+void BLE_Manager::m_bleEventHandler(ble_evt_t * p_ble_evt)
+{
+  switch (p_ble_evt->header.evt_id)
+     {
+
+         case BLE_GAP_EVT_CONNECTED:
+           m_connectionHandler();
+           break; // BLE_GAP_EVT_CONNECTED
+
+         case BLE_GAP_EVT_DISCONNECTED:
+           m_disconnectHandler();
+           break;
+
+         case BLE_GATTS_EVT_WRITE:
+            DEBUG("Handle: %d", p_ble_evt->evt.gatts_evt.params.write.handle);
+            break;
+
+         default:
+           DEBUG("Unhandled event: %d", p_ble_evt->header.evt_id);
+           break;
+     }
+}
+
+
 
 void BLE_Manager::createBLEServer() {
   BLE::init();
@@ -180,14 +265,16 @@ void BLE_Manager::createBLEServer() {
 
   createDetectorDataService();
   createDeviceInfoService();
+  createCurrentTimeService();
 
   BLE::adv.start(APP_ADV_DEFAULT_INTERVAL);
   BLE::adv.advertiseName();
   BLE::adv.advertiseUUID(BLE::getService(SERVICE_DETECTOR_DATA)->getUUID());
 
   setPower(BLE_POWER_LEVEL_LOW);
-}
 
+  BLE::setExternalHandler(bleEventHandler);
+}
 
 
 

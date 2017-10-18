@@ -33,6 +33,8 @@ typedef enum{
 } BLEPowerLevel;
 
 
+typedef void (*ble_external_handler_t)(ble_evt_t * p_evt);
+
 
 class BLE {
 	private:
@@ -49,8 +51,11 @@ class BLE {
 
 		static bool m_isConnected;
 
+		static ble_external_handler_t m_externalHandler;
+
 	public:
 		static void init(void);
+		static void setExternalHandler(void);
 		static void setDeviceName(const char* deviceName);
 
 		static void addService(Service* service, uint8_t serviceID);
@@ -61,6 +66,8 @@ class BLE {
 		static Advertising adv;
 
 		static bool isConnected();
+
+		static void setExternalHandler(ble_external_handler_t externalHandler);
 
 		static void setPower(BLEPowerLevel powerLevel);
 

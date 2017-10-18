@@ -66,7 +66,7 @@ void Service::eventHandler(ble_evt_t * p_ble_evt)
 	}
   for (int i = 0; i< MAX_NUMBER_CHAR; i++)
   {
-    if (_charList[i].isRunning()) { _charList[i].setConnHandle(_service.conn_handle); }
+    if (_charList[i].isRunning()) { _charList[i].eventHandler(p_ble_evt); }
   }
 }
 

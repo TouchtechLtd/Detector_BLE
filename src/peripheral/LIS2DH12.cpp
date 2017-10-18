@@ -346,11 +346,12 @@ extern void LIS2DH12_clearInterrupts()
 
 
 
-extern void LIS2DH12_setInterruptThreshold(uint8_t threshold)
+extern void LIS2DH12_setInterruptThreshold(uint16_t threshold)
 {
   // Set threshold on INT1
   uint8_t intThreshold = findInterruptThreshold(threshold);
   DEBUG("Threshold: 0x%02x", intThreshold);
+  clearRegister(LIS2DH_INT1_THS, LIS2DH_CLEAR_REGISTER_MASK);
   setRegister(LIS2DH_INT1_THS, intThreshold);
 }
 
@@ -360,6 +361,7 @@ extern void LIS2DH12_setInterruptDuration(uint8_t duration)
   // Set duration on INT1
   uint8_t intDuration = findInterruptDuration(duration);
   DEBUG("Duration: 0x%02x", intDuration);
+  clearRegister(LIS2DH_INT1_DURATION, LIS2DH_CLEAR_REGISTER_MASK);
   setRegister(LIS2DH_INT1_DURATION, intDuration);
 }
 
@@ -383,12 +385,14 @@ extern void LIS2DH12_setInterruptHandler(gpio_event_handler_t handler)
 }
 
 
-extern void LIS2DH12_initThresholdInterrupt(uint8_t threshold,
+extern void LIS2DH12_initThresholdInterrupt(uint16_t threshold,
                                              uint8_t duration,
                                              LIS2DH12_InterruptThresholdMask intThreshMask,
                                              bool latchEnabled,
                                              gpio_event_handler_t handler)
 {
+
+  clearRegister(LIS2DH_INT1_CFG, LIS2DH_CLEAR_REGISTER_MASK);
 
   // Enable HPF on INT1
   setRegister(LIS2DH_CTRL_REG2, LIS2DH_HPIS1_MASK);
@@ -428,7 +432,7 @@ extern void LIS2DH12_startDAPolling()
 
 extern void LIS2DH12_stopDAPolling()
 {
-  g_daTimer.stopTimer();
+  g_daTimer.killTimer();
 }
 
 

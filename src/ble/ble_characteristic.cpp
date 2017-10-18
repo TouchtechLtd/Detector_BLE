@@ -44,6 +44,7 @@ void Characteristic::_init()
   _notificationEnabled = false;
   _readEnabled = false;
 
+  m_writeHandler = NULL;
   _conn_handle = BLE_CONN_HANDLE_INVALID;
 }
 
@@ -86,6 +87,7 @@ void Characteristic::attachToService(uint16_t i_serviceHandle)
 		ERROR_CHECK(err_code);
 
 		m_isRunning = true;
+
 	} else {
 	  DEBUG("Please set UUID before adding service");
 	}
@@ -208,6 +210,35 @@ uint8_t Characteristic::isInit() {
   return m_isUUIDSet;
 }
 
+void Characteristic::setWriteHandler(char_write_handler_t writeHandler)
+{
+  m_writeHandler = writeHandler;
+}
+
+
+void Characteristic::eventHandler(ble_evt_t * p_ble_evt)
+{
+  switch (p_ble_evt->header.evt_id)
+  {
+      case BLE_GAP_EVT_CONNECTED:
+          _conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
+          break;
+      case BLE_GAP_EVT_DISCONNECTED:
+          _conn_handle = BLE_CONN_HANDLE_INVALID;
+          break;
+      case BLE_GATTS_EVT_WRITE:
+         //DEBUG("UUID: %04x, Data: %d", p_ble_evt->evt.gatts_evt.params.write.uuid.uuid, p_ble_evt->evt.gatts_evt.params.write.data[0]);
+         if (p_ble_evt->evt.gatts_evt.params.write.handle == _char_handle.value_handle)
+         {
+           if (m_writeHandler != NULL) { m_writeHandler(p_ble_evt->evt.gatts_evt.params.write.data[0]); }
+         }
+         break;
+
+      default:
+          // No implementation needed.
+          break;
+  }
+}
 
 void Characteristic::setConnHandle(uint16_t i_connHandle)
 {

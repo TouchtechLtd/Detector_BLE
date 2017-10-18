@@ -49,3 +49,4 @@ uint8_t StateMachine::getCurrentState()
 {
   return _currentState;
 }
+

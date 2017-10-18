@@ -53,6 +53,7 @@ Advertising BLE::adv;
 uint8_t BLE::_serviceCount = 0;
 Service BLE::serviceList[MAX_NUMBER_SERVICES];
 bool BLE::m_isConnected = false;
+ble_external_handler_t BLE::m_externalHandler = NULL;
 
 /**@brief Function for assert macro callback.
  *
@@ -205,6 +206,7 @@ void BLE::ble_evt_dispatch(ble_evt_t * p_ble_evt)
 	{
 		if (serviceList[i].isRunning()) { serviceList[i].eventHandler(p_ble_evt); }
 	}
+  if (m_externalHandler != NULL) {  m_externalHandler(p_ble_evt); }
 }
 
 
@@ -336,6 +338,12 @@ void BLE::ble_stack_init(void)
     // Subscribe for BLE events.
     err_code = softdevice_ble_evt_handler_set(BLE::ble_evt_dispatch);
     ERROR_CHECK(err_code);
+}
+
+
+void BLE::setExternalHandler(ble_external_handler_t externalHandler)
+{
+  m_externalHandler = externalHandler;
 }
 
 void BLE::init(void) {

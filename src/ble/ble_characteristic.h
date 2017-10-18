@@ -20,6 +20,8 @@ typedef struct
 }ble_char_id_t;
 
 
+typedef void (*char_write_handler_t) (uint8_t data);
+
 class Characteristic {
 	private:
 		ble_gatts_char_md_t 		_char_md;
@@ -32,6 +34,7 @@ class Characteristic {
 		ble_gatts_char_handles_t 	_char_handle;
 
 		uint16_t _conn_handle;
+		char_write_handler_t m_writeHandler;
 
 		bool m_isUUIDSet;
 		bool m_isRunning;
@@ -58,7 +61,10 @@ class Characteristic {
 	    void enableNotification();
 	    void initValue(uint8_t* p_value, uint16_t i_len);
 	    void setMaxLength(uint16_t i_maxLen);
+	    void eventHandler(ble_evt_t * p_ble_evt);
+
 	    void setConnHandle(uint16_t i_connHandle);
+	    void setWriteHandler(char_write_handler_t writeHandler);
 
 	    uint8_t isInit();
 	    bool isRunning() { return m_isRunning; }

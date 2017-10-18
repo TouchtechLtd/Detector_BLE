@@ -20,6 +20,8 @@ class Timer {
 
 		app_timer_id_t m_timer_id;
 
+		bool m_is_running;
+
 	public:
 		static void initialisePeripheral();
 		static uint32_t getTicks();
@@ -33,6 +35,7 @@ class Timer {
 		void startCountdown(uint32_t ms,
 								app_timer_timeout_handler_t handler);
     void stopTimer();
+    void killTimer();
 
 	}; // End TrapEvent
 

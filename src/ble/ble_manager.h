@@ -14,6 +14,14 @@
 #include "ble_srv_common.h"
 #include "ble/ble_interface.h"
 
+
+
+#define  BLE_POWER_LEVEL_HIGH BLE_POWER_4_DB
+#define  BLE_POWER_LEVEL_LOW  BLE_POWER_N_40_DB
+
+
+typedef void (*ble_manager_handler_t)(void);
+
 enum Services {
   SERVICE_DETECTOR_DATA,
   SERVICE_DEVICE_INFO,
@@ -23,6 +31,7 @@ enum Services {
 
 enum Characteristic_DetectorData {
   CHAR_DETECTOR_NUMBER_OF_KILLS,
+  CHAR_DETECTOR_KILL_TIME,
   CHAR_DETECTOR_DID_CLIP,
   CHAR_DETECTOR_PEAK_VALUE,
   CHAR_DETECTOR_RESPONSE_SIZE,
@@ -45,22 +54,31 @@ enum Characteristic_BatteryLevel {
 
 
 enum Characteristic_CurrentTime {
-  CHAR_CURRENT_TIME
+  CHAR_TIME_IN_MINS
 };
 
 
-typedef enum {
-  BLE_POWER_LEVEL_HIGH = BLE_POWER_4_DB,
-  BLE_POWER_LEVEL_LOW = BLE_POWER_N_40_DB
-} BLEManagerPowerLevel;
+uint8_t* bit16Converter(uint16_t inputInt);
+uint8_t* bit32Converter(uint32_t inputInt);
+
 
 class BLE_Manager {
 	private:
 
-	public:
+    ble_manager_handler_t m_connectionHandler;
+    ble_manager_handler_t m_disconnectHandler;
 
-    uint8_t* bit16Converter(uint16_t inputInt);
-	  uint8_t* bit16Converter(uint32_t inputInt);
+    static void bleEventHandler(ble_evt_t * p_ble_evt);
+    void m_bleEventHandler(ble_evt_t * p_ble_evt);
+
+    void checkService();
+    void checkChar();
+
+    void createDetectorDataService();
+    void createDeviceInfoService();
+    void createCurrentTimeService();
+
+	public:
 
     void createBLEServer();
 
@@ -68,13 +86,14 @@ class BLE_Manager {
     void notifyCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t length);
     void setCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t length);
 
-    void checkService();
-    void checkChar();
 
-    void createDetectorDataService();
-    void createDeviceInfoService();
+    void setPower(BLEPowerLevel powerLevel);
+    void setWriteHandler(uint8_t serviceID, uint8_t charID, char_write_handler_t writeHandler);
 
-    void setPower(BLEManagerPowerLevel powerLevel);
+
+    void setConnectionHandler(ble_manager_handler_t connectionHandler);
+    void setDisconnectHandler(ble_manager_handler_t disconnectHandler);
+
 
     static BLE_Manager & manager();
 
