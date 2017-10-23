@@ -48,8 +48,13 @@ public:
 
   uint8_t getCurrentState();
 
+  void start(state_e state);
+  void stop();
+  bool isRunning();
+
 private:
     unsigned char _currentState;
+    bool m_running;
 
     state_event_handler_t event_table[MAX_STATES][MAX_EVENTS];
     state_e transition_table[MAX_STATES][MAX_EVENTS];

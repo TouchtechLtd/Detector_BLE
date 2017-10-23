@@ -54,8 +54,7 @@ _build/nrf52832_xxaa_trap_event.cpp.o: ../../../../src/app/trap_event.cpp \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/app_error_weak.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/app_util.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/device/compiler_abstraction.h \
- ../../../../src/debug/DEBUG.h \
- ../../../../src/peripheral/uart_interface.h
+ ../../../../src/debug/DEBUG.h
 
 ../../../../src/app/trap_event.h:
 
@@ -168,5 +167,3 @@ _build/nrf52832_xxaa_trap_event.cpp.o: ../../../../src/app/trap_event.cpp \
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/device/compiler_abstraction.h:
 
 ../../../../src/debug/DEBUG.h:
-
-../../../../src/peripheral/uart_interface.h:

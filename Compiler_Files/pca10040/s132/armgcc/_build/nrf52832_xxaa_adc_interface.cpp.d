@@ -72,7 +72,6 @@ _build/nrf52832_xxaa_adc_interface.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/softdevice/s132/headers/nrf_nvic.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/nrf_assert.h \
  ../../../../src/debug/DEBUG.h \
- ../../../../src/peripheral/uart_interface.h \
  ../../../../src/peripheral/timer_interface.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/timer/app_timer.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/app_util.h \
@@ -221,8 +220,6 @@ _build/nrf52832_xxaa_adc_interface.cpp.o: \
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/util/nrf_assert.h:
 
 ../../../../src/debug/DEBUG.h:
-
-../../../../src/peripheral/uart_interface.h:
 
 ../../../../src/peripheral/timer_interface.h:
 

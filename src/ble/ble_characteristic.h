@@ -20,7 +20,7 @@ typedef struct
 }ble_char_id_t;
 
 
-typedef void (*char_write_handler_t) (uint8_t data);
+typedef void (*char_write_handler_t) (uint8_t* data, uint16_t len);
 
 class Characteristic {
 	private:

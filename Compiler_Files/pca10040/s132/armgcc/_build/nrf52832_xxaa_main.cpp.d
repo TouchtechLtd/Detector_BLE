@@ -103,7 +103,6 @@ _build/nrf52832_xxaa_main.cpp.o: ../../../../src/app/main.cpp \
  ../../../../src/ble/ble_advertising.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_advdata.h \
  ../../../../src/debug/DEBUG.h \
- ../../../../src/peripheral/uart_interface.h \
  ../../../../src/peripheral/timer_interface.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/libraries/timer/app_timer.h \
  ../../../../src/peripheral/gpio_interface.h \
@@ -322,8 +321,6 @@ _build/nrf52832_xxaa_main.cpp.o: ../../../../src/app/main.cpp \
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_advdata.h:
 
 ../../../../src/debug/DEBUG.h:
-
-../../../../src/peripheral/uart_interface.h:
 
 ../../../../src/peripheral/timer_interface.h:
 

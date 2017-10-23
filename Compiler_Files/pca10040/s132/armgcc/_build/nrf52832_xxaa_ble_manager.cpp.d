@@ -90,8 +90,7 @@ _build/nrf52832_xxaa_ble_manager.cpp.o: \
  ../../../../src/ble/ble_characteristic.h \
  ../../../../src/ble/ble_advertising.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_advdata.h \
- ../../../../src/debug/DEBUG.h \
- ../../../../src/peripheral/uart_interface.h
+ ../../../../src/debug/DEBUG.h
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/lib/gcc/arm-none-eabi/6.3.1/include/stdint.h:
 
@@ -276,5 +275,3 @@ _build/nrf52832_xxaa_ble_manager.cpp.o: \
 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/components/ble/common/ble_advdata.h:
 
 ../../../../src/debug/DEBUG.h:
-
-../../../../src/peripheral/uart_interface.h:

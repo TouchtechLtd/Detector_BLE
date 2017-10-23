@@ -328,7 +328,7 @@ static uint8_t findInterruptThreshold(uint16_t intThreshold_mg)
   uint16_t scaleValue_mg = ((2 << g_scale));
   uint16_t thresholdPercent = intThreshold_mg/scaleValue_mg;
 
-  if (thresholdPercent > 1000) { thresholdPercent = 1000; }
+  if (thresholdPercent > 999) { thresholdPercent = 999; }
 
   uint8_t outputValue = (uint8_t) (thresholdPercent * (MAX_INTERRUPT_THRESHOLD + 1) / 1000);
 

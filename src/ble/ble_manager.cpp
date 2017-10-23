@@ -35,6 +35,18 @@
 #define BLE_UUID_SERVICE_CURRENT_TIME                      0xBEAD
 #define BLE_UUID_CHAR_TIME_IN_MINS                         0xBEE5
 
+#define BLE_UUID_SERVICE_DEVICE_CONTROL                    0xDEAD
+#define BLE_UUID_CHAR_DEVICE_TRIGGER_THRESHOLD             0xDEED
+#define BLE_UUID_CHAR_DEVICE_MOVE_THRESHOLD                0xD1ED
+#define BLE_UUID_CHAR_DEVICE_TRIGGER_DURATION              0xD2ED
+#define BLE_UUID_CHAR_DEVICE_MOVE_DURATION                 0xD3ED
+#define BLE_UUID_CHAR_DEVICE_TRIGGER_BUFFER_LENGTH         0xD4ED
+#define BLE_UUID_CHAR_DEVICE_MOVE_BUFFER_LENGTH            0xD5ED
+#define BLE_UUID_CHAR_DEVICE_SET_BUFFER_LENGTH             0xD6ED
+#define BLE_UUID_CHAR_DEVICE_OUTPUT_RAW                    0xD7ED
+#define BLE_UUID_CHAR_DEVICE_OUTPUT_STATE                  0xD8ED
+
+
 enum BLE_UUID_DetectorData {
   BLE_UUID_CHAR_DETECTOR_NUMBER_OF_KILLS = 0xFEE1,
   BLE_UUID_CHAR_DETECTOR_KILL_TIME,
@@ -187,7 +199,127 @@ void BLE_Manager::createCurrentTimeService() {
   BLE::addService(&currentTime, SERVICE_CURRENT_TIME);
 }
 
+void BLE_Manager::createDeviceControlService() {
 
+  Service deviceControl;
+  deviceControl.createCustom(BLE_UUID_SERVICE_DEVICE_CONTROL, BLE_UUID_GOODNATURE_BASE);
+
+  uint8_t initValue = { 0x0000 };
+
+  //// Trigger threshold ////
+  Characteristic triggerThreshold;
+  triggerThreshold.setUUID(BLE_UUID_CHAR_DEVICE_TRIGGER_THRESHOLD);
+  triggerThreshold.enableRead();
+  triggerThreshold.enableWrite();
+  triggerThreshold.enableNotification();
+
+  triggerThreshold.initValue(&initValue, 2);
+  triggerThreshold.setMaxLength(2);
+
+  deviceControl.addCharacteristic(&triggerThreshold, CHAR_TRIGGER_THRESHOLD);
+
+  //// Move threshold ////
+  Characteristic moveThreshold;
+  moveThreshold.setUUID(BLE_UUID_CHAR_DEVICE_MOVE_THRESHOLD);
+  moveThreshold.enableRead();
+  moveThreshold.enableWrite();
+  moveThreshold.enableNotification();
+
+  moveThreshold.initValue(&initValue, 2);
+  moveThreshold.setMaxLength(2);
+
+  deviceControl.addCharacteristic(&moveThreshold, CHAR_MOVE_THRESHOLD);
+
+  //// Trigger duration ////
+  Characteristic triggerDuration;
+  triggerDuration.setUUID(BLE_UUID_CHAR_DEVICE_TRIGGER_DURATION);
+  triggerDuration.enableRead();
+  triggerDuration.enableWrite();
+  triggerDuration.enableNotification();
+
+  triggerDuration.initValue(&initValue, 1);
+  triggerDuration.setMaxLength(1);
+
+  deviceControl.addCharacteristic(&triggerDuration, CHAR_TRIGGER_DURATION);
+
+
+  //// Move duration ////
+  Characteristic moveDuration;
+  moveDuration.setUUID(BLE_UUID_CHAR_DEVICE_MOVE_DURATION);
+  moveDuration.enableRead();
+  moveDuration.enableWrite();
+  moveDuration.enableNotification();
+
+  moveDuration.initValue(&initValue, 1);
+  moveDuration.setMaxLength(1);
+
+  deviceControl.addCharacteristic(&moveDuration, CHAR_MOVE_DURATION);
+
+
+  //// Trigger buffer length ////
+  Characteristic triggerBufferLength;
+  triggerBufferLength.setUUID(BLE_UUID_CHAR_DEVICE_TRIGGER_BUFFER_LENGTH);
+  triggerBufferLength.enableRead();
+  triggerBufferLength.enableWrite();
+  triggerBufferLength.enableNotification();
+
+  triggerBufferLength.initValue(&initValue, 2);
+  triggerBufferLength.setMaxLength(2);
+
+  deviceControl.addCharacteristic(&triggerBufferLength, CHAR_TRIGGER_BUFFER_LENGTH);
+
+
+  //// Move buffer length ////
+  Characteristic moveBufferLength;
+  moveBufferLength.setUUID(BLE_UUID_CHAR_DEVICE_MOVE_BUFFER_LENGTH);
+  moveBufferLength.enableRead();
+  moveBufferLength.enableWrite();
+  moveBufferLength.enableNotification();
+
+  moveBufferLength.initValue(&initValue, 2);
+  moveBufferLength.setMaxLength(2);
+
+  deviceControl.addCharacteristic(&moveBufferLength, CHAR_MOVE_BUFFER_LENGTH);
+
+  //// Move buffer length ////
+  Characteristic setBufferLength;
+  setBufferLength.setUUID(BLE_UUID_CHAR_DEVICE_SET_BUFFER_LENGTH);
+  setBufferLength.enableRead();
+  setBufferLength.enableWrite();
+  setBufferLength.enableNotification();
+
+  setBufferLength.initValue(&initValue, 2);
+  setBufferLength.setMaxLength(2);
+
+  deviceControl.addCharacteristic(&setBufferLength, CHAR_SET_BUFFER_LENGTH);
+
+  //// Output raw acc over UART ////
+  Characteristic outputRaw;
+  outputRaw.setUUID(BLE_UUID_CHAR_DEVICE_OUTPUT_RAW);
+  outputRaw.enableRead();
+  outputRaw.enableWrite();
+  outputRaw.enableNotification();
+
+  outputRaw.initValue(&initValue, 1);
+  outputRaw.setMaxLength(1);
+
+  deviceControl.addCharacteristic(&outputRaw, CHAR_OUTPUT_RAW);
+
+  //// Output state ////
+  Characteristic outputState;
+  outputState.setUUID(BLE_UUID_CHAR_DEVICE_OUTPUT_STATE);
+  outputState.enableRead();
+  outputState.enableNotification();
+
+  outputState.initValue(&initValue, 1);
+  outputState.setMaxLength(1);
+
+  deviceControl.addCharacteristic(&outputState, CHAR_OUTPUT_STATE);
+
+
+  deviceControl.attachService();
+  BLE::addService(&deviceControl, SERVICE_DEVICE_CONTROL);
+}
 
 void BLE_Manager::updateCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t length)
 {
@@ -248,11 +380,11 @@ void BLE_Manager::m_bleEventHandler(ble_evt_t * p_ble_evt)
            break;
 
          case BLE_GATTS_EVT_WRITE:
-            DEBUG("Handle: %d", p_ble_evt->evt.gatts_evt.params.write.handle);
+            //DEBUG("Handle: %d", p_ble_evt->evt.gatts_evt.params.write.handle);
             break;
 
          default:
-           DEBUG("Unhandled event: %d", p_ble_evt->header.evt_id);
+           //DEBUG("Unhandled event: %d", p_ble_evt->header.evt_id);
            break;
      }
 }
@@ -266,12 +398,13 @@ void BLE_Manager::createBLEServer() {
   createDetectorDataService();
   createDeviceInfoService();
   createCurrentTimeService();
+  createDeviceControlService();
 
-  BLE::adv.start(APP_ADV_DEFAULT_INTERVAL);
+  BLE::adv.start(320);
   BLE::adv.advertiseName();
   BLE::adv.advertiseUUID(BLE::getService(SERVICE_DETECTOR_DATA)->getUUID());
 
-  setPower(BLE_POWER_LEVEL_LOW);
+  setPower(BLE_POWER_LEVEL_HIGH);
 
   BLE::setExternalHandler(bleEventHandler);
 }

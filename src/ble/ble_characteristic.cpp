@@ -230,7 +230,10 @@ void Characteristic::eventHandler(ble_evt_t * p_ble_evt)
          //DEBUG("UUID: %04x, Data: %d", p_ble_evt->evt.gatts_evt.params.write.uuid.uuid, p_ble_evt->evt.gatts_evt.params.write.data[0]);
          if (p_ble_evt->evt.gatts_evt.params.write.handle == _char_handle.value_handle)
          {
-           if (m_writeHandler != NULL) { m_writeHandler(p_ble_evt->evt.gatts_evt.params.write.data[0]); }
+           if (m_writeHandler != NULL)
+           {
+             m_writeHandler(p_ble_evt->evt.gatts_evt.params.write.data, p_ble_evt->evt.gatts_evt.params.write.len);
+           }
          }
          break;
 

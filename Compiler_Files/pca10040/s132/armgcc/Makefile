@@ -65,7 +65,7 @@ SRC_FILES += \
   $(SDK_ROOT)/components/softdevice/common/softdevice_handler/softdevice_handler.c \
   $(SDK_ROOT)/components/drivers_nrf/saadc/nrf_drv_saadc.c \
   $(SDK_ROOT)/components/drivers_nrf/hal/nrf_saadc.c \
-  $(PROJ_DIR)/peripheral/uart_interface.c \
+  $(PROJ_DIR)/peripheral/uart_interface.cpp \
   $(PROJ_DIR)/peripheral/gpio_interface.cpp \
   $(PROJ_DIR)/peripheral/adc_interface.cpp \
   $(PROJ_DIR)/peripheral/timer_interface.cpp \

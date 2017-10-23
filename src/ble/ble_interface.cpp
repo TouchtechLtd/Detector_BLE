@@ -30,7 +30,7 @@
 
 #define APP_FEATURE_NOT_SUPPORTED       BLE_GATT_STATUS_ATTERR_APP_BEGIN + 2    /**< Reply when unsupported features are requested. */
 
-#define DEVICE_NAME                     "TestName"                         /**< Name of device. Will be included in the advertising data. */
+#define DEVICE_NAME                     "RuuviName"                         /**< Name of device. Will be included in the advertising data. */
 
 
 #define MIN_CONN_INTERVAL               MSEC_TO_UNITS(100, UNIT_1_25_MS)        /**< Minimum acceptable connection interval (0.5 seconds). */

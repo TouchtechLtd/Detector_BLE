@@ -27,8 +27,7 @@ _build/nrf52832_xxaa_state_machine.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/stdint.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_intsup.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_stdint.h \
- ../../../../src/debug/DEBUG.h \
- ../../../../src/peripheral/uart_interface.h
+ ../../../../src/debug/DEBUG.h
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/stdlib.h:
 
@@ -85,5 +84,3 @@ _build/nrf52832_xxaa_state_machine.cpp.o: \
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_stdint.h:
 
 ../../../../src/debug/DEBUG.h:
-
-../../../../src/peripheral/uart_interface.h:

@@ -26,7 +26,8 @@ enum Services {
   SERVICE_DETECTOR_DATA,
   SERVICE_DEVICE_INFO,
   SERVICE_BATTERY_LEVEL,
-  SERVICE_CURRENT_TIME
+  SERVICE_CURRENT_TIME,
+  SERVICE_DEVICE_CONTROL
 };
 
 enum Characteristic_DetectorData {
@@ -57,6 +58,18 @@ enum Characteristic_CurrentTime {
   CHAR_TIME_IN_MINS
 };
 
+enum Characteristic_DeviceControl {
+  CHAR_TRIGGER_THRESHOLD,
+  CHAR_MOVE_THRESHOLD,
+  CHAR_TRIGGER_DURATION,
+  CHAR_MOVE_DURATION,
+  CHAR_TRIGGER_BUFFER_LENGTH,
+  CHAR_MOVE_BUFFER_LENGTH,
+  CHAR_SET_BUFFER_LENGTH,
+  CHAR_OUTPUT_RAW,
+  CHAR_OUTPUT_STATE
+};
+
 
 uint8_t* bit16Converter(uint16_t inputInt);
 uint8_t* bit32Converter(uint32_t inputInt);
@@ -77,6 +90,7 @@ class BLE_Manager {
     void createDetectorDataService();
     void createDeviceInfoService();
     void createCurrentTimeService();
+    void createDeviceControlService();
 
 	public:
 

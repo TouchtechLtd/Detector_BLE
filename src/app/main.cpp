@@ -45,7 +45,20 @@ static StateMachine stateMachine(WAIT_STATE);
 uint8_t g_killNumber = 0;
 uint32_t g_killTime = 0;
 
-static bool updateBLE = false;
+uint16_t g_triggerThreshold = TRAP_TRIGGER_EVENT_THRESHOLD;
+uint16_t g_moveThreshold = TRAP_TRIGGER_MOVE_THRESHOLD;
+uint8_t g_triggerDuration = TRAP_TRIGGER_DURATION;
+uint8_t g_moveDuration = 0;
+uint16_t g_triggerBufferLength = TRAP_EVENT_BUFFER_MS;
+uint16_t g_moveBufferLength = MOVE_BUFFER_MS;
+uint16_t g_setBufferLength = SET_BUFFER_MS;
+
+
+
+
+
+
+static bool updateBLE = true;
 volatile bool stateChange = false;
 Timer sampleTimer;
 Timer movementCountdown;
@@ -97,7 +110,8 @@ void movementCountdownHandler(void* p_context)
 
 void showState()
 {
-  switch (stateMachine.getCurrentState())
+  uint8_t currentState = stateMachine.getCurrentState();
+  switch (currentState)
   {
     case WAIT_STATE:
       ledTimer.stopTimer();
@@ -122,25 +136,26 @@ void showState()
     default:
       break;
   }
+  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_OUTPUT_STATE, &currentState, sizeof(currentState));
 }
 
 
 void triggeredFromWaitTransition()
 {
   //sampleTimer.startTimer(100, accReadTimerHandler);
-  LIS2DH12_startDAPolling();
+  //LIS2DH12_startDAPolling();
   INFO("Triggerd from wait");
-  trapBufferCountdown.startCountdown(TRAP_EVENT_BUFFER_MS, trapBufferCountdownHandler);
+  trapBufferCountdown.startCountdown(g_triggerBufferLength, trapBufferCountdownHandler);
   stateChange = true;
 }
 
 void trapBufferEndedTransition()
 {
-  LIS2DH12_stopDAPolling();
+  //LIS2DH12_stopDAPolling();
   INFO("Trap buffer end");
 
-  moveBufferCountdown.startCountdown(MOVE_BUFFER_MS, moveBufferCountdownHandler);
-  LIS2DH12_setInterruptThreshold(TRAP_TRIGGER_MOVE_THRESHOLD);
+  moveBufferCountdown.startCountdown(g_moveBufferLength, moveBufferCountdownHandler);
+  LIS2DH12_setInterruptThreshold(g_moveThreshold);
 
   stateChange = true;
 }
@@ -151,7 +166,7 @@ void moveBufferEndedTransition()
   g_killNumber++;
   g_killTime = CurrentTime::getCurrentTime();
   updateBLE = true;
-  LIS2DH12_setInterruptThreshold(TRAP_TRIGGER_EVENT_THRESHOLD);
+  LIS2DH12_setInterruptThreshold(g_triggerThreshold);
 
   stateChange = true;
 }
@@ -161,7 +176,7 @@ void triggeredFromMoveTransition()
 {
   INFO("Triggerd from move");
   movementCountdown.stopTimer();
-  movementCountdown.startCountdown(SET_BUFFER_MS, movementCountdownHandler);
+  movementCountdown.startCountdown(g_setBufferLength, movementCountdownHandler);
 
   stateChange = true;
 }
@@ -170,7 +185,7 @@ void triggeredFromMoveTransition()
 void moveToWaitTransition()
 {
   INFO("Trap set");
-  LIS2DH12_setInterruptThreshold(TRAP_TRIGGER_EVENT_THRESHOLD);
+  LIS2DH12_setInterruptThreshold(g_triggerThreshold);
 
   stateChange = true;
 }
@@ -192,7 +207,9 @@ void accTriggeredHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 
 void buttonHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
-  LIS2DH12_setInterruptThreshold(TRAP_TRIGGER_MOVE_THRESHOLD);
+  if (stateMachine.isRunning()) { stateMachine.stop(); }
+  else { stateMachine.start(WAIT_STATE); }
+  //LIS2DH12_setInterruptThreshold(TRAP_TRIGGER_MOVE_THRESHOLD);
   DEBUG("Button pressed");
 }
 
@@ -209,6 +226,26 @@ void updateEventBLE()
 
   uint8_t* killTime = bit32Converter(g_killTime);
   BLE_Manager::manager().setCharacteristic(SERVICE_DETECTOR_DATA, CHAR_DETECTOR_KILL_TIME, killTime, sizeof(g_killTime));
+
+  uint8_t* triggerThreshold = bit16Converter(g_triggerThreshold);
+  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_TRIGGER_THRESHOLD, triggerThreshold, sizeof(g_triggerThreshold));
+
+  uint8_t* moveThreshold = bit16Converter(g_moveThreshold);
+  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_MOVE_THRESHOLD, moveThreshold, sizeof(g_moveThreshold));
+
+  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_TRIGGER_DURATION, &g_triggerDuration, sizeof(g_triggerDuration));
+
+  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_MOVE_DURATION, &g_moveDuration, sizeof(g_moveDuration));
+
+  uint8_t* triggerBufferLength = bit16Converter(g_triggerBufferLength);
+  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_TRIGGER_BUFFER_LENGTH, triggerBufferLength, sizeof(g_triggerBufferLength));
+
+  uint8_t* moveBufferLength = bit16Converter(g_moveBufferLength);
+  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_MOVE_BUFFER_LENGTH, moveBufferLength, sizeof(g_moveBufferLength));
+
+  uint8_t* setBufferLength = bit16Converter(g_setBufferLength);
+  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_SET_BUFFER_LENGTH, setBufferLength, sizeof(g_setBufferLength));
+
 
 
   /*
@@ -244,9 +281,66 @@ void bleDisconnectHandler()
 //////     Initialisation functions      ///////////
 ///////////////////////////////////////////////////
 
-void testHandler(uint8_t data)
+
+void triggerThresholdHandler(uint8_t* data, uint16_t len)
 {
-  DEBUG("Write handler called - Data: %d", data);
+  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_TRIGGER_THRESHOLD, data, len);
+  g_triggerThreshold = data[0] + (data[1] << 8);
+  LIS2DH12_setInterruptThreshold(g_triggerThreshold);
+  DEBUG("Trigger Threshold: %d", g_triggerThreshold);
+}
+
+void moveThresholdHandler(uint8_t* data, uint16_t len)
+{
+  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_MOVE_THRESHOLD, data, len);
+  g_moveThreshold = data[0] + (data[1] << 8);
+  DEBUG("Move Threshold: %d", g_moveThreshold);
+}
+
+void triggerDurationHandler(uint8_t* data, uint16_t len)
+{
+  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_TRIGGER_DURATION, data, len);
+  g_triggerDuration = data[0];
+  DEBUG("Trigger Duration: %d", g_triggerDuration);
+}
+
+void moveDurationHandler(uint8_t* data, uint16_t len)
+{
+  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_MOVE_DURATION, data, len);
+  g_moveDuration = data[0];
+  DEBUG("Move Duration: %d", g_moveDuration);
+}
+
+void triggerBufferLengthHandler(uint8_t* data, uint16_t len)
+{
+  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_TRIGGER_BUFFER_LENGTH, data, len);
+  g_triggerBufferLength = data[0] + (data[1] << 8);
+  DEBUG("Trigger Buffer Length: %d", g_triggerBufferLength);
+}
+
+void moveBufferLengthHandler(uint8_t* data, uint16_t len)
+{
+  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_MOVE_BUFFER_LENGTH, data, len);
+  g_moveBufferLength = data[0] + (data[1] << 8);
+  DEBUG("Move Buffer Length: %d", g_moveBufferLength);
+}
+
+void setBufferLengthHandler(uint8_t* data, uint16_t len)
+{
+  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_SET_BUFFER_LENGTH, data, len);
+  g_setBufferLength = data[0] + (data[1] << 8);
+  DEBUG("Set Buffer Length: %d", g_setBufferLength);
+}
+
+void outputRawHandler(uint8_t* data, uint16_t len)
+{
+  //BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_OUTPUT_RAW, data, len);
+  //if (data[0] == 1) { LIS2DH12_startDAPolling(); }
+  //if (data[0] == 0) { LIS2DH12_stopDAPolling(); }
+  stateMachine.stop();
+  stateMachine.start(WAIT_STATE);
+  updateBLE = true;
+  showState();
 }
 
 
@@ -269,7 +363,7 @@ void initSensors()
 {
   LIS2DH12_init(LIS2DH12_POWER_LOW, LIS2DH12_SCALE2G, LIS2DH12_SAMPLE_50HZ);
   LIS2DH12_enableHighPass();
-  LIS2DH12_initThresholdInterrupt(TRAP_TRIGGER_EVENT_THRESHOLD, TRAP_TRIGGER_DURATION, LIS2DH12_INTERRUPT_THRESHOLD_XYZ, true, accTriggeredHandler);
+  LIS2DH12_initThresholdInterrupt(g_triggerThreshold, g_triggerDuration, LIS2DH12_INTERRUPT_THRESHOLD_XYZ, true, accTriggeredHandler);
   LIS2DH12_initDAPolling(accReadTimerHandler);
 }
 
@@ -280,7 +374,15 @@ void initBLE()
   BLE_Manager::manager().setConnectionHandler(bleConnectHandler);
   BLE_Manager::manager().setDisconnectHandler(bleDisconnectHandler);
 
-  BLE_Manager::manager().setWriteHandler(SERVICE_CURRENT_TIME, CHAR_TIME_IN_MINS, testHandler);
+  BLE_Manager::manager().setWriteHandler(SERVICE_DEVICE_CONTROL, CHAR_TRIGGER_THRESHOLD,      triggerThresholdHandler);
+  BLE_Manager::manager().setWriteHandler(SERVICE_DEVICE_CONTROL, CHAR_MOVE_THRESHOLD,         moveThresholdHandler);
+  BLE_Manager::manager().setWriteHandler(SERVICE_DEVICE_CONTROL, CHAR_TRIGGER_DURATION,       triggerDurationHandler);
+  BLE_Manager::manager().setWriteHandler(SERVICE_DEVICE_CONTROL, CHAR_MOVE_DURATION,          moveDurationHandler);
+  BLE_Manager::manager().setWriteHandler(SERVICE_DEVICE_CONTROL, CHAR_TRIGGER_BUFFER_LENGTH,  triggerBufferLengthHandler);
+  BLE_Manager::manager().setWriteHandler(SERVICE_DEVICE_CONTROL, CHAR_MOVE_BUFFER_LENGTH,     moveBufferLengthHandler);
+  BLE_Manager::manager().setWriteHandler(SERVICE_DEVICE_CONTROL, CHAR_SET_BUFFER_LENGTH,      setBufferLengthHandler);
+  BLE_Manager::manager().setWriteHandler(SERVICE_DEVICE_CONTROL, CHAR_OUTPUT_RAW,             outputRawHandler);
+
 }
 
 void initTimer()
@@ -322,6 +424,7 @@ int main(void)
 
   //LIS2DH12_startDAPolling();
 
+
   while(true)
   {
 
@@ -340,7 +443,7 @@ int main(void)
     }
     //DEBUG("State: %d", stateMachine.getCurrentState());
 
-    //GPIO::toggle(LED_1_PIN);
+    GPIO::toggle(LED_1_PIN);
     //nrf_delay_ms(1000);
 
   }

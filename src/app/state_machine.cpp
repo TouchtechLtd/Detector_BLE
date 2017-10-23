@@ -17,6 +17,7 @@ StateMachine::StateMachine(state_e i_initState) {
     	}
     }
     _currentState = i_initState;
+    m_running = true;
 }
 
 
@@ -36,6 +37,8 @@ void StateMachine::registerTransition(	state_e startState,
 
 
 void StateMachine::transition(event_e event) {
+  if (!m_running) { return; }
+
   if (transition_table[_currentState][event] != IGNORED) {
     if (event_table[_currentState][event] != NULL) {
       event_table[_currentState][event]();
@@ -44,6 +47,21 @@ void StateMachine::transition(event_e event) {
   }
 }
 
+void StateMachine::stop()
+{
+  m_running = false;
+}
+
+void StateMachine::start(state_e state)
+{
+  _currentState = state;
+  m_running = true;
+}
+
+bool StateMachine::isRunning()
+{
+  return m_running;
+}
 
 uint8_t StateMachine::getCurrentState()
 {

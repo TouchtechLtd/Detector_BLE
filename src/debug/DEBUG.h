@@ -10,9 +10,9 @@
 #define GOODNATURE_DETECTOR_DEBUG_H_
 
 
-#define USE_DEBUG_MODULE 1
-#define DEBUG_ENABLED 1
-#define INFO_ENABLED 1
+//#define USE_DEBUG_MODULE 1
+//#define DEBUG_ENABLED 1
+//#define INFO_ENABLED 1
 
 
 #if defined(INFO_ENABLED) || defined(DEBUG_ENABLED) || defined(ERROR_ENABLED)
