@@ -81,8 +81,8 @@ class BLE_Manager {
     ble_manager_handler_t m_connectionHandler;
     ble_manager_handler_t m_disconnectHandler;
 
-    static void bleEventHandler(ble_evt_t * p_ble_evt);
-    void m_bleEventHandler(ble_evt_t * p_ble_evt);
+    static void bleEventHandler(ble_evt_t const * p_ble_evt, void* context);
+    void m_bleEventHandler(ble_evt_t const * p_ble_evt);
 
     void checkService();
     void checkChar();

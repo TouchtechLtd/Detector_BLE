@@ -99,7 +99,7 @@ void Timer::startTimer(uint32_t ms,
 
 void Timer::stopTimer() {
 
-    if (!app_timer_is_running(m_timer_id) || !m_is_running) {
+    if (!m_is_running) {
       DEBUG("Timer not running");
       return;
     }

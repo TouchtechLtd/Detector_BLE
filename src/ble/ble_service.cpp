@@ -50,8 +50,9 @@ void Service::_init()
 }
 
 
-void Service::eventHandler(ble_evt_t * p_ble_evt)
+void Service::eventHandler(ble_evt_t const * p_ble_evt)
 {
+  //DEBUG("Service receiving event: %d", _service.uuid);
 	switch (p_ble_evt->header.evt_id)
 	{
 	    case BLE_GAP_EVT_CONNECTED:
@@ -64,10 +65,12 @@ void Service::eventHandler(ble_evt_t * p_ble_evt)
 	        // No implementation needed.
 	        break;
 	}
+
   for (int i = 0; i< MAX_NUMBER_CHAR; i++)
   {
     if (_charList[i].isRunning()) { _charList[i].eventHandler(p_ble_evt); }
   }
+
 }
 
 

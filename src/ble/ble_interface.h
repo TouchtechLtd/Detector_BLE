@@ -11,7 +11,7 @@
 
 #include "ble_conn_params.h"
 #include "ble/ble_service.h"
-#include "ble/ble_advertising.h"
+#include "gn_ble_advertising.h"
 
 #define MAX_NUMBER_SERVICES 10
 //#define BLE_UUID_OUR_BASE_UUID              {{0x23, 0xD1, 0x13, 0xEF, 0x5F, 0x78, 0x23, 0x15, 0xDE, 0xEF, 0x12, 0x12, 0x00, 0x00, 0x00, 0x00}} // 128-bit base UUID
@@ -33,7 +33,7 @@ typedef enum{
 } BLEPowerLevel;
 
 
-typedef void (*ble_external_handler_t)(ble_evt_t * p_evt);
+typedef void (*ble_external_handler_t)(ble_evt_t const * p_evt);
 
 
 class BLE {
@@ -61,9 +61,8 @@ class BLE {
 		static void addService(Service* service, uint8_t serviceID);
 		static Service* getService(uint8_t serviceID);
 
-		static void on_ble_evt(ble_evt_t * p_ble_evt);
-		static void ble_evt_dispatch(ble_evt_t * p_ble_evt);
-		static Advertising adv;
+		static void on_ble_evt(ble_evt_t const * p_ble_evt, void* context);
+		static void ble_evt_dispatch(ble_evt_t const * p_ble_evt);
 
 		static bool isConnected();
 

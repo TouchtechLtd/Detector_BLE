@@ -28,6 +28,11 @@
 #include "peripheral/LIS2DH12.h"
 
 
+#include "nrf_log.h"
+#include "nrf_log_ctrl.h"
+#include "nrf_log_default_backends.h"
+
+
 #define TRAP_EVENT_BUFFER_MS      2000
 #define MOVE_BUFFER_MS            5000
 #define SET_BUFFER_MS             10000
@@ -52,9 +57,6 @@ uint8_t g_moveDuration = 0;
 uint16_t g_triggerBufferLength = TRAP_EVENT_BUFFER_MS;
 uint16_t g_moveBufferLength = MOVE_BUFFER_MS;
 uint16_t g_setBufferLength = SET_BUFFER_MS;
-
-
-
 
 
 
@@ -207,9 +209,13 @@ void accTriggeredHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 
 void buttonHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
+  /*
   if (stateMachine.isRunning()) { stateMachine.stop(); }
   else { stateMachine.start(WAIT_STATE); }
   //LIS2DH12_setInterruptThreshold(TRAP_TRIGGER_MOVE_THRESHOLD);
+   *
+   */
+  updateBLE = true;
   DEBUG("Button pressed");
 }
 
@@ -282,57 +288,57 @@ void bleDisconnectHandler()
 ///////////////////////////////////////////////////
 
 
-void triggerThresholdHandler(uint8_t* data, uint16_t len)
+void triggerThresholdHandler(uint8_t const* data, uint16_t len)
 {
-  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_TRIGGER_THRESHOLD, data, len);
   g_triggerThreshold = data[0] + (data[1] << 8);
-  LIS2DH12_setInterruptThreshold(g_triggerThreshold);
+  //LIS2DH12_setInterruptThreshold(g_triggerThreshold);
   DEBUG("Trigger Threshold: %d", g_triggerThreshold);
+  updateBLE = true;
 }
 
-void moveThresholdHandler(uint8_t* data, uint16_t len)
+void moveThresholdHandler(uint8_t const* data, uint16_t len)
 {
-  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_MOVE_THRESHOLD, data, len);
   g_moveThreshold = data[0] + (data[1] << 8);
   DEBUG("Move Threshold: %d", g_moveThreshold);
+  updateBLE = true;
 }
 
-void triggerDurationHandler(uint8_t* data, uint16_t len)
+void triggerDurationHandler(uint8_t const* data, uint16_t len)
 {
-  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_TRIGGER_DURATION, data, len);
   g_triggerDuration = data[0];
   DEBUG("Trigger Duration: %d", g_triggerDuration);
+  updateBLE = true;
 }
 
-void moveDurationHandler(uint8_t* data, uint16_t len)
+void moveDurationHandler(uint8_t const* data, uint16_t len)
 {
-  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_MOVE_DURATION, data, len);
   g_moveDuration = data[0];
   DEBUG("Move Duration: %d", g_moveDuration);
+  updateBLE = true;
 }
 
-void triggerBufferLengthHandler(uint8_t* data, uint16_t len)
+void triggerBufferLengthHandler(uint8_t const* data, uint16_t len)
 {
-  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_TRIGGER_BUFFER_LENGTH, data, len);
   g_triggerBufferLength = data[0] + (data[1] << 8);
   DEBUG("Trigger Buffer Length: %d", g_triggerBufferLength);
+  updateBLE = true;
 }
 
-void moveBufferLengthHandler(uint8_t* data, uint16_t len)
+void moveBufferLengthHandler(uint8_t const* data, uint16_t len)
 {
-  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_MOVE_BUFFER_LENGTH, data, len);
   g_moveBufferLength = data[0] + (data[1] << 8);
   DEBUG("Move Buffer Length: %d", g_moveBufferLength);
+  updateBLE = true;
 }
 
-void setBufferLengthHandler(uint8_t* data, uint16_t len)
+void setBufferLengthHandler(uint8_t const* data, uint16_t len)
 {
-  BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_SET_BUFFER_LENGTH, data, len);
   g_setBufferLength = data[0] + (data[1] << 8);
   DEBUG("Set Buffer Length: %d", g_setBufferLength);
+  updateBLE = true;
 }
 
-void outputRawHandler(uint8_t* data, uint16_t len)
+void outputRawHandler(uint8_t const* data, uint16_t len)
 {
   //BLE_Manager::manager().setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_OUTPUT_RAW, data, len);
   //if (data[0] == 1) { LIS2DH12_startDAPolling(); }
@@ -357,6 +363,7 @@ void initGPIO()
                 false,
                 buttonHandler);
   GPIO::interruptEnable(BUTTON_1);
+
 }
 
 void initSensors()
@@ -370,6 +377,7 @@ void initSensors()
 void initBLE()
 {
   BLE_Manager::manager().createBLEServer();
+
   BLE_Manager::manager().setPower(BLE_POWER_LEVEL_HIGH);
   BLE_Manager::manager().setConnectionHandler(bleConnectHandler);
   BLE_Manager::manager().setDisconnectHandler(bleDisconnectHandler);
@@ -406,6 +414,11 @@ void createTransitionTable(void)
 }
 
 
+void blinkHandler(void*)
+{
+  GPIO::toggle(LED_2_PIN);
+}
+
 ///////////////////////////////////////////////////
 //////        Main                      ///////////
 ///////////////////////////////////////////////////
@@ -413,16 +426,22 @@ void createTransitionTable(void)
 int main(void)
 {
 	DEBUG_INIT();
-  DEBUG("Started");
+  INFO("Started");
 
-	createTransitionTable();
+  INFO("Log is working");
 
-	initTimer();
-	initBLE();
+  createTransitionTable();
+
+  initTimer();
   initGPIO();
+  initBLE();
   initSensors();
 
+  Timer blinkTimer;
+  blinkTimer.startTimer(1000, blinkHandler);
+
   //LIS2DH12_startDAPolling();
+
 
 
   while(true)
@@ -430,7 +449,6 @@ int main(void)
 
     uint32_t err_code = sd_app_evt_wait();
     ERROR_CHECK(err_code);
-
 
     if (updateBLE) {
       updateEventBLE();
@@ -441,10 +459,13 @@ int main(void)
       showState();
       stateChange = false;
     }
+
     //DEBUG("State: %d", stateMachine.getCurrentState());
 
-    GPIO::toggle(LED_1_PIN);
+    //GPIO::toggle(LED_1_PIN);
     //nrf_delay_ms(1000);
+
+    //NRF_LOG_FLUSH();
 
   }
 

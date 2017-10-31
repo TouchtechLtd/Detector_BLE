@@ -11,13 +11,19 @@
 #include "nrf_gpio.h"
 #include "ble_srv_common.h"
 #include "app_error.h"
+#include "nrf_sdh.h"
+#include "nrf_sdh_ble.h"
+#include "nrf_sdh_soc.h"
 
 #include "ble/ble_manager.h"
 #include "ble/ble_interface.h"
 #include "ble/ble_service.h"
 #include "ble/ble_characteristic.h"
+#include "ble/gn_ble_advertising.h"
 
 #include "debug/DEBUG.h"
+
+#define APP_BLE_MANAGER_OBSERVER_PRIO           3
 
 #define BLE_UUID_OUR_CHARACTERISTC_UUID          0xBEEF // Just a random, but recognizable value
 #define BLE_UUID_GOODNATURE_BASE              {{0x23, 0xD1, 0x13, 0xEF, 0x5F, 0x78, 0x23, 0x15, 0xDE, 0xEF, 0x12, 0x12, 0x00, 0x00, 0x00, 0x00}} // 128-bit base UUID
@@ -204,7 +210,7 @@ void BLE_Manager::createDeviceControlService() {
   Service deviceControl;
   deviceControl.createCustom(BLE_UUID_SERVICE_DEVICE_CONTROL, BLE_UUID_GOODNATURE_BASE);
 
-  uint8_t initValue = { 0x0000 };
+  uint8_t initValue[] = { 0x00, 0x00 };
 
   //// Trigger threshold ////
   Characteristic triggerThreshold;
@@ -213,7 +219,7 @@ void BLE_Manager::createDeviceControlService() {
   triggerThreshold.enableWrite();
   triggerThreshold.enableNotification();
 
-  triggerThreshold.initValue(&initValue, 2);
+  triggerThreshold.initValue(initValue, 2);
   triggerThreshold.setMaxLength(2);
 
   deviceControl.addCharacteristic(&triggerThreshold, CHAR_TRIGGER_THRESHOLD);
@@ -225,7 +231,7 @@ void BLE_Manager::createDeviceControlService() {
   moveThreshold.enableWrite();
   moveThreshold.enableNotification();
 
-  moveThreshold.initValue(&initValue, 2);
+  moveThreshold.initValue(initValue, 2);
   moveThreshold.setMaxLength(2);
 
   deviceControl.addCharacteristic(&moveThreshold, CHAR_MOVE_THRESHOLD);
@@ -237,7 +243,7 @@ void BLE_Manager::createDeviceControlService() {
   triggerDuration.enableWrite();
   triggerDuration.enableNotification();
 
-  triggerDuration.initValue(&initValue, 1);
+  triggerDuration.initValue(initValue, 1);
   triggerDuration.setMaxLength(1);
 
   deviceControl.addCharacteristic(&triggerDuration, CHAR_TRIGGER_DURATION);
@@ -250,7 +256,7 @@ void BLE_Manager::createDeviceControlService() {
   moveDuration.enableWrite();
   moveDuration.enableNotification();
 
-  moveDuration.initValue(&initValue, 1);
+  moveDuration.initValue(initValue, 1);
   moveDuration.setMaxLength(1);
 
   deviceControl.addCharacteristic(&moveDuration, CHAR_MOVE_DURATION);
@@ -263,7 +269,7 @@ void BLE_Manager::createDeviceControlService() {
   triggerBufferLength.enableWrite();
   triggerBufferLength.enableNotification();
 
-  triggerBufferLength.initValue(&initValue, 2);
+  triggerBufferLength.initValue(initValue, 2);
   triggerBufferLength.setMaxLength(2);
 
   deviceControl.addCharacteristic(&triggerBufferLength, CHAR_TRIGGER_BUFFER_LENGTH);
@@ -276,7 +282,7 @@ void BLE_Manager::createDeviceControlService() {
   moveBufferLength.enableWrite();
   moveBufferLength.enableNotification();
 
-  moveBufferLength.initValue(&initValue, 2);
+  moveBufferLength.initValue(initValue, 2);
   moveBufferLength.setMaxLength(2);
 
   deviceControl.addCharacteristic(&moveBufferLength, CHAR_MOVE_BUFFER_LENGTH);
@@ -288,7 +294,7 @@ void BLE_Manager::createDeviceControlService() {
   setBufferLength.enableWrite();
   setBufferLength.enableNotification();
 
-  setBufferLength.initValue(&initValue, 2);
+  setBufferLength.initValue(initValue, 2);
   setBufferLength.setMaxLength(2);
 
   deviceControl.addCharacteristic(&setBufferLength, CHAR_SET_BUFFER_LENGTH);
@@ -300,7 +306,7 @@ void BLE_Manager::createDeviceControlService() {
   outputRaw.enableWrite();
   outputRaw.enableNotification();
 
-  outputRaw.initValue(&initValue, 1);
+  outputRaw.initValue(initValue, 1);
   outputRaw.setMaxLength(1);
 
   deviceControl.addCharacteristic(&outputRaw, CHAR_OUTPUT_RAW);
@@ -311,7 +317,7 @@ void BLE_Manager::createDeviceControlService() {
   outputState.enableRead();
   outputState.enableNotification();
 
-  outputState.initValue(&initValue, 1);
+  outputState.initValue(initValue, 1);
   outputState.setMaxLength(1);
 
   deviceControl.addCharacteristic(&outputState, CHAR_OUTPUT_STATE);
@@ -320,7 +326,7 @@ void BLE_Manager::createDeviceControlService() {
   deviceControl.attachService();
   BLE::addService(&deviceControl, SERVICE_DEVICE_CONTROL);
 }
-
+/*
 void BLE_Manager::updateCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t length)
 {
   BLE::getService(serviceID)->getCharacteristic(charID)->update(p_data, length);
@@ -331,11 +337,10 @@ void BLE_Manager::notifyCharacteristic(uint8_t serviceID, uint8_t charID, uint8_
   uint16_t localLength = length;
   BLE::getService(serviceID)->getCharacteristic(charID)->notify(p_data, &localLength);
 }
-
+*/
 void BLE_Manager::setCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t length)
 {
-  if (BLE::isConnected()) { notifyCharacteristic(serviceID, charID, p_data, length); }
-  else                    { updateCharacteristic(serviceID, charID, p_data, length); }
+  BLE::getService(serviceID)->getCharacteristic(charID)->set(p_data, length);
 }
 
 
@@ -360,14 +365,15 @@ void BLE_Manager::setWriteHandler(uint8_t serviceID, uint8_t charID, char_write_
   BLE::getService(serviceID)->getCharacteristic(charID)->setWriteHandler(writeHandler);
 }
 
-void BLE_Manager::bleEventHandler(ble_evt_t * p_ble_evt)
+void BLE_Manager::bleEventHandler(ble_evt_t const * p_ble_evt, void* context)
 {
   manager().m_bleEventHandler(p_ble_evt);
 }
 
 
-void BLE_Manager::m_bleEventHandler(ble_evt_t * p_ble_evt)
+void BLE_Manager::m_bleEventHandler(ble_evt_t const * p_ble_evt)
 {
+  /*
   switch (p_ble_evt->header.evt_id)
      {
 
@@ -387,12 +393,15 @@ void BLE_Manager::m_bleEventHandler(ble_evt_t * p_ble_evt)
            //DEBUG("Unhandled event: %d", p_ble_evt->header.evt_id);
            break;
      }
+     */
 }
 
 
 
 void BLE_Manager::createBLEServer() {
+
   BLE::init();
+
   DEBUG("BLE Manager Initialised.");
 
   createDetectorDataService();
@@ -400,13 +409,16 @@ void BLE_Manager::createBLEServer() {
   createCurrentTimeService();
   createDeviceControlService();
 
-  BLE::adv.start(320);
-  BLE::adv.advertiseName();
-  BLE::adv.advertiseUUID(BLE::getService(SERVICE_DETECTOR_DATA)->getUUID());
+  gn_ble_adv_start(320);
+  gn_ble_adv_advertiseName();
+  gn_ble_adv_advertiseUUID(BLE::getService(SERVICE_DETECTOR_DATA)->getUUID());
 
   setPower(BLE_POWER_LEVEL_HIGH);
 
-  BLE::setExternalHandler(bleEventHandler);
+
+  NRF_SDH_BLE_OBSERVER(m_ble_manager_observer, APP_BLE_MANAGER_OBSERVER_PRIO, bleEventHandler, NULL);
+  //BLE::setExternalHandler(bleEventHandler);
+
 }
 
 

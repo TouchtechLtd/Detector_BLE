@@ -368,6 +368,7 @@ extern void LIS2DH12_setInterruptDuration(uint8_t duration)
 
 extern void LIS2DH12_setInterruptHandler(gpio_event_handler_t handler)
 {
+//#ifdef BOARD_RUUVITAG_B3
   if (GPIO::interruptIsSet(INT_ACC2_PIN))
   {
     GPIO::interruptClear(INT_ACC2_PIN);
@@ -382,6 +383,7 @@ extern void LIS2DH12_setInterruptHandler(gpio_event_handler_t handler)
 
 
   GPIO::interruptEnable(INT_ACC2_PIN);
+//#endif
 }
 
 
@@ -413,12 +415,15 @@ extern void LIS2DH12_initThresholdInterrupt(uint16_t threshold,
   setRegister(LIS2DH_CTRL_REG6, LIS2DH_I1_IA1);
 
   LIS2DH12_setInterruptHandler(handler);
+
 }
 
 
 extern void LIS2DH12_initDAPolling(app_timer_timeout_handler_t handler)
 {
+#ifdef BOARD_RUUVITAG_B3
   GPIO::setInput(INT_ACC1_PIN);
+#endif
   g_daHandler = handler;
 
   setRegister(LIS2DH_CTRL_REG3, LIS2DH_I1_DRDY2);

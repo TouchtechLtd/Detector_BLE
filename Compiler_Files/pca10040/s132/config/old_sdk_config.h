@@ -11,12 +11,9 @@
 //==========================================================
 // <q> BLE_ADVERTISING_ENABLED  - ble_advertising - Advertising module
  
-
-
 #ifndef BLE_LBS_ENABLED
 #define BLE_LBS_ENABLED 1
 #endif
-
 
 #ifndef BLE_ADVERTISING_ENABLED
 #define BLE_ADVERTISING_ENABLED 1
@@ -24,14 +21,12 @@
 
 // <q> BLE_DTM_ENABLED  - ble_dtm - Module for testing RF/PHY using DTM commands
  
-
 #ifndef BLE_DTM_ENABLED
 #define BLE_DTM_ENABLED 0
 #endif
 
 // <q> BLE_RACP_ENABLED  - ble_racp - Record Access Control Point library
  
-
 #ifndef BLE_RACP_ENABLED
 #define BLE_RACP_ENABLED 0
 #endif
@@ -2147,6 +2142,30 @@
 #define SPI_DEFAULT_CONFIG_IRQ_PRIORITY 7
 #endif
 
+// <o> SPI_DEFAULT_FREQUENCY  - SPI frequency
+
+// <33554432=> 125 kHz
+// <67108864=> 250 kHz
+// <134217728=> 500 kHz
+// <268435456=> 1 MHz
+// <536870912=> 2 MHz
+// <1073741824=> 4 MHz
+// <2147483648=> 8 MHz
+
+#ifndef SPI_DEFAULT_FREQUENCY
+#define SPI_DEFAULT_FREQUENCY 1073741824
+#endif
+
+// <o> NRF_SPI_DRV_MISO_PULLUP_CFG  - MISO PIN pull-up configuration.
+
+// <0=> NRF_GPIO_PIN_NOPULL
+// <1=> NRF_GPIO_PIN_PULLDOWN
+// <3=> NRF_GPIO_PIN_PULLUP
+
+#ifndef NRF_SPI_DRV_MISO_PULLUP_CFG
+#define NRF_SPI_DRV_MISO_PULLUP_CFG 1
+#endif
+
 // <e> SPI0_ENABLED - Enable SPI0 instance
 //==========================================================
 #ifndef SPI0_ENABLED
@@ -3244,41 +3263,45 @@
 #define ECC_ENABLED 0
 #endif
 
+
+// <e> NRF_BALLOC_ENABLED - nrf_balloc - Block allocator module
+//==========================================================
+#ifndef NRF_BALLOC_ENABLED
+#define NRF_BALLOC_ENABLED 1
+#endif
+
 // <e> FDS_ENABLED - fds - Flash data storage module
 //==========================================================
 #ifndef FDS_ENABLED
 #define FDS_ENABLED 1
 #endif
-#if  FDS_ENABLED
-// <o> FDS_OP_QUEUE_SIZE - Size of the internal queue. 
-#ifndef FDS_OP_QUEUE_SIZE
-#define FDS_OP_QUEUE_SIZE 4
+
+
+// <q> NRF_FPRINTF_ENABLED  - nrf_fprintf - fprintf function.
+
+
+#ifndef NRF_FPRINTF_ENABLED
+#define NRF_FPRINTF_ENABLED 1
 #endif
 
-// <o> FDS_CHUNK_QUEUE_SIZE - Determines how many @ref fds_record_chunk_t structures can be buffered at any time. 
-#ifndef FDS_CHUNK_QUEUE_SIZE
-#define FDS_CHUNK_QUEUE_SIZE 8
-#endif
 
-// <o> FDS_MAX_USERS - Maximum number of callbacks that can be registered. 
-#ifndef FDS_MAX_USERS
-#define FDS_MAX_USERS 8
-#endif
+// <h> Pages - Virtual page settings
 
+// <i> Configure the number of virtual pages to use and their size.
+//==========================================================
 // <o> FDS_VIRTUAL_PAGES - Number of virtual flash pages to use. 
 // <i> One of the virtual pages is reserved by the system for garbage collection.
-// <i> Therefore, the minimum is two virtual pages: one page to store data and
-// <i> one page to be used by the system for garbage collection. The total amount
-// <i> of flash memory that is used by FDS amounts to @ref FDS_VIRTUAL_PAGES
-// <i> @ref FDS_VIRTUAL_PAGE_SIZE * 4 bytes.
+// <i> Therefore, the minimum is two virtual pages: one page to store data and one page to be used by the system for garbage collection.
+// <i> The total amount of flash memory that is used by FDS amounts to @ref FDS_VIRTUAL_PAGES * @ref FDS_VIRTUAL_PAGE_SIZE * 4 bytes.
 
 #ifndef FDS_VIRTUAL_PAGES
 #define FDS_VIRTUAL_PAGES 3
 #endif
 
-// <o> FDS_VIRTUAL_PAGE_SIZE  - The size of a virtual page of flash memory, expressed in number of 4-byte words.
+// <o> FDS_VIRTUAL_PAGE_SIZE  - The size of a virtual flash page.
  
 
+// <i> Expressed in number of 4-byte words.
 // <i> By default, a virtual page is the same size as a physical page.
 // <i> The size of a virtual page must be a multiple of the size of a physical page.
 // <1024=> 1024 
@@ -3288,45 +3311,134 @@
 #define FDS_VIRTUAL_PAGE_SIZE 1024
 #endif
 
-#endif //FDS_ENABLED
+// </h>
+//==========================================================
+
+// <h> Backend - Backend configuration
+
+// <i> Configure which nrf_fstorage backend is used by FDS to write to flash.
+//==========================================================
+// <o> FDS_BACKEND  - FDS flash backend.
+
+
+// <i> NRF_FSTORAGE_SD uses the nrf_fstorage_sd backend implementation using the SoftDevice API. Use this if you have a SoftDevice present.
+// <i> NRF_FSTORAGE_NVMC uses the nrf_fstorage_nvmc implementation. Use this setting if you don't use the SoftDevice.
+// <1=> NRF_FSTORAGE_NVMC
+// <2=> NRF_FSTORAGE_SD
+
+#ifndef FDS_BACKEND
+#define FDS_BACKEND  2
+#endif
+
+// </h>
+//==========================================================
+
+// <h> Queue - Queue settings
+
+//==========================================================
+// <o> FDS_OP_QUEUE_SIZE - Size of the internal queue.
+// <i> Increase this value if you frequently get synchronous FDS_ERR_NO_SPACE_IN_QUEUES errors.
+
+#ifndef FDS_OP_QUEUE_SIZE
+#define FDS_OP_QUEUE_SIZE 4
+#endif
+
+// </h>
+//==========================================================
+
+// <h> CRC - CRC functionality
+
+//==========================================================
+// <e> FDS_CRC_CHECK_ON_READ - Enable CRC checks.
+
+// <i> Save a record's CRC when it is written to flash and check it when the record is opened.
+// <i> Records with an incorrect CRC can still be 'seen' by the user using FDS functions, but they cannot be opened.
+// <i> Additionally, they will not be garbage collected until they are deleted.
+//==========================================================
+#ifndef FDS_CRC_CHECK_ON_READ
+#define FDS_CRC_CHECK_ON_READ 1
+#endif
+// <o> FDS_CRC_CHECK_ON_WRITE  - Perform a CRC check on newly written records.
+
+
+// <i> Perform a CRC check on newly written records.
+// <i> This setting can be used to make sure that the record data was not altered while being written to flash.
+// <1=> Enabled
+// <0=> Disabled
+
+#ifndef FDS_CRC_CHECK_ON_WRITE
+#define FDS_CRC_CHECK_ON_WRITE 0
+#endif
+
 // </e>
+
+// </h>
+//==========================================================
+
+// <h> Users - Number of users
+
+//==========================================================
+// <o> FDS_MAX_USERS - Maximum number of callbacks that can be registered.
+#ifndef FDS_MAX_USERS
+#define FDS_MAX_USERS 4
+#endif
+
+// </h>
+//==========================================================
 
 // <e> FSTORAGE_ENABLED - fstorage - Flash storage module
 //==========================================================
 #ifndef FSTORAGE_ENABLED
 #define FSTORAGE_ENABLED 1
 #endif
-#if  FSTORAGE_ENABLED
-// <o> FS_QUEUE_SIZE - Configures the size of the internal queue. 
-// <i> Increase this if there are many users, or if it is likely that many
-// <i> operation will be queued at once without waiting for the previous operations
-// <i> to complete. In general, increase the queue size if you frequently receive
-// <i> @ref FS_ERR_QUEUE_FULL errors when calling @ref fs_store or @ref fs_erase.
 
-#ifndef FS_QUEUE_SIZE
-#define FS_QUEUE_SIZE 4
+// <h> nrf_fstorage_sd - Implementation using the SoftDevice.
+
+// <i> Configuration options for the fstorage implementation using the SoftDevice.
+//==========================================================
+// <o> NRF_FSTORAGE_SD_QUEUE_SIZE - Size of the internal queue of operations.
+// <i> Increase this value if API calls frequently return the error @ref NRF_ERROR_NO_MEM.
+
+#ifndef NRF_FSTORAGE_SD_QUEUE_SIZE
+#define NRF_FSTORAGE_SD_QUEUE_SIZE 4
 #endif
 
-// <o> FS_OP_MAX_RETRIES - Number attempts to execute an operation if the SoftDevice fails. 
-// <i> Increase this value if events return the @ref FS_ERR_OPERATION_TIMEOUT
-// <i> error often. The SoftDevice may fail to schedule flash access due to high BLE activity.
+// <o> NRF_FSTORAGE_SD_MAX_RETRIES - Maximum number of attempts at executing an operation when the SoftDevice is busy.
+// <i> Increase this value if events frequently return the @ref NRF_ERROR_TIMEOUT error.
+// <i> The SoftDevice might fail to schedule flash access due to high BLE activity.
 
-#ifndef FS_OP_MAX_RETRIES
-#define FS_OP_MAX_RETRIES 3
+#ifndef NRF_FSTORAGE_SD_MAX_RETRIES
+#define NRF_FSTORAGE_SD_MAX_RETRIES 8
 #endif
 
-// <o> FS_MAX_WRITE_SIZE_WORDS - Maximum number of words to be written to flash in a single operation. 
-// <i> Tweaking this value can increase the chances of the SoftDevice being
-// <i> able to fit flash operations in between radio activity. This value is bound by the
-// <i> maximum number of words which the SoftDevice can write to flash in a single call to
-// <i> @ref sd_flash_write, which is 256 words for nRF51 ICs and 1024 words for nRF52 ICs.
+// <o> NRF_FSTORAGE_SD_MAX_WRITE_SIZE - Maximum number of bytes to be written to flash in a single operation.
+// <i> This value must be a multiple of four.
+// <i> Lowering this value can increase the chances of the SoftDevice being able to execute flash operations in between radio activity.
+// <i> This value is bound by the maximum number of bytes that can be written to flash in a single call to @ref sd_flash_write.
+// <i> That is 1024 bytes for nRF51 ICs and 4096 bytes for nRF52 ICs.
 
-#ifndef FS_MAX_WRITE_SIZE_WORDS
-#define FS_MAX_WRITE_SIZE_WORDS 1024
+#ifndef NRF_FSTORAGE_SD_MAX_WRITE_SIZE
+#define NRF_FSTORAGE_SD_MAX_WRITE_SIZE 4096
 #endif
 
-#endif //FSTORAGE_ENABLED
-// </e>
+// </h>
+//==========================================================
+
+
+// <q> NRF_MEMOBJ_ENABLED  - nrf_memobj - Linked memory allocator module
+
+
+#ifndef NRF_MEMOBJ_ENABLED
+#define NRF_MEMOBJ_ENABLED 1
+#endif
+
+// <e> NRF_PWR_MGMT_ENABLED - nrf_pwr_mgmt - Power management module
+//==========================================================
+#ifndef NRF_PWR_MGMT_ENABLED
+#define NRF_PWR_MGMT_ENABLED 1
+#endif
+// <e> NRF_PWR_MGMT_CONFIG_DEBUG_PIN_ENABLED - Enables pin debug in the module.
+
 
 // <q> HARDFAULT_HANDLER_ENABLED  - hardfault_default - HardFault default handler for debugging and release
  
@@ -3721,7 +3833,7 @@
 #ifndef NRF_LOG_ENABLED
 #define NRF_LOG_ENABLED 1
 #endif
-#if  NRF_LOG_ENABLED
+
 // <e> NRF_LOG_USES_COLORS - If enabled then ANSI escape code for colors is prefixed to every string
 //==========================================================
 #ifndef NRF_LOG_USES_COLORS
@@ -3791,23 +3903,39 @@
 #define NRF_LOG_DEFAULT_LEVEL 3
 #endif
 
-// <e> NRF_LOG_DEFERRED - Enable deffered logger.
-
 // <i> Log data is buffered and can be processed in idle.
-//==========================================================
+
 #ifndef NRF_LOG_DEFERRED
 #define NRF_LOG_DEFERRED 1
 #endif
-#if  NRF_LOG_DEFERRED
-// <o> NRF_LOG_DEFERRED_BUFSIZE - Size of the buffer for logs in words. 
-// <i> Must be power of 2
 
-#ifndef NRF_LOG_DEFERRED_BUFSIZE
-#define NRF_LOG_DEFERRED_BUFSIZE 256
+// <o> NRF_LOG_BUFSIZE  - Size of the buffer for storing logs (in bytes).
+
+
+// <i> Must be power of 2 and multiple of 4.
+// <i> If NRF_LOG_DEFERRED = 0 then buffer size can be reduced to minimum.
+// <128=> 128
+// <256=> 256
+// <512=> 512
+// <1024=> 1024
+// <2048=> 2048
+// <4096=> 4096
+// <8192=> 8192
+// <16384=> 16384
+
+#ifndef NRF_LOG_BUFSIZE
+#define NRF_LOG_BUFSIZE 1024
 #endif
 
-#endif //NRF_LOG_DEFERRED
-// </e>
+// <q> NRF_LOG_ALLOW_OVERFLOW  - Configures behavior when circular buffer is full.
+
+
+// <i> If set then oldest logs are overwritten. Otherwise a
+// <i> marker is injected informing about overflow.
+
+#ifndef NRF_LOG_ALLOW_OVERFLOW
+#define NRF_LOG_ALLOW_OVERFLOW 1
+#endif
 
 // <q> NRF_LOG_USES_TIMESTAMP  - Enable timestamping
  
@@ -3818,33 +3946,156 @@
 #define NRF_LOG_USES_TIMESTAMP 0
 #endif
 
-#endif //NRF_LOG_ENABLED
+// <q> NRF_LOG_FILTERS_ENABLED  - Enable dynamic filtering of logs.
+
+
+#ifndef NRF_LOG_FILTERS_ENABLED
+#define NRF_LOG_FILTERS_ENABLED 1
+#endif
+
+// <q> NRF_LOG_CLI_CMDS  - Enable CLI commands for the module.
+
+
+#ifndef NRF_LOG_CLI_CMDS
+#define NRF_LOG_CLI_CMDS 1
+#endif
+
 // </e>
 
-// <h> nrf_log_backend - Logging sink
+// <h> nRF_Log
+
+
+// <h> Log message pool - Configuration of log message pool
 
 //==========================================================
-// <o> NRF_LOG_BACKEND_MAX_STRING_LENGTH - Buffer for storing single output string 
-// <i> Logger backend RAM usage is determined by this value.
+// <o> NRF_LOG_MSGPOOL_ELEMENT_SIZE - Size of a single element in the pool of memory objects.
+// <i> If a small value is set, then performance of logs processing
+// <i> is degraded because data is fragmented. Bigger value impacts
+// <i> RAM memory utilization. The size is set to fit a message with
+// <i> a timestamp and up to 2 arguments in a single memory object.
 
-#ifndef NRF_LOG_BACKEND_MAX_STRING_LENGTH
-#define NRF_LOG_BACKEND_MAX_STRING_LENGTH 256
+#ifndef NRF_LOG_MSGPOOL_ELEMENT_SIZE
+#define NRF_LOG_MSGPOOL_ELEMENT_SIZE 20
 #endif
 
-// <o> NRF_LOG_TIMESTAMP_DIGITS - Number of digits for timestamp 
-// <i> If higher resolution timestamp source is used it might be needed to increase that
+// <o> NRF_LOG_MSGPOOL_ELEMENT_COUNT - Number of elements in the pool of memory objects
+// <i> If a small value is set, then it may lead to a deadlock
+// <i> in certain cases if backend has high latency and holds
+// <i> multiple messages for long time. Bigger value impacts
+// <i> RAM memory usage.
 
-#ifndef NRF_LOG_TIMESTAMP_DIGITS
-#define NRF_LOG_TIMESTAMP_DIGITS 8
+#ifndef NRF_LOG_MSGPOOL_ELEMENT_COUNT
+#define NRF_LOG_MSGPOOL_ELEMENT_COUNT 8
 #endif
 
-// <e> NRF_LOG_BACKEND_SERIAL_USES_UART - If enabled data is printed over UART
+// </h>
 //==========================================================
-#ifndef NRF_LOG_BACKEND_SERIAL_USES_UART
-#define NRF_LOG_BACKEND_SERIAL_USES_UART 1
+
+// </e>
+
+// <h> nrf_log module configuration
+
+//==========================================================
+// <h> nrf_log in nRF_Core
+// <h> nrf_cli - Command line interface
+
+//==========================================================
+// <q> NRF_CLI_ENABLED  - Enable/disable the CLI module.
+
+
+#ifndef NRF_CLI_ENABLED
+#define NRF_CLI_ENABLED 1
 #endif
-#if  NRF_LOG_BACKEND_SERIAL_USES_UART
-// <o> NRF_LOG_BACKEND_SERIAL_UART_BAUDRATE  - Default Baudrate
+
+// <o> NRF_CLI_ARGC_MAX - Maximum number of parameters passed to the command handler.
+#ifndef NRF_CLI_ARGC_MAX
+#define NRF_CLI_ARGC_MAX 12
+#endif
+
+// <q> NRF_CLI_BUILD_IN_CMDS_ENABLED  - CLI built-in commands.
+
+
+#ifndef NRF_CLI_BUILD_IN_CMDS_ENABLED
+#define NRF_CLI_BUILD_IN_CMDS_ENABLED 1
+#endif
+
+// <o> NRF_CLI_CMD_BUFF_SIZE - Maximum buffer size for a single command.
+#ifndef NRF_CLI_CMD_BUFF_SIZE
+#define NRF_CLI_CMD_BUFF_SIZE 128
+#endif
+
+// <q> NRF_CLI_ECHO_STATUS  - CLI echo status. If set, echo is ON.
+
+
+#ifndef NRF_CLI_ECHO_STATUS
+#define NRF_CLI_ECHO_STATUS 1
+#endif
+
+// <o> NRF_CLI_PRINTF_BUFF_SIZE - Maximum print buffer size.
+#ifndef NRF_CLI_PRINTF_BUFF_SIZE
+#define NRF_CLI_PRINTF_BUFF_SIZE 23
+#endif
+
+// <e> NRF_CLI_HISTORY_ENABLED - Enable CLI history mode.
+//==========================================================
+#ifndef NRF_CLI_HISTORY_ENABLED
+#define NRF_CLI_HISTORY_ENABLED 1
+#endif
+// <o> NRF_CLI_HISTORY_ELEMENT_SIZE - Size of one memory object reserved for CLI history.
+#ifndef NRF_CLI_HISTORY_ELEMENT_SIZE
+#define NRF_CLI_HISTORY_ELEMENT_SIZE 32
+#endif
+
+// <o> NRF_CLI_HISTORY_ELEMENT_COUNT - Number of history memory objects.
+#ifndef NRF_CLI_HISTORY_ELEMENT_COUNT
+#define NRF_CLI_HISTORY_ELEMENT_COUNT 8
+#endif
+
+// </e>
+
+// <q> NRF_CLI_VT100_COLORS_ENABLED  - CLI VT100 colors.
+
+
+#ifndef NRF_CLI_VT100_COLORS_ENABLED
+#define NRF_CLI_VT100_COLORS_ENABLED 1
+#endif
+
+// <q> NRF_CLI_STATISTICS_ENABLED  - Enable CLI statistics.
+
+
+#ifndef NRF_CLI_STATISTICS_ENABLED
+#define NRF_CLI_STATISTICS_ENABLED 1
+#endif
+
+// <q> NRF_CLI_LOG_BACKEND  - Enable logger backend interface.
+
+
+#ifndef NRF_CLI_LOG_BACKEND
+#define NRF_CLI_LOG_BACKEND 1
+#endif
+
+// <q> NRF_CLI_USES_TASK_MANAGER_ENABLED  - Enable CLI to use task_manager
+
+
+#ifndef NRF_CLI_USES_TASK_MANAGER_ENABLED
+#define NRF_CLI_USES_TASK_MANAGER_ENABLED 0
+#endif
+
+// </h>
+//==========================================================
+
+//==========================================================
+// <e> NRF_LOG_BACKEND_UART_ENABLED - nrf_log_backend_uart - Log UART backend
+//==========================================================
+#ifndef NRF_LOG_BACKEND_UART_ENABLED
+#define NRF_LOG_BACKEND_UART_ENABLED 1
+#endif
+// <o> NRF_LOG_BACKEND_UART_TX_PIN - UART TX pin
+#ifndef NRF_LOG_BACKEND_UART_TX_PIN
+#define NRF_LOG_BACKEND_UART_TX_PIN 6
+#endif
+
+// <o> NRF_LOG_BACKEND_UART_BAUDRATE  - Default Baudrate
  
 // <323584=> 1200 baud 
 // <643072=> 2400 baud 
@@ -3861,125 +4112,647 @@
 // <67108864=> 250000 baud 
 // <121634816=> 460800 baud 
 // <251658240=> 921600 baud 
-// <268435456=> 57600 baud 
+// <268435456=> 1000000 baud
 
-#ifndef NRF_LOG_BACKEND_SERIAL_UART_BAUDRATE
-#define NRF_LOG_BACKEND_SERIAL_UART_BAUDRATE 30801920
+#ifndef NRF_LOG_BACKEND_UART_BAUDRATE
+#define NRF_LOG_BACKEND_UART_BAUDRATE 30801920
 #endif
 
-// <o> NRF_LOG_BACKEND_SERIAL_UART_TX_PIN - UART TX pin 
-#ifndef NRF_LOG_BACKEND_SERIAL_UART_TX_PIN
-#define NRF_LOG_BACKEND_SERIAL_UART_TX_PIN 6
+// <o> NRF_LOG_BACKEND_UART_TEMP_BUFFER_SIZE - Size of buffer for partially processed strings.
+// <i> Size of the buffer is a trade-off between RAM usage and processing.
+// <i> if buffer is smaller then strings will often be fragmented.
+// <i> It is recommended to use size which will fit typical log and only the
+// <i> longer one will be fragmented.
+
+#ifndef NRF_LOG_BACKEND_UART_TEMP_BUFFER_SIZE
+#define NRF_LOG_BACKEND_UART_TEMP_BUFFER_SIZE 64
 #endif
 
-// <o> NRF_LOG_BACKEND_SERIAL_UART_RX_PIN - UART RX pin 
-#ifndef NRF_LOG_BACKEND_SERIAL_UART_RX_PIN
-#define NRF_LOG_BACKEND_SERIAL_UART_RX_PIN 8
-#endif
-
-// <o> NRF_LOG_BACKEND_SERIAL_UART_RTS_PIN - UART RTS pin 
-#ifndef NRF_LOG_BACKEND_SERIAL_UART_RTS_PIN
-#define NRF_LOG_BACKEND_SERIAL_UART_RTS_PIN 5
-#endif
-
-// <o> NRF_LOG_BACKEND_SERIAL_UART_CTS_PIN - UART CTS pin 
-#ifndef NRF_LOG_BACKEND_SERIAL_UART_CTS_PIN
-#define NRF_LOG_BACKEND_SERIAL_UART_CTS_PIN 7
-#endif
-
-// <o> NRF_LOG_BACKEND_SERIAL_UART_FLOW_CONTROL  - Hardware Flow Control
- 
-// <0=> Disabled 
-// <1=> Enabled 
-
-#ifndef NRF_LOG_BACKEND_SERIAL_UART_FLOW_CONTROL
-#define NRF_LOG_BACKEND_SERIAL_UART_FLOW_CONTROL 0
-#endif
-
-// <o> NRF_LOG_BACKEND_UART_INSTANCE  - UART instance used
- 
-// <0=> 0 
-
-#ifndef NRF_LOG_BACKEND_UART_INSTANCE
-#define NRF_LOG_BACKEND_UART_INSTANCE 0
-#endif
-
-#endif //NRF_LOG_BACKEND_SERIAL_USES_UART
 // </e>
 
-// <e> NRF_LOG_BACKEND_SERIAL_USES_RTT - If enabled data is printed using RTT
+
+
+// <e> NRF_SDH_BLE_LOG_ENABLED - Enable logging in SoftDevice handler (BLE) module.
 //==========================================================
-#ifndef NRF_LOG_BACKEND_SERIAL_USES_RTT
-#define NRF_LOG_BACKEND_SERIAL_USES_RTT 0
+#ifndef NRF_SDH_BLE_LOG_ENABLED
+#define NRF_SDH_BLE_LOG_ENABLED 1
 #endif
-#if  NRF_LOG_BACKEND_SERIAL_USES_RTT
-// <o> NRF_LOG_BACKEND_RTT_OUTPUT_BUFFER_SIZE - RTT output buffer size. 
-// <i> Should be equal or bigger than \ref NRF_LOG_BACKEND_MAX_STRING_LENGTH.
-// <i> This value is used in Segger RTT configuration to set the buffer size
-// <i> if it is bigger than default RTT buffer size.
+// <o> NRF_SDH_BLE_LOG_LEVEL  - Default Severity level
 
-#ifndef NRF_LOG_BACKEND_RTT_OUTPUT_BUFFER_SIZE
-#define NRF_LOG_BACKEND_RTT_OUTPUT_BUFFER_SIZE 512
+// <0=> Off
+// <1=> Error
+// <2=> Warning
+// <3=> Info
+// <4=> Debug
+
+#ifndef NRF_SDH_BLE_LOG_LEVEL
+#define NRF_SDH_BLE_LOG_LEVEL 3
 #endif
 
-#endif //NRF_LOG_BACKEND_SERIAL_USES_RTT
+// <o> NRF_SDH_BLE_INFO_COLOR  - ANSI escape code prefix.
+
+// <0=> Default
+// <1=> Black
+// <2=> Red
+// <3=> Green
+// <4=> Yellow
+// <5=> Blue
+// <6=> Magenta
+// <7=> Cyan
+// <8=> White
+
+#ifndef NRF_SDH_BLE_INFO_COLOR
+#define NRF_SDH_BLE_INFO_COLOR 0
+#endif
+
+// <o> NRF_SDH_BLE_DEBUG_COLOR  - ANSI escape code prefix.
+
+// <0=> Default
+// <1=> Black
+// <2=> Red
+// <3=> Green
+// <4=> Yellow
+// <5=> Blue
+// <6=> Magenta
+// <7=> Cyan
+// <8=> White
+
+#ifndef NRF_SDH_BLE_DEBUG_COLOR
+#define NRF_SDH_BLE_DEBUG_COLOR 0
+#endif
+
 // </e>
 
-// </h> 
-//==========================================================
+// </e>
 
-// </h> 
-//==========================================================
 
-// <h> nRF_Segger_RTT 
+// <h> nRF_SoftDevice
 
 //==========================================================
-// <h> segger_rtt - SEGGER RTT
-
+// <e> NRF_SDH_BLE_ENABLED - nrf_sdh_ble - SoftDevice BLE event handler
 //==========================================================
-// <o> SEGGER_RTT_CONFIG_BUFFER_SIZE_UP - Size of upstream buffer. 
-// <i> Note that either @ref NRF_LOG_BACKEND_RTT_OUTPUT_BUFFER_SIZE
-// <i> or this value is actually used. It depends on which one is bigger.
+#ifndef NRF_SDH_BLE_ENABLED
+#define NRF_SDH_BLE_ENABLED 1
+#endif
+// <h> BLE Stack configuration - Stack configuration parameters
 
-#ifndef SEGGER_RTT_CONFIG_BUFFER_SIZE_UP
-#define SEGGER_RTT_CONFIG_BUFFER_SIZE_UP 64
+// <i> These values are not used directly by the SoftDevice handler but the application or other libraries might depend on them.
+// <i> Keep them up-to-date with the desired configuration.
+//==========================================================
+// <o> NRF_SDH_BLE_PERIPHERAL_LINK_COUNT - Maximum number of peripheral links.
+#ifndef NRF_SDH_BLE_PERIPHERAL_LINK_COUNT
+#define NRF_SDH_BLE_PERIPHERAL_LINK_COUNT 0
 #endif
 
-// <o> SEGGER_RTT_CONFIG_MAX_NUM_UP_BUFFERS - Size of upstream buffer. 
-#ifndef SEGGER_RTT_CONFIG_MAX_NUM_UP_BUFFERS
-#define SEGGER_RTT_CONFIG_MAX_NUM_UP_BUFFERS 2
+// <o> NRF_SDH_BLE_CENTRAL_LINK_COUNT - Maximum number of central links.
+#ifndef NRF_SDH_BLE_CENTRAL_LINK_COUNT
+#define NRF_SDH_BLE_CENTRAL_LINK_COUNT 0
 #endif
 
-// <o> SEGGER_RTT_CONFIG_BUFFER_SIZE_DOWN - Size of upstream buffer. 
-#ifndef SEGGER_RTT_CONFIG_BUFFER_SIZE_DOWN
-#define SEGGER_RTT_CONFIG_BUFFER_SIZE_DOWN 16
+// <o> NRF_SDH_BLE_TOTAL_LINK_COUNT - Maximum number of total concurrent connections using the default configuration.
+#ifndef NRF_SDH_BLE_TOTAL_LINK_COUNT
+#define NRF_SDH_BLE_TOTAL_LINK_COUNT 1
 #endif
 
-// <o> SEGGER_RTT_CONFIG_MAX_NUM_DOWN_BUFFERS - Size of upstream buffer. 
-#ifndef SEGGER_RTT_CONFIG_MAX_NUM_DOWN_BUFFERS
-#define SEGGER_RTT_CONFIG_MAX_NUM_DOWN_BUFFERS 2
+// <o> NRF_SDH_BLE_GAP_EVENT_LENGTH - The time set aside for this connection on every connection interval in 1.25 ms units.
+#ifndef NRF_SDH_BLE_GAP_EVENT_LENGTH
+#define NRF_SDH_BLE_GAP_EVENT_LENGTH 3
 #endif
 
-// <o> SEGGER_RTT_CONFIG_DEFAULT_MODE  - RTT behavior if the buffer is full.
- 
-
-// <i> The following modes are supported:
-// <i> - SKIP  - Do not block, output nothing.
-// <i> - TRIM  - Do not block, output as much as fits.
-// <i> - BLOCK - Wait until there is space in the buffer.
-// <0=> SKIP 
-// <1=> TRIM 
-// <2=> BLOCK_IF_FIFO_FULL 
-
-#ifndef SEGGER_RTT_CONFIG_DEFAULT_MODE
-#define SEGGER_RTT_CONFIG_DEFAULT_MODE 0
+// <o> NRF_SDH_BLE_GATT_MAX_MTU_SIZE - Static maximum MTU size.
+#ifndef NRF_SDH_BLE_GATT_MAX_MTU_SIZE
+#define NRF_SDH_BLE_GATT_MAX_MTU_SIZE 23
 #endif
 
-// </h> 
+// <o> NRF_SDH_BLE_GATTS_ATTR_TAB_SIZE - Attribute Table size in bytes. The size must be a multiple of 4.
+#ifndef NRF_SDH_BLE_GATTS_ATTR_TAB_SIZE
+#define NRF_SDH_BLE_GATTS_ATTR_TAB_SIZE 1408
+#endif
+
+// <o> NRF_SDH_BLE_VS_UUID_COUNT - The number of vendor-specific UUIDs.
+#ifndef NRF_SDH_BLE_VS_UUID_COUNT
+#define NRF_SDH_BLE_VS_UUID_COUNT 0
+#endif
+
+// <q> NRF_SDH_BLE_SERVICE_CHANGED  - Include the Service Changed characteristic in the Attribute Table.
+
+
+#ifndef NRF_SDH_BLE_SERVICE_CHANGED
+#define NRF_SDH_BLE_SERVICE_CHANGED 0
+#endif
+
+// </h>
 //==========================================================
 
-// </h> 
+// <h> BLE Observers - Observers and priority levels
+
 //==========================================================
+// <o> NRF_SDH_BLE_OBSERVER_PRIO_LEVELS - Total number of priority levels for BLE observers.
+// <i> This setting configures the number of priority levels available for BLE event handlers.
+// <i> The priority level of a handler determines the order in which it receives events, with respect to other handlers.
+
+#ifndef NRF_SDH_BLE_OBSERVER_PRIO_LEVELS
+#define NRF_SDH_BLE_OBSERVER_PRIO_LEVELS 4
+#endif
+
+// <h> BLE Observers priorities - Invididual priorities
+
+//==========================================================
+// <o> BLE_ADV_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Advertising module.
+
+#ifndef BLE_ADV_BLE_OBSERVER_PRIO
+#define BLE_ADV_BLE_OBSERVER_PRIO 1
+#endif
+
+// <o> BLE_ANCS_C_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Apple Notification Service Client.
+
+#ifndef BLE_ANCS_C_BLE_OBSERVER_PRIO
+#define BLE_ANCS_C_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_ANS_C_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Alert Notification Service Client.
+
+#ifndef BLE_ANS_C_BLE_OBSERVER_PRIO
+#define BLE_ANS_C_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_BAS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Battery Service.
+
+#ifndef BLE_BAS_BLE_OBSERVER_PRIO
+#define BLE_BAS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_BAS_C_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Battery Service Client.
+
+#ifndef BLE_BAS_C_BLE_OBSERVER_PRIO
+#define BLE_BAS_C_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_BPS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Blood Pressure Service.
+
+#ifndef BLE_BPS_BLE_OBSERVER_PRIO
+#define BLE_BPS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_CONN_PARAMS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Connection parameters module.
+
+#ifndef BLE_CONN_PARAMS_BLE_OBSERVER_PRIO
+#define BLE_CONN_PARAMS_BLE_OBSERVER_PRIO 1
+#endif
+
+// <o> BLE_CONN_STATE_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Connection State module.
+
+#ifndef BLE_CONN_STATE_BLE_OBSERVER_PRIO
+#define BLE_CONN_STATE_BLE_OBSERVER_PRIO 0
+#endif
+
+// <o> BLE_CSCS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Cycling Speed and Cadence Service.
+
+#ifndef BLE_CSCS_BLE_OBSERVER_PRIO
+#define BLE_CSCS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_CTS_C_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Current Time Service Client.
+
+#ifndef BLE_CTS_C_BLE_OBSERVER_PRIO
+#define BLE_CTS_C_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_DB_DISC_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Database Discovery module.
+
+#ifndef BLE_DB_DISC_BLE_OBSERVER_PRIO
+#define BLE_DB_DISC_BLE_OBSERVER_PRIO 1
+#endif
+
+// <o> BLE_DFU_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the DFU Service.
+
+#ifndef BLE_DFU_BLE_OBSERVER_PRIO
+#define BLE_DFU_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_GLS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Glucose Service.
+
+#ifndef BLE_GLS_BLE_OBSERVER_PRIO
+#define BLE_GLS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_HIDS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Human Interface Device Service.
+
+#ifndef BLE_HIDS_BLE_OBSERVER_PRIO
+#define BLE_HIDS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_HRS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Heart Rate Service.
+
+#ifndef BLE_HRS_BLE_OBSERVER_PRIO
+#define BLE_HRS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_HRS_C_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Heart Rate Service Client.
+
+#ifndef BLE_HRS_C_BLE_OBSERVER_PRIO
+#define BLE_HRS_C_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_HTS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Health Thermometer Service.
+
+#ifndef BLE_HTS_BLE_OBSERVER_PRIO
+#define BLE_HTS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_IAS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Immediate Alert Service.
+
+#ifndef BLE_IAS_BLE_OBSERVER_PRIO
+#define BLE_IAS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_IAS_C_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Immediate Alert Service Client.
+
+#ifndef BLE_IAS_C_BLE_OBSERVER_PRIO
+#define BLE_IAS_C_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_LBS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the LED Button Service.
+
+#ifndef BLE_LBS_BLE_OBSERVER_PRIO
+#define BLE_LBS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_LBS_C_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the LED Button Service Client.
+
+#ifndef BLE_LBS_C_BLE_OBSERVER_PRIO
+#define BLE_LBS_C_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_LLS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Link Loss Service.
+
+#ifndef BLE_LLS_BLE_OBSERVER_PRIO
+#define BLE_LLS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_LNS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Location Navigation Service.
+
+#ifndef BLE_LNS_BLE_OBSERVER_PRIO
+#define BLE_LNS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_NUS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the UART Service.
+
+#ifndef BLE_NUS_BLE_OBSERVER_PRIO
+#define BLE_NUS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_NUS_C_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the UART Central Service.
+
+#ifndef BLE_NUS_C_BLE_OBSERVER_PRIO
+#define BLE_NUS_C_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_OTS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Object transfer service.
+
+#ifndef BLE_OTS_BLE_OBSERVER_PRIO
+#define BLE_OTS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_OTS_C_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Object transfer service client.
+
+#ifndef BLE_OTS_C_BLE_OBSERVER_PRIO
+#define BLE_OTS_C_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_RSCS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Running Speed and Cadence Service.
+
+#ifndef BLE_RSCS_BLE_OBSERVER_PRIO
+#define BLE_RSCS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_RSCS_C_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Running Speed and Cadence Client.
+
+#ifndef BLE_RSCS_C_BLE_OBSERVER_PRIO
+#define BLE_RSCS_C_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BLE_TPS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the TX Power Service.
+
+#ifndef BLE_TPS_BLE_OBSERVER_PRIO
+#define BLE_TPS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> BSP_BTN_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Button Control module.
+
+#ifndef BSP_BTN_BLE_OBSERVER_PRIO
+#define BSP_BTN_BLE_OBSERVER_PRIO 1
+#endif
+
+// <o> NFC_BLE_PAIR_LIB_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the NFC pairing library.
+
+#ifndef NFC_BLE_PAIR_LIB_BLE_OBSERVER_PRIO
+#define NFC_BLE_PAIR_LIB_BLE_OBSERVER_PRIO 1
+#endif
+
+// <o> NRF_BLE_BMS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Bond Management Service.
+
+#ifndef NRF_BLE_BMS_BLE_OBSERVER_PRIO
+#define NRF_BLE_BMS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> NRF_BLE_CGMS_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Contiuon Glucose Monitoring Service.
+
+#ifndef NRF_BLE_CGMS_BLE_OBSERVER_PRIO
+#define NRF_BLE_CGMS_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> NRF_BLE_ES_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Eddystone module.
+
+#ifndef NRF_BLE_ES_BLE_OBSERVER_PRIO
+#define NRF_BLE_ES_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> NRF_BLE_GATTS_C_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the GATT Service Client.
+
+#ifndef NRF_BLE_GATTS_C_BLE_OBSERVER_PRIO
+#define NRF_BLE_GATTS_C_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> NRF_BLE_GATT_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the GATT module.
+
+#ifndef NRF_BLE_GATT_BLE_OBSERVER_PRIO
+#define NRF_BLE_GATT_BLE_OBSERVER_PRIO 1
+#endif
+
+// <o> NRF_BLE_QWR_BLE_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the Queued writes module.
+
+#ifndef NRF_BLE_QWR_BLE_OBSERVER_PRIO
+#define NRF_BLE_QWR_BLE_OBSERVER_PRIO 2
+#endif
+
+// <o> PM_BLE_OBSERVER_PRIO - Priority with which BLE events are dispatched to the Peer Manager module.
+#ifndef PM_BLE_OBSERVER_PRIO
+#define PM_BLE_OBSERVER_PRIO 1
+#endif
+
+// </h>
+//==========================================================
+// </h>
+//==========================================================
+
+
+// </e>
+
+
+// <e> NRF_SDH_ENABLED - nrf_sdh - SoftDevice handler
+//==========================================================
+#ifndef NRF_SDH_ENABLED
+#define NRF_SDH_ENABLED 1
+#endif
+// <h> Dispatch model
+
+// <i> This setting configures how Stack events are dispatched to the application.
+//==========================================================
+// <o> NRF_SDH_DISPATCH_MODEL
+
+
+// <i> NRF_SDH_DISPATCH_MODEL_INTERRUPT: SoftDevice events are passed to the application from the interrupt context.
+// <i> NRF_SDH_DISPATCH_MODEL_APPSH: SoftDevice events are scheduled using @ref app_scheduler.
+// <i> NRF_SDH_DISPATCH_MODEL_POLLING: SoftDevice events are to be fetched manually.
+// <0=> NRF_SDH_DISPATCH_MODEL_INTERRUPT
+// <1=> NRF_SDH_DISPATCH_MODEL_APPSH
+// <2=> NRF_SDH_DISPATCH_MODEL_POLLING
+
+#ifndef NRF_SDH_DISPATCH_MODEL
+#define NRF_SDH_DISPATCH_MODEL 0
+#endif
+
+// </h>
+//==========================================================
+
+// <h> Clock - SoftDevice clock configuration
+
+//==========================================================
+// <o> NRF_SDH_CLOCK_LF_SRC  - SoftDevice clock source.
+
+// <0=> NRF_CLOCK_LF_SRC_RC
+// <1=> NRF_CLOCK_LF_SRC_XTAL
+// <2=> NRF_CLOCK_LF_SRC_SYNTH
+
+#ifndef NRF_SDH_CLOCK_LF_SRC
+#define NRF_SDH_CLOCK_LF_SRC 1
+#endif
+
+// <o> NRF_SDH_CLOCK_LF_RC_CTIV - SoftDevice calibration timer interval.
+#ifndef NRF_SDH_CLOCK_LF_RC_CTIV
+#define NRF_SDH_CLOCK_LF_RC_CTIV 0
+#endif
+
+// <o> NRF_SDH_CLOCK_LF_RC_TEMP_CTIV - SoftDevice calibration timer interval under constant temperature.
+// <i> How often (in number of calibration intervals) the RC oscillator shall be calibrated
+// <i>  if the temperature has not changed.
+
+#ifndef NRF_SDH_CLOCK_LF_RC_TEMP_CTIV
+#define NRF_SDH_CLOCK_LF_RC_TEMP_CTIV 0
+#endif
+
+// <o> NRF_SDH_CLOCK_LF_XTAL_ACCURACY  - External crystal clock accuracy used in the LL to compute timing windows.
+
+// <0=> NRF_CLOCK_LF_XTAL_ACCURACY_250_PPM
+// <1=> NRF_CLOCK_LF_XTAL_ACCURACY_500_PPM
+// <2=> NRF_CLOCK_LF_XTAL_ACCURACY_150_PPM
+// <3=> NRF_CLOCK_LF_XTAL_ACCURACY_100_PPM
+// <4=> NRF_CLOCK_LF_XTAL_ACCURACY_75_PPM
+// <5=> NRF_CLOCK_LF_XTAL_ACCURACY_50_PPM
+// <6=> NRF_CLOCK_LF_XTAL_ACCURACY_30_PPM
+// <7=> NRF_CLOCK_LF_XTAL_ACCURACY_20_PPM
+
+#ifndef NRF_SDH_CLOCK_LF_XTAL_ACCURACY
+#define NRF_SDH_CLOCK_LF_XTAL_ACCURACY 7
+#endif
+
+// </h>
+//==========================================================
+
+// <h> SDH Observers - Observers and priority levels
+
+//==========================================================
+// <o> NRF_SDH_REQ_OBSERVER_PRIO_LEVELS - Total number of priority levels for request observers.
+// <i> This setting configures the number of priority levels available for the SoftDevice request event handlers.
+// <i> The priority level of a handler determines the order in which it receives events, with respect to other handlers.
+
+#ifndef NRF_SDH_REQ_OBSERVER_PRIO_LEVELS
+#define NRF_SDH_REQ_OBSERVER_PRIO_LEVELS 2
+#endif
+
+// <o> NRF_SDH_STATE_OBSERVER_PRIO_LEVELS - Total number of priority levels for state observers.
+// <i> This setting configures the number of priority levels available for the SoftDevice state event handlers.
+// <i> The priority level of a handler determines the order in which it receives events, with respect to other handlers.
+
+#ifndef NRF_SDH_STATE_OBSERVER_PRIO_LEVELS
+#define NRF_SDH_STATE_OBSERVER_PRIO_LEVELS 2
+#endif
+
+// <o> NRF_SDH_STACK_OBSERVER_PRIO_LEVELS - Total number of priority levels for stack event observers.
+// <i> This setting configures the number of priority levels available for the SoftDevice stack event handlers (ANT, BLE, SoC).
+// <i> The priority level of a handler determines the order in which it receives events, with respect to other handlers.
+
+#ifndef NRF_SDH_STACK_OBSERVER_PRIO_LEVELS
+#define NRF_SDH_STACK_OBSERVER_PRIO_LEVELS 2
+#endif
+
+
+// <h> State Observers priorities - Invididual priorities
+
+//==========================================================
+// <o> CLOCK_CONFIG_STATE_OBSERVER_PRIO
+// <i> Priority with which state events are dispatched to the Clock driver.
+
+#ifndef CLOCK_CONFIG_STATE_OBSERVER_PRIO
+#define CLOCK_CONFIG_STATE_OBSERVER_PRIO 0
+#endif
+
+// <o> POWER_CONFIG_STATE_OBSERVER_PRIO
+// <i> Priority with which state events are dispatched to the Power driver.
+
+#ifndef POWER_CONFIG_STATE_OBSERVER_PRIO
+#define POWER_CONFIG_STATE_OBSERVER_PRIO 0
+#endif
+
+// <o> RNG_CONFIG_STATE_OBSERVER_PRIO
+// <i> Priority with which state events are dispatched to this module.
+
+#ifndef RNG_CONFIG_STATE_OBSERVER_PRIO
+#define RNG_CONFIG_STATE_OBSERVER_PRIO 0
+#endif
+
+// </h>
+//==========================================================
+
+// <h> Stack Event Observers priorities - Invididual priorities
+
+//==========================================================
+// <o> NRF_SDH_ANT_STACK_OBSERVER_PRIO
+// <i> This setting configures the priority with which ANT events are processed with respect to other events coming from the stack.
+// <i> Modify this setting if you need to have ANT events dispatched before or after other stack events, such as BLE or SoC.
+// <i> Zero is the highest priority.
+
+#ifndef NRF_SDH_ANT_STACK_OBSERVER_PRIO
+#define NRF_SDH_ANT_STACK_OBSERVER_PRIO 0
+#endif
+
+// <o> NRF_SDH_BLE_STACK_OBSERVER_PRIO
+// <i> This setting configures the priority with which BLE events are processed with respect to other events coming from the stack.
+// <i> Modify this setting if you need to have BLE events dispatched before or after other stack events, such as ANT or SoC.
+// <i> Zero is the highest priority.
+
+#ifndef NRF_SDH_BLE_STACK_OBSERVER_PRIO
+#define NRF_SDH_BLE_STACK_OBSERVER_PRIO 0
+#endif
+
+// <o> NRF_SDH_SOC_STACK_OBSERVER_PRIO
+// <i> This setting configures the priority with which SoC events are processed with respect to other events coming from the stack.
+// <i> Modify this setting if you need to have SoC events dispatched before or after other stack events, such as ANT or BLE.
+// <i> Zero is the highest priority.
+
+#ifndef NRF_SDH_SOC_STACK_OBSERVER_PRIO
+#define NRF_SDH_SOC_STACK_OBSERVER_PRIO 0
+#endif
+
+// </h>
+//==========================================================
+
+// </h>
+//==========================================================
+
+
+// </e>
+
+
+// <e> NRF_SDH_SOC_ENABLED - nrf_sdh_soc - SoftDevice SoC event handler
+//==========================================================
+#ifndef NRF_SDH_SOC_ENABLED
+#define NRF_SDH_SOC_ENABLED 1
+#endif
+// <h> SoC Observers - Observers and priority levels
+
+//==========================================================
+// <o> NRF_SDH_SOC_OBSERVER_PRIO_LEVELS - Total number of priority levels for SoC observers.
+// <i> This setting configures the number of priority levels available for the SoC event handlers.
+// <i> The priority level of a handler determines the order in which it receives events, with respect to other handlers.
+
+#ifndef NRF_SDH_SOC_OBSERVER_PRIO_LEVELS
+#define NRF_SDH_SOC_OBSERVER_PRIO_LEVELS 2
+#endif
+
+// <h> SoC Observers priorities - Invididual priorities
+
+//==========================================================
+// <o> BLE_ADV_SOC_OBSERVER_PRIO
+// <i> Priority with which SoC events are dispatched to the Advertising module.
+
+#ifndef BLE_ADV_SOC_OBSERVER_PRIO
+#define BLE_ADV_SOC_OBSERVER_PRIO 1
+#endif
+
+// <o> BLE_DFU_SOC_OBSERVER_PRIO
+// <i> Priority with which BLE events are dispatched to the DFU Service.
+
+#ifndef BLE_DFU_SOC_OBSERVER_PRIO
+#define BLE_DFU_SOC_OBSERVER_PRIO 1
+#endif
+
+// <o> CLOCK_CONFIG_SOC_OBSERVER_PRIO
+// <i> Priority with which SoC events are dispatched to the Clock driver.
+
+#ifndef CLOCK_CONFIG_SOC_OBSERVER_PRIO
+#define CLOCK_CONFIG_SOC_OBSERVER_PRIO 0
+#endif
+
+// <o> POWER_CONFIG_SOC_OBSERVER_PRIO
+// <i> Priority with which SoC events are dispatched to the Power driver.
+
+#ifndef POWER_CONFIG_SOC_OBSERVER_PRIO
+#define POWER_CONFIG_SOC_OBSERVER_PRIO 0
+#endif
+
+// </h>
+//==========================================================
+
 
 // <<< end of configuration section >>>
 #endif //SDK_CONFIG_H

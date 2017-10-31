@@ -25,7 +25,6 @@ For a detailed description see the detailed description in @ref spi.h
 #include "nrf_delay.h"
 #include "app_util_platform.h"
 #include "boards.h"
-#include "SEGGER_RTT.h"
 #include "debug/DEBUG.h"
 
 #include "peripheral/gpio_interface.h"

@@ -51,7 +51,7 @@ class Service {
 		void createSIG(uint16_t uuid);
 		void addCharacteristic(Characteristic* p_char, uint8_t charID);
 		Characteristic* getCharacteristic(uint8_t charID);
-		void eventHandler(ble_evt_t * p_ble_evt);
+		void eventHandler(const ble_evt_t * p_ble_evt);
 
 		uint16_t getID() { return _id; }
 		uint8_t getCharCount() { return _charCount; }

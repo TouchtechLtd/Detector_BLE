@@ -20,7 +20,7 @@ typedef struct
 }ble_char_id_t;
 
 
-typedef void (*char_write_handler_t) (uint8_t* data, uint16_t len);
+typedef void (*char_write_handler_t) (uint8_t const* data, uint16_t len);
 
 class Characteristic {
 	private:
@@ -43,6 +43,9 @@ class Characteristic {
 		bool _readEnabled;
 
 		void _init();
+
+    void notify(uint8_t * i_data, uint16_t data_length);
+    void update(uint8_t * i_data, uint16_t data_length);
 	public:
 	    Characteristic();
 	    Characteristic(uint16_t i_uuid);
@@ -52,8 +55,7 @@ class Characteristic {
 	    void configureUUID (uint16_t i_uuid, uint8_t i_type);
 	    void attachToService(uint16_t i_serviceHandle);
 	    void add(uint16_t i_serviceHandle, uint16_t i_uuid, uint8_t i_uuidType);
-	    void notify(uint8_t * i_data, uint16_t * data_length);
-	    void update(uint8_t * i_data, uint16_t data_length);
+	    void set(uint8_t* i_data, uint16_t dataLength);
 	    void enableRead();
 	    void disableRead();
 	    void enableWrite();
@@ -61,7 +63,7 @@ class Characteristic {
 	    void enableNotification();
 	    void initValue(uint8_t* p_value, uint16_t i_len);
 	    void setMaxLength(uint16_t i_maxLen);
-	    void eventHandler(ble_evt_t * p_ble_evt);
+	    void eventHandler(ble_evt_t const * p_ble_evt);
 
 	    void setConnHandle(uint16_t i_connHandle);
 	    void setWriteHandler(char_write_handler_t writeHandler);

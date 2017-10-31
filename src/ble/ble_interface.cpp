@@ -6,6 +6,7 @@
  *      Author: Michael McAdam
  */
 
+
 #include <stdint.h>
 #include <string.h>
 #include "nordic_common.h"
@@ -13,43 +14,43 @@
 #include "app_error.h"
 #include "ble.h"
 #include "ble_hci.h"
+#include "ble_advdata.h"
+#include "ble_advertising.h"
 #include "ble_srv_common.h"
 #include "ble_conn_params.h"
-#include "softdevice_handler.h"
+#include "nrf_sdh.h"
+#include "nrf_sdh_ble.h"
+#include "nrf_sdh_soc.h"
 #include "boards.h"
 #include "nrf_ble_gatt.h"
 
 #include "ble/ble_interface.h"
+#include "ble/gn_ble_advertising.h"
 #include "ble/ble_service.h"
-#include "ble/ble_advertising.h"
-
 #include "app_timer.h"
 
+#include "peripheral/gpio_interface.h"
 #include "debug/DEBUG.h"
 
 
 #define APP_FEATURE_NOT_SUPPORTED       BLE_GATT_STATUS_ATTERR_APP_BEGIN + 2    /**< Reply when unsupported features are requested. */
 
-#define DEVICE_NAME                     "RuuviName"                         /**< Name of device. Will be included in the advertising data. */
-
-
-#define MIN_CONN_INTERVAL               MSEC_TO_UNITS(100, UNIT_1_25_MS)        /**< Minimum acceptable connection interval (0.5 seconds). */
-#define MAX_CONN_INTERVAL               MSEC_TO_UNITS(200, UNIT_1_25_MS)        /**< Maximum acceptable connection interval (1 second). */
-#define SLAVE_LATENCY                   0                                       /**< Slave latency. */
-#define CONN_SUP_TIMEOUT                MSEC_TO_UNITS(4000, UNIT_10_MS)         /**< Connection supervisory time-out (4 seconds). */
+#define APP_BLE_OBSERVER_PRIO           3                                       //!< Application's BLE observer priority. You shouldn't need to modify this value.
+#define APP_BLE_CONN_CFG_TAG            1                                       //!< A tag identifying the SoftDevice BLE configuration.
 
 #define FIRST_CONN_PARAMS_UPDATE_DELAY  APP_TIMER_TICKS(20000)                  /**< Time from initiating event (connect or start of notification) to first time sd_ble_gap_conn_param_update is called (15 seconds). */
 #define NEXT_CONN_PARAMS_UPDATE_DELAY   APP_TIMER_TICKS(5000)                   /**< Time between each call to sd_ble_gap_conn_param_update after the first call (5 seconds). */
 #define MAX_CONN_PARAMS_UPDATE_COUNT    3                                       /**< Number of attempts before giving up the connection parameter negotiation. */
 
-
+#define MEM_BUFF_SIZE                   512
 #define DEAD_BEEF                       0xDEADBEEF                              /**< Value used as error code on stack dump, can be used to identify stack location on stack unwind. */
 
 static uint16_t       m_conn_handle = BLE_CONN_HANDLE_INVALID;                  /**< Handle of the current connection. */
-static nrf_ble_gatt_t m_gatt;                                                   /**< GATT module instance. */
+//static nrf_ble_gatt_t m_gatt;                                                   /**< GATT module instance. */
 
 
-Advertising BLE::adv;
+NRF_BLE_GATT_DEF(m_gatt);
+
 uint8_t BLE::_serviceCount = 0;
 Service BLE::serviceList[MAX_NUMBER_SERVICES];
 bool BLE::m_isConnected = false;
@@ -93,7 +94,7 @@ bool BLE::isConnected()
  *
  * @param[in] p_ble_evt  Bluetooth stack event.
  */
-void BLE::on_ble_evt(ble_evt_t * p_ble_evt)
+void BLE::on_ble_evt(ble_evt_t const * p_ble_evt, void* context)
 {
     uint32_t err_code;
 
@@ -110,7 +111,6 @@ void BLE::on_ble_evt(ble_evt_t * p_ble_evt)
             INFO("Deviced disconnected from BLE");
             m_conn_handle = BLE_CONN_HANDLE_INVALID;
             m_isConnected = false;
-            BLE::adv.start(APP_ADV_DEFAULT_INTERVAL);
             break; // BLE_GAP_EVT_DISCONNECTED
 
         case BLE_GAP_EVT_SEC_PARAMS_REQUEST:
@@ -182,54 +182,12 @@ void BLE::on_ble_evt(ble_evt_t * p_ble_evt)
             // No implementation needed.
             break;
     }
+
+    ble_evt_dispatch(p_ble_evt);
 }
 
 
-/**@brief Function for dispatching a BLE stack event to all modules with a BLE stack event handler.
- *
- * @details This function is called from the scheduler in the main loop after a BLE stack
- *          event has been received.
- *
- * @param[in] p_ble_evt  Bluetooth stack event.
- */
-void BLE::ble_evt_dispatch(ble_evt_t * p_ble_evt)
-{
-  /*
-  DEBUG("Event in dispatch: %d", p_ble_evt->header.evt_id);
-  if (p_ble_evt->header.evt_id == BLE_GATTS_EVT_WRITE) {
-    DEBUG("Write requested for UUID: %x", p_ble_evt->evt.gatts_evt.params.write.uuid.uuid);
-  }*/
-  on_ble_evt(p_ble_evt);
-  ble_conn_params_on_ble_evt(p_ble_evt);
-  nrf_ble_gatt_on_ble_evt(&m_gatt, p_ble_evt);
-  for (int i = 0; i < MAX_NUMBER_SERVICES; i++)
-	{
-		if (serviceList[i].isRunning()) { serviceList[i].eventHandler(p_ble_evt); }
-	}
-  if (m_externalHandler != NULL) {  m_externalHandler(p_ble_evt); }
-}
 
-
-/**@brief Function for the GAP initialization.
- *
- * @details This function sets up all the necessary GAP (Generic Access Profile) parameters of the
- *          device including the device name, appearance, and the preferred connection parameters.
- */
-void BLE::gap_params_init(void)
-{
-    adv.setName(DEVICE_NAME);
-
-    ble_gap_conn_params_t   gap_conn_params;
-    memset(&gap_conn_params, 0, sizeof(gap_conn_params));
-
-    gap_conn_params.min_conn_interval = MIN_CONN_INTERVAL;
-    gap_conn_params.max_conn_interval = MAX_CONN_INTERVAL;
-    gap_conn_params.slave_latency     = SLAVE_LATENCY;
-    gap_conn_params.conn_sup_timeout  = CONN_SUP_TIMEOUT;
-
-    uint32_t err_code = sd_ble_gap_ppcp_set(&gap_conn_params);
-    ERROR_CHECK(err_code);
-}
 
 
 /**@brief Function for initializing the GATT module.
@@ -301,6 +259,73 @@ void BLE::setPower(BLEPowerLevel powerLevel)
 }
 
 
+
+
+/**@brief Function for handling BLE events.
+ *
+ * @param[in]   p_ble_evt   Bluetooth stack event.
+ * @param[in]   p_context   Unused.
+ */
+static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
+{
+    ret_code_t err_code = NRF_SUCCESS;
+
+    switch (p_ble_evt->header.evt_id)
+    {
+        case BLE_GAP_EVT_CONNECTED:
+            INFO("Connected");
+            m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
+            break;
+
+        case BLE_GAP_EVT_DISCONNECTED:
+            INFO("Disconnected");
+            m_conn_handle = BLE_CONN_HANDLE_INVALID;
+            break;
+
+
+        case BLE_GATTC_EVT_TIMEOUT:
+            // Disconnect on GATT Client timeout event.
+            DEBUG("GATT Client Timeout.");
+            err_code = sd_ble_gap_disconnect(p_ble_evt->evt.gattc_evt.conn_handle,
+                                             BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
+            ERROR_CHECK(err_code);
+            break;
+
+        case BLE_GATTS_EVT_TIMEOUT:
+            // Disconnect on GATT Server timeout event.
+            DEBUG("GATT Server Timeout.");
+            err_code = sd_ble_gap_disconnect(p_ble_evt->evt.gatts_evt.conn_handle,
+                                             BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
+            ERROR_CHECK(err_code);
+            break;
+
+        default:
+            // No implementation needed.
+            break;
+    }
+
+    BLE::ble_evt_dispatch(p_ble_evt);
+}
+
+
+
+/**@brief Function for dispatching a BLE stack event to all modules with a BLE stack event handler.
+ *
+ * @details This function is called from the scheduler in the main loop after a BLE stack
+ *          event has been received.
+ *
+ * @param[in] p_ble_evt  Bluetooth stack event.
+ */
+void BLE::ble_evt_dispatch(ble_evt_t const * p_ble_evt)
+{
+  DEBUG("Dispatching event: %d", p_ble_evt->header.evt_id);
+  for (int i = 0; i < MAX_NUMBER_SERVICES; i++)
+  {
+    if (serviceList[i].isRunning()) { serviceList[i].eventHandler(p_ble_evt); }
+  }
+
+}
+
 /**@brief Function for initializing the BLE stack.
  *
  * @details Initializes the SoftDevice and the BLE event interrupt.
@@ -308,36 +333,27 @@ void BLE::setPower(BLEPowerLevel powerLevel)
 void BLE::ble_stack_init(void)
 {
 
-    nrf_clock_lf_cfg_t clock_lf_cfg = NRF_CLOCK_LFCLKSRC;
 
     // Initialize the SoftDevice handler module.
-    SOFTDEVICE_HANDLER_INIT(&clock_lf_cfg, NULL);
+    //SOFTDEVICE_HANDLER_INIT(&clock_lf_cfg, NULL);
+    uint32_t err_code;
+    err_code = nrf_sdh_enable_request();
+    ERROR_CHECK(err_code);
 
     // Fetch the start address of the application RAM.
-    uint32_t err_code;
     uint32_t ram_start = 0;
-    err_code = softdevice_app_ram_start_get(&ram_start);
+
+    //err_code = nrf_sdh_ble_app_ram_start_get(&ram_start);
+    err_code = nrf_sdh_ble_default_cfg_set(APP_BLE_CONN_CFG_TAG, &ram_start);
     ERROR_CHECK(err_code);
 
-    // Overwrite some of the default configurations for the BLE stack.
-    ble_cfg_t ble_cfg;
-
-
-    memset(&ble_cfg, 0, sizeof(ble_cfg));
-    ble_cfg.gap_cfg.role_count_cfg.periph_role_count  = BLE_GAP_ROLE_COUNT_PERIPH_DEFAULT;
-    ble_cfg.gap_cfg.role_count_cfg.central_role_count = 0;
-    ble_cfg.gap_cfg.role_count_cfg.central_sec_count  = 0;
-    ble_cfg.common_cfg.vs_uuid_cfg.vs_uuid_count = 2;
-    err_code = sd_ble_cfg_set(BLE_GAP_CFG_ROLE_COUNT, &ble_cfg, ram_start);
-    ERROR_CHECK(err_code);
 
     // Enable BLE stack.
-    err_code = softdevice_enable(&ram_start);
+    err_code = nrf_sdh_ble_enable(&ram_start);
     ERROR_CHECK(err_code);
 
     // Subscribe for BLE events.
-    err_code = softdevice_ble_evt_handler_set(BLE::ble_evt_dispatch);
-    ERROR_CHECK(err_code);
+    NRF_SDH_BLE_OBSERVER(m_ble_observer, APP_BLE_OBSERVER_PRIO, on_ble_evt, NULL);
 }
 
 
@@ -348,7 +364,7 @@ void BLE::setExternalHandler(ble_external_handler_t externalHandler)
 
 void BLE::init(void) {
     ble_stack_init();
-    gap_params_init();
+    gn_ble_adv_params_init();
     gatt_init();
     conn_params_init();
 }

@@ -140,7 +140,6 @@ void Characteristic::enableNotification() {
     _cccd_md.vloc                = BLE_GATTS_VLOC_STACK;
     _char_md.p_cccd_md           = &_cccd_md;
     _char_md.char_props.notify   = 1;
-    _notificationEnabled = true;
 }
 
 
@@ -162,7 +161,21 @@ void Characteristic::setMaxLength(uint16_t i_maxLen)
 
 // Function to be called when updating characteristic value
 
-void Characteristic::notify(uint8_t * i_data, uint16_t * data_length)
+void Characteristic::set(uint8_t* i_data, uint16_t dataLength)
+{
+  if (!m_isRunning)
+  {
+    DEBUG("Not running!");
+    return;
+  }
+
+  if (_notificationEnabled) { notify(i_data, dataLength); }
+  else if (_readEnabled)    { update(i_data, dataLength); }
+  else                      { DEBUG("Not enabled"); }
+}
+
+
+void Characteristic::notify(uint8_t* i_data, uint16_t  data_length)
 {
 	if (_notificationEnabled && m_isRunning) {
 		// Update characteristic value
@@ -172,7 +185,7 @@ void Characteristic::notify(uint8_t * i_data, uint16_t * data_length)
 			_hvx_params.handle = _char_handle.value_handle;
 			_hvx_params.type   = BLE_GATT_HVX_NOTIFICATION;
 			_hvx_params.offset = 0;
-			_hvx_params.p_len  = data_length;
+			_hvx_params.p_len  = &data_length;
 			_hvx_params.p_data = i_data;
 
 			uint32_t err_code;
@@ -186,7 +199,7 @@ void Characteristic::notify(uint8_t * i_data, uint16_t * data_length)
 }
 
 
-void Characteristic::update(uint8_t * i_data, uint16_t data_length)
+void Characteristic::update(uint8_t* i_data, uint16_t data_length)
 {
 	if (_readEnabled && m_isRunning) {
 		if (data_length <= _attr_char_value.max_len) {
@@ -216,7 +229,7 @@ void Characteristic::setWriteHandler(char_write_handler_t writeHandler)
 }
 
 
-void Characteristic::eventHandler(ble_evt_t * p_ble_evt)
+void Characteristic::eventHandler(ble_evt_t const * p_ble_evt)
 {
   switch (p_ble_evt->header.evt_id)
   {
@@ -227,15 +240,21 @@ void Characteristic::eventHandler(ble_evt_t * p_ble_evt)
           _conn_handle = BLE_CONN_HANDLE_INVALID;
           break;
       case BLE_GATTS_EVT_WRITE:
-         //DEBUG("UUID: %04x, Data: %d", p_ble_evt->evt.gatts_evt.params.write.uuid.uuid, p_ble_evt->evt.gatts_evt.params.write.data[0]);
-         if (p_ble_evt->evt.gatts_evt.params.write.handle == _char_handle.value_handle)
-         {
-           if (m_writeHandler != NULL)
-           {
-             m_writeHandler(p_ble_evt->evt.gatts_evt.params.write.data, p_ble_evt->evt.gatts_evt.params.write.len);
-           }
-         }
-         break;
+
+        if (p_ble_evt->evt.gatts_evt.params.write.handle == _char_handle.cccd_handle)
+        {
+          _notificationEnabled = p_ble_evt->evt.gatts_evt.params.write.data[0];
+        }
+        if (p_ble_evt->evt.gatts_evt.params.write.handle == _char_handle.value_handle)
+        {
+          if (m_writeHandler != NULL)
+          {
+           m_writeHandler(p_ble_evt->evt.gatts_evt.params.write.data, p_ble_evt->evt.gatts_evt.params.write.len);
+          }
+
+        }
+
+        break;
 
       default:
           // No implementation needed.
