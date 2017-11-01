@@ -368,7 +368,7 @@ extern void LIS2DH12_setInterruptDuration(uint8_t duration)
 
 extern void LIS2DH12_setInterruptHandler(gpio_event_handler_t handler)
 {
-//#ifdef BOARD_RUUVITAG_B3
+#ifdef BOARD_RUUVITAG_B3
   if (GPIO::interruptIsSet(INT_ACC2_PIN))
   {
     GPIO::interruptClear(INT_ACC2_PIN);
@@ -383,7 +383,7 @@ extern void LIS2DH12_setInterruptHandler(gpio_event_handler_t handler)
 
 
   GPIO::interruptEnable(INT_ACC2_PIN);
-//#endif
+#endif
 }
 
 

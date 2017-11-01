@@ -15,6 +15,18 @@
 #define MAX_TRAP_EVENTS 100
 #define AVERAGE_SIZE 20
 
+
+/* A dummy structure to save in flash. */
+typedef struct
+{
+    uint8_t       peak_level;
+    uint32_t      timestamp;
+    uint32_t      trap_id;
+    uint8_t       capture[250];
+    uint16_t      temperature;
+} trap_event_t;
+
+
 class TrapEvent {
 	private:
 

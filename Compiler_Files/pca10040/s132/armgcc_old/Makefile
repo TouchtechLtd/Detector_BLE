@@ -79,6 +79,8 @@ SRC_FILES += \
   $(PROJ_DIR)/peripheral/gpio_interface.cpp \
   $(PROJ_DIR)/peripheral/adc_interface.cpp \
   $(PROJ_DIR)/peripheral/timer_interface.cpp \
+  $(PROJ_DIR)/peripheral/flash_interface.c \
+  $(PROJ_DIR)/peripheral/cli.c \
   $(PROJ_DIR)/peripheral/LIS2DH12.cpp \
   $(PROJ_DIR)/peripheral/LIS2DH12_registers.cpp \
   $(PROJ_DIR)/peripheral/spi.cpp \
@@ -122,6 +124,7 @@ INC_FOLDERS += \
   $(SDK_ROOT)/components/drivers_nrf/clock \
   \
   $(SDK_ROOT)/components/libraries/cli \
+  $(SDK_ROOT)/components/libraries/cli/uart \
   $(SDK_ROOT)/components/libraries/atomic_fifo \
   $(SDK_ROOT)/components/libraries/pwr_mgmt \
   $(SDK_ROOT)/components/libraries/pwm \
@@ -162,6 +165,7 @@ INC_FOLDERS += \
   $(SDK_ROOT)/components/libraries/mutex \
   $(SDK_ROOT)/components/libraries/atomic \
   $(SDK_ROOT)/components/libraries/experimental_section_vars \
+  $(SDK_ROOT)/components/libraries/experimental_ringbuf \
   \
   $(SDK_ROOT)/components/ble/common \
   $(SDK_ROOT)/components/ble/ble_dtm \
@@ -200,9 +204,9 @@ OPT = -O3 -g3
 #OPT += -flto
 
 # C flags common to all targets
-#CFLAGS += -DBOARD_PCA10040
-CFLAGS += -DBOARD_CUSTOM
-CFLAGS += -DBOARD_RUUVITAG_B3
+CFLAGS += -DBOARD_PCA10040
+#CFLAGS += -DBOARD_CUSTOM
+#CFLAGS += -DBOARD_RUUVITAG_B3
 CFLAGS += -DCONFIG_GPIO_AS_PINRESET
 CFLAGS += -DNRF52
 CFLAGS += -DNRF52832_XXAA
@@ -218,19 +222,19 @@ CFLAGS += $(OPT)
 CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 # keep every function in separate section, this allows linker to discard unused ones
 CFLAGS += -ffunction-sections -fdata-sections -fno-strict-aliasing
-CFLAGS += -fno-builtin --short-enums 
+CFLAGS += -fno-builtin -fshort-enums 
 
 # C++ flags common to all targets
 CXXFLAGS += $(OPT)
 
 # Assembler flags common to all targets
 ASMFLAGS += -g3
-ASMFLAGS += -DBOARD_CUSTOM
-ASMFLAGS += -DBOARD_RUUVITAG_B3
+#ASMFLAGS += -DBOARD_CUSTOM
+#ASMFLAGS += -DBOARD_RUUVITAG_B3
 ASMFLAGS += -mcpu=cortex-m4
 ASMFLAGS += -mthumb -mabi=aapcs
 ASMFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
-#ASMFLAGS += -DBOARD_PCA10040
+ASMFLAGS += -DBOARD_PCA10040
 ASMFLAGS += -DCONFIG_GPIO_AS_PINRESET
 ASMFLAGS += -DNRF52
 ASMFLAGS += -DNRF52832_XXAA

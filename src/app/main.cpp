@@ -21,7 +21,7 @@
 #include "ble/ble_manager.h"
 #include "debug/DEBUG.h"
 #include "peripheral/timer_interface.h"
-//#include "peripheral/adc_interface.h"
+#include "peripheral/adc_interface.h"
 #include "peripheral/gpio_interface.h"
 #include "app/current_time.h"
 #include "app/trap_event.h"
@@ -44,6 +44,7 @@
 
 #define LED_FAST_BLINK 200
 #define LED_SLOW_BLINK 1000
+
 
 static StateMachine stateMachine(WAIT_STATE);
 
@@ -423,6 +424,7 @@ void blinkHandler(void*)
 //////        Main                      ///////////
 ///////////////////////////////////////////////////
 
+
 int main(void)
 {
 	DEBUG_INIT();
@@ -443,12 +445,22 @@ int main(void)
   //LIS2DH12_startDAPolling();
 
 
+  uint16_t data[] = { 12 };
+  Flash_Record dataRecord(CONFIG_FILE, CONFIG_REC_KEY+1, data, sizeof(data[0]));
+  dataRecord.read();
+  NRF_LOG_INFO("Data: %d", data[0]);
+  data[0] = data[0] * 2;
+  dataRecord.update();
 
   while(true)
   {
 
-    uint32_t err_code = sd_app_evt_wait();
-    ERROR_CHECK(err_code);
+    if (!NRF_LOG_PROCESS())
+    {
+      uint32_t err_code = sd_app_evt_wait();
+      ERROR_CHECK(err_code);
+    }
+
 
     if (updateBLE) {
       updateEventBLE();
