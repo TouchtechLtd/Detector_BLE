@@ -27,10 +27,15 @@
 #include "app/trap_event.h"
 #include "peripheral/LIS2DH12.h"
 
+#include "peripheral/flash_interface.h"
 
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
+
+
+#define CONFIG_FILE     (0xF010)
+#define CONFIG_REC_KEY  (0x7010)
 
 
 #define TRAP_EVENT_BUFFER_MS      2000
