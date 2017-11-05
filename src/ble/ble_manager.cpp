@@ -63,6 +63,20 @@ enum BLE_UUID_DetectorData {
 };
 
 
+#pragma pack(push, 1)
+typedef struct
+{
+  uint8_t a;
+  uint16_t b;
+  uint8_t c;
+} test_t;
+#pragma pack(pop)
+
+
+
+#define BLE_UUID_SERVICE_DETECTOR_CONFIG                  0x1233
+#define BLE_UUID_CHAR_DETECTOR_CONFIG                  0x1234
+
 
 uint8_t* bit16Converter(uint16_t inputInt)
 {
@@ -92,6 +106,12 @@ void BLE_Manager::setDisconnectHandler(ble_manager_handler_t disconnectHandler)
   m_disconnectHandler = disconnectHandler;
 }
 
+void BLE_Manager::createTrapDataService()
+{
+  Service detectorData;
+  detectorData.createCustom(BLE_UUID_TRAP_DATA, BLE_UUID_GOODNATURE_BASE);
+
+}
 
 
 void BLE_Manager::createDetectorDataService() {
@@ -326,6 +346,38 @@ void BLE_Manager::createDeviceControlService() {
   deviceControl.attachService();
   BLE::addService(&deviceControl, SERVICE_DEVICE_CONTROL);
 }
+
+
+void BLE_Manager::createDetectorConfigService()
+{
+
+  Service detectorConfigSerivce;
+  detectorConfigSerivce.createCustom(BLE_UUID_SERVICE_DETECTOR_CONFIG, BLE_UUID_GOODNATURE_BASE);
+
+  test_t testValues;
+  testValues.a = 0x10;
+  testValues.b = 0x3232;
+  testValues.c = 0x01;
+
+  DEBUG("Test_t: %d", sizeof(test_t));
+  DEBUG("testValues: %d", sizeof(testValues));
+
+
+  //// Trigger threshold ////
+  Characteristic detectorConfig;
+  detectorConfig.setUUID(BLE_UUID_CHAR_DETECTOR_CONFIG);
+  detectorConfig.enableRead();
+  detectorConfig.enableWrite();
+  detectorConfig.enableNotification();
+
+  detectorConfig.initValue(&testValues, sizeof(test_t));
+  detectorConfig.setMaxLength(sizeof(test_t));
+
+  detectorConfigSerivce.addCharacteristic(&detectorConfig, CHAR_DETECTOR_CONFIG);
+
+  detectorConfigSerivce.attachService();
+  BLE::addService(&detectorConfigSerivce, SERVICE_DETECTOR_CONFIG);
+}
 /*
 void BLE_Manager::updateCharacteristic(uint8_t serviceID, uint8_t charID, uint8_t* p_data, uint16_t length)
 {
@@ -404,14 +456,17 @@ void BLE_Manager::createBLEServer() {
 
   DEBUG("BLE Manager Initialised.");
 
-  createDetectorDataService();
+  INFO("Doing my thing");
+  //createDetectorDataService();
   createDeviceInfoService();
-  createCurrentTimeService();
-  createDeviceControlService();
+  //createCurrentTimeService();
+  //createDeviceControlService();
+  createDetectorConfigService();
+
 
   gn_ble_adv_start(320);
   gn_ble_adv_advertiseName();
-  gn_ble_adv_advertiseUUID(BLE::getService(SERVICE_DETECTOR_DATA)->getUUID());
+  //gn_ble_adv_advertiseUUID(BLE::getService(SERVICE_DETECTOR_DATA)->getUUID());
 
   setPower(BLE_POWER_LEVEL_HIGH);
 

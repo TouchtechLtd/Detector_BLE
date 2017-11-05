@@ -22,6 +22,7 @@ private:
   static void minuteHandler(void*);
   static uint32_t timeInMinutes;
   static Timer minuteTimer;
+  static void setAbsTime(uint32_t currentTime);
 };
 
 

@@ -26,3 +26,9 @@ void CurrentTime::startClock() {
 uint32_t CurrentTime::getCurrentTime() {
   return timeInMinutes;
 }
+
+void CurrentTime::setAbsTime(uint32_t currentTime)
+{
+  timeInMinutes = currentTime;
+  //currentTimeSet = true;
+}

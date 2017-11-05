@@ -143,10 +143,10 @@ void Characteristic::enableNotification() {
 }
 
 
-void Characteristic::initValue(uint8_t* p_value, uint16_t len)
+void Characteristic::initValue(void* p_value, uint16_t len)
 {
     _attr_char_value.init_len    = len;
-    _attr_char_value.p_value     = p_value;
+    _attr_char_value.p_value     = static_cast<uint8_t*>(p_value);
     setMaxLength(len);
 }
 

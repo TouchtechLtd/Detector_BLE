@@ -9,9 +9,9 @@
 #include "app/state_machine.h"
 #include "debug/DEBUG.h"
 
-StateMachine::StateMachine(state_e i_initState) {
-    for (int i = 0; i < MAX_STATES; i++) {
-    	for (int j = 0; j < MAX_EVENTS; j++) {
+StateMachine::StateMachine(state_t i_initState, uint8_t max_states, uint8_t max_events) {
+    for (int i = 0; i < max_states; i++) {
+    	for (int j = 0; j < max_events; j++) {
     		event_table[i][j] = &StateMachine::error_handler;
     		transition_table[i][j] = ERROR;
     	}
@@ -26,8 +26,8 @@ void StateMachine::error_handler() {
 }
 
 
-void StateMachine::registerTransition(	state_e startState,
-										state_e endState,
+void StateMachine::registerTransition(	state_t startState,
+										state_t endState,
 										event_e event,
 										state_event_handler_t event_handler)
 {
@@ -52,7 +52,7 @@ void StateMachine::stop()
   m_running = false;
 }
 
-void StateMachine::start(state_e state)
+void StateMachine::start(state_t state)
 {
   _currentState = state;
   m_running = true;
@@ -63,7 +63,7 @@ bool StateMachine::isRunning()
   return m_running;
 }
 
-uint8_t StateMachine::getCurrentState()
+state_t StateMachine::getCurrentState()
 {
   return _currentState;
 }

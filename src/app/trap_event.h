@@ -15,16 +15,27 @@
 #define MAX_TRAP_EVENTS 100
 #define AVERAGE_SIZE 20
 
+#define RAW_DATA_CAPTURE_SIZE 250
+
 
 /* A dummy structure to save in flash. */
+#pragma pack(push, 1)
 typedef struct
 {
     uint8_t       peak_level;
     uint32_t      timestamp;
     uint32_t      trap_id;
-    uint8_t       capture[250];
     uint16_t      temperature;
-} trap_event_t;
+    uint8_t       killNumber;
+} event_data_t;
+#pragma pack(pop)
+
+#pragma pack(push, 1)
+typedef struct
+{
+  uint16_t      raw_data_size;
+  uint8_t       raw_data[RAW_DATA_CAPTURE_SIZE];
+};
 
 
 class TrapEvent {
@@ -32,45 +43,26 @@ class TrapEvent {
 
     static uint8_t numberOfKills;
 
-		uint32_t m_timeStamp;
-		uint32_t m_responseStartTime;
-		uint32_t m_responseEndTime;
-		uint32_t m_responseLength;
+    event_data_t trap_data;
 
 		uint16_t m_peakValue;
-		uint32_t m_responseSize;
 		uint16_t m_dataCount;
 
-		bool m_eventTriggered;
 		bool m_didClip;
-		bool m_dataProcessed;
-
-		void checkForClipping();
-		void findPeakValue();
-		void findResponseSize();
-		void calculateLength();
-
-		uint16_t m_rawData[AVERAGE_SIZE];
-
-		uint8_t m_killNumber;
+		uint8_t m_rawData[RAW_DATA_CAPTURE_SIZE];
 
 	public:
 		TrapEvent();
+		void triggered();
+		void record();
+		void cancel();
+
+		event_data_t getEvent(uint16_t eventID);
+
+		void printData(void);
 		void addData(int dataPoint);
 		void findPeak(int dataPoint);
-		void processData();
 		void clear();
-		void start();
-		void end();
-		void setTimeStamp(uint32_t currentTime);
-		void printData();
-
-		uint8_t getKillNumber();
-		uint32_t getResponseLength();
-		uint16_t getPeakValue();
-		uint16_t getResponseSize();
-		uint8_t getDidClip();
-
 	}; // End TrapEvent
 
 #endif /* CPP_TRAP_EVENT_H */

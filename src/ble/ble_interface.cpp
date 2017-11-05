@@ -98,6 +98,7 @@ void BLE::on_ble_evt(ble_evt_t const * p_ble_evt, void* context)
 {
     uint32_t err_code;
 
+
     switch (p_ble_evt->header.evt_id)
     {
 

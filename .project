@@ -36,9 +36,9 @@
 			<locationURI>PROJECT_LOC/Compiler_Files/pca10040/s132/armgcc/Makefile</locationURI>
 		</link>
 		<link>
-			<name>Helpful_Files/ble_app_template_gcc_nrf52.ld</name>
+			<name>Helpful_Files/flash_fds_example_gcc_nrf52.ld</name>
 			<type>1</type>
-			<locationURI>PROJECT_LOC/Compiler_Files/pca10040/s132/armgcc/ble_app_template_gcc_nrf52.ld</locationURI>
+			<locationURI>PROJECT_LOC/Compiler_Files/pca10040/s132/armgcc/flash_fds_example_gcc_nrf52.ld</locationURI>
 		</link>
 		<link>
 			<name>Helpful_Files/sdk_config.h</name>

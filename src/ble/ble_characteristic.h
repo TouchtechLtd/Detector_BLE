@@ -61,7 +61,7 @@ class Characteristic {
 	    void enableWrite();
 	    void disableWrite();
 	    void enableNotification();
-	    void initValue(uint8_t* p_value, uint16_t i_len);
+	    void initValue(void* p_value, uint16_t i_len);
 	    void setMaxLength(uint16_t i_maxLen);
 	    void eventHandler(ble_evt_t const * p_ble_evt);
 
