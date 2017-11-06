@@ -6,6 +6,7 @@
  *      Author: Michael McAdam
  */
 
+#include <app/trap_manager_config.h>
 #include <stdbool.h>
 #include <string.h>
 #include <stdint.h>
@@ -26,8 +27,6 @@
 #include "peripheral/adc_interface.h"
 #include "peripheral/gpio_interface.h"
 #include "app/current_time.h"
-#include "app/trap_event.h"
-
 #include "peripheral/flash_interface.h"
 
 #include "app/trap_manager.h"
@@ -53,6 +52,18 @@ Timer ledTimer;
 //TrapEvent trapEvent;
 
 
+
+void onTrapEvent(EVENT_MANAGER::trap_event_e trap_event)
+{
+  INFO("Trap update in main: %d", trap_event);
+  if (trap_event == EVENT_MANAGER::MOVE_TRIGGERED) {}
+
+  else if (trap_event == EVENT_MANAGER::ANIMAL_KILLED)
+  {
+    uint8_t data = EVENT_MANAGER::getKillNumber();
+    BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DISPLAYED, &data, sizeof(data));
+  }
+}
 
 ///////////////////////////////////////////////////
 //////        Interrupt handlers        ///////////
@@ -89,7 +100,8 @@ void createTrapDataService()
   eventData.setUUID(BLE_UUID_CHAR_TRAP_EVENT_DATA);
   eventData.enableRead();
   eventData.enableNotification();
-  eventData.initValue(EVENT_MANAGER::getCurrentEvent(), sizeof(event_data_t));
+  EVENT_MANAGER::event_data_t blankEvent = { 0 };
+  eventData.initValue(&blankEvent, sizeof(blankEvent));
 
   trapData.addCharacteristic(&eventData, CHAR_EVENT_DATA);
 
@@ -104,11 +116,12 @@ void createTrapDataService()
 
 
   Characteristic eventDisplayed;
-  eventDisplayed.setUUID(BLE_UUID_CHAR_TRAP_EVENT_CONFIG);
+  eventDisplayed.setUUID(BLE_UUID_CHAR_TRAP_EVENT_DISPLAYED);
   eventDisplayed.enableRead();
   eventDisplayed.enableWrite();
   eventDisplayed.enableNotification();
-  eventDisplayed.initValue(EVENT_MANAGER::getKillNumber(), 1);
+  uint8_t killNum = EVENT_MANAGER::getKillNumber();
+  eventDisplayed.initValue(&killNum, 1);
 
   trapData.addCharacteristic(&eventDisplayed, CHAR_EVENT_DISPLAYED);
   //Characteristic rawEventData;
@@ -132,10 +145,8 @@ void createDeviceInfoService() {
 
 void updateEventBLE()
 {
-  INFO("Updating BLE - Trap Data: %d", EVENT_MANAGER::getCurrentEvent()->peak_level);
-  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DATA, EVENT_MANAGER::getCurrentEvent(), sizeof(event_data_t));
+  //INFO("Updating BLE - Trap Data: %d", EVENT_MANAGER::getCurrentEvent()->peak_level);
   BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_CONFIG, EVENT_MANAGER::getConfig(), sizeof(EVENT_MANAGER::trap_detector_config_t));
-  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DISPLAYED, EVENT_MANAGER::getKillNumber(), 1);
 
 }
 
@@ -151,6 +162,17 @@ void eventConfigHandler(uint8_t const* data, uint16_t len)
   //LIS2DH12_setInterruptThreshold(EVENT_MANAGER::triggerThreshold);
   DEBUG("Trigger Threshold: %d", inputConfig.triggerThreshold);
   updateBLE = true;
+}
+
+
+void eventDisplayedHandler(uint8_t const* data, uint16_t len)
+{
+  uint8_t requestedKill;
+  memcpy(&requestedKill, data, len);
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DATA, EVENT_MANAGER::getEvent(requestedKill), sizeof(EVENT_MANAGER::event_data_t));
+  //LIS2DH12_setInterruptThreshold(EVENT_MANAGER::triggerThreshold);
+  DEBUG("Requested Kill: %d", requestedKill);
+
 }
 
 void bleEventHandler(ble_evt_t const * p_ble_evt, void* context)
@@ -191,7 +213,9 @@ void initBLE()
 
   BLE_ADVERTISING::start(320);
   BLE_ADVERTISING::advertiseName();
-  //BLE_SERVER::setWriteHandler(SERVICE_TRAP_DATA, CHAR_EVENT_CONFIG,      eventConfigHandler);
+
+  BLE_SERVER::setWriteHandler(SERVICE_TRAP_DATA, CHAR_EVENT_CONFIG,      eventConfigHandler);
+  BLE_SERVER::setWriteHandler(SERVICE_TRAP_DATA, CHAR_EVENT_DISPLAYED,   eventDisplayedHandler);
 
 
 }
@@ -268,11 +292,12 @@ int main(void)
 
   //createTransitionTable();
 
+  initFlash();
   initTimer();
   initGPIO();
   EVENT_MANAGER::initialise();
+  EVENT_MANAGER::registerEventHandler(onTrapEvent);
   initBLE();
-  initFlash();
   //initSensors();
 
 
@@ -281,13 +306,6 @@ int main(void)
 
   //LIS2DH12_startDAPolling();
 
-/*
-  uint16_t data[] = { 12 };
-  Flash_Record::read(CONFIG_FILE, CONFIG_REC_KEY+1, data, sizeof(data[0]));
-  NRF_LOG_INFO("Data: %d", data[0]);
-  data[0] = data[0] * 2;
-  Flash_Record::write(CONFIG_FILE, CONFIG_REC_KEY+1, data, sizeof(data[0]));
-*/
 
   while(true)
   {

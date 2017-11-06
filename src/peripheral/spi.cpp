@@ -88,9 +88,10 @@ extern SPI_Ret spi_transfer(uint8_t* const p_toWrite, uint8_t count, uint8_t* co
     nrf_drv_spi_transfer(&spi, p_toWrite, count, p_toRead, count);
     while (!event_finished)
     {
+      NRF_LOG_PROCESS();
         //Requires initialized softdevice - TODO
-        uint32_t err_code = sd_app_evt_wait();
-        ERROR_CHECK(err_code);
+        //uint32_t err_code = sd_app_evt_wait();
+        //ERROR_CHECK(err_code);
         //DEBUG("Here");
         //__WFE();
     }

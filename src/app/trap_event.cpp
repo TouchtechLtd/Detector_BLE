@@ -6,7 +6,7 @@
  *      Author: Michael McAdam
  */
 
-#include "app/trap_event.h"
+#include <app/trap_manager_config.h>
 #include "app/current_time.h"
 #include "peripheral/timer_interface.h"
 #include "peripheral/flash_interface.h"
@@ -20,9 +20,7 @@
 
 uint8_t TrapEvent::numberOfKills = 0;
 
-#define KILL_DATA_FILE_ID       (0xDA7A)
-#define KILL_NUMBER_FILE_ID     (0x5111)
-#define KILL_NUMBER_KEY_ID      (0x1111)
+
 
 TrapEvent::TrapEvent() {
   m_didClip = false;
@@ -59,19 +57,14 @@ void TrapEvent::cancel()
 }
 
 
-event_data_t* TrapEvent::getEvent()
-{
-  return &trap_data;
-}
 
-/*
-event_data_t TrapEvent::getEvent(uint16_t eventID)
+event_data_t TrapEvent::getEvent(uint8_t eventID)
 {
   event_data_t recordData = { 0 };
   Flash_Record::read(KILL_DATA_FILE_ID, eventID, &recordData, sizeof(recordData));
   return recordData;
 }
-*/
+
 
 void TrapEvent::clear(void) {
   memset(&trap_data, 0, sizeof(event_data_t));
