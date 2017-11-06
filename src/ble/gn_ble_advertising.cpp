@@ -32,6 +32,10 @@
 #define CONN_SUP_TIMEOUT                MSEC_TO_UNITS(4000, UNIT_10_MS)         /**< Connection supervisory time-out (4 seconds). */
 
 
+
+namespace BLE_ADVERTISING
+{
+
 ble_advdata_t _advdata;
 ble_advdata_t _scanrsp;
 ble_advdata_manuf_data_t        manuf_data; // Variable to hold manufacturer specific data
@@ -56,7 +60,7 @@ static void on_adv_evt(ble_evt_t const * p_ble_evt, void * p_context)
 
           case BLE_GAP_EVT_DISCONNECTED:
               INFO("Starting Advertising");
-              gn_ble_adv_start(320);
+              start(320);
               break;
       }
 }
@@ -67,9 +71,9 @@ static void on_adv_evt(ble_evt_t const * p_ble_evt, void * p_context)
  * @details This function sets up all the necessary GAP (Generic Access Profile) parameters of the
  *          device including the device name, appearance, and the preferred connection parameters.
  */
-void gn_ble_adv_params_init(void)
+void params_init(void)
 {
-    gn_ble_adv_setName(DEVICE_NAME);
+    setName(DEVICE_NAME);
 
     ble_gap_conn_params_t   gap_conn_params;
     memset(&gap_conn_params, 0, sizeof(gap_conn_params));
@@ -89,7 +93,7 @@ void gn_ble_adv_params_init(void)
 
 /**@brief Function for starting advertising.
  */
-void gn_ble_adv_start(uint16_t interval)
+void start(uint16_t interval)
 {
 
   ble_gap_adv_params_t adv_params;
@@ -110,20 +114,20 @@ void gn_ble_adv_start(uint16_t interval)
 
 /**@brief Function for starting advertising.
  */
-void gn_ble_adv_stop(void)
+void stop(void)
 {
   uint32_t err_code = sd_ble_gap_adv_stop();
   ERROR_CHECK(err_code);
 }
 
 
-void gn_ble_adv_updateInterval(uint16_t interval) {
-  gn_ble_adv_stop();
-	gn_ble_adv_start(interval);
+void updateInterval(uint16_t interval) {
+  stop();
+	start(interval);
 }
 
 
-void gn_ble_adv_updateAdvertisingData(void) {
+void updateAdvertisingData(void) {
 
   _advdata.flags              = BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE;
   uint32_t err_code = ble_advdata_set(&_advdata, &_scanrsp);
@@ -131,7 +135,7 @@ void gn_ble_adv_updateAdvertisingData(void) {
 }
 
 
-void gn_ble_adv_setName(const char * deviceName)
+void setName(const char * deviceName)
 {
 	ble_gap_conn_sec_mode_t sec_mode;
   BLE_GAP_CONN_SEC_MODE_SET_OPEN(&sec_mode);
@@ -146,9 +150,9 @@ void gn_ble_adv_setName(const char * deviceName)
 
 
 
-void gn_ble_adv_updateName(const char * deviceName) {
-	gn_ble_adv_setName(deviceName);
-	gn_ble_adv_advertiseName();
+void updateName(const char * deviceName) {
+	setName(deviceName);
+	advertiseName();
 }
 
 /**@brief Function for initializing the Advertising functionality.
@@ -156,22 +160,22 @@ void gn_ble_adv_updateName(const char * deviceName) {
  * @details Encodes the required advertising data and passes it to the stack.
  *          Also builds a structure to be passed to the stack when starting advertising.
  */
-void gn_ble_adv_advertiseName(void)
+void advertiseName(void)
 {
     _advdata.name_type          = BLE_ADVDATA_FULL_NAME;
-    gn_ble_adv_updateAdvertisingData();
+    updateAdvertisingData();
 }
 
 
-void gn_ble_adv_advertiseUUID(ble_uuid_t uuid)
+void advertiseUUID(ble_uuid_t uuid)
 {
   ble_uuid_t adv_uuids[] = { uuid };
   _advdata.uuids_complete.uuid_cnt = 1;
   _advdata.uuids_complete.p_uuids = adv_uuids;
-  gn_ble_adv_updateAdvertisingData();
+  updateAdvertisingData();
 }
 
-void gn_ble_adv_advertiseData(uint8_t * p_data, uint8_t i_len)
+void advertiseData(uint8_t * p_data, uint8_t i_len)
 {
     memset(&manuf_data, 0, sizeof(manuf_data));
 
@@ -206,6 +210,9 @@ void gn_ble_adv_advertiseData(uint8_t * p_data, uint8_t i_len)
 		_scanrsp.p_manuf_specific_data = &scan_response_data;
     }
 
-    gn_ble_adv_updateAdvertisingData();
+    updateAdvertisingData();
+
+}
+
 
 }

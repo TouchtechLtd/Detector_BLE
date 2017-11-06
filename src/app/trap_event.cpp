@@ -7,9 +7,11 @@
  */
 
 #include "app/trap_event.h"
+#include "app/current_time.h"
 #include "peripheral/timer_interface.h"
-#include "debug/DEBUG.h"
 #include "peripheral/flash_interface.h"
+
+#include "debug/DEBUG.h"
 
 #include <stdio.h>
 #include <stdint.h>
@@ -20,34 +22,35 @@ uint8_t TrapEvent::numberOfKills = 0;
 
 #define KILL_DATA_FILE_ID       (0xDA7A)
 #define KILL_NUMBER_FILE_ID     (0x5111)
-#define KILL_NUMBER_KEY_ID      (0x0001)
+#define KILL_NUMBER_KEY_ID      (0x1111)
 
 TrapEvent::TrapEvent() {
   m_didClip = false;
 	m_peakValue = 0;
 	m_dataCount = 0;
 
-	Flash_Record::read(KILL_NUMBER_FILE_ID, KILL_NUMBER_KEY_ID, &numberOfKills, sizeof(numberOfKills));
+	//Flash_Record::read(KILL_NUMBER_FILE_ID, KILL_NUMBER_KEY_ID, &numberOfKills, sizeof(numberOfKills));
 }
 
 
 void TrapEvent::triggered()
 {
-
+  INFO("Trap Triggered");
 }
 
 void TrapEvent::record()
 {
+  Flash_Record::read(KILL_NUMBER_FILE_ID, KILL_NUMBER_KEY_ID, &numberOfKills, sizeof(numberOfKills));
   ++numberOfKills;
   trap_data.trap_id = 0;          // getID
   trap_data.peak_level = 100;     // getPeak
-  trap_data.timestamp = 300;      // getTime
+  trap_data.timestamp = CurrentTime::getCurrentTime();      // getTime
   trap_data.temperature = 100;    // getTemp
   trap_data.killNumber = numberOfKills;
-  memcpy(&trap_data.raw_data, m_rawData, sizeof(m_rawData));
+  //memcpy(&trap_data.raw_data, m_rawData, sizeof(m_rawData));
   Flash_Record::write(KILL_DATA_FILE_ID, numberOfKills, &trap_data, sizeof(trap_data));
-  Flash_Record::write(KILL_NUMBER_FILE_ID, KILL_NUMBER_KEY_ID, &numberOfKills, sizeof(trap_data));
-  clear();
+  Flash_Record::write(KILL_NUMBER_FILE_ID, KILL_NUMBER_KEY_ID, &numberOfKills, sizeof(numberOfKills));
+  //clear();
 }
 
 void TrapEvent::cancel()
@@ -56,12 +59,19 @@ void TrapEvent::cancel()
 }
 
 
+event_data_t* TrapEvent::getEvent()
+{
+  return &trap_data;
+}
+
+/*
 event_data_t TrapEvent::getEvent(uint16_t eventID)
 {
   event_data_t recordData = { 0 };
   Flash_Record::read(KILL_DATA_FILE_ID, eventID, &recordData, sizeof(recordData));
   return recordData;
 }
+*/
 
 void TrapEvent::clear(void) {
   memset(&trap_data, 0, sizeof(event_data_t));
@@ -90,3 +100,16 @@ void TrapEvent::printData(void) {
   INFO("Clipping: %d", m_didClip);
   INFO("");
 }
+
+uint8_t* TrapEvent::getKillNumber()
+{
+  Flash_Record::read(KILL_NUMBER_FILE_ID, KILL_NUMBER_KEY_ID, &numberOfKills, sizeof(numberOfKills));
+  return &numberOfKills;
+}
+
+/*
+void TrapEvent::didOccur()
+{
+  return newKill;
+}
+*/

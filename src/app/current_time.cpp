@@ -10,25 +10,29 @@
 #include "app/current_time.h"
 
 
+namespace CurrentTime
+{
 
-uint32_t CurrentTime::timeInMinutes = 0;
-Timer CurrentTime::minuteTimer;
+static uint32_t timeInMinutes = 0;
+static Timer   minuteTimer;
 
-void CurrentTime::minuteHandler(void*) {
+void minuteHandler(void*) {
   timeInMinutes += 1;
 }
 
 
-void CurrentTime::startClock() {
+void startClock() {
   minuteTimer.startTimer(60000, minuteHandler);
 }
 
-uint32_t CurrentTime::getCurrentTime() {
+uint32_t getCurrentTime() {
   return timeInMinutes;
 }
 
-void CurrentTime::setAbsTime(uint32_t currentTime)
+void setAbsTime(uint32_t currentTime)
 {
   timeInMinutes = currentTime;
   //currentTimeSet = true;
+}
+
 }

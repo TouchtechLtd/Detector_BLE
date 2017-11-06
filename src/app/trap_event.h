@@ -35,8 +35,8 @@ typedef struct
 {
   uint16_t      raw_data_size;
   uint8_t       raw_data[RAW_DATA_CAPTURE_SIZE];
-};
-
+}raw_event_data_t;
+#pragma pack(pop)
 
 class TrapEvent {
 	private:
@@ -57,12 +57,15 @@ class TrapEvent {
 		void record();
 		void cancel();
 
-		event_data_t getEvent(uint16_t eventID);
+		//event_data_t getEvent(uint16_t eventID);
+		event_data_t* getEvent();
 
 		void printData(void);
 		void addData(int dataPoint);
 		void findPeak(int dataPoint);
 		void clear();
+
+		uint8_t* getKillNumber();
 	}; // End TrapEvent
 
 #endif /* CPP_TRAP_EVENT_H */

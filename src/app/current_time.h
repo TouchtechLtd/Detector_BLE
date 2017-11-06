@@ -11,19 +11,15 @@
 
 #include "peripheral/timer_interface.h"
 
+namespace CurrentTime
+{
 
 
-class CurrentTime {
+uint32_t getCurrentTime();
+void startClock();
 
-public:
-  static uint32_t getCurrentTime();
-  static void startClock();
-private:
-  static void minuteHandler(void*);
-  static uint32_t timeInMinutes;
-  static Timer minuteTimer;
-  static void setAbsTime(uint32_t currentTime);
-};
 
+
+}
 
 #endif /* SRC_APP_CURRENT_TIME_H_ */

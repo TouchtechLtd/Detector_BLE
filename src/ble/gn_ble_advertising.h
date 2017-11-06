@@ -22,18 +22,22 @@ extern "C" {
 #define APP_ADV_DEFAULT_INTERVAL                BLE_GAP_SCAN_INTERVAL_MAX                                      /**< The advertising interval (in units of 0.625 ms; this value corresponds to 40 ms). */
 
 
+namespace BLE_ADVERTISING
+{
 
-void gn_ble_adv_params_init(void);
-void gn_ble_adv_start(uint16_t interval);
-void gn_ble_adv_stop();
-void gn_ble_adv_updateInterval(uint16_t interval);
+void params_init(void);
+void start(uint16_t interval);
+void stop();
+void updateInterval(uint16_t interval);
 
-void gn_ble_adv_setName(const char* deviceName);
-void gn_ble_adv_updateName(const char * deviceName);
-void gn_ble_adv_advertiseName();
-void gn_ble_adv_advertiseUUID(ble_uuid_t uuid);
-void gn_ble_adv_advertiseData(uint8_t * p_data, uint8_t i_len);
+void setName(const char* deviceName);
+void updateName(const char * deviceName);
+void advertiseName();
+void advertiseUUID(ble_uuid_t uuid);
+void advertiseData(uint8_t * p_data, uint8_t i_len);
 
+
+}
 
 #ifdef __cplusplus
 }

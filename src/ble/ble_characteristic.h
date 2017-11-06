@@ -44,8 +44,8 @@ class Characteristic {
 
 		void _init();
 
-    void notify(uint8_t * i_data, uint16_t data_length);
-    void update(uint8_t * i_data, uint16_t data_length);
+    void notify(void * i_data, uint16_t data_length);
+    void update(void * i_data, uint16_t data_length);
 	public:
 	    Characteristic();
 	    Characteristic(uint16_t i_uuid);
@@ -55,7 +55,7 @@ class Characteristic {
 	    void configureUUID (uint16_t i_uuid, uint8_t i_type);
 	    void attachToService(uint16_t i_serviceHandle);
 	    void add(uint16_t i_serviceHandle, uint16_t i_uuid, uint8_t i_uuidType);
-	    void set(uint8_t* i_data, uint16_t dataLength);
+	    void set(void* i_data, uint16_t dataLength);
 	    void enableRead();
 	    void disableRead();
 	    void enableWrite();

@@ -161,7 +161,7 @@ void Characteristic::setMaxLength(uint16_t i_maxLen)
 
 // Function to be called when updating characteristic value
 
-void Characteristic::set(uint8_t* i_data, uint16_t dataLength)
+void Characteristic::set(void* i_data, uint16_t dataLength)
 {
   if (!m_isRunning)
   {
@@ -175,7 +175,7 @@ void Characteristic::set(uint8_t* i_data, uint16_t dataLength)
 }
 
 
-void Characteristic::notify(uint8_t* i_data, uint16_t  data_length)
+void Characteristic::notify(void* i_data, uint16_t  data_length)
 {
 	if (_notificationEnabled && m_isRunning) {
 		// Update characteristic value
@@ -186,7 +186,7 @@ void Characteristic::notify(uint8_t* i_data, uint16_t  data_length)
 			_hvx_params.type   = BLE_GATT_HVX_NOTIFICATION;
 			_hvx_params.offset = 0;
 			_hvx_params.p_len  = &data_length;
-			_hvx_params.p_data = i_data;
+			_hvx_params.p_data = static_cast<uint8_t*>(i_data);
 
 			uint32_t err_code;
 			err_code = sd_ble_gatts_hvx(_conn_handle, &_hvx_params);
@@ -199,7 +199,7 @@ void Characteristic::notify(uint8_t* i_data, uint16_t  data_length)
 }
 
 
-void Characteristic::update(uint8_t* i_data, uint16_t data_length)
+void Characteristic::update(void* i_data, uint16_t data_length)
 {
 	if (_readEnabled && m_isRunning) {
 		if (data_length <= _attr_char_value.max_len) {
@@ -208,7 +208,7 @@ void Characteristic::update(uint8_t* i_data, uint16_t data_length)
 			memset(&new_value, 0, sizeof(new_value));
 			new_value.len     = data_length;
 			new_value.offset  = 0;
-			new_value.p_value = i_data;
+			new_value.p_value = static_cast<uint8_t*>(i_data);
 
 			uint32_t err_code = sd_ble_gatts_value_set(BLE_CONN_HANDLE_INVALID, _char_handle.value_handle, &new_value);
 			ERROR_CHECK(err_code);

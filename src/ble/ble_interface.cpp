@@ -18,9 +18,6 @@
 #include "ble_advertising.h"
 #include "ble_srv_common.h"
 #include "ble_conn_params.h"
-#include "nrf_sdh.h"
-#include "nrf_sdh_ble.h"
-#include "nrf_sdh_soc.h"
 #include "boards.h"
 #include "nrf_ble_gatt.h"
 
@@ -45,16 +42,29 @@
 #define MEM_BUFF_SIZE                   512
 #define DEAD_BEEF                       0xDEADBEEF                              /**< Value used as error code on stack dump, can be used to identify stack location on stack unwind. */
 
+
+namespace BLE_SERVER
+{
+
 static uint16_t       m_conn_handle = BLE_CONN_HANDLE_INVALID;                  /**< Handle of the current connection. */
 //static nrf_ble_gatt_t m_gatt;                                                   /**< GATT module instance. */
 
 
 NRF_BLE_GATT_DEF(m_gatt);
 
-uint8_t BLE::_serviceCount = 0;
-Service BLE::serviceList[MAX_NUMBER_SERVICES];
-bool BLE::m_isConnected = false;
-ble_external_handler_t BLE::m_externalHandler = NULL;
+static Service m_serviceList[MAX_NUMBER_SERVICES] = {0};
+static uint8_t m_serviceCount = 0;
+static bool m_isConnected = false;
+
+
+static void ble_stack_init();
+static void gatt_init();
+static void conn_params_init();
+static void on_conn_params_evt(ble_conn_params_evt_t * p_evt);
+static void conn_params_error_handler(uint32_t nrf_error);
+static void ble_evt_dispatch(ble_evt_t const * p_ble_evt);
+
+
 
 /**@brief Function for assert macro callback.
  *
@@ -74,17 +84,17 @@ void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name)
 
 
 
-void BLE::addService(Service* service, uint8_t serviceID) {
-	serviceList[serviceID] = *service;
-	_serviceCount++;
+void addService(Service* service, uint8_t serviceID) {
+	m_serviceList[serviceID] = *service;
+	m_serviceCount++;
 }
 
 
-Service* BLE::getService(uint8_t serviceID) {
-  return &serviceList[serviceID];
+Service* getService(uint8_t serviceID) {
+  return &m_serviceList[serviceID];
 }
 
-bool BLE::isConnected()
+bool isConnected()
 {
   return m_isConnected;
 }
@@ -94,10 +104,9 @@ bool BLE::isConnected()
  *
  * @param[in] p_ble_evt  Bluetooth stack event.
  */
-void BLE::on_ble_evt(ble_evt_t const * p_ble_evt, void* context)
+void on_ble_evt(ble_evt_t const * p_ble_evt, void* context)
 {
     uint32_t err_code;
-
 
     switch (p_ble_evt->header.evt_id)
     {
@@ -193,7 +202,7 @@ void BLE::on_ble_evt(ble_evt_t const * p_ble_evt, void* context)
 
 /**@brief Function for initializing the GATT module.
  */
-void BLE::gatt_init(void)
+void gatt_init(void)
 {
     uint32_t err_code = nrf_ble_gatt_init(&m_gatt, NULL);
     ERROR_CHECK(err_code);
@@ -211,7 +220,7 @@ void BLE::gatt_init(void)
  *
  * @param[in] p_evt  Event received from the Connection Parameters Module.
  */
-void BLE::on_conn_params_evt(ble_conn_params_evt_t * p_evt)
+void on_conn_params_evt(ble_conn_params_evt_t * p_evt)
 {
     if (p_evt->evt_type == BLE_CONN_PARAMS_EVT_FAILED)
     {
@@ -225,7 +234,7 @@ void BLE::on_conn_params_evt(ble_conn_params_evt_t * p_evt)
  *
  * @param[in] nrf_error  Error code containing information about what went wrong.
  */
-void BLE::conn_params_error_handler(uint32_t nrf_error)
+void conn_params_error_handler(uint32_t nrf_error)
 {
     APP_ERROR_HANDLER(nrf_error);
 }
@@ -233,7 +242,7 @@ void BLE::conn_params_error_handler(uint32_t nrf_error)
 
 /**@brief Function for initializing the Connection Parameters module.
  */
-void BLE::conn_params_init(void)
+void conn_params_init(void)
 {
     ble_conn_params_init_t cp_init;
 
@@ -253,7 +262,7 @@ void BLE::conn_params_init(void)
 }
 
 
-void BLE::setPower(BLEPowerLevel powerLevel)
+void setPower(BLEPowerLevel powerLevel)
 {
   uint32_t err_code = sd_ble_gap_tx_power_set(powerLevel);
   ERROR_CHECK(err_code);
@@ -267,7 +276,7 @@ void BLE::setPower(BLEPowerLevel powerLevel)
  * @param[in]   p_ble_evt   Bluetooth stack event.
  * @param[in]   p_context   Unused.
  */
-static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
+void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
 {
     ret_code_t err_code = NRF_SUCCESS;
 
@@ -305,7 +314,7 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
             break;
     }
 
-    BLE::ble_evt_dispatch(p_ble_evt);
+    ble_evt_dispatch(p_ble_evt);
 }
 
 
@@ -317,12 +326,12 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
  *
  * @param[in] p_ble_evt  Bluetooth stack event.
  */
-void BLE::ble_evt_dispatch(ble_evt_t const * p_ble_evt)
+void ble_evt_dispatch(ble_evt_t const * p_ble_evt)
 {
   DEBUG("Dispatching event: %d", p_ble_evt->header.evt_id);
   for (int i = 0; i < MAX_NUMBER_SERVICES; i++)
   {
-    if (serviceList[i].isRunning()) { serviceList[i].eventHandler(p_ble_evt); }
+    if (m_serviceList[i].isRunning()) { m_serviceList[i].eventHandler(p_ble_evt); }
   }
 
 }
@@ -331,7 +340,7 @@ void BLE::ble_evt_dispatch(ble_evt_t const * p_ble_evt)
  *
  * @details Initializes the SoftDevice and the BLE event interrupt.
  */
-void BLE::ble_stack_init(void)
+void ble_stack_init(void)
 {
 
 
@@ -357,16 +366,23 @@ void BLE::ble_stack_init(void)
     NRF_SDH_BLE_OBSERVER(m_ble_observer, APP_BLE_OBSERVER_PRIO, on_ble_evt, NULL);
 }
 
-
-void BLE::setExternalHandler(ble_external_handler_t externalHandler)
+void setCharacteristic(uint8_t serviceID, uint8_t charID, void* p_data, uint16_t length)
 {
-  m_externalHandler = externalHandler;
+  getService(serviceID)->getCharacteristic(charID)->set(p_data, length);
 }
 
-void BLE::init(void) {
+
+
+void setWriteHandler(uint8_t serviceID, uint8_t charID, char_write_handler_t writeHandler)
+{
+  getService(serviceID)->getCharacteristic(charID)->setWriteHandler(writeHandler);
+}
+
+
+void init(void) {
     ble_stack_init();
-    gn_ble_adv_params_init();
+    BLE_ADVERTISING::params_init();
     gatt_init();
     conn_params_init();
 }
-
+}
