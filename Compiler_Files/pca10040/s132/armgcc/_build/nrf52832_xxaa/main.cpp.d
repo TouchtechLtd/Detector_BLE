@@ -136,6 +136,8 @@ _build/nrf52832_xxaa/main.cpp.o: ../../../../src/app/main.cpp \
  ../../../../src/app/current_time.h \
  ../../../../src/peripheral/flash_interface.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/fds/fds.h \
+ ../../../../src/peripheral/LIS2DH12.h \
+ ../../../../src/peripheral/LIS2DH12_registers.h \
  ../../../../src/app/trap_manager.h \
  ../../../../src/app/trap_manager_config.h
 
@@ -416,6 +418,10 @@ _build/nrf52832_xxaa/main.cpp.o: ../../../../src/app/main.cpp \
 ../../../../src/peripheral/flash_interface.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/fds/fds.h:
+
+../../../../src/peripheral/LIS2DH12.h:
+
+../../../../src/peripheral/LIS2DH12_registers.h:
 
 ../../../../src/app/trap_manager.h:
 

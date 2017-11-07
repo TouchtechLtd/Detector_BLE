@@ -11,6 +11,7 @@
 
 #include <stdint.h>
 #include "trap_manager_config.h"
+#include "app/current_time.h"
 
 namespace EVENT_MANAGER
 {
@@ -18,24 +19,20 @@ namespace EVENT_MANAGER
 #pragma pack(push, 1)
 typedef struct
 {
-    uint8_t       peak_level;
-    uint32_t      timestamp;
-    uint32_t      trap_id;
-    uint16_t      temperature;
-    uint8_t       killNumber;
+                    uint8_t  peak_level;
+                   uint32_t  trap_id;
+                    int8_t  temperature;
+                    uint8_t  killNumber;
+CurrentTime::current_time_t  timestamp;
 } event_data_t;
-#pragma pack(pop)
 
-#pragma pack(push, 1)
 typedef struct
 {
   uint16_t      count;
   uint8_t       raw_data[RAW_DATA_CAPTURE_SIZE];
 }raw_event_data_t;
-#pragma pack(pop)
 
-#pragma pack(push, 1)
-  typedef struct {
+typedef struct {
     uint16_t triggerThreshold;
     uint16_t moveThreshold;
     uint8_t triggerDuration;

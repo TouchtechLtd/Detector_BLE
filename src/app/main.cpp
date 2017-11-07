@@ -28,6 +28,7 @@
 #include "peripheral/gpio_interface.h"
 #include "app/current_time.h"
 #include "peripheral/flash_interface.h"
+#include "peripheral/LIS2DH12.h"
 
 #include "app/trap_manager.h"
 
@@ -42,16 +43,16 @@
 #define CONFIG_FILE     (0xF010)
 #define CONFIG_REC_KEY  (0x7010)
 
-static bool updateBLE = true;
+static volatile bool updateBLE = true;
 volatile bool stateChange = false;
 
 Timer ledTimer;
 
 
 
-//TrapEvent trapEvent;
-
-
+///////////////////////////////////////////////////
+//////////        Event handlers        ///////////
+///////////////////////////////////////////////////
 
 void onTrapEvent(EVENT_MANAGER::trap_event_e trap_event)
 {
@@ -65,6 +66,18 @@ void onTrapEvent(EVENT_MANAGER::trap_event_e trap_event)
   }
 }
 
+
+void bleEventHandler(ble_evt_t const * p_ble_evt, void* context)
+{
+  switch (p_ble_evt->header.evt_id)
+  {
+    case BLE_GAP_EVT_CONNECTED:
+        updateBLE = true;
+        break; // BLE_GAP_EVT_CONNECTED
+  }
+}
+
+
 ///////////////////////////////////////////////////
 //////        Interrupt handlers        ///////////
 ///////////////////////////////////////////////////
@@ -72,18 +85,61 @@ void onTrapEvent(EVENT_MANAGER::trap_event_e trap_event)
 
 void buttonHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
-  /*
-  if (stateMachine.isRunning()) { stateMachine.stop(); }
-  else { stateMachine.start(WAIT_STATE); }
-  //LIS2DH12_setInterruptThreshold(TRAP_TRIGGER_MOVE_THRESHOLD);
-   *
-   */
-  //updateBLE = true;
   EVENT_MANAGER::simulateTrigger();
   DEBUG("Button pressed");
-
 }
 
+
+///////////////////////////////////////////////////
+/////////        Timer handlers         ///////////
+///////////////////////////////////////////////////
+
+void led1Toggle(void*)
+{
+  GPIO::toggle(LED_1_PIN);
+}
+
+
+void led2Toggle(void*)
+{
+  GPIO::toggle(LED_2_PIN);
+}
+
+
+///////////////////////////////////////////////////
+//////////        User output          ///////////
+///////////////////////////////////////////////////
+
+void showState()
+{
+
+  switch (EVENT_MANAGER::getState())
+  {
+    case EVENT_MANAGER::WAIT_STATE:
+      ledTimer.stopTimer();
+      GPIO::setOutput(LED_2_PIN, HIGH);
+      break;
+
+    case EVENT_MANAGER::EVENT_BUFFER_STATE:
+      ledTimer.stopTimer();
+      GPIO::setOutput(LED_2_PIN, LOW);
+      break;
+
+    case EVENT_MANAGER::DETECT_MOVE_STATE:
+      ledTimer.stopTimer();
+      ledTimer.startTimer(LED_FAST_BLINK, led1Toggle);
+      break;
+
+    case EVENT_MANAGER::MOVING_STATE:
+      ledTimer.stopTimer();
+      ledTimer.startTimer(LED_SLOW_BLINK, led1Toggle);
+      break;
+
+    default:
+      break;
+  }
+  //BLE_SERVER::setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_OUTPUT_STATE, &currentState, sizeof(currentState));
+}
 
 
 ///////////////////////////////////////////////////
@@ -114,18 +170,27 @@ void createTrapDataService()
 
   trapData.addCharacteristic(&eventConfig, CHAR_EVENT_CONFIG);
 
-
+  // Characteristic for displaying number of kills, can be written to in order to display a different kill
   Characteristic eventDisplayed;
   eventDisplayed.setUUID(BLE_UUID_CHAR_TRAP_EVENT_DISPLAYED);
   eventDisplayed.enableRead();
   eventDisplayed.enableWrite();
   eventDisplayed.enableNotification();
   uint8_t killNum = EVENT_MANAGER::getKillNumber();
-  eventDisplayed.initValue(&killNum, 1);
+  eventDisplayed.initValue(&killNum, sizeof(killNum));
 
   trapData.addCharacteristic(&eventDisplayed, CHAR_EVENT_DISPLAYED);
   //Characteristic rawEventData;
-  //Characteristic trapTime;
+
+  Characteristic trapTime;
+  trapTime.setUUID(BLE_UUID_CHAR_TRAP_TIME);
+  trapTime.enableRead();
+  trapTime.enableWrite();
+  trapTime.enableNotification();
+
+  trapTime.initValue(CurrentTime::getCurrentTime(), sizeof(CurrentTime::current_time_t));
+
+  trapData.addCharacteristic(&trapTime, CHAR_TRAP_TIME);
 
   trapData.attachService();
   BLE_SERVER::addService(&trapData, SERVICE_TRAP_DATA);
@@ -145,23 +210,22 @@ void createDeviceInfoService() {
 
 void updateEventBLE()
 {
-  //INFO("Updating BLE - Trap Data: %d", EVENT_MANAGER::getCurrentEvent()->peak_level);
+  uint8_t currentKillNumber = EVENT_MANAGER::getKillNumber();
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DISPLAYED, &currentKillNumber, sizeof(currentKillNumber));
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DATA, EVENT_MANAGER::getEvent(currentKillNumber), sizeof(EVENT_MANAGER::event_data_t));
   BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_CONFIG, EVENT_MANAGER::getConfig(), sizeof(EVENT_MANAGER::trap_detector_config_t));
-
 }
 
-
 ///////////////////////////////////////////////////
-//////     Initialisation functions      ///////////
+//////     BLE Write handlers     /////////////////
 ///////////////////////////////////////////////////
 
 void eventConfigHandler(uint8_t const* data, uint16_t len)
 {
-  EVENT_MANAGER::trap_detector_config_t inputConfig;
-  memcpy(&inputConfig, data, len);
-  //LIS2DH12_setInterruptThreshold(EVENT_MANAGER::triggerThreshold);
-  DEBUG("Trigger Threshold: %d", inputConfig.triggerThreshold);
-  updateBLE = true;
+  EVENT_MANAGER::trap_detector_config_t* p_config = EVENT_MANAGER::getConfig();
+  memcpy(p_config, data, len);
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_CONFIG, EVENT_MANAGER::getConfig(), sizeof(EVENT_MANAGER::trap_detector_config_t));
+  DEBUG("Trigger Threshold: %d", p_config->triggerThreshold);
 }
 
 
@@ -170,20 +234,20 @@ void eventDisplayedHandler(uint8_t const* data, uint16_t len)
   uint8_t requestedKill;
   memcpy(&requestedKill, data, len);
   BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DATA, EVENT_MANAGER::getEvent(requestedKill), sizeof(EVENT_MANAGER::event_data_t));
-  //LIS2DH12_setInterruptThreshold(EVENT_MANAGER::triggerThreshold);
   DEBUG("Requested Kill: %d", requestedKill);
-
 }
 
-void bleEventHandler(ble_evt_t const * p_ble_evt, void* context)
+void trapTimeHandler(uint8_t const* data, uint16_t len)
 {
-  switch (p_ble_evt->header.evt_id)
-  {
-    case BLE_GAP_EVT_CONNECTED:
-        updateBLE = true;
-        break; // BLE_GAP_EVT_CONNECTED
-  }
+  CurrentTime::current_time_t* p_currentTime = CurrentTime::getCurrentTime();
+  memcpy(p_currentTime, data, len);
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DATA, p_currentTime, sizeof(CurrentTime::current_time_t));
+  DEBUG("Time Set To: %d", p_currentTime->time);
 }
+
+///////////////////////////////////////////////////
+//////     Initialisation functions      ///////////
+///////////////////////////////////////////////////
 
 
 void initGPIO()
@@ -216,6 +280,7 @@ void initBLE()
 
   BLE_SERVER::setWriteHandler(SERVICE_TRAP_DATA, CHAR_EVENT_CONFIG,      eventConfigHandler);
   BLE_SERVER::setWriteHandler(SERVICE_TRAP_DATA, CHAR_EVENT_DISPLAYED,   eventDisplayedHandler);
+  BLE_SERVER::setWriteHandler(SERVICE_TRAP_DATA, CHAR_TRAP_TIME,         trapTimeHandler);
 
 
 }
@@ -233,49 +298,6 @@ void initFlash()
   FDS::status();
   FDS::clean();
 }
-
-void blinkHandler(void*)
-{
-  GPIO::toggle(LED_2_PIN);
-}
-
-void ledToggle(void*)
-{
-  GPIO::toggle(LED_1_PIN);
-}
-
-
-void showState()
-{
-
-  switch (EVENT_MANAGER::getState())
-  {
-    case EVENT_MANAGER::WAIT_STATE:
-      ledTimer.stopTimer();
-      GPIO::setOutput(LED_2_PIN, HIGH);
-      break;
-
-    case EVENT_MANAGER::EVENT_BUFFER_STATE:
-      ledTimer.stopTimer();
-      GPIO::setOutput(LED_2_PIN, LOW);
-      break;
-
-    case EVENT_MANAGER::DETECT_MOVE_STATE:
-      ledTimer.stopTimer();
-      ledTimer.startTimer(LED_FAST_BLINK, ledToggle);
-      break;
-
-    case EVENT_MANAGER::MOVING_STATE:
-      ledTimer.stopTimer();
-      ledTimer.startTimer(LED_SLOW_BLINK, ledToggle);
-      break;
-
-    default:
-      break;
-  }
-  //BLE_SERVER::setCharacteristic(SERVICE_DEVICE_CONTROL, CHAR_OUTPUT_STATE, &currentState, sizeof(currentState));
-}
-
 
 
 ///////////////////////////////////////////////////
@@ -295,13 +317,10 @@ int main(void)
   initBLE();
   EVENT_MANAGER::initialise();
   EVENT_MANAGER::registerEventHandler(onTrapEvent);
-  //initSensors();
 
 
   Timer blinkTimer;
-  blinkTimer.startTimer(1000, blinkHandler);
-
-  //LIS2DH12_startDAPolling();
+  blinkTimer.startTimer(1000, led2Toggle);
 
 
   while(true)
@@ -313,29 +332,17 @@ int main(void)
       ERROR_CHECK(err_code);
     }
 
-
     if (updateBLE) {
       updateEventBLE();
       updateBLE = false;
     }
 
     if (stateChange) {
-      //showState();
+      showState();
       stateChange = false;
     }
 
-    if (EVENT_MANAGER::isAnimalKilled())
-    {
-      EVENT_MANAGER::recordCurrentEvent();
-    }
-
-
-    //DEBUG("State: %d", stateMachine.getCurrentState());
-
-    GPIO::toggle(LED_1_PIN);
     nrf_delay_ms(1000);
-
-    //NRF_LOG_FLUSH();
 
   }
 

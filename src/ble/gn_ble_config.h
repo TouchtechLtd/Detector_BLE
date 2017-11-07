@@ -27,6 +27,7 @@
 #define BLE_UUID_CHAR_TRAP_EVENT_DATA                 0xDEED
 #define BLE_UUID_CHAR_TRAP_EVENT_CONFIG               0xD1ED
 #define BLE_UUID_CHAR_TRAP_EVENT_DISPLAYED            0xD2ED
+#define BLE_UUID_CHAR_TRAP_TIME                       0xD3ED
 
 #define BLE_UUID_SIG_SERVICE_DEVICE_INFO                   0x180A
 #define BLE_UUID_SIG_SERVICE_BATTERY_LEVEL                 0x180F
@@ -58,7 +59,8 @@ enum Characteristic_TrapData
 {
   CHAR_EVENT_DATA,
   CHAR_EVENT_CONFIG,
-  CHAR_EVENT_DISPLAYED
+  CHAR_EVENT_DISPLAYED,
+  CHAR_TRAP_TIME
 };
 
 #endif  /* _ _GOODNATURE_BLE_BLE_MANAGER_H__ */

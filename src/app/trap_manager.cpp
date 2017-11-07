@@ -8,10 +8,10 @@
 
 #include <stdint.h>
 #include <string.h>
+#include <math.h>
 
 #include "app/trap_manager.h"
 #include "app/state_machine.h"
-#include "app/current_time.h"
 #include "peripheral/LIS2DH12.h"
 #include "peripheral/flash_interface.h"
 #include "debug/DEBUG.h"
@@ -21,13 +21,11 @@
 
 namespace EVENT_MANAGER
 {
-
 static StateMachine detectorStateMachine(WAIT_STATE, MAX_STATES, MAX_EVENTS);
 static event_data_t       eventData;
 static event_data_t       recordData = { 0 };
 static raw_event_data_t   rawEventData;
 static trap_event_handler_t g_eventHandler = NULL;
-static bool isKilled = false;
 
 static uint8_t            killNumber = 0;
 
@@ -53,21 +51,8 @@ void updateEventHandler(trap_event_e event)
 }
 
 
-
-void recordCurrentEvent()
-{
-  isKilled = false;
-}
-
-
-bool isAnimalKilled()
-{
-  return isKilled;
-}
-
-
 ///////////////////////////////////////////////////
-//////           Timer handlers         ///////////
+//////           Getter functions       ///////////
 ///////////////////////////////////////////////////
 
 trap_detector_config_t* getConfig()
@@ -97,24 +82,40 @@ uint8_t getKillNumber()
 //////           Timer handlers         ///////////
 ///////////////////////////////////////////////////
 
+uint8_t accConverter(int32_t inputInt)
+{
+  if (inputInt < 0) { inputInt = -inputInt; }
+  return inputInt >> 5;
+}
 
 void accReadTimerHandler(void* p_context)
 {
+  uint32_t t1 = Timer::getTicks();
   LIS2DH12_sample();
 
-  static int32_t accX, accY, accZ = 0;
-  LIS2DH12_getALLmG(&accX, &accY, &accZ);
-  DEBUG("X: %d, Y: %d, Z: %d", accX, accY, accZ);
+  static int32_t accX32, accY32, accZ32 = 0;
+  static uint8_t accX8, accY8, accZ8 = 0;
+
+  LIS2DH12_getALLmG(&accX32, &accY32, &accZ32);
+
+  accX8 = accConverter(accX32);
+  accY8 = accConverter(accY32);
+  accZ8 = accConverter(accZ32);
+  uint8_t sum = sqrt((accX8*accX8) + (accY8*accY8) + (accZ8*accZ8));
+  //INFO("X: %d, Y: %d, Z: %d", accX8, accY8, accZ8);
+  //INFO("Sum: %d", sum);
 
   if (rawEventData.count < RAW_DATA_CAPTURE_SIZE)
-    {
-      rawEventData.raw_data[rawEventData.count] = accX;
-      rawEventData.count++;
-    }
-  if (accX > eventData.peak_level)
-    {
-      eventData.peak_level = accX;
-    }
+  {
+    rawEventData.raw_data[rawEventData.count] = accX8;
+    rawEventData.count++;
+  }
+  if (sum > eventData.peak_level)
+  {
+    eventData.peak_level = sum;
+  }
+  uint32_t t2 = Timer::getTicks();
+  INFO("Timer ticks: %d", Timer::getDiff(t2, t1));
 
 }
 
@@ -141,20 +142,18 @@ void movementCountdownHandler(void* p_context)
 
 void triggeredFromWaitTransition()
 {
-  //sampleTimer.startTimer(100, accReadTimerHandler);
-  //LIS2DH12_startDAPolling();
+  LIS2DH12_startDAPolling();
   INFO("Triggerd from wait");
   trapBufferCountdown.startCountdown(detectorConfig.triggerBufferLength, trapBufferCountdownHandler);
 }
 
 void trapBufferEndedTransition()
 {
-  //LIS2DH12_stopDAPolling();
+  LIS2DH12_stopDAPolling();
   INFO("Trap buffer end");
 
   moveBufferCountdown.startCountdown(detectorConfig.moveBufferLength, moveBufferCountdownHandler);
-  //LIS2DH12_setInterruptThreshold(detectorConfig.moveThreshold);
-
+  LIS2DH12_setInterruptThreshold(detectorConfig.moveThreshold);
 }
 
 void moveBufferEndedTransition()
@@ -163,20 +162,21 @@ void moveBufferEndedTransition()
 
   killNumber++;
 
-  eventData.timestamp   =     CurrentTime::getCurrentTime();
+  int32_t temp;
+  LIS2DH12_updateTemperatureSensor();
+  LIS2DH12_getTemperature(&temp);
+
+  eventData.timestamp   =     *CurrentTime::getCurrentTime();
   eventData.trap_id     =     0x12345678;
-  eventData.temperature =     20;
+  eventData.temperature =     static_cast<int8_t>(temp);
   eventData.killNumber  =     killNumber;
-  eventData.peak_level  =     100;
 
   Flash_Record::write(KILL_DATA_FILE_ID, killNumber, &eventData, sizeof(eventData));
   Flash_Record::write(KILL_NUMBER_FILE_ID, KILL_NUMBER_KEY_ID, &killNumber, sizeof(killNumber));
   LIS2DH12_setInterruptThreshold(detectorConfig.triggerThreshold);
 
   updateEventHandler(ANIMAL_KILLED);
-
 }
-
 
 void triggeredFromMoveTransition()
 {
@@ -184,15 +184,12 @@ void triggeredFromMoveTransition()
   memset(&eventData, 0, sizeof(event_data_t));
   movementCountdown.stopTimer();
   movementCountdown.startCountdown(detectorConfig.setBufferLength, movementCountdownHandler);
-
 }
-
 
 void moveToWaitTransition()
 {
   INFO("Trap set");
   LIS2DH12_setInterruptThreshold(detectorConfig.triggerThreshold);
-
 }
 
 ///////////////////////////////////////////////////
@@ -239,11 +236,11 @@ void createTransitionTable(void)
 
 void initAccelerometer()
 {
-  LIS2DH12_init(LIS2DH12_POWER_LOW, LIS2DH12_SCALE2G, LIS2DH12_SAMPLE_50HZ);
+  LIS2DH12_init(LIS2DH12_POWER_LOW, LIS2DH12_SCALE4G, LIS2DH12_SAMPLE_50HZ);
   LIS2DH12_enableHighPass();
   LIS2DH12_initThresholdInterrupt(detectorConfig.triggerThreshold, detectorConfig.triggerDuration, LIS2DH12_INTERRUPT_THRESHOLD_XYZ, true, accTriggeredHandler);
   LIS2DH12_initDAPolling(accReadTimerHandler);
-  //LIS2DH12_startDAPolling();
+  LIS2DH12_enableTemperatureSensor();
 }
 
 void initialise()

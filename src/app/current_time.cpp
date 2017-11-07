@@ -13,26 +13,26 @@
 namespace CurrentTime
 {
 
-static uint32_t timeInMinutes = 0;
-static Timer   minuteTimer;
+static current_time_t m_currentTime = { 0, 0 };
+static Timer          m_minuteTimer;
 
 void minuteHandler(void*) {
-  timeInMinutes += 1;
+  m_currentTime.time += 1;
 }
 
 
 void startClock() {
-  minuteTimer.startTimer(60000, minuteHandler);
+  m_minuteTimer.startTimer(60000, minuteHandler);
 }
 
-uint32_t getCurrentTime() {
-  return timeInMinutes;
+current_time_t* getCurrentTime() {
+  return &m_currentTime;
 }
 
-void setAbsTime(uint32_t currentTime)
+void setCurrentTime(current_time_t currentTime)
 {
-  timeInMinutes = currentTime;
-  //currentTimeSet = true;
+  m_currentTime.time = currentTime.time;
+  m_currentTime.absSet = true;
 }
 
 }

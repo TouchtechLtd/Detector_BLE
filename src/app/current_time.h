@@ -14,9 +14,17 @@
 namespace CurrentTime
 {
 
+#pragma pack(push, 1)
+typedef struct
+{
+  uint32_t time;
+  uint8_t   absSet;
+} current_time_t;
+#pragma pack(pop)
 
-uint32_t getCurrentTime();
-void startClock();
+current_time_t* getCurrentTime();
+void            setCurrentTime(current_time_t currentTime);
+void            startClock();
 
 
 

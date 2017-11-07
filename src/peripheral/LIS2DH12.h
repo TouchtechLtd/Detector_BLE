@@ -127,6 +127,9 @@ extern LIS2DH12_Ret LIS2DH12_sample();
 extern LIS2DH12_Ret LIS2DH12_enableHighPass();
 extern LIS2DH12_Ret LIS2DH12_disableHighPass();
 extern LIS2DH12_Ret LIS2DH12_setHighPassReference();
+extern LIS2DH12_Ret LIS2DH12_enableTemperatureSensor();
+extern LIS2DH12_Ret LIS2DH12_updateTemperatureSensor();
+extern LIS2DH12_Ret LIS2DH12_getTemperature(int32_t* const temp);
 
 extern LIS2DH12_Ret LIS2DH12_enableX();
 extern LIS2DH12_Ret LIS2DH12_enableY();

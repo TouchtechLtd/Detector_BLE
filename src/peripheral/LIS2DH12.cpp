@@ -34,6 +34,12 @@ For a detailed description see the detailed description in @ref LIS2DH12.h
 /** Size of raw sensor data for all 3 axis */
 #define SENSOR_DATA_SIZE 6U
 
+/** Temperature reference */
+#define TEMPERATURE_REFERENCE 10
+
+/** Size of raw temperature data size */
+#define TEMPERATURE_DATA_SIZE 2U
+
 /** Max number of registers to read at once. To read all axis at once, 6bytes are neccessary */
 #define READ_MAX SENSOR_DATA_SIZE
 
@@ -69,6 +75,12 @@ typedef union
     acceleration_t sensor;
 } sensor_buffer_t;
 
+typedef union
+{
+  uint8_t raw[TEMPERATURE_DATA_SIZE];
+  int16_t temp;
+} temperature_t;
+
 
 static const uint16_t sampleRateLookup[] =
 {
@@ -84,6 +96,7 @@ static LIS2DH12_Ret selftest(void);
 /* VARIABLES **************************************************************************************/
 
 static sensor_buffer_t g_sensorData;                    /**< Union to covert raw data to value for each axis */
+static temperature_t   g_temperatureData;
 static LIS2DH12_PowerMode g_powerMode = LIS2DH12_POWER_DOWN; /**< Current power mode */
 static LIS2DH12_Scale g_scale = LIS2DH12_SCALE2G;       /**< Selected scale */
 static LIS2DH12_SampleRate g_sampleRate = LIS2DH12_SAMPLE_1HZ; /**< Current power mode */
@@ -213,6 +226,38 @@ extern LIS2DH12_Ret LIS2DH12_setHighPassReference()
 
   return err_code;
 }
+
+
+
+extern LIS2DH12_Ret LIS2DH12_enableTemperatureSensor()
+{
+  uint8_t err_code = LIS2DH12_RET_OK;
+  err_code = setRegister(LIS2DH_TEMP_CFG_REG, LIS2DH_TEMP_EN_MASK);
+  err_code = setRegister(LIS2DH_CTRL_REG4, LIS2DH_BDU_MASK);
+
+  return (LIS2DH12_Ret) err_code;
+}
+
+extern LIS2DH12_Ret LIS2DH12_updateTemperatureSensor()
+{
+  uint8_t err_code = LIS2DH12_RET_OK;
+
+  err_code = readRegister(LIS2DH_OUT_TEMP_L, g_temperatureData.raw, TEMPERATURE_DATA_SIZE);
+  return (LIS2DH12_Ret) err_code;
+}
+
+
+extern LIS2DH12_Ret LIS2DH12_getTemperature(int32_t* const temp)
+{
+  if (temp == NULL) { return LIS2DH12_RET_NULL; }
+
+  //Scale value, note: values from accelerometer are 16-bit 2's complement left-justified in all cases. "Extra" LSBs will be noise
+  //Add 32768 (1<<(16-1)) to get positive, shift, substract (1<<(resolution-1), scale voila!
+  *temp = TEMPERATURE_REFERENCE + (((32768+g_temperatureData.temp)>>(16-g_resolution))-(1<<(g_resolution-1))) ;
+
+  return LIS2DH12_RET_OK;
+}
+
 
 
 extern LIS2DH12_Ret LIS2DH12_enableX()
