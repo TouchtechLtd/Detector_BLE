@@ -1,0 +1,1251 @@
+Archive member included to satisfy reference by file (symbol)
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-exit.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/crt0.o (exit)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-impure.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-exit.o) (_global_impure_ptr)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-init.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/crt0.o (__libc_init_array)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memset.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/crt0.o (memset)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a(_exit.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-exit.o) (_exit)
+/Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                              _build/ruuvi_b3_bootloader_micro_ecc_lib_shared.c.o (symbol from plugin) (uECC_secp160r1)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o)
+                              _build/ruuvi_b3_bootloader_nrf_log_backend_serial.c.o (symbol from plugin) (__locale_ctype_ptr)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-mbtowc_r.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o) (__ascii_mbtowc)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memcmp.o)
+                              _build/ruuvi_b3_bootloader_dfu_req_handling.c.o (symbol from plugin) (memcmp)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memcpy-stub.o)
+                              _build/ruuvi_b3_bootloader_nrf_log_backend_serial.c.o (symbol from plugin) (memcpy)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-snprintf.o)
+                              _build/ruuvi_b3_bootloader_nrf_log_backend_serial.c.o (symbol from plugin) (snprintf)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strcmp.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o) (strcmp)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strcpy.o)
+                              _build/ruuvi_b3_bootloader_SEGGER_RTT.c.o (symbol from plugin) (strcpy)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strlen.o)
+                              _build/ruuvi_b3_bootloader_nrf_ble_dfu.c.o (symbol from plugin) (strlen)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-wctomb_r.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o) (__ascii_wctomb)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-ctype_.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o) (_ctype_)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-svfprintf.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-snprintf.o) (_svfprintf_r)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-vfprintf_i.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-svfprintf.o) (_printf_i)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memchr.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-svfprintf.o) (memchr)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memmove.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-svfprintf.o) (memmove)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-freer.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-svfprintf.o) (_free_r)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-mallocr.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-svfprintf.o) (_malloc_r)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-reallocr.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-svfprintf.o) (_realloc_r)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-sbrkr.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-mallocr.o) (_sbrk_r)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-mlock.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-freer.o) (__malloc_lock)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-msizer.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-reallocr.o) (_malloc_usable_size_r)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-reent.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-sbrkr.o) (errno)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a(sbrk.o)
+                              /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-sbrkr.o) (_sbrk)
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/libgcc.a(_ashldi3.o)
+                              /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans7.ltrans.o (__aeabi_llsl)
+
+Allocating common symbols
+Common symbol       size              file
+
+errno               0x4               /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-reent.o)
+_SEGGER_RTT         0x78              _build/ruuvi_b3_bootloader_SEGGER_RTT.c.o (symbol from plugin)
+
+Discarded input sections
+
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crti.o
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crti.o
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crti.o
+ .data          0x0000000000000000        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtbegin.o
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/crt0.o
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/crt0.o
+ .ARM.extab     0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/crt0.o
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-exit.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-exit.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-exit.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-impure.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-impure.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-impure.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-init.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-init.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-init.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memset.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memset.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memset.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a(_exit.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a(_exit.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a(_exit.o)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_main.c.o (symbol from plugin)
+ .data          0x0000000000000000        0x0 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans1.ltrans.o
+ .data          0x0000000000000000        0x0 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans2.ltrans.o
+ .data          0x0000000000000000        0x0 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans4.ltrans.o
+ .data          0x0000000000000000        0x0 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans5.ltrans.o
+ .data          0x0000000000000000        0x0 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans6.ltrans.o
+ .data          0x0000000000000000        0x0 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans7.ltrans.o
+ .bss           0x0000000000000000        0x0 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans7.ltrans.o
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_ble_dfu.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_log_backend_serial.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_log_frontend.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_app_error_weak.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_app_fifo.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_app_scheduler.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_app_timer.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_app_util_platform.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_crc32.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_fstorage.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_hci_mem_pool.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_assert.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_sha256.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_queue.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_drv_rng.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_drv_uart.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_dfu_public_key.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_dfu-cc.pb.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_dfu_req_handling.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_pb_common.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_pb_decode.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_drv_common.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_nvmc.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_ble_advdata.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_ble_conn_params.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_ble_srv_common.c.o (symbol from plugin)
+ .data          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_gcc_startup_nrf52.S.o
+ .bss           0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_gcc_startup_nrf52.S.o
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_system_nrf52.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_crypto_ecdh.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_crypto_ecdsa.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_crypto_hash.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_crypto_init.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_crypto_keys.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_crypto_mem.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_crypto_rng.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_micro_ecc_lib_ecdh.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_micro_ecc_lib_ecdsa.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_micro_ecc_lib_init.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_micro_ecc_lib_keys.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_micro_ecc_lib_shared.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_crypto_sw_hash.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_crypto_sw_rng.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_softdevice_handler.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_softdevice_handler_appsh.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_bootloader.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_bootloader_app_start.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_bootloader_app_start_asm.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_bootloader_info.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_dfu.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_dfu_flash.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_dfu_handling_error.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_dfu_mbr.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_dfu_settings.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_dfu_transport.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_nrf_dfu_utils.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_RTT_Syscalls_GCC.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_SEGGER_RTT.c.o (symbol from plugin)
+ .text          0x0000000000000000        0x0 _build/ruuvi_b3_bootloader_SEGGER_RTT_printf.c.o (symbol from plugin)
+ .group         0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .group         0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .group         0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .group         0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .group         0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .group         0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .group         0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .group         0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .group         0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .group         0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .group         0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .group         0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .group         0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.HMAC_init
+                0x0000000000000000       0x46 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.HMAC_update
+                0x0000000000000000        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.HMAC_finish
+                0x0000000000000000       0x62 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.update_V
+                0x0000000000000000       0x24 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.omega_mult_secp256k1
+                0x0000000000000000       0x3a /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_set_rng
+                0x0000000000000000        0xc /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_get_rng
+                0x0000000000000000        0xc /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_curve_private_key_size
+                0x0000000000000000        0xe /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_curve_public_key_size
+                0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.vli_mmod_fast_secp256k1
+                0x0000000000000000       0x84 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.regularize_k
+                0x0000000000000000       0x58 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.vli_mmod_fast_secp192r1
+                0x0000000000000000       0x94 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.vli_mmod_fast_secp224r1
+                0x0000000000000000       0xd8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_vli_cmp
+                0x0000000000000000       0x32 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.omega_mult_secp160r1
+                0x0000000000000000       0x42 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.vli_mmod_fast_secp160r1
+                0x0000000000000000       0x84 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_vli_modSquare
+                0x0000000000000000       0x22 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.x_side_secp256k1
+                0x0000000000000000       0x2e /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.double_jacobian_secp256k1
+                0x0000000000000000      0x10c /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.XYcZ_addC
+                0x0000000000000000      0x118 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.EccPoint_mult
+                0x0000000000000000      0x1a2 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.EccPoint_compute_public_key
+                0x0000000000000000       0x54 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_secp160r1
+                0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_secp192r1
+                0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_secp224r1
+                0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_secp256k1
+                0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_vli_nativeToBytes
+                0x0000000000000000       0x28 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_vli_bytesToNative
+                0x0000000000000000       0x40 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_generate_random_int
+                0x0000000000000000       0x78 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_sign_with_k
+                0x0000000000000000      0x170 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_make_key
+                0x0000000000000000       0x46 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_shared_secret
+                0x0000000000000000       0xa4 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_valid_point
+                0x0000000000000000       0x6c /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_valid_public_key
+                0x0000000000000000        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_compute_public_key
+                0x0000000000000000       0x44 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_sign
+                0x0000000000000000       0x56 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_sign_deterministic
+                0x0000000000000000      0x192 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_curve_num_words
+                0x0000000000000000        0x6 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_curve_num_bytes
+                0x0000000000000000        0x6 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_curve_num_bits
+                0x0000000000000000        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_curve_num_n_words
+                0x0000000000000000        0xe /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_curve_num_n_bytes
+                0x0000000000000000        0xe /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_curve_num_n_bits
+                0x0000000000000000        0x6 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_curve_p
+                0x0000000000000000        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_curve_n
+                0x0000000000000000        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_curve_G
+                0x0000000000000000        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_curve_b
+                0x0000000000000000        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_vli_mmod_fast
+                0x0000000000000000        0x6 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_point_mult
+                0x0000000000000000       0x40 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .bss.g_rng_function
+                0x0000000000000000        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .rodata.curve_secp160r1
+                0x0000000000000000       0xb0 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .rodata.curve_secp192r1
+                0x0000000000000000       0xb0 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .rodata.curve_secp224r1
+                0x0000000000000000       0xb0 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .rodata.curve_secp256k1
+                0x0000000000000000       0xb0 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o)
+ .text._setlocale_r
+                0x0000000000000000       0x38 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o)
+ .text.__locale_mb_cur_max
+                0x0000000000000000       0x1c /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o)
+ .text.__locale_ctype_ptr_l
+                0x0000000000000000        0x6 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o)
+ .text.setlocale
+                0x0000000000000000       0x10 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o)
+ .bss._PathLocale
+                0x0000000000000000        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-mbtowc_r.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-mbtowc_r.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-mbtowc_r.o)
+ .text._mbtowc_r
+                0x0000000000000000       0x24 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-mbtowc_r.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memcmp.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memcmp.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memcmp.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memcpy-stub.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memcpy-stub.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memcpy-stub.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-snprintf.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-snprintf.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-snprintf.o)
+ .text._snprintf_r
+                0x0000000000000000       0x5e /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-snprintf.o)
+ .text          0x0000000000000000       0x14 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strcmp.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strcmp.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strcmp.o)
+ .debug_frame   0x0000000000000000       0x20 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strcmp.o)
+ .ARM.attributes
+                0x0000000000000000       0x20 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strcmp.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strcpy.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strcpy.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strcpy.o)
+ .text.strcpy   0x0000000000000000       0x10 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strcpy.o)
+ .debug_frame   0x0000000000000000       0x20 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strcpy.o)
+ .ARM.attributes
+                0x0000000000000000       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strcpy.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strlen.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strlen.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-wctomb_r.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-wctomb_r.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-wctomb_r.o)
+ .text._wctomb_r
+                0x0000000000000000       0x24 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-wctomb_r.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-ctype_.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-ctype_.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-ctype_.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-svfprintf.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-svfprintf.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-svfprintf.o)
+ .text.__ssprint_r
+                0x0000000000000000       0xf4 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-svfprintf.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memchr.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memchr.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memmove.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memmove.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memmove.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-freer.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-freer.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-freer.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-mallocr.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-mallocr.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-mallocr.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-reallocr.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-reallocr.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-reallocr.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-sbrkr.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-sbrkr.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-sbrkr.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-mlock.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-mlock.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-mlock.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-msizer.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-msizer.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-msizer.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-reent.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-reent.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-reent.o)
+ .text.cleanup_glue
+                0x0000000000000000       0x1a /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-reent.o)
+ .text._reclaim_reent
+                0x0000000000000000       0xb8 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-reent.o)
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtend.o
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtend.o
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtend.o
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtn.o
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtn.o
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtn.o
+ .text          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a(sbrk.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a(sbrk.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a(sbrk.o)
+ .data          0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/libgcc.a(_ashldi3.o)
+ .bss           0x0000000000000000        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/libgcc.a(_ashldi3.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x0000000000075000 0x0000000000009000 xr
+RAM              0x0000000020002060 0x000000000000dfa0 xrw
+NOINIT           0x0000000020007f80 0x0000000000000080 xrw
+BOOTLOADER_SETTINGS 0x000000000007f000 0x0000000000001000 rw
+UICR_BOOTLOADER  0x0000000010001014 0x0000000000000004 r
+MBR_PARAMS_PAGE  0x000000000007e000 0x0000000000001000 rw
+UICR_MBR_PARAM_PAGE 0x0000000010001018 0x0000000000000004 r
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+
+.text           0x0000000000075000     0x7b00
+ *(.isr_vector)
+ .isr_vector    0x0000000000075000      0x200 _build/ruuvi_b3_bootloader_gcc_startup_nrf52.S.o
+                0x0000000000075000                __isr_vector
+ *(.text*)
+ .text          0x0000000000075200       0x6c /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtbegin.o
+ .text          0x000000000007526c       0x74 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/crt0.o
+                0x000000000007526c                _mainCRTStartup
+                0x000000000007526c                _start
+ .text.exit     0x00000000000752e0       0x28 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-exit.o)
+                0x00000000000752e0                exit
+ .text.__libc_init_array
+                0x0000000000075308       0x48 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-init.o)
+                0x0000000000075308                __libc_init_array
+ .text.memset   0x0000000000075350       0x10 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memset.o)
+                0x0000000000075350                memset
+ .text._exit    0x0000000000075360        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a(_exit.o)
+                0x0000000000075360                _exit
+ .text          0x0000000000075364      0xb74 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans0.ltrans.o
+                0x0000000000075364                nrf_dfu_req_handler_on_req.constprop.28
+ .text          0x0000000000075ed8      0x870 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans1.ltrans.o
+                0x0000000000075ed8                buf_read.lto_priv.119
+                0x0000000000075ef4                dfu_data_write_handler.lto_priv.81
+                0x0000000000076038                fs_sys_event_handler
+                0x00000000000760ec                pb_decode_varint32.lto_priv.118
+                0x0000000000076162                pb_read
+                0x00000000000761bc                pb_field_iter_next
+                0x0000000000076248                dfu_decode_commmand.lto_priv.83
+                0x00000000000762ac                reset_device.lto_priv.181
+                0x00000000000762e4                on_dfu_complete.lto_priv.82
+                0x0000000000076300                nrf_uarte_event_clear.lto_priv.102
+                0x0000000000076310                nrf_uart_event_clear.lto_priv.103
+                0x0000000000076320                tx_byte.lto_priv.104
+                0x0000000000076342                UARTE0_UART0_IRQHandler
+                0x0000000000076570                queue_get_next_free.lto_priv.106
+                0x00000000000765a8                queue_start.lto_priv.105
+                0x00000000000765c0                crc32_compute
+                0x00000000000765f8                sd_nvic_critical_region_exit.lto_priv.101
+                0x0000000000076624                RNG_IRQHandler
+                0x00000000000766e8                app_timer_stop
+ .text.unlikely
+                0x0000000000076748      0x138 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans1.ltrans.o
+                0x0000000000076748                sha256_transform
+ .text          0x0000000000076880      0x960 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans2.ltrans.o
+                0x0000000000076954                ble_dfu_transport_init
+                0x0000000000076d58                send_hvx.lto_priv.79
+ .text          0x00000000000771e0      0x9d0 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans3.ltrans.o
+                0x0000000000077298                softdevice_evt_schedule
+                0x0000000000077314                response_send.constprop.24
+                0x0000000000077378                app_timer_start.part.3.constprop.21
+                0x00000000000773e8                nrf_drv_uart_tx.constprop.14
+                0x0000000000077518                rx_done_event.constprop.5
+                0x0000000000077540                nrf_dfu_app_is_valid
+                0x000000000007756c                reset_device_callback.lto_priv.190
+                0x00000000000775a0                nrf_dfu_invalidate_bank.lto_priv.203
+                0x00000000000775bc                sd_mbr_command.lto_priv.204
+                0x00000000000775c0                nrf_dfu_mbr_init_sd
+                0x00000000000775dc                nrf_dfu_flash_erase
+                0x0000000000077748                nrf_dfu_flash_store
+                0x00000000000778b4                nrf_dfu_settings_write
+                0x0000000000077950                nrf_dfu_sd_continue_impl.isra.0.lto_priv.202
+                0x0000000000077a1c                nrf_dfu_bl_continue.lto_priv.201
+                0x0000000000077a88                sd_app_evt_wait.lto_priv.84
+                0x0000000000077a8c                NVIC_SystemReset.lto_priv.94.lto_priv.115
+                0x0000000000077a8c                NVIC_SystemReset.lto_priv.96.lto_priv.116
+                0x0000000000077a8c                NVIC_SystemReset.lto_priv.95.lto_priv.134
+                0x0000000000077ab0                reset_delay_timer_handler.lto_priv.191
+                0x0000000000077aba                sd_softdevice_vector_table_base_set.lto_priv.98.lto_priv.169
+                0x0000000000077abe                nrf_bootloader_app_start
+                0x0000000000077b00                intern_softdevice_events_execute.part.2
+ .text          0x0000000000077bb0      0x854 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans4.ltrans.o
+                0x0000000000077c28                softdevice_fault_handler
+                0x0000000000077c40                pb_dec_submessage.lto_priv.127
+                0x0000000000077c7c                pb_dec_fixed64.lto_priv.124
+                0x0000000000077c96                pb_dec_fixed32.lto_priv.123
+                0x0000000000077cae                pb_dec_string.lto_priv.126
+                0x0000000000077cea                pb_dec_bytes.lto_priv.125
+                0x0000000000077d28                pb_dec_svarint.lto_priv.122
+                0x0000000000077d8e                pb_dec_uvarint.lto_priv.121
+                0x0000000000077dea                pb_dec_varint.lto_priv.120
+                0x0000000000077e46                SWI2_EGU2_IRQHandler
+                0x0000000000077e70                sd_ble_evt_get.lto_priv.108
+                0x0000000000077e74                sd_ble_enable.lto_priv.172
+                0x0000000000077e78                sd_softdevice_enable.lto_priv.171
+                0x0000000000077e7c                sd_evt_get.lto_priv.107
+                0x0000000000077e80                nrf_crypto_hash_size_get
+                0x0000000000077eae                nrf_crypto_hash_compute
+                0x00000000000780c0                SystemInit
+                0x00000000000782c4                conn_params_negotiation.lto_priv.182
+                0x0000000000078344                sd_ble_gap_ppcp_get.lto_priv.161
+                0x0000000000078348                sd_ble_gap_ppcp_set.lto_priv.111.lto_priv.165
+                0x0000000000078348                sd_ble_gap_ppcp_set.lto_priv.112.lto_priv.160
+                0x000000000007834c                sd_ble_gap_disconnect.lto_priv.113.lto_priv.144
+                0x0000000000078350                update_timeout_handler.lto_priv.151
+                0x00000000000783b8                nrf_drv_common_irq_enable
+ .text          0x0000000000078404       0x64 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans5.ltrans.o
+                0x0000000000078404                sd_ble_user_mem_reply.lto_priv.177
+                0x0000000000078408                sd_ble_uuid_vs_add.lto_priv.163
+                0x000000000007840c                sd_ble_cfg_set.lto_priv.170
+                0x0000000000078410                sd_ble_gatts_exchange_mtu_reply.lto_priv.174
+                0x0000000000078414                sd_ble_gatts_sys_attr_set.lto_priv.175
+                0x0000000000078418                sd_ble_gatts_rw_authorize_reply.lto_priv.179
+                0x000000000007841c                sd_ble_gatts_hvx.lto_priv.183
+                0x0000000000078420                sd_ble_gatts_value_get.lto_priv.180
+                0x0000000000078424                sd_ble_gatts_characteristic_add.lto_priv.164
+                0x0000000000078428                sd_ble_gatts_service_add.lto_priv.162
+                0x000000000007842c                sd_ble_gap_data_length_update.lto_priv.173
+                0x0000000000078430                sd_ble_gap_sec_info_reply.lto_priv.176
+                0x0000000000078434                sd_ble_gap_sec_params_reply.lto_priv.178
+                0x0000000000078438                sd_ble_gap_device_name_get.lto_priv.185
+                0x000000000007843c                sd_ble_gap_device_name_set.lto_priv.166
+                0x0000000000078440                sd_ble_gap_adv_stop.lto_priv.145
+                0x0000000000078444                sd_ble_gap_adv_start.lto_priv.184
+                0x0000000000078448                sd_ble_gap_adv_data_set.lto_priv.186
+                0x000000000007844c                sd_ble_gap_addr_get.lto_priv.168
+                0x0000000000078450                sd_ble_gap_addr_set.lto_priv.167
+                0x0000000000078454                app_error_handler_bare
+ .text.startup  0x0000000000078468      0x5e4 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans5.ltrans.o
+                0x0000000000078468                main
+ .text          0x0000000000078a4c      0x750 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans6.ltrans.o
+                0x0000000000078a4c                uart_event_handler.lto_priv.197
+                0x0000000000078a5c                nrf_log_backend_serial_hexdump_handler.lto_priv.200
+                0x0000000000078bc0                nrf_log_backend_serial_std_handler.lto_priv.199
+                0x0000000000078d8c                RTC1_IRQHandler
+                0x0000000000078e18                user_op_alloc.lto_priv.100
+                0x0000000000078e44                rtc1_stop.lto_priv.205
+                0x0000000000078e84                SWI0_EGU0_IRQHandler
+                0x00000000000790f0                app_sched_execute
+                0x0000000000079154                nrf_log_direct_feed.lto_priv.85
+                0x000000000007916c                nrf_log_frontend_std_2
+                0x0000000000079180                nrf_log_frontend_std_1
+                0x0000000000079194                nrf_log_frontend_std_0
+ .text          0x000000000007919c      0x514 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans7.ltrans.o
+                0x0000000000079222                pb_message_set_to_defaults.lto_priv.117
+                0x00000000000792dc                pb_make_string_substream
+                0x00000000000794b0                pb_decode_noinit
+                0x000000000007964e                pb_decode_varint
+ .text          0x00000000000796b0      0x1e8 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans8.ltrans.o
+                0x00000000000796b0                nrf_delay_us.constprop.67
+                0x0000000000079740                nrf_delay_us.part.0.constprop.62
+                0x00000000000797cc                sd_nvic_critical_region_enter.constprop.37
+                0x0000000000079820                response_crc_cmd_send.constprop.33
+ .text.unlikely
+                0x0000000000079898       0x78 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans8.ltrans.o
+                0x0000000000079898                nrf_dfu_find_cache.constprop.74
+ .text          0x0000000000079910       0x3c _build/ruuvi_b3_bootloader_gcc_startup_nrf52.S.o
+                0x0000000000079910                Reset_Handler
+                0x0000000000079938                NMI_Handler
+                0x000000000007993a                HardFault_Handler
+                0x000000000007993c                MemoryManagement_Handler
+                0x000000000007993e                BusFault_Handler
+                0x0000000000079940                UsageFault_Handler
+                0x0000000000079942                SVC_Handler
+                0x0000000000079944                DebugMon_Handler
+                0x0000000000079946                PendSV_Handler
+                0x0000000000079948                SysTick_Handler
+                0x000000000007994a                FPU_IRQHandler
+                0x000000000007994a                SPIM0_SPIS0_TWIM0_TWIS0_SPI0_TWI0_IRQHandler
+                0x000000000007994a                TIMER4_IRQHandler
+                0x000000000007994a                I2S_IRQHandler
+                0x000000000007994a                SWI4_EGU4_IRQHandler
+                0x000000000007994a                TIMER0_IRQHandler
+                0x000000000007994a                TIMER1_IRQHandler
+                0x000000000007994a                PWM2_IRQHandler
+                0x000000000007994a                ECB_IRQHandler
+                0x000000000007994a                SPIM1_SPIS1_TWIM1_TWIS1_SPI1_TWI1_IRQHandler
+                0x000000000007994a                Default_Handler
+                0x000000000007994a                SAADC_IRQHandler
+                0x000000000007994a                CCM_AAR_IRQHandler
+                0x000000000007994a                WDT_IRQHandler
+                0x000000000007994a                SWI5_EGU5_IRQHandler
+                0x000000000007994a                RTC2_IRQHandler
+                0x000000000007994a                PWM0_IRQHandler
+                0x000000000007994a                SWI3_EGU3_IRQHandler
+                0x000000000007994a                SWI1_EGU1_IRQHandler
+                0x000000000007994a                SPIM2_SPIS2_SPI2_IRQHandler
+                0x000000000007994a                NFCT_IRQHandler
+                0x000000000007994a                MWU_IRQHandler
+                0x000000000007994a                TIMER2_IRQHandler
+                0x000000000007994a                COMP_LPCOMP_IRQHandler
+                0x000000000007994a                RTC0_IRQHandler
+                0x000000000007994a                GPIOTE_IRQHandler
+                0x000000000007994a                PWM1_IRQHandler
+                0x000000000007994a                POWER_CLOCK_IRQHandler
+                0x000000000007994a                RADIO_IRQHandler
+                0x000000000007994a                PDM_IRQHandler
+                0x000000000007994a                TEMP_IRQHandler
+                0x000000000007994a                QDEC_IRQHandler
+                0x000000000007994a                TIMER3_IRQHandler
+ .text.bcopy    0x000000000007994c       0x14 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_vli_cmp_unsafe
+                0x0000000000079960       0x28 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ *fill*         0x0000000000079988        0x8 
+ .text.uECC_vli_add
+                0x0000000000079990       0x5c /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x0000000000079990                uECC_vli_add
+ *fill*         0x00000000000799ec        0x4 
+ .text.uECC_vli_sub
+                0x00000000000799f0       0x60 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x00000000000799f0                uECC_vli_sub
+ .text.uECC_vli_mult
+                0x0000000000079a50      0x312 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x0000000000079a50                uECC_vli_mult
+ .text.uECC_vli_square
+                0x0000000000079d62      0x28c /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x0000000000079d62                uECC_vli_square
+ .text.uECC_vli_clear
+                0x0000000000079fee       0x16 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x0000000000079fee                uECC_vli_clear
+ .text.bits2int
+                0x000000000007a004       0x8a /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_vli_isZero
+                0x000000000007a08e       0x1e /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x000000000007a08e                uECC_vli_isZero
+ .text.uECC_vli_testBit
+                0x000000000007a0ac       0x14 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x000000000007a0ac                uECC_vli_testBit
+ .text.uECC_vli_numBits
+                0x000000000007a0c0       0x3a /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x000000000007a0c0                uECC_vli_numBits
+ .text.uECC_vli_set
+                0x000000000007a0fa       0x18 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x000000000007a0fa                uECC_vli_set
+ *fill*         0x000000000007a112        0x2 
+ .text.vli_mmod_fast_secp256r1
+                0x000000000007a114      0x1ac /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_vli_equal
+                0x000000000007a2c0       0x28 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x000000000007a2c0                uECC_vli_equal
+ .text.uECC_vli_rshift1
+                0x000000000007a2e8       0x1c /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x000000000007a2e8                uECC_vli_rshift1
+ .text.vli_modInv_update
+                0x000000000007a304       0x38 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_vli_modAdd
+                0x000000000007a33c       0x32 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x000000000007a33c                uECC_vli_modAdd
+ .text.uECC_vli_modSub
+                0x000000000007a36e       0x24 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x000000000007a36e                uECC_vli_modSub
+ .text.uECC_vli_mmod
+                0x000000000007a392      0x13c /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x000000000007a392                uECC_vli_mmod
+ .text.uECC_vli_modMult
+                0x000000000007a4ce       0x24 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x000000000007a4ce                uECC_vli_modMult
+ .text.uECC_vli_modMult_fast
+                0x000000000007a4f2       0x20 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x000000000007a4f2                uECC_vli_modMult_fast
+ .text.uECC_vli_modSquare_fast
+                0x000000000007a512       0x20 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x000000000007a512                uECC_vli_modSquare_fast
+ .text.x_side_default
+                0x000000000007a532       0x5a /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.double_jacobian_default
+                0x000000000007a58c      0x156 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.XYcZ_add
+                0x000000000007a6e2       0xca /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.apply_z  0x000000000007a7ac       0x3e /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .text.uECC_vli_modInv
+                0x000000000007a7ea      0x10c /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x000000000007a7ea                uECC_vli_modInv
+ *fill*         0x000000000007a8f6        0x2 
+ .text.uECC_secp256r1
+                0x000000000007a8f8        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x000000000007a8f8                uECC_secp256r1
+ .text.uECC_verify
+                0x000000000007a900      0x2c4 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                0x000000000007a900                uECC_verify
+ .text.__locale_ctype_ptr
+                0x000000000007abc4       0x1c /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o)
+                0x000000000007abc4                __locale_ctype_ptr
+ .text.__ascii_mbtowc
+                0x000000000007abe0       0x24 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-mbtowc_r.o)
+                0x000000000007abe0                __ascii_mbtowc
+ .text.memcmp   0x000000000007ac04       0x1e /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memcmp.o)
+                0x000000000007ac04                memcmp
+ .text.memcpy   0x000000000007ac22       0x16 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memcpy-stub.o)
+                0x000000000007ac22                memcpy
+ .text.snprintf
+                0x000000000007ac38       0x68 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-snprintf.o)
+                0x000000000007ac38                snprintf
+                0x000000000007ac38                sniprintf
+ .text          0x000000000007aca0       0x10 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strlen.o)
+                0x000000000007aca0                strlen
+ .text.__ascii_wctomb
+                0x000000000007acb0       0x1a /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-wctomb_r.o)
+                0x000000000007acb0                __ascii_wctomb
+ .text.__ssputs_r
+                0x000000000007acca       0xb6 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-svfprintf.o)
+                0x000000000007acca                __ssputs_r
+ .text._svfprintf_r
+                0x000000000007ad80      0x1e8 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-svfprintf.o)
+                0x000000000007ad80                _svfprintf_r
+                0x000000000007ad80                _svfiprintf_r
+ .text._printf_common
+                0x000000000007af68       0xec /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x000000000007af68                _printf_common
+ .text._printf_i
+                0x000000000007b054      0x240 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x000000000007b054                _printf_i
+ *fill*         0x000000000007b294        0xc 
+ .text          0x000000000007b2a0       0xa0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memchr.o)
+                0x000000000007b2a0                memchr
+ .text.memmove  0x000000000007b340       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memmove.o)
+                0x000000000007b340                memmove
+ .text._free_r  0x000000000007b374       0x9c /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-freer.o)
+                0x000000000007b374                _free_r
+ .text._malloc_r
+                0x000000000007b410       0xbc /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-mallocr.o)
+                0x000000000007b410                _malloc_r
+ .text._realloc_r
+                0x000000000007b4cc       0x4c /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-reallocr.o)
+                0x000000000007b4cc                _realloc_r
+ .text._sbrk_r  0x000000000007b518       0x20 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-sbrkr.o)
+                0x000000000007b518                _sbrk_r
+ .text.__malloc_lock
+                0x000000000007b538        0x2 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-mlock.o)
+                0x000000000007b538                __malloc_lock
+ .text.__malloc_unlock
+                0x000000000007b53a        0x2 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-mlock.o)
+                0x000000000007b53a                __malloc_unlock
+ .text._malloc_usable_size_r
+                0x000000000007b53c       0x12 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-msizer.o)
+                0x000000000007b53c                _malloc_usable_size_r
+ *fill*         0x000000000007b54e        0x2 
+ .text._sbrk    0x000000000007b550       0x1c /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a(sbrk.o)
+                0x000000000007b550                _sbrk
+ .text          0x000000000007b56c       0x18 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/libgcc.a(_ashldi3.o)
+                0x000000000007b56c                __ashldi3
+                0x000000000007b56c                __aeabi_llsl
+ *(.init)
+ .init          0x000000000007b584        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crti.o
+                0x000000000007b584                _init
+ .init          0x000000000007b588        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtn.o
+ *(.fini)
+ .fini          0x000000000007b590        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crti.o
+                0x000000000007b590                _fini
+ .fini          0x000000000007b594        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtn.o
+ *crtbegin.o(.ctors)
+ *crtbegin?.o(.ctors)
+ *(EXCLUDE_FILE(*crtend.o *crtend?.o) .ctors)
+ *(SORT(.ctors.*))
+ *(.ctors)
+ *crtbegin.o(.dtors)
+ *crtbegin?.o(.dtors)
+ *(EXCLUDE_FILE(*crtend.o *crtend?.o) .dtors)
+ *(SORT(.dtors.*))
+ *(.dtors)
+ *(.rodata*)
+ .rodata._global_impure_ptr
+                0x000000000007b59c        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-impure.o)
+                0x000000000007b59c                _global_impure_ptr
+ .rodata        0x000000000007b5a0       0x48 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans0.ltrans.o
+                0x000000000007b5e4                nrf_dfu_utils_reset_delay_timer
+ .rodata.str1.1
+                0x000000000007b5e8      0xa4b /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans0.ltrans.o
+ *fill*         0x000000000007c033        0x1 
+ .rodata        0x000000000007c034      0x23c /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans1.ltrans.o
+ .rodata.str1.1
+                0x000000000007c270       0x71 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans1.ltrans.o
+ .rodata        0x000000000007c2e1       0x10 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans2.ltrans.o
+ .rodata.str1.1
+                0x000000000007c2f1      0x18c /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans2.ltrans.o
+ .rodata.str1.1
+                0x000000000007c47d      0x241 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans3.ltrans.o
+ .rodata.str1.1
+                0x000000000007c6be       0x32 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans4.ltrans.o
+ .rodata.str1.1
+                0x000000000007c6f0      0x1ee /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans5.ltrans.o
+ .rodata.str1.1
+                0x000000000007c8de        0x7 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans6.ltrans.o
+ *fill*         0x000000000007c8e5        0x3 
+ .rodata        0x000000000007c8e8       0x24 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans7.ltrans.o
+ .rodata.curve_secp256r1
+                0x000000000007c90c       0xb0 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .rodata._setlocale_r.str1.1
+                0x000000000007c9bc        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o)
+                                          0x9 (size before relaxing)
+ .rodata.str1.1
+                0x000000000007c9c4        0x2 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o)
+ .rodata._ctype_
+                0x000000000007c9c6      0x101 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-ctype_.o)
+                0x000000000007c9c6                _ctype_
+ .rodata._svfprintf_r.str1.1
+                0x000000000007cac7       0x11 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-svfprintf.o)
+ .rodata._printf_i.str1.1
+                0x000000000007cad8       0x22 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ *(.eh_frame*)
+ *fill*         0x000000000007cafa        0x2 
+ .eh_frame      0x000000000007cafc        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtbegin.o
+ .eh_frame      0x000000000007cafc        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtend.o
+
+.glue_7         0x000000000007cb00        0x0
+ .glue_7        0x000000000007cb00        0x0 linker stubs
+
+.glue_7t        0x000000000007cb00        0x0
+ .glue_7t       0x000000000007cb00        0x0 linker stubs
+
+.vfp11_veneer   0x000000000007cb00        0x0
+ .vfp11_veneer  0x000000000007cb00        0x0 linker stubs
+
+.v4_bx          0x000000000007cb00        0x0
+ .v4_bx         0x000000000007cb00        0x0 linker stubs
+
+.iplt           0x000000000007cb00        0x0
+ .iplt          0x000000000007cb00        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtbegin.o
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+                0x000000000007cb00                __exidx_start = .
+
+.ARM.exidx      0x000000000007cb00        0x8
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+ .ARM.exidx     0x000000000007cb00        0x8 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/crt0.o
+                0x000000000007cb08                __exidx_end = .
+                0x000000000007cb08                __etext = .
+
+.data           0x0000000020002060      0x210 load address 0x000000000007cb08
+                0x0000000020002060                __data_start__ = .
+ *(vtable)
+ *(.data*)
+ .data._impure_ptr
+                0x0000000020002060        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-impure.o)
+                0x0000000020002060                _impure_ptr
+ .data.impure_data
+                0x0000000020002064       0x60 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-impure.o)
+ .data          0x00000000200020c4       0x24 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans0.ltrans.o
+ .data          0x00000000200020e8        0x8 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans3.ltrans.o
+                0x00000000200020e8                m_uart.lto_priv.141
+ .data          0x00000000200020f0        0x6 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans8.ltrans.o
+                0x00000000200020f0                SystemCoreClock
+                0x00000000200020f4                m_conn_handle.lto_priv.86
+ *fill*         0x00000000200020f6        0x2 
+ .data.__global_locale
+                0x00000000200020f8      0x16c /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o)
+                0x00000000200020f8                __global_locale
+                0x0000000020002264                . = ALIGN (0x4)
+                0x0000000020002264                PROVIDE (__preinit_array_start, .)
+ *(.preinit_array)
+                0x0000000020002264                PROVIDE (__preinit_array_end, .)
+                0x0000000020002264                . = ALIGN (0x4)
+                0x0000000020002264                PROVIDE (__init_array_start, .)
+ *(SORT(.init_array.*))
+ *(.init_array)
+ .init_array    0x0000000020002264        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtbegin.o
+                0x0000000020002268                PROVIDE (__init_array_end, .)
+                0x0000000020002268                . = ALIGN (0x4)
+                [!provide]                        PROVIDE (__fini_array_start, .)
+ *(SORT(.fini_array.*))
+ *(.fini_array)
+ .fini_array    0x0000000020002268        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtbegin.o
+                [!provide]                        PROVIDE (__fini_array_end, .)
+ *(.jcr*)
+ .jcr           0x000000002000226c        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtbegin.o
+ .jcr           0x000000002000226c        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtend.o
+                0x0000000020002270                . = ALIGN (0x4)
+                0x0000000020002270                __data_end__ = .
+LOAD /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crti.o
+LOAD /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtbegin.o
+LOAD /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/crt0.o
+LOAD /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a
+LOAD /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a
+LOAD _build/ruuvi_b3_bootloader_main.c.o
+LOAD /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans0.ltrans.o
+LOAD /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans1.ltrans.o
+LOAD /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans2.ltrans.o
+LOAD /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans3.ltrans.o
+LOAD /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans4.ltrans.o
+LOAD /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans5.ltrans.o
+LOAD /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans6.ltrans.o
+LOAD /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans7.ltrans.o
+LOAD /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans8.ltrans.o
+LOAD _build/ruuvi_b3_bootloader_nrf_ble_dfu.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_log_backend_serial.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_log_frontend.c.o
+LOAD _build/ruuvi_b3_bootloader_app_error_weak.c.o
+LOAD _build/ruuvi_b3_bootloader_app_fifo.c.o
+LOAD _build/ruuvi_b3_bootloader_app_scheduler.c.o
+LOAD _build/ruuvi_b3_bootloader_app_timer.c.o
+LOAD _build/ruuvi_b3_bootloader_app_util_platform.c.o
+LOAD _build/ruuvi_b3_bootloader_crc32.c.o
+LOAD _build/ruuvi_b3_bootloader_fstorage.c.o
+LOAD _build/ruuvi_b3_bootloader_hci_mem_pool.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_assert.c.o
+LOAD _build/ruuvi_b3_bootloader_sha256.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_queue.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_drv_rng.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_drv_uart.c.o
+LOAD _build/ruuvi_b3_bootloader_dfu_public_key.c.o
+LOAD _build/ruuvi_b3_bootloader_dfu-cc.pb.c.o
+LOAD _build/ruuvi_b3_bootloader_dfu_req_handling.c.o
+LOAD _build/ruuvi_b3_bootloader_pb_common.c.o
+LOAD _build/ruuvi_b3_bootloader_pb_decode.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_drv_common.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_nvmc.c.o
+LOAD _build/ruuvi_b3_bootloader_ble_advdata.c.o
+LOAD _build/ruuvi_b3_bootloader_ble_conn_params.c.o
+LOAD _build/ruuvi_b3_bootloader_ble_srv_common.c.o
+LOAD _build/ruuvi_b3_bootloader_gcc_startup_nrf52.S.o
+LOAD _build/ruuvi_b3_bootloader_system_nrf52.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_crypto_ecdh.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_crypto_ecdsa.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_crypto_hash.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_crypto_init.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_crypto_keys.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_crypto_mem.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_crypto_rng.c.o
+LOAD _build/ruuvi_b3_bootloader_micro_ecc_lib_ecdh.c.o
+LOAD _build/ruuvi_b3_bootloader_micro_ecc_lib_ecdsa.c.o
+LOAD _build/ruuvi_b3_bootloader_micro_ecc_lib_init.c.o
+LOAD _build/ruuvi_b3_bootloader_micro_ecc_lib_keys.c.o
+LOAD _build/ruuvi_b3_bootloader_micro_ecc_lib_shared.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_crypto_sw_hash.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_crypto_sw_rng.c.o
+LOAD _build/ruuvi_b3_bootloader_softdevice_handler.c.o
+LOAD _build/ruuvi_b3_bootloader_softdevice_handler_appsh.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_bootloader.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_bootloader_app_start.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_bootloader_app_start_asm.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_bootloader_info.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_dfu.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_dfu_flash.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_dfu_handling_error.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_dfu_mbr.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_dfu_settings.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_dfu_transport.c.o
+LOAD _build/ruuvi_b3_bootloader_nrf_dfu_utils.c.o
+LOAD _build/ruuvi_b3_bootloader_RTT_Syscalls_GCC.c.o
+LOAD _build/ruuvi_b3_bootloader_SEGGER_RTT.c.o
+LOAD _build/ruuvi_b3_bootloader_SEGGER_RTT_printf.c.o
+LOAD /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a
+LOAD /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libm.a
+START GROUP
+LOAD /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/libgcc.a
+LOAD /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a
+END GROUP
+START GROUP
+LOAD /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/libgcc.a
+LOAD /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a
+END GROUP
+LOAD /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtend.o
+LOAD /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtn.o
+START GROUP
+LOAD /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/libgcc.a
+LOAD /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc.a
+LOAD /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a
+END GROUP
+
+.igot.plt       0x0000000020002270        0x0 load address 0x000000000007cd18
+ .igot.plt      0x0000000020002270        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtbegin.o
+
+.bootloaderSettings
+                0x000000000007f000     0x1000
+ .bootloaderSettings
+                0x000000000007f000     0x1000 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans3.ltrans.o
+                0x000000000007f000                m_dfu_settings_buffer
+
+.uicrBootStartAddress
+                0x0000000010001014        0x4
+ *(.uicrBootStartAddress)
+ .uicrBootStartAddress
+                0x0000000010001014        0x4 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans5.ltrans.o
+
+.mbrParamsPage
+
+.uicrMbrParamsPageAddress
+                0x0000000010001018        0x4
+ *(.uicrMbrParamsPageAddress)
+ .uicrMbrParamsPageAddress
+                0x0000000010001018        0x4 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans5.ltrans.o
+
+.noinit
+                0x000000001000101c                . = ALIGN (0x4)
+
+.fs_data        0x0000000020002270       0x10 load address 0x000000000007cd18
+                0x0000000020002270                PROVIDE (__start_fs_data, .)
+ *(.fs_data)
+ .fs_data       0x0000000020002270       0x10 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans3.ltrans.o
+                0x0000000020002280                PROVIDE (__stop_fs_data, .)
+                0x0000000020002280                . = ALIGN (0x4)
+
+.svc_data       0x0000000020002280        0x0
+                [!provide]                        PROVIDE (__start_svc_data, .)
+ *(.svc_data)
+                [!provide]                        PROVIDE (__stop_svc_data, .)
+                0x0000000020002280                . = ALIGN (0x4)
+
+.dfu_trans      0x0000000020002280        0x8 load address 0x000000000007cd28
+                0x0000000020002280                PROVIDE (__start_dfu_trans, .)
+ *(.dfu_trans)
+ .dfu_trans     0x0000000020002280        0x8 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans6.ltrans.o
+                0x0000000020002288                PROVIDE (__stop_dfu_trans, .)
+
+.rel.dyn        0x0000000020002288        0x0 load address 0x000000000007cd30
+ .rel.iplt      0x0000000020002288        0x0 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtbegin.o
+
+.bss            0x0000000020002288      0xe54 load address 0x000000000007cd30
+                0x0000000020002288                . = ALIGN (0x4)
+                0x0000000020002288                __bss_start__ = .
+ *(.bss*)
+ .bss           0x0000000020002288       0x1c /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtbegin.o
+ .bss           0x00000000200022a4      0x5ec /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans0.ltrans.o
+                0x00000000200022a4                nrf_dfu_utils_reset_delay_timer_data.lto_priv.93
+                0x00000000200022c4                m_valid_init_packet_present.lto_priv.188
+                0x00000000200022c8                packet.lto_priv.129
+                0x00000000200023f4                init_packet_data.lto_priv.128
+                0x00000000200023fc                m_last_error.lto_priv.92
+                0x0000000020002400                m_firmware_size_req.lto_priv.187
+                0x0000000020002408                m_flash_operations_pending.lto_priv.130
+                0x000000002000280c                m_dfu_finished_settings_write_state.lto_priv.131
+ .bss           0x0000000020002890       0x45 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans1.ltrans.o
+                0x00000000200028a4                m_is_dfu_complete_response_sent.lto_priv.158
+ *fill*         0x00000000200028d5        0x3 
+ .bss           0x00000000200028d8       0x54 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans2.ltrans.o
+ .bss           0x000000002000292c      0x422 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans3.ltrans.o
+                0x000000002000292c                flash_operation_pending.lto_priv.196
+                0x0000000020002934                m_flags.lto_priv.89
+                0x0000000020002938                m_queue.lto_priv.133
+                0x00000000200029a0                m_queue_start_index.lto_priv.135
+                0x00000000200029a1                m_queue_end_index.lto_priv.139
+                0x00000000200029a2                m_queue_size.lto_priv.140
+                0x00000000200029a4                m_queue_event_headers.lto_priv.138
+                0x00000000200029a8                m_op_queue.lto_priv.110
+                0x0000000020002ab4                m_cb.lto_priv.132
+                0x0000000020002ad4                m_uart_buffer.lto_priv.142
+                0x0000000020002bd4                m_flags.lto_priv.88
+                0x0000000020002d34                m_sys_evt_handler.lto_priv.189
+                0x0000000020002d38                m_ble_evt_handler.lto_priv.152
+                0x0000000020002d3e                m_ble_evt_buffer_size.lto_priv.154
+                0x0000000020002d40                mp_ble_evt_buffer.lto_priv.153
+                0x0000000020002d44                m_softdevice_enabled.lto_priv.109
+                0x0000000020002d48                m_queue_event_data.lto_priv.136
+                0x0000000020002d4c                m_queue_event_size.lto_priv.137
+ *fill*         0x0000000020002d4e        0x2 
+ .bss           0x0000000020002d50       0x58 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans4.ltrans.o
+                0x0000000020002d50                m_evt_schedule_func.lto_priv.155
+                0x0000000020002d54                m_current_conn_params.lto_priv.159
+                0x0000000020002d5c                m_preferred_conn_params.lto_priv.148
+                0x0000000020002d64                m_conn_params_config.lto_priv.146
+                0x0000000020002d80                m_update_count.lto_priv.150
+                0x0000000020002d84                m_conn_params_timer_id_data.lto_priv.143
+                0x0000000020002da4                m_change_param.lto_priv.147
+                0x0000000020002da6                m_conn_handle.lto_priv.149
+ .bss           0x0000000020002da8      0x154 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans5.ltrans.o
+ .bss           0x0000000020002efc       0x38 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans6.ltrans.o
+                0x0000000020002f00                mp_timer_id_head.lto_priv.192
+                0x0000000020002f04                m_ticks_latest.lto_priv.195
+                0x0000000020002f08                m_ticks_elapsed_q_read_ind.lto_priv.193
+                0x0000000020002f09                m_ticks_elapsed_q_write_ind.lto_priv.194
+                0x0000000020002f18                m_log_data.lto_priv.198
+ .bss           0x0000000020002f34      0x196 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans8.ltrans.o
+                0x0000000020002f34                s_dfu_settings
+                0x0000000020003090                m_firmware_start_addr.lto_priv.80
+                0x0000000020003094                nrf_nvic_state
+                0x00000000200030a0                m_flags.lto_priv.87
+                0x00000000200030a4                m_notif_buffer.lto_priv.91
+                0x00000000200030b6                m_dfu.lto_priv.90
+ *fill*         0x00000000200030ca        0x2 
+ .bss.__malloc_free_list
+                0x00000000200030cc        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-mallocr.o)
+                0x00000000200030cc                __malloc_free_list
+ .bss.__malloc_sbrk_start
+                0x00000000200030d0        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-mallocr.o)
+                0x00000000200030d0                __malloc_sbrk_start
+ .bss.heap_end.5239
+                0x00000000200030d4        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a(sbrk.o)
+ *(COMMON)
+ COMMON         0x00000000200030d8        0x4 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-reent.o)
+                0x00000000200030d8                errno
+                0x00000000200030dc                . = ALIGN (0x4)
+                0x00000000200030dc                __bss_end__ = .
+
+.heap           0x00000000200030e0        0x0
+                0x00000000200030e0                __HeapBase = .
+                0x00000000200030e0                __end__ = .
+                0x00000000200030e0                PROVIDE (end, .)
+ *(.heap*)
+ .heap          0x00000000200030e0        0x0 _build/ruuvi_b3_bootloader_gcc_startup_nrf52.S.o
+                0x00000000200030e0                __HeapLimit = .
+
+.stack_dummy    0x00000000200030e0     0x2000
+ *(.stack*)
+ .stack         0x00000000200030e0     0x2000 _build/ruuvi_b3_bootloader_gcc_startup_nrf52.S.o
+                0x0000000020010000                __StackTop = (ORIGIN (RAM) + LENGTH (RAM))
+                0x000000002000e000                __StackLimit = (__StackTop - SIZEOF (.stack_dummy))
+                0x0000000020010000                PROVIDE (__stack, __StackTop)
+                0x0000000000000001                ASSERT ((__StackLimit >= __HeapLimit), region RAM overflowed with stack)
+OUTPUT(_build/ruuvi_b3_bootloader.out elf32-littlearm)
+
+.ARM.attributes
+                0x0000000000000000       0x30
+ .ARM.attributes
+                0x0000000000000000       0x22 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crti.o
+ .ARM.attributes
+                0x0000000000000022       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtbegin.o
+ .ARM.attributes
+                0x0000000000000056       0x20 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/crt0.o
+ .ARM.attributes
+                0x0000000000000076       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-exit.o)
+ .ARM.attributes
+                0x00000000000000aa       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-impure.o)
+ .ARM.attributes
+                0x00000000000000de       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-init.o)
+ .ARM.attributes
+                0x0000000000000112       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memset.o)
+ .ARM.attributes
+                0x0000000000000146       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a(_exit.o)
+ .ARM.attributes
+                0x000000000000017a       0x37 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans0.ltrans.o
+ .ARM.attributes
+                0x00000000000001b1       0x37 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans1.ltrans.o
+ .ARM.attributes
+                0x00000000000001e8       0x37 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans2.ltrans.o
+ .ARM.attributes
+                0x000000000000021f       0x37 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans3.ltrans.o
+ .ARM.attributes
+                0x0000000000000256       0x37 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans4.ltrans.o
+ .ARM.attributes
+                0x000000000000028d       0x37 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans5.ltrans.o
+ .ARM.attributes
+                0x00000000000002c4       0x37 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans6.ltrans.o
+ .ARM.attributes
+                0x00000000000002fb       0x37 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans7.ltrans.o
+ .ARM.attributes
+                0x0000000000000332       0x37 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans8.ltrans.o
+ .ARM.attributes
+                0x0000000000000369       0x1c _build/ruuvi_b3_bootloader_gcc_startup_nrf52.S.o
+ .ARM.attributes
+                0x0000000000000385       0x39 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .ARM.attributes
+                0x00000000000003be       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o)
+ .ARM.attributes
+                0x00000000000003f2       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-mbtowc_r.o)
+ .ARM.attributes
+                0x0000000000000426       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memcmp.o)
+ .ARM.attributes
+                0x000000000000045a       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memcpy-stub.o)
+ .ARM.attributes
+                0x000000000000048e       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-snprintf.o)
+ .ARM.attributes
+                0x00000000000004c2       0x1b /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-strlen.o)
+ .ARM.attributes
+                0x00000000000004dd       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-wctomb_r.o)
+ .ARM.attributes
+                0x0000000000000511       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-ctype_.o)
+ .ARM.attributes
+                0x0000000000000545       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-svfprintf.o)
+ .ARM.attributes
+                0x0000000000000579       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .ARM.attributes
+                0x00000000000005ad       0x20 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memchr.o)
+ .ARM.attributes
+                0x00000000000005cd       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memmove.o)
+ .ARM.attributes
+                0x0000000000000601       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-freer.o)
+ .ARM.attributes
+                0x0000000000000635       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-mallocr.o)
+ .ARM.attributes
+                0x0000000000000669       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-reallocr.o)
+ .ARM.attributes
+                0x000000000000069d       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-sbrkr.o)
+ .ARM.attributes
+                0x00000000000006d1       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-mlock.o)
+ .ARM.attributes
+                0x0000000000000705       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-msizer.o)
+ .ARM.attributes
+                0x0000000000000739       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-reent.o)
+ .ARM.attributes
+                0x000000000000076d       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtend.o
+ .ARM.attributes
+                0x00000000000007a1       0x22 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtn.o
+ .ARM.attributes
+                0x00000000000007c3       0x34 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a(sbrk.o)
+ .ARM.attributes
+                0x00000000000007f7       0x22 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/libgcc.a(_ashldi3.o)
+
+.comment        0x0000000000000000       0x7f
+ .comment       0x0000000000000000       0x80 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans0.ltrans.o
+ .comment       0x0000000000000000       0x80 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans1.ltrans.o
+ .comment       0x0000000000000000       0x80 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans2.ltrans.o
+ .comment       0x0000000000000000       0x80 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans3.ltrans.o
+ .comment       0x0000000000000000       0x80 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans4.ltrans.o
+ .comment       0x0000000000000000       0x80 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans5.ltrans.o
+ .comment       0x0000000000000000       0x80 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans6.ltrans.o
+ .comment       0x0000000000000000       0x80 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans7.ltrans.o
+ .comment       0x0000000000000000       0x80 /var/folders/d8/zhcs33bs1f32_xjqkn8059th0000gn/T//ccbe9Woi.ltrans8.ltrans.o
+ .comment       0x0000000000000000       0x7f /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                                         0x80 (size before relaxing)
+
+.debug_frame    0x0000000000000000      0xe30
+ .debug_frame   0x0000000000000000       0x28 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-exit.o)
+ .debug_frame   0x0000000000000028       0x2c /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-init.o)
+ .debug_frame   0x0000000000000054       0x20 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memset.o)
+ .debug_frame   0x0000000000000074       0x20 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a(_exit.o)
+ .debug_frame   0x0000000000000094      0x934 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .debug_frame   0x00000000000009c8       0x68 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-locale.o)
+ .debug_frame   0x0000000000000a30       0x48 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-mbtowc_r.o)
+ .debug_frame   0x0000000000000a78       0x28 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memcmp.o)
+ .debug_frame   0x0000000000000aa0       0x28 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memcpy-stub.o)
+ .debug_frame   0x0000000000000ac8       0x7c /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-snprintf.o)
+ .debug_frame   0x0000000000000b44       0x3c /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-wctomb_r.o)
+ .debug_frame   0x0000000000000b80       0x90 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-svfprintf.o)
+ .debug_frame   0x0000000000000c10       0x60 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .debug_frame   0x0000000000000c70       0x28 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-memmove.o)
+ .debug_frame   0x0000000000000c98       0x38 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-freer.o)
+ .debug_frame   0x0000000000000cd0       0x2c /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-mallocr.o)
+ .debug_frame   0x0000000000000cfc       0x3c /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-reallocr.o)
+ .debug_frame   0x0000000000000d38       0x2c /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-sbrkr.o)
+ .debug_frame   0x0000000000000d64       0x30 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-mlock.o)
+ .debug_frame   0x0000000000000d94       0x20 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-nano-msizer.o)
+ .debug_frame   0x0000000000000db4       0x5c /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc_nano.a(lib_a-reent.o)
+ .debug_frame   0x0000000000000e10       0x20 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libnosys.a(sbrk.o)
+
+.debug_info     0x0000000000000000     0x52a6
+ .debug_info    0x0000000000000000     0x52a6 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+
+.debug_abbrev   0x0000000000000000      0x4c2
+ .debug_abbrev  0x0000000000000000      0x4c2 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+
+.debug_loc      0x0000000000000000     0x2c34
+ .debug_loc     0x0000000000000000     0x2c34 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+
+.debug_aranges  0x0000000000000000      0x288
+ .debug_aranges
+                0x0000000000000000      0x288 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+
+.debug_ranges   0x0000000000000000      0x3c8
+ .debug_ranges  0x0000000000000000      0x3c8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+
+.debug_macro    0x0000000000000000     0x10d4
+ .debug_macro   0x0000000000000000      0x260 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .debug_macro   0x0000000000000260      0x8c8 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .debug_macro   0x0000000000000b28       0x22 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .debug_macro   0x0000000000000b4a       0x4f /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .debug_macro   0x0000000000000b99       0x51 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .debug_macro   0x0000000000000bea       0xef /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .debug_macro   0x0000000000000cd9       0x6a /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .debug_macro   0x0000000000000d43      0x1df /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .debug_macro   0x0000000000000f22       0x4c /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .debug_macro   0x0000000000000f6e       0x3a /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .debug_macro   0x0000000000000fa8       0x5f /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .debug_macro   0x0000000000001007       0x69 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .debug_macro   0x0000000000001070       0x12 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+ .debug_macro   0x0000000000001082       0x52 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+
+.debug_line     0x0000000000000000      0xe2c
+ .debug_line    0x0000000000000000      0xe2c /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+
+.debug_str      0x0000000000000000     0xa833
+ .debug_str     0x0000000000000000     0xa833 /Users/michaelmcadam/SDK/Nordic_nf52/nRF5_SDK_13.0.0_04a0bfd/external/micro-ecc/nrf52_armgcc/armgcc/micro_ecc_lib_nrf52.a(micro_ecc_lib_uECC.c.o)
+                                       0xaa4a (size before relaxing)

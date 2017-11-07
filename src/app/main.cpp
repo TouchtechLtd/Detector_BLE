@@ -288,16 +288,13 @@ int main(void)
 	DEBUG_INIT();
   INFO("Started");
 
-  INFO("Log is working");
-
-  //createTransitionTable();
 
   initFlash();
   initTimer();
   initGPIO();
+  initBLE();
   EVENT_MANAGER::initialise();
   EVENT_MANAGER::registerEventHandler(onTrapEvent);
-  initBLE();
   //initSensors();
 
 
@@ -327,11 +324,16 @@ int main(void)
       stateChange = false;
     }
 
+    if (EVENT_MANAGER::isAnimalKilled())
+    {
+      EVENT_MANAGER::recordCurrentEvent();
+    }
+
 
     //DEBUG("State: %d", stateMachine.getCurrentState());
 
-    //GPIO::toggle(LED_1_PIN);
-    //nrf_delay_ms(1000);
+    GPIO::toggle(LED_1_PIN);
+    nrf_delay_ms(1000);
 
     //NRF_LOG_FLUSH();
 

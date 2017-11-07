@@ -30,7 +30,7 @@ For a detailed description see the detailed description in @ref spi.h
 #include "peripheral/gpio_interface.h"
 
 /* CONSTANTS **************************************************************************************/
-#define SPI_INSTANCE  0 /**< SPI instance index. */
+#define SPI_INSTANCE  1 /**< SPI instance index. */
 
 #define SPI_SCK_PIN 29
 #define SPI_MISO_PIN 28
@@ -88,10 +88,10 @@ extern SPI_Ret spi_transfer(uint8_t* const p_toWrite, uint8_t count, uint8_t* co
     nrf_drv_spi_transfer(&spi, p_toWrite, count, p_toRead, count);
     while (!event_finished)
     {
-      NRF_LOG_PROCESS();
+      //NRF_LOG_PROCESS();
         //Requires initialized softdevice - TODO
-        //uint32_t err_code = sd_app_evt_wait();
-        //ERROR_CHECK(err_code);
+        uint32_t err_code = sd_app_evt_wait();
+        ERROR_CHECK(err_code);
         //DEBUG("Here");
         //__WFE();
     }
