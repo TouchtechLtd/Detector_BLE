@@ -69,6 +69,7 @@ void onTrapEvent(EVENT_MANAGER::trap_event_e trap_event)
 
 void bleEventHandler(ble_evt_t const * p_ble_evt, void* context)
 {
+  INFO("Reveived BT event in Main");
   switch (p_ble_evt->header.evt_id)
   {
     case BLE_GAP_EVT_CONNECTED:
@@ -153,43 +154,25 @@ void createTrapDataService()
   trapData.createCustom(BLE_UUID_SERVICE_TRAP_DATA, BLE_UUID_GOODNATURE_BASE);
 
   Characteristic eventData;
-  eventData.setUUID(BLE_UUID_CHAR_TRAP_EVENT_DATA);
-  eventData.enableRead();
-  eventData.enableNotification();
   EVENT_MANAGER::event_data_t blankEvent = { 0 };
-  eventData.initValue(&blankEvent, sizeof(blankEvent));
-
+  CREATE_READ_CHARACTERISTIC(eventData, BLE_UUID_CHAR_TRAP_EVENT_DATA, blankEvent);
   trapData.addCharacteristic(&eventData, CHAR_EVENT_DATA);
 
   Characteristic eventConfig;
-  eventConfig.setUUID(BLE_UUID_CHAR_TRAP_EVENT_CONFIG);
-  eventConfig.enableRead();
-  eventConfig.enableWrite();
-  eventConfig.enableNotification();
-  eventConfig.initValue(EVENT_MANAGER::getConfig(), sizeof(EVENT_MANAGER::trap_detector_config_t));
-
+  EVENT_MANAGER::trap_detector_config_t defaultConfig = *EVENT_MANAGER::getConfig();
+  CREATE_RW_CHARACTERISTIC(eventConfig, BLE_UUID_CHAR_TRAP_EVENT_CONFIG, defaultConfig);
   trapData.addCharacteristic(&eventConfig, CHAR_EVENT_CONFIG);
 
   // Characteristic for displaying number of kills, can be written to in order to display a different kill
   Characteristic eventDisplayed;
-  eventDisplayed.setUUID(BLE_UUID_CHAR_TRAP_EVENT_DISPLAYED);
-  eventDisplayed.enableRead();
-  eventDisplayed.enableWrite();
-  eventDisplayed.enableNotification();
   uint8_t killNum = EVENT_MANAGER::getKillNumber();
-  eventDisplayed.initValue(&killNum, sizeof(killNum));
-
+  CREATE_RW_CHARACTERISTIC(eventDisplayed, BLE_UUID_CHAR_TRAP_EVENT_DISPLAYED, killNum);
   trapData.addCharacteristic(&eventDisplayed, CHAR_EVENT_DISPLAYED);
   //Characteristic rawEventData;
 
   Characteristic trapTime;
-  trapTime.setUUID(BLE_UUID_CHAR_TRAP_TIME);
-  trapTime.enableRead();
-  trapTime.enableWrite();
-  trapTime.enableNotification();
-
-  trapTime.initValue(CurrentTime::getCurrentTime(), sizeof(CurrentTime::current_time_t));
-
+  CurrentTime::current_time_t startTime = *CurrentTime::getCurrentTime();
+  CREATE_RW_CHARACTERISTIC(trapTime, BLE_UUID_CHAR_TRAP_TIME, startTime);
   trapData.addCharacteristic(&trapTime, CHAR_TRAP_TIME);
 
   trapData.attachService();
@@ -214,6 +197,8 @@ void updateEventBLE()
   BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DISPLAYED, &currentKillNumber, sizeof(currentKillNumber));
   BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DATA, EVENT_MANAGER::getEvent(currentKillNumber), sizeof(EVENT_MANAGER::event_data_t));
   BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_CONFIG, EVENT_MANAGER::getConfig(), sizeof(EVENT_MANAGER::trap_detector_config_t));
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_TRAP_TIME, CurrentTime::getCurrentTime(), sizeof(CurrentTime::current_time_t));
+
 }
 
 ///////////////////////////////////////////////////
@@ -241,7 +226,7 @@ void trapTimeHandler(uint8_t const* data, uint16_t len)
 {
   CurrentTime::current_time_t* p_currentTime = CurrentTime::getCurrentTime();
   memcpy(p_currentTime, data, len);
-  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DATA, p_currentTime, sizeof(CurrentTime::current_time_t));
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_TRAP_TIME, p_currentTime, sizeof(CurrentTime::current_time_t));
   DEBUG("Time Set To: %d", p_currentTime->time);
 }
 
@@ -277,6 +262,7 @@ void initBLE()
 
   BLE_ADVERTISING::start(320);
   BLE_ADVERTISING::advertiseName();
+  BLE_ADVERTISING::advertiseUUID(BLE_SERVER::getService(SERVICE_TRAP_DATA)->getUUID());
 
   BLE_SERVER::setWriteHandler(SERVICE_TRAP_DATA, CHAR_EVENT_CONFIG,      eventConfigHandler);
   BLE_SERVER::setWriteHandler(SERVICE_TRAP_DATA, CHAR_EVENT_DISPLAYED,   eventDisplayedHandler);

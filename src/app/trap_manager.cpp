@@ -74,6 +74,7 @@ event_data_t* getEvent(uint8_t eventID)
 uint8_t getKillNumber()
 {
   uint8_t returnNumber = killNumber;
+  INFO("Kill number is: %d", killNumber);
   return returnNumber;
 }
 
@@ -90,7 +91,6 @@ uint8_t accConverter(int32_t inputInt)
 
 void accReadTimerHandler(void* p_context)
 {
-  uint32_t t1 = Timer::getTicks();
   LIS2DH12_sample();
 
   static int32_t accX32, accY32, accZ32 = 0;
@@ -114,8 +114,6 @@ void accReadTimerHandler(void* p_context)
   {
     eventData.peak_level = sum;
   }
-  uint32_t t2 = Timer::getTicks();
-  INFO("Timer ticks: %d", Timer::getDiff(t2, t1));
 
 }
 

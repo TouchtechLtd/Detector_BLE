@@ -14,6 +14,20 @@
 #include "ble_srv_common.h"
 
 
+#define CREATE_READ_CHARACTERISTIC(charName, uuid, data) \
+do {     \
+  charName.setUUID(uuid);     \
+  charName.enableRead();                               \
+  charName.enableNotification();                       \
+  charName.initValue(&data, sizeof(data)); \
+} while(0)
+
+#define CREATE_RW_CHARACTERISTIC(charName, uuid, data) \
+do {     \
+  CREATE_READ_CHARACTERISTIC(charName, uuid, data);   \
+  charName.enableWrite();                             \
+} while(0)
+
 typedef struct
 {
     uint8_t						id;
