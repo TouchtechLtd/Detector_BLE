@@ -13,8 +13,20 @@
 #include "trap_manager_config.h"
 #include "app/current_time.h"
 
-namespace EVENT_MANAGER
+namespace TrapState
 {
+
+#define TRAP_EVENT_OFFSET 0x1000
+
+enum {
+  TRAP_TRIGGERED_EVENT = TRAP_EVENT_OFFSET,
+  TRAP_MOVING_EVENT,
+  TRAP_KILLED_EVENT,
+  TRAP_SET_EVENT,
+  TRAP_STATE_CHANGE_EVENT
+};
+
+
 
 #pragma pack(push, 1)
 typedef struct
@@ -44,7 +56,7 @@ typedef struct {
 #pragma pack(pop)
 
 
-typedef void (*trap_event_handler_t)(trap_event_e trap_event);
+//typedef void (*trap_event_handler_t)(trap_event_e trap_event);
 
 
   void initialise();
@@ -57,7 +69,7 @@ typedef void (*trap_event_handler_t)(trap_event_e trap_event);
 
   trap_detector_config_t* getConfig();
   uint8_t getKillNumber();
-  void registerEventHandler(trap_event_handler_t handler);
+  //void registerEventHandler(trap_event_handler_t handler);
 
 
 

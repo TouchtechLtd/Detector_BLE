@@ -9,84 +9,132 @@
 #ifndef _GOODNATURE_BLE_BLE_CHARACTERISTIC_H__
 #define _GOODNATURE_BLE_BLE_CHARACTERISTIC_H__
 
+
+// SYSTEM INCLUDES
+//
+
+// PROJECT INCLUDES
+//
+
+// LOCAL INCLUDES
+//
+
+// FORWARD REFERENCES
+//
+
+
 #include <stdint.h>
 #include "ble.h"
 #include "ble_srv_common.h"
 
 
-#define CREATE_READ_CHARACTERISTIC(charName, uuid, data) \
-do {     \
-  charName.setUUID(uuid);     \
-  charName.enableRead();                               \
-  charName.enableNotification();                       \
-  charName.initValue(&data, sizeof(data)); \
-} while(0)
+namespace BLE_SERVER {
 
-#define CREATE_RW_CHARACTERISTIC(charName, uuid, data) \
-do {     \
-  CREATE_READ_CHARACTERISTIC(charName, uuid, data);   \
-  charName.enableWrite();                             \
-} while(0)
+
+#define GN_CHAR_ERROR_OFFSET 20
+#define GN_SUCCESS 0
+
+
+
+typedef enum
+{
+  GN_CHAR_NOT_RUNNING = GN_CHAR_ERROR_OFFSET,
+  GN_CHAR_NOT_CONNECTED,
+  GN_CHAR_READ_NOT_ENABLED,
+  GN_CHAR_NOTIFICATION_NOT_ENABLED,
+  GN_CHAR_VALUE_TOO_LONG
+} gn_char_error_t;
 
 typedef struct
 {
     uint8_t						id;
 }ble_char_id_t;
 
+typedef enum
+{
+  CHAR_READ_ONLY,
+  CHAR_READ_WRITE
+}char_access_e;
 
 typedef void (*char_write_handler_t) (uint8_t const* data, uint16_t len);
 
-class Characteristic {
-	private:
-		ble_gatts_char_md_t 		_char_md;
-		ble_gatts_attr_md_t 		_cccd_md;
-		ble_gatts_attr_t    		_attr_char_value;
-		ble_uuid_t          		_char_uuid;
-		ble_uuid128_t				_base_uuid;
-		ble_gatts_attr_md_t 		_attr_md;
-		ble_gatts_hvx_params_t 		_hvx_params;
-		ble_gatts_char_handles_t 	_char_handle;
+class Characteristic
+{
+public:
+  // LIFECYCLE
 
-		uint16_t _conn_handle;
-		char_write_handler_t m_writeHandler;
+  /** Default constructor.
+  */
+  Characteristic();
 
-		bool m_isUUIDSet;
-		bool m_isRunning;
-		bool _charAdded;
-		bool _notificationEnabled;
-		bool _readEnabled;
+  // Use compiler-generated copy constructor, assignment, and destructor.
+  //Characteristic(const Characteristic&);
+  //~Characteristic(void);
+  //Characteristic& operator=(const Characteristic&);
 
-		void _init();
+  // OPERATIONS
+  gn_char_error_t set(void* data, uint16_t dataLength);
+  void attachToService(uint16_t serviceHandle);
 
-    void notify(void * i_data, uint16_t data_length);
-    void update(void * i_data, uint16_t data_length);
-	public:
-	    Characteristic();
-	    Characteristic(uint16_t i_uuid);
+  void configure(uint16_t uuid, void* p_data, uint16_t dataLen, char_access_e access);
+  void configureAsReadOnly();
+  void configureAsReadWrite();
 
-	    void setUUID (uint16_t i_uuid);
-	    void setUUIDType(uint8_t i_type);
-	    void configureUUID (uint16_t i_uuid, uint8_t i_type);
-	    void attachToService(uint16_t i_serviceHandle);
-	    void add(uint16_t i_serviceHandle, uint16_t i_uuid, uint8_t i_uuidType);
-	    void set(void* i_data, uint16_t dataLength);
-	    void enableRead();
-	    void disableRead();
-	    void enableWrite();
-	    void disableWrite();
-	    void enableNotification();
-	    void initValue(void* p_value, uint16_t i_len);
-	    void setMaxLength(uint16_t i_maxLen);
-	    void eventHandler(ble_evt_t const * p_ble_evt);
+  // ACCESS
+  void setUUID (uint16_t uuid);
+  void setUUIDType(uint8_t type);
+  void setDataPointer(void* p_value, uint16_t len);
+  void setWriteHandler(char_write_handler_t writeHandler);
 
-	    void setConnHandle(uint16_t i_connHandle);
-	    void setWriteHandler(char_write_handler_t writeHandler);
+  // INQUIRY
+  bool    isInit();
+  bool    isRunning();
 
-	    uint8_t isInit();
-	    bool isRunning() { return m_isRunning; }
+  // TEMP
+  void eventHandler(ble_evt_t const * p_ble_evt);
+
+private:
+  ble_gatts_char_md_t 		  m_charMd;
+  ble_gatts_attr_md_t 		  m_cccdMd;
+  ble_gatts_attr_md_t       m_attrMd;
+  ble_gatts_attr_t    		  m_attrCharValue;
+  ble_uuid_t          		  m_charUuid;
+  ble_uuid128_t				      m_baseUuid;
+  ble_gatts_hvx_params_t 		m_hvxParams;
+  ble_gatts_char_handles_t 	m_charHandle;
+
+  uint16_t             m_connHandle;
+  char_write_handler_t m_writeHandler;
+
+  bool m_isUUIDSet;
+  bool m_isRunning;
+  bool m_notificationEnabled;
+  bool m_readEnabled;
+
+
+  void enableRead();
+  void disableRead();
+  void enableWrite();
+  void disableWrite();
+  void enableNotification();
+
+  gn_char_error_t notify(void * i_data, uint16_t data_length);
+  gn_char_error_t update(void * i_data, uint16_t data_length);
+
+  void setMaxLength(uint16_t maxLen);
+
+
+
 
 };	// CHARACTERISTIC
 
+
+
+// INLINE METHODS
+//
+
+
+} // BLE_SERVER
 
 #endif  /* _ _GOODNATURE_BLE_BLE_CHARACTERISTIC_H__ */
 

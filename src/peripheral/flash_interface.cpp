@@ -208,14 +208,14 @@ void Flash_Record::write(uint16_t file_id, uint16_t key_id, void* p_data, uint32
     INFO("Updating record - ID: %d", desc.record_id);
     rc = fds_record_update(&desc, &record);
     ERROR_CHECK(rc);
-    //FDS::waitForUpdate();
+    FDS::waitForUpdate();
   }
   else
   {
     INFO("Writing record - ID: %d", desc.record_id);
     rc = fds_record_write(&desc, &record);
     ERROR_CHECK(rc);
-    //FDS::waitForWrite();
+    FDS::waitForWrite();
   }
 }
 

@@ -36,6 +36,8 @@
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
 
+#include "app/events.h"
+
 
 #define LED_FAST_BLINK 200
 #define LED_SLOW_BLINK 1000
@@ -43,30 +45,20 @@
 #define CONFIG_FILE     (0xF010)
 #define CONFIG_REC_KEY  (0x7010)
 
-static volatile bool updateBLE = true;
-volatile bool stateChange = false;
 
 Timer ledTimer;
 
+
+static TrapState::event_data_t       recordData = { 0 };
+static TrapState::event_data_t       eventData = { 0 };
+static uint8_t                       killNumber = 0;
 
 
 ///////////////////////////////////////////////////
 //////////        Event handlers        ///////////
 ///////////////////////////////////////////////////
 
-void onTrapEvent(EVENT_MANAGER::trap_event_e trap_event)
-{
-  INFO("Trap update in main: %d", trap_event);
-  if (trap_event == EVENT_MANAGER::MOVE_TRIGGERED) {}
-
-  else if (trap_event == EVENT_MANAGER::ANIMAL_KILLED)
-  {
-    uint8_t data = EVENT_MANAGER::getKillNumber();
-    BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DISPLAYED, &data, sizeof(data));
-  }
-}
-
-
+/*
 void bleEventHandler(ble_evt_t const * p_ble_evt, void* context)
 {
   INFO("Reveived BT event in Main");
@@ -77,6 +69,35 @@ void bleEventHandler(ble_evt_t const * p_ble_evt, void* context)
         break; // BLE_GAP_EVT_CONNECTED
   }
 }
+*/
+
+void onKillEvent()
+{
+  INFO("Killed");
+
+  eventData = { 0 };
+  killNumber++;
+
+  int32_t temp;
+  LIS2DH12_updateTemperatureSensor();
+  LIS2DH12_getTemperature(&temp);
+
+  eventData.timestamp   =     *CurrentTime::getCurrentTime();
+  eventData.trap_id     =     0x12345678;
+  eventData.temperature =     static_cast<int8_t>(temp);
+  eventData.killNumber  =     killNumber;
+
+  Flash_Record::write(KILL_DATA_FILE_ID, killNumber, &eventData, sizeof(eventData));
+  Flash_Record::write(KILL_NUMBER_FILE_ID, KILL_NUMBER_KEY_ID, &killNumber, sizeof(killNumber));
+
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DISPLAYED, &killNumber, sizeof(killNumber));
+
+
+}
+
+
+
+
 
 
 ///////////////////////////////////////////////////
@@ -86,7 +107,7 @@ void bleEventHandler(ble_evt_t const * p_ble_evt, void* context)
 
 void buttonHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
-  EVENT_MANAGER::simulateTrigger();
+  TrapState::simulateTrigger();
   DEBUG("Button pressed");
 }
 
@@ -114,26 +135,26 @@ void led2Toggle(void*)
 void showState()
 {
 
-  switch (EVENT_MANAGER::getState())
+  switch (TrapState::getState())
   {
-    case EVENT_MANAGER::WAIT_STATE:
+    case TrapState::WAIT_STATE:
       ledTimer.stopTimer();
       GPIO::setOutput(LED_2_PIN, HIGH);
       break;
 
-    case EVENT_MANAGER::EVENT_BUFFER_STATE:
+    case TrapState::EVENT_BUFFER_STATE:
       ledTimer.stopTimer();
       GPIO::setOutput(LED_2_PIN, LOW);
       break;
 
-    case EVENT_MANAGER::DETECT_MOVE_STATE:
+    case TrapState::DETECT_MOVE_STATE:
       ledTimer.stopTimer();
-      ledTimer.startTimer(LED_FAST_BLINK, led1Toggle);
+      ledTimer.startTimer(LED_FAST_BLINK, led2Toggle);
       break;
 
-    case EVENT_MANAGER::MOVING_STATE:
+    case TrapState::MOVING_STATE:
       ledTimer.stopTimer();
-      ledTimer.startTimer(LED_SLOW_BLINK, led1Toggle);
+      ledTimer.startTimer(LED_SLOW_BLINK, led2Toggle);
       break;
 
     default:
@@ -143,6 +164,12 @@ void showState()
 }
 
 
+TrapState::event_data_t* getEvent(uint8_t eventID)
+{
+  Flash_Record::read(KILL_DATA_FILE_ID, eventID, &recordData, sizeof(recordData));
+  return &recordData;
+}
+
 ///////////////////////////////////////////////////
 //////        BLE functions             ///////////
 ///////////////////////////////////////////////////
@@ -150,30 +177,31 @@ void showState()
 
 void createTrapDataService()
 {
-  Service trapData;
+  BLE_SERVER::Service trapData;
   trapData.createCustom(BLE_UUID_SERVICE_TRAP_DATA, BLE_UUID_GOODNATURE_BASE);
 
-  Characteristic eventData;
-  EVENT_MANAGER::event_data_t blankEvent = { 0 };
-  CREATE_READ_CHARACTERISTIC(eventData, BLE_UUID_CHAR_TRAP_EVENT_DATA, blankEvent);
+  BLE_SERVER::Characteristic eventData;
+  TrapState::event_data_t blankEvent = { 0 };
+  eventData.configure(BLE_UUID_CHAR_TRAP_EVENT_DATA, &blankEvent, sizeof(blankEvent), BLE_SERVER::CHAR_READ_ONLY);
   trapData.addCharacteristic(&eventData, CHAR_EVENT_DATA);
 
-  Characteristic eventConfig;
-  EVENT_MANAGER::trap_detector_config_t defaultConfig = *EVENT_MANAGER::getConfig();
-  CREATE_RW_CHARACTERISTIC(eventConfig, BLE_UUID_CHAR_TRAP_EVENT_CONFIG, defaultConfig);
+  BLE_SERVER::Characteristic eventConfig;
+  TrapState::trap_detector_config_t* defaultConfig = TrapState::getConfig();
+  eventConfig.configure(BLE_UUID_CHAR_TRAP_EVENT_CONFIG, &defaultConfig, sizeof(*defaultConfig), BLE_SERVER::CHAR_READ_WRITE);
   trapData.addCharacteristic(&eventConfig, CHAR_EVENT_CONFIG);
 
   // Characteristic for displaying number of kills, can be written to in order to display a different kill
-  Characteristic eventDisplayed;
-  uint8_t killNum = EVENT_MANAGER::getKillNumber();
-  CREATE_RW_CHARACTERISTIC(eventDisplayed, BLE_UUID_CHAR_TRAP_EVENT_DISPLAYED, killNum);
+  BLE_SERVER::Characteristic eventDisplayed;
+  //uint8_t killNum = TrapState::getKillNumber();
+  eventDisplayed.configure(BLE_UUID_CHAR_TRAP_EVENT_DISPLAYED, &killNumber, sizeof(killNumber), BLE_SERVER::CHAR_READ_WRITE);
   trapData.addCharacteristic(&eventDisplayed, CHAR_EVENT_DISPLAYED);
-  //Characteristic rawEventData;
 
-  Characteristic trapTime;
+  BLE_SERVER::Characteristic trapTime;
   CurrentTime::current_time_t startTime = *CurrentTime::getCurrentTime();
-  CREATE_RW_CHARACTERISTIC(trapTime, BLE_UUID_CHAR_TRAP_TIME, startTime);
+  trapTime.configure(BLE_UUID_CHAR_TRAP_TIME, &startTime, sizeof(startTime), BLE_SERVER::CHAR_READ_WRITE);
   trapData.addCharacteristic(&trapTime, CHAR_TRAP_TIME);
+
+  //Characteristic rawEventData;
 
   trapData.attachService();
   BLE_SERVER::addService(&trapData, SERVICE_TRAP_DATA);
@@ -183,7 +211,7 @@ void createTrapDataService()
 
 void createDeviceInfoService() {
 
-  Service deviceInfo;
+  BLE_SERVER::Service deviceInfo;
   deviceInfo.createSIG(BLE_UUID_SIG_SERVICE_DEVICE_INFO);
 
   deviceInfo.attachService();
@@ -193,11 +221,11 @@ void createDeviceInfoService() {
 
 void updateEventBLE()
 {
-  uint8_t currentKillNumber = EVENT_MANAGER::getKillNumber();
-  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DISPLAYED, &currentKillNumber, sizeof(currentKillNumber));
-  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DATA, EVENT_MANAGER::getEvent(currentKillNumber), sizeof(EVENT_MANAGER::event_data_t));
-  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_CONFIG, EVENT_MANAGER::getConfig(), sizeof(EVENT_MANAGER::trap_detector_config_t));
-  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_TRAP_TIME, CurrentTime::getCurrentTime(), sizeof(CurrentTime::current_time_t));
+  //uint8_t currentKillNumber = TrapState::getKillNumber();
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DISPLAYED,  &killNumber,                                sizeof(killNumber));
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DATA,       getEvent(killNumber),                sizeof(TrapState::event_data_t));
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_CONFIG,     TrapState::getConfig(),                     sizeof(TrapState::trap_detector_config_t));
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_TRAP_TIME,        CurrentTime::getCurrentTime(),              sizeof(CurrentTime::current_time_t));
 
 }
 
@@ -207,9 +235,10 @@ void updateEventBLE()
 
 void eventConfigHandler(uint8_t const* data, uint16_t len)
 {
-  EVENT_MANAGER::trap_detector_config_t* p_config = EVENT_MANAGER::getConfig();
+  TrapState::trap_detector_config_t* p_config = TrapState::getConfig();
   memcpy(p_config, data, len);
-  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_CONFIG, EVENT_MANAGER::getConfig(), sizeof(EVENT_MANAGER::trap_detector_config_t));
+  uint32_t err_code = BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_CONFIG, TrapState::getConfig(), sizeof(TrapState::trap_detector_config_t));
+  ERROR_CHECK(err_code);
   DEBUG("Trigger Threshold: %d", p_config->triggerThreshold);
 }
 
@@ -218,7 +247,8 @@ void eventDisplayedHandler(uint8_t const* data, uint16_t len)
 {
   uint8_t requestedKill;
   memcpy(&requestedKill, data, len);
-  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DATA, EVENT_MANAGER::getEvent(requestedKill), sizeof(EVENT_MANAGER::event_data_t));
+  uint32_t err_code = BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DATA, getEvent(requestedKill), sizeof(TrapState::event_data_t));
+  ERROR_CHECK(err_code);
   DEBUG("Requested Kill: %d", requestedKill);
 }
 
@@ -235,12 +265,46 @@ void trapTimeHandler(uint8_t const* data, uint16_t len)
 ///////////////////////////////////////////////////
 
 
-void initGPIO()
+void initialisePeripherals()
 {
+  FDS::init();
+  FDS::status();
+  FDS::clean();
+
+
+  INFO("Timer Init");
+  Timer::initialisePeripheral();
+
+  INFO("Clock Init");
+  CurrentTime::startClock();
+
+  INFO("GPIO Init");
   GPIO::init();
   GPIO::setOutput(LED_1_PIN, HIGH);
   GPIO::setOutput(LED_2_PIN, HIGH);
 
+  INFO("BLE Init");
+  BLE_SERVER::init();
+  BLE_SERVER::setPower(BLE_POWER_LEVEL_HIGH);
+
+  INFO("LIS Init");
+  LIS2DH12_init(LIS2DH12_POWER_LOW, LIS2DH12_SCALE4G, LIS2DH12_SAMPLE_50HZ);
+  LIS2DH12_enableHighPass();
+  LIS2DH12_enableTemperatureSensor();
+
+  INFO("Trap State starting");
+  TrapState::initialise();
+}
+
+
+
+void loadDataFromFlash()
+{
+  Flash_Record::read(KILL_NUMBER_FILE_ID, KILL_NUMBER_KEY_ID, &killNumber, sizeof(killNumber));
+}
+
+void setButtonInterrupt()
+{
   GPIO::initIntInput(BUTTON_1,
                 NRF_GPIOTE_POLARITY_HITOLO,
                 NRF_GPIO_PIN_PULLUP,
@@ -252,13 +316,12 @@ void initGPIO()
 }
 
 
-void initBLE()
+void startBLE()
 {
-  BLE_SERVER::init();
-  BLE_SERVER::setPower(BLE_POWER_LEVEL_HIGH);
+  INFO("BLE Starting");
   createTrapDataService();
   createDeviceInfoService();
-  NRF_SDH_BLE_OBSERVER(m_main_ble_observer, APP_MAIN_OBSERVER_PRIO, bleEventHandler, NULL);
+  //NRF_SDH_BLE_OBSERVER(m_main_ble_observer, APP_MAIN_OBSERVER_PRIO, bleEventHandler, NULL);
 
   BLE_ADVERTISING::start(320);
   BLE_ADVERTISING::advertiseName();
@@ -268,22 +331,19 @@ void initBLE()
   BLE_SERVER::setWriteHandler(SERVICE_TRAP_DATA, CHAR_EVENT_DISPLAYED,   eventDisplayedHandler);
   BLE_SERVER::setWriteHandler(SERVICE_TRAP_DATA, CHAR_TRAP_TIME,         trapTimeHandler);
 
+  INFO("BLE Started");
+
 
 }
 
-void initTimer()
+
+void registerEventCallbacks ()
 {
-  Timer::initialisePeripheral();
-  CurrentTime::startClock();
+  EVENTS::registerEventHandler(TrapState::TRAP_KILLED_EVENT,        onKillEvent);
+  EVENTS::registerEventHandler(TrapState::TRAP_STATE_CHANGE_EVENT,  showState);
+  EVENTS::registerEventHandler(BLE_SERVER::BLE_CONNECTED_EVENT,     updateEventBLE);
 }
 
-
-void initFlash()
-{
-  FDS::init();
-  FDS::status();
-  FDS::clean();
-}
 
 
 ///////////////////////////////////////////////////
@@ -296,21 +356,26 @@ int main(void)
 	DEBUG_INIT();
   INFO("Started");
 
+	initialisePeripherals();
+	loadDataFromFlash();
+	registerEventCallbacks();
+	setButtonInterrupt();
 
-  initFlash();
-  initTimer();
-  initGPIO();
-  initBLE();
-  EVENT_MANAGER::initialise();
-  EVENT_MANAGER::registerEventHandler(onTrapEvent);
-
-
-  Timer blinkTimer;
-  blinkTimer.startTimer(1000, led2Toggle);
+	startBLE();
 
 
+
+  //Timer blinkTimer;
+  //blinkTimer.startTimer(1000, led2Toggle);
+
+  EVENTS::eventPut(10);
+
+
+  INFO("Looping");
   while(true)
   {
+
+    EVENTS::processEvents();
 
     if (!NRF_LOG_PROCESS())
     {
@@ -318,17 +383,7 @@ int main(void)
       ERROR_CHECK(err_code);
     }
 
-    if (updateBLE) {
-      updateEventBLE();
-      updateBLE = false;
-    }
-
-    if (stateChange) {
-      showState();
-      stateChange = false;
-    }
-
-    nrf_delay_ms(1000);
+    //nrf_delay_ms(1000);
 
   }
 

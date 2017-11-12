@@ -90,6 +90,7 @@ SRC_FILES += \
   $(PROJ_DIR)/ble/ble_characteristic.cpp \
   $(PROJ_DIR)/ble/gn_ble_advertising.cpp \
   $(PROJ_DIR)/app/current_time.cpp \
+  $(PROJ_DIR)/app/events.cpp \
   $(PROJ_DIR)/app/main.cpp \
   #$(PROJ_DIR)/peripheral/cli.c \
   

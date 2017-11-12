@@ -26,6 +26,7 @@
 #include "ble/ble_service.h"
 #include "app_timer.h"
 
+#include "app/events.h"
 #include "peripheral/gpio_interface.h"
 #include "debug/DEBUG.h"
 
@@ -280,15 +281,19 @@ void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
 {
     ret_code_t err_code = NRF_SUCCESS;
 
+    EVENTS::eventPut(BLE_STATE_CHANGE_EVENT);
+
     switch (p_ble_evt->header.evt_id)
     {
         case BLE_GAP_EVT_CONNECTED:
             INFO("Connected");
             m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
+            EVENTS::eventPut(BLE_CONNECTED_EVENT);
             break;
 
         case BLE_GAP_EVT_DISCONNECTED:
             INFO("Disconnected");
+            EVENTS::eventPut(BLE_DISCONNECTED_EVENT);
             m_conn_handle = BLE_CONN_HANDLE_INVALID;
             break;
 
@@ -366,9 +371,9 @@ void ble_stack_init(void)
     NRF_SDH_BLE_OBSERVER(m_ble_observer, APP_BLE_OBSERVER_PRIO, on_ble_evt, NULL);
 }
 
-void setCharacteristic(uint8_t serviceID, uint8_t charID, void* p_data, uint16_t length)
+gn_char_error_t setCharacteristic(uint8_t serviceID, uint8_t charID, void* p_data, uint16_t length)
 {
-  getService(serviceID)->getCharacteristic(charID)->set(p_data, length);
+  return getService(serviceID)->getCharacteristic(charID)->set(p_data, length);
 }
 
 

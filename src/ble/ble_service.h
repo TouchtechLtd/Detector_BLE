@@ -17,6 +17,9 @@
 
 #define MAX_NUMBER_CHAR	10
 
+
+namespace BLE_SERVER {
+
 // This structure contains various status information for our service.
 // The name is based on the naming convention used in Nordics SDKs.
 // 'ble’ indicates that it is a Bluetooth Low Energy relevant structure and
@@ -62,4 +65,7 @@ class Service {
     Characteristic	_charList[MAX_NUMBER_CHAR];
 
 };	// SERVICE
+
+
+} // BLE_SERVER
 #endif  /* _ _GOODNATURE_BLE_BLE_SERVICE_H__ */

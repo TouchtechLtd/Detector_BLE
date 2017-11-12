@@ -22,6 +22,16 @@ namespace BLE_SERVER
 {
 
 
+#define BLE_EVENT_OFFSET 0x2000
+
+enum {
+  BLE_CONNECTED_EVENT = BLE_EVENT_OFFSET,
+  BLE_DISCONNECTED_EVENT,
+  BLE_WRITE_EVENT,
+  BLE_STATE_CHANGE_EVENT
+};
+
+
 /** Available Power Modes for the LIS2DH12 */
 typedef enum{
   BLE_POWER_N_40_DB = -40,
@@ -49,7 +59,7 @@ void addService(Service* service, uint8_t serviceID);
 Service* getService(uint8_t serviceID);
 
 void setWriteHandler(uint8_t serviceID, uint8_t charID, char_write_handler_t writeHandler);
-void setCharacteristic(uint8_t serviceID, uint8_t charID, void* p_data, uint16_t length);
+gn_char_error_t setCharacteristic(uint8_t serviceID, uint8_t charID, void* p_data, uint16_t length);
 
 
 }

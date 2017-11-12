@@ -139,7 +139,7 @@ _build/nrf52832_xxaa/main.cpp.o: ../../../../src/app/main.cpp \
  ../../../../src/peripheral/LIS2DH12.h \
  ../../../../src/peripheral/LIS2DH12_registers.h \
  ../../../../src/app/trap_manager.h \
- ../../../../src/app/trap_manager_config.h
+ ../../../../src/app/trap_manager_config.h ../../../../src/app/events.h
 
 ../../../../src/app/trap_manager_config.h:
 
@@ -426,3 +426,5 @@ _build/nrf52832_xxaa/main.cpp.o: ../../../../src/app/main.cpp \
 ../../../../src/app/trap_manager.h:
 
 ../../../../src/app/trap_manager_config.h:
+
+../../../../src/app/events.h:

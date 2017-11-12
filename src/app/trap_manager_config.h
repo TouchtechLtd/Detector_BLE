@@ -28,7 +28,7 @@
 
 #define RAW_DATA_CAPTURE_SIZE 250
 
-namespace EVENT_MANAGER
+namespace TrapState
 {
 
 

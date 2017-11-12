@@ -15,213 +15,132 @@
 
 #include "debug/DEBUG.h"
 
+
+namespace BLE_SERVER {
+
+
+
+/////////////////////////////// PUBLIC ///////////////////////////////////////
+//============================= LIFECYCLE ====================================
+
 Characteristic::Characteristic() {
-    // Add read/write properties to our characteristic
-    _init();
+
+  // Add read/write properties to our characteristic
+  memset(&m_charHandle,     0, sizeof(m_charHandle));
+  memset(&m_charUuid,       0, sizeof(m_charUuid));
+  memset(&m_cccdMd,         0, sizeof(m_cccdMd));
+  memset(&m_charMd,         0, sizeof(m_charMd));
+  memset(&m_attrMd,         0, sizeof(m_attrMd));
+  memset(&m_attrCharValue,  0, sizeof(m_attrCharValue));
+
+  m_isUUIDSet =           false;
+  m_isRunning =           false;
+  m_notificationEnabled = false;
+  m_readEnabled =         false;
+
+  m_writeHandler =  NULL;
+  m_connHandle =    BLE_CONN_HANDLE_INVALID;
 }
 
 
-Characteristic::Characteristic(uint16_t i_uuid) {
-    // Add read/write properties to our characteristic
 
-    _init();
-    setUUID(i_uuid);
-}
+//============================= OPERATIONS ===================================
 
-void Characteristic::_init()
-{
-	// Add read/write properties to our characteristic
-  memset(&_char_handle, 0, sizeof(_char_handle));
-  memset(&_char_uuid, 0, sizeof(_char_uuid));
-  memset(&_cccd_md, 0, sizeof(_cccd_md));
-  memset(&_char_md, 0, sizeof(_char_md));
-  memset(&_attr_md, 0, sizeof(_attr_md));
-  memset(&_attr_char_value, 0, sizeof(_attr_char_value));
-
-  m_isUUIDSet = false;
-  m_isRunning = false;
-  _charAdded = false;
-  _notificationEnabled = false;
-  _readEnabled = false;
-
-  m_writeHandler = NULL;
-  _conn_handle = BLE_CONN_HANDLE_INVALID;
-}
-
-
-void Characteristic::setUUID(uint16_t i_uuid)
-{
-	_char_uuid.uuid = i_uuid;
-	if (_char_uuid.type != 0) { m_isUUIDSet = true; }
-}
-
-void Characteristic::setUUIDType(uint8_t i_type)
-{
-	_char_uuid.type = i_type;
-	if (_char_uuid.uuid != 0) { m_isUUIDSet = true; }
-}
-
-void Characteristic::configureUUID (uint16_t i_uuid, uint8_t i_type)
-{
-	_char_uuid.uuid = i_uuid;
-	_char_uuid.type = i_type;
-	m_isUUIDSet = true;
-}
 
 void Characteristic::attachToService(uint16_t i_serviceHandle)
 {
 
-	if (m_isUUIDSet && !m_isRunning)
-	{
-		// Configure the characteristic value attribute
-		_attr_md.vloc        = BLE_GATTS_VLOC_STACK;
-		_attr_char_value.p_uuid      = &_char_uuid;
-		_attr_char_value.p_attr_md   = &_attr_md;
+  if (m_isUUIDSet && !m_isRunning)
+  {
+    // Configure the characteristic value attribute
+    m_attrMd.vloc        = BLE_GATTS_VLOC_STACK;
+    m_attrCharValue.p_uuid      = &m_charUuid;
+    m_attrCharValue.p_attr_md   = &m_attrMd;
 
-		//  Add our new characteristic to the service
+    //  Add our new characteristic to the service
     uint32_t err_code = sd_ble_gatts_characteristic_add(i_serviceHandle,
-                     &_char_md,
-                     &_attr_char_value,
-                     &_char_handle);
+                     &m_charMd,
+                     &m_attrCharValue,
+                     &m_charHandle);
 
-		ERROR_CHECK(err_code);
+    ERROR_CHECK(err_code);
 
-		m_isRunning = true;
+    m_isRunning = true;
 
-	} else {
-	  DEBUG("Please set UUID before adding service");
-	}
+  } else {
+    DEBUG("Please set UUID before adding service");
+  }
 }
 
-
-
-/**@brief Function for adding our new characterstic to "Our service" that we initiated in the previous tutorial.
- *
- * @param[in]   p_our_service        Our Service structure.
- *
- */
-
-void Characteristic::add(uint16_t i_serviceHandle, uint16_t i_uuid, uint8_t i_uuidType)
-{
-	configureUUID(i_uuid, i_uuidType);
-	attachToService(i_serviceHandle);
-}
-
-
-void Characteristic::enableRead() {
-    _char_md.char_props.read = 1;
-    _attr_md.rd_auth    = 0;
-    BLE_GAP_CONN_SEC_MODE_SET_OPEN(&_attr_md.read_perm);
-    _readEnabled = true;
-}
-
-void Characteristic::disableRead() {
-    _char_md.char_props.read = 0;
-    _attr_md.rd_auth    = 0;
-    BLE_GAP_CONN_SEC_MODE_SET_NO_ACCESS(&_attr_md.read_perm);
-}
-
-void Characteristic::enableWrite() {
-    _char_md.char_props.write = 1;
-    _attr_md.wr_auth    = 0;
-    BLE_GAP_CONN_SEC_MODE_SET_OPEN(&_attr_md.write_perm);
-}
-
-void Characteristic::disableWrite() {
-    _char_md.char_props.write = 0;
-    _attr_md.wr_auth    = 0;
-    BLE_GAP_CONN_SEC_MODE_SET_NO_ACCESS(&_attr_md.write_perm);
-}
-
-
-void Characteristic::enableNotification() {
-    BLE_GAP_CONN_SEC_MODE_SET_OPEN(&_cccd_md.read_perm);
-    BLE_GAP_CONN_SEC_MODE_SET_OPEN(&_cccd_md.write_perm);
-    _cccd_md.vloc                = BLE_GATTS_VLOC_STACK;
-    _char_md.p_cccd_md           = &_cccd_md;
-    _char_md.char_props.notify   = 1;
-}
-
-
-void Characteristic::initValue(void* p_value, uint16_t len)
-{
-    _attr_char_value.init_len    = len;
-    _attr_char_value.p_value     = static_cast<uint8_t*>(p_value);
-    setMaxLength(len);
-}
-
-void Characteristic::setMaxLength(uint16_t i_maxLen)
-{
-	_attr_char_value.max_len = i_maxLen;
-	if (_attr_char_value.max_len == _attr_char_value.init_len) {
-		_attr_md.vlen 		= 0;
-	}
-	else { _attr_md.vlen 		= 1; }
-}
 
 // Function to be called when updating characteristic value
 
-void Characteristic::set(void* i_data, uint16_t dataLength)
+gn_char_error_t Characteristic::set(void* data, uint16_t dataLength)
 {
-  if (!m_isRunning)
+  if (m_notificationEnabled) { return notify(data, dataLength); }
+  else if (m_readEnabled)    { return update(data, dataLength); }
+  else                       { return GN_CHAR_READ_NOT_ENABLED; }
+}
+
+void Characteristic::configure(uint16_t uuid, void* p_data, uint16_t dataLen, char_access_e access)
+{
+  setUUID(uuid);
+  setDataPointer(p_data, dataLen);
+  switch (access)
   {
-    DEBUG("Not running!");
-    return;
+  case CHAR_READ_ONLY:
+    configureAsReadOnly();
+    break;
+
+  case CHAR_READ_WRITE:
+    configureAsReadWrite();
+    break;
+
   }
-
-  if (_notificationEnabled) { notify(i_data, dataLength); }
-  else if (_readEnabled)    { update(i_data, dataLength); }
-  else                      { DEBUG("Not enabled"); }
 }
 
 
-void Characteristic::notify(void* i_data, uint16_t  data_length)
+void Characteristic::configureAsReadOnly()
 {
-	if (_notificationEnabled && m_isRunning) {
-		// Update characteristic value
-		if ( _conn_handle != BLE_CONN_HANDLE_INVALID)
-		{
-			memset(&_hvx_params, 0, sizeof(_hvx_params));
-			_hvx_params.handle = _char_handle.value_handle;
-			_hvx_params.type   = BLE_GATT_HVX_NOTIFICATION;
-			_hvx_params.offset = 0;
-			_hvx_params.p_len  = &data_length;
-			_hvx_params.p_data = static_cast<uint8_t*>(i_data);
-
-			uint32_t err_code;
-			err_code = sd_ble_gatts_hvx(_conn_handle, &_hvx_params);
-			ERROR_CHECK(err_code);
-		}
-		else { DEBUG("Connection handle = invalid"); }
-	}
-	else { DEBUG("Notify not enabled"); }
-
+  enableRead();
+  enableNotification();
 }
 
-
-void Characteristic::update(void* i_data, uint16_t data_length)
+void Characteristic::configureAsReadWrite()
 {
-	if (_readEnabled && m_isRunning) {
-		if (data_length <= _attr_char_value.max_len) {
-
-		  ble_gatts_value_t new_value;
-			memset(&new_value, 0, sizeof(new_value));
-			new_value.len     = data_length;
-			new_value.offset  = 0;
-			new_value.p_value = static_cast<uint8_t*>(i_data);
-
-			uint32_t err_code = sd_ble_gatts_value_set(BLE_CONN_HANDLE_INVALID, _char_handle.value_handle, &new_value);
-			ERROR_CHECK(err_code);
-		}
-		else { DEBUG("Value too long"); }
-	}
-	else { DEBUG("Value not updated"); }
+  enableRead();
+  enableNotification();
+  enableWrite();
 }
 
 
-uint8_t Characteristic::isInit() {
-  return m_isUUIDSet;
+//============================= ACCESS      ===================================
+
+/**
+ * Write description of function here
+ * This comment will last the test of time.
+ * @param i_uuid
+ */
+void Characteristic::setUUID(uint16_t uuid)
+{
+  m_charUuid.uuid = uuid;
+  if (m_charUuid.type != 0) { m_isUUIDSet = true; }
 }
+
+void Characteristic::setUUIDType(uint8_t type)
+{
+  m_charUuid.type = type;
+  if (m_charUuid.uuid != 0) { m_isUUIDSet = true; }
+}
+
+
+void Characteristic::setDataPointer(void* p_value, uint16_t len)
+{
+    m_attrCharValue.init_len    = len;
+    m_attrCharValue.p_value     = static_cast<uint8_t*>(p_value);
+    setMaxLength(len);
+}
+
 
 void Characteristic::setWriteHandler(char_write_handler_t writeHandler)
 {
@@ -229,23 +148,135 @@ void Characteristic::setWriteHandler(char_write_handler_t writeHandler)
 }
 
 
+//============================= INQUIRY    ===================================
+
+
+/**
+ *
+ * @return
+ */
+bool Characteristic::isInit()
+{
+  return m_isUUIDSet;
+}
+
+
+bool Characteristic::isRunning()
+{
+  return m_isRunning;
+}
+
+
+
+/////////////////////////////// PRIVATE    ///////////////////////////////////
+
+
+void Characteristic::enableRead() {
+    m_charMd.char_props.read = 1;
+    m_attrMd.rd_auth    = 0;
+    BLE_GAP_CONN_SEC_MODE_SET_OPEN(&m_attrMd.read_perm);
+    m_readEnabled = true;
+}
+
+void Characteristic::disableRead() {
+    m_charMd.char_props.read = 0;
+    m_attrMd.rd_auth    = 0;
+    BLE_GAP_CONN_SEC_MODE_SET_NO_ACCESS(&m_attrMd.read_perm);
+}
+
+void Characteristic::enableWrite() {
+    m_charMd.char_props.write = 1;
+    m_attrMd.wr_auth    = 0;
+    BLE_GAP_CONN_SEC_MODE_SET_OPEN(&m_attrMd.write_perm);
+}
+
+void Characteristic::disableWrite() {
+    m_charMd.char_props.write = 0;
+    m_attrMd.wr_auth    = 0;
+    BLE_GAP_CONN_SEC_MODE_SET_NO_ACCESS(&m_attrMd.write_perm);
+}
+
+
+void Characteristic::enableNotification() {
+    BLE_GAP_CONN_SEC_MODE_SET_OPEN(&m_cccdMd.read_perm);
+    BLE_GAP_CONN_SEC_MODE_SET_OPEN(&m_cccdMd.write_perm);
+    m_cccdMd.vloc                = BLE_GATTS_VLOC_STACK;
+    m_charMd.p_cccd_md           = &m_cccdMd;
+    m_charMd.char_props.notify   = 1;
+}
+
+
+
+void Characteristic::setMaxLength(uint16_t maxLen)
+{
+	m_attrCharValue.max_len = maxLen;
+	if (m_attrCharValue.max_len == m_attrCharValue.init_len)
+	{
+		m_attrMd.vlen 		= 0;
+	}
+	else { m_attrMd.vlen 		= 1; }
+}
+
+
+
+gn_char_error_t Characteristic::notify(void* data, uint16_t  dataLength)
+{
+  if (true != m_notificationEnabled)              { return GN_CHAR_NOTIFICATION_NOT_ENABLED; }
+  if (true != m_isRunning)                        { return GN_CHAR_NOT_RUNNING; }
+  if (BLE_CONN_HANDLE_INVALID == m_connHandle)    { return GN_CHAR_NOT_CONNECTED; }
+
+  memset(&m_hvxParams, 0, sizeof(m_hvxParams));
+  m_hvxParams.handle = m_charHandle.value_handle;
+  m_hvxParams.type   = BLE_GATT_HVX_NOTIFICATION;
+  m_hvxParams.offset = 0;
+  m_hvxParams.p_len  = &dataLength;
+  m_hvxParams.p_data = static_cast<uint8_t*>(data);
+
+  uint32_t err_code;
+  err_code = sd_ble_gatts_hvx(m_connHandle, &m_hvxParams);
+  ERROR_CHECK(err_code);
+
+  return static_cast <gn_char_error_t> (GN_SUCCESS);
+}
+
+
+gn_char_error_t Characteristic::update(void* data, uint16_t dataLength)
+{
+  if (true != m_readEnabled)                      { return GN_CHAR_READ_NOT_ENABLED; }
+  if (true != m_isRunning)                        { return GN_CHAR_NOT_RUNNING; }
+  if (dataLength > m_attrCharValue.max_len)       { return GN_CHAR_VALUE_TOO_LONG; }
+
+  ble_gatts_value_t new_value;
+  memset(&new_value, 0, sizeof(new_value));
+  new_value.len     = dataLength;
+  new_value.offset  = 0;
+  new_value.p_value = static_cast<uint8_t*>(data);
+
+  uint32_t err_code = sd_ble_gatts_value_set(BLE_CONN_HANDLE_INVALID, m_charHandle.value_handle, &new_value);
+  ERROR_CHECK(err_code);
+
+  return static_cast <gn_char_error_t> (GN_SUCCESS);
+}
+
+
+
 void Characteristic::eventHandler(ble_evt_t const * p_ble_evt)
 {
   switch (p_ble_evt->header.evt_id)
   {
       case BLE_GAP_EVT_CONNECTED:
-          _conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
+          m_connHandle = p_ble_evt->evt.gap_evt.conn_handle;
           break;
       case BLE_GAP_EVT_DISCONNECTED:
-          _conn_handle = BLE_CONN_HANDLE_INVALID;
+          m_connHandle = BLE_CONN_HANDLE_INVALID;
           break;
       case BLE_GATTS_EVT_WRITE:
 
-        if (p_ble_evt->evt.gatts_evt.params.write.handle == _char_handle.cccd_handle)
+        if (p_ble_evt->evt.gatts_evt.params.write.handle == m_charHandle.cccd_handle)
         {
-          _notificationEnabled = p_ble_evt->evt.gatts_evt.params.write.data[0];
+          m_notificationEnabled = p_ble_evt->evt.gatts_evt.params.write.data[0];
         }
-        if (p_ble_evt->evt.gatts_evt.params.write.handle == _char_handle.value_handle)
+        if (p_ble_evt->evt.gatts_evt.params.write.handle == m_charHandle.value_handle)
         {
           if (m_writeHandler != NULL)
           {
@@ -262,7 +293,7 @@ void Characteristic::eventHandler(ble_evt_t const * p_ble_evt)
   }
 }
 
-void Characteristic::setConnHandle(uint16_t i_connHandle)
-{
-	_conn_handle = i_connHandle;
-}
+
+
+
+} // BLE_SERVER

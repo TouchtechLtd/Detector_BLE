@@ -18,6 +18,8 @@
 
 #include "debug/DEBUG.h"
 
+namespace BLE_SERVER {
+
 
 uint16_t Service::serviceCount = 0;
 
@@ -145,3 +147,4 @@ Characteristic* Service::getCharacteristic(uint8_t charID) {
   return &_charList[charID];
 }
 
+} //BLE_SERVER
