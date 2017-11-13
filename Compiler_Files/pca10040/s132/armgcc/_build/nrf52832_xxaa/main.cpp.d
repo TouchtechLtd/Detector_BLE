@@ -139,7 +139,13 @@ _build/nrf52832_xxaa/main.cpp.o: ../../../../src/app/main.cpp \
  ../../../../src/peripheral/LIS2DH12.h \
  ../../../../src/peripheral/LIS2DH12_registers.h \
  ../../../../src/app/trap_manager.h \
- ../../../../src/app/trap_manager_config.h ../../../../src/app/events.h
+ ../../../../src/app/trap_manager_config.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/math.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/cmath \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/cpp_type_traits.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/ext/type_traits.h \
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/math.h \
+ ../../../../src/app/events.h
 
 ../../../../src/app/trap_manager_config.h:
 
@@ -426,5 +432,15 @@ _build/nrf52832_xxaa/main.cpp.o: ../../../../src/app/main.cpp \
 ../../../../src/app/trap_manager.h:
 
 ../../../../src/app/trap_manager_config.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/math.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/cmath:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/cpp_type_traits.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/ext/type_traits.h:
+
+/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/math.h:
 
 ../../../../src/app/events.h:

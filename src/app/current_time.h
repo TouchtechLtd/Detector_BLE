@@ -22,9 +22,9 @@ typedef struct
 } current_time_t;
 #pragma pack(pop)
 
-current_time_t* getCurrentTime();
-void            setCurrentTime(current_time_t currentTime);
-void            startClock();
+const current_time_t* getCurrentTime();
+void                  setCurrentTime(current_time_t currentTime);
+void                  startClock();
 
 
 

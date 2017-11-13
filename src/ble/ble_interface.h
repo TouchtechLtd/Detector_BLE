@@ -17,12 +17,10 @@
 #include "nrf_sdh_soc.h"
 
 #define MAX_NUMBER_SERVICES 10
+#define BLE_EVENT_OFFSET    0x2000
 
 namespace BLE_SERVER
 {
-
-
-#define BLE_EVENT_OFFSET 0x2000
 
 enum {
   BLE_CONNECTED_EVENT = BLE_EVENT_OFFSET,
@@ -45,10 +43,6 @@ typedef enum{
   BLE_POWER_3_DB    = 3,
   BLE_POWER_4_DB    = 4
 } BLEPowerLevel;
-
-
-typedef void (*ble_external_handler_t)(ble_evt_t const * p_evt);
-
 
 
 void init(void);

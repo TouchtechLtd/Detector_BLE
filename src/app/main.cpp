@@ -32,6 +32,8 @@
 
 #include "app/trap_manager.h"
 
+#include <math.h>
+
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
@@ -53,23 +55,20 @@ static TrapState::event_data_t       recordData = { 0 };
 static TrapState::event_data_t       eventData = { 0 };
 static uint8_t                       killNumber = 0;
 
+static acceleration_t g_accelerationData[RAW_DATA_CAPTURE_SIZE] = { 0 };
+static uint16_t       g_accDataCount = 0;
+
+
+#define MAIN_EVENT_OFFSET 0x1500
+
+enum {
+  RAW_DATA_FULL = MAIN_EVENT_OFFSET
+};
 
 ///////////////////////////////////////////////////
 //////////        Event handlers        ///////////
 ///////////////////////////////////////////////////
 
-/*
-void bleEventHandler(ble_evt_t const * p_ble_evt, void* context)
-{
-  INFO("Reveived BT event in Main");
-  switch (p_ble_evt->header.evt_id)
-  {
-    case BLE_GAP_EVT_CONNECTED:
-        updateBLE = true;
-        break; // BLE_GAP_EVT_CONNECTED
-  }
-}
-*/
 
 void onKillEvent()
 {
@@ -92,9 +91,62 @@ void onKillEvent()
 
   BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DISPLAYED, &killNumber, sizeof(killNumber));
 
-
 }
 
+
+void accReadRawDataHandler(void* p_context)
+{
+
+  LIS2DH12_sample();
+
+  if (g_accDataCount > RAW_DATA_CAPTURE_SIZE)
+  {
+    EVENTS::eventPut(RAW_DATA_FULL);
+    return;
+  }
+  LIS2DH12_getAccelerationData(&g_accelerationData[g_accDataCount]);
+
+  g_accDataCount++;
+}
+
+void processRawData()
+{
+  /*
+
+  static int32_t accX32, accY32, accZ32 = 0;
+  static uint8_t accX8, accY8, accZ8 = 0;
+
+  LIS2DH12_getALLmG(&accX32, &accY32, &accZ32);
+
+  accX8 = accConverter(accX32);
+  accY8 = accConverter(accY32);
+  accZ8 = accConverter(accZ32);
+  uint8_t sum = sqrt((accX8*accX8) + (accY8*accY8) + (accZ8*accZ8));
+  //INFO("X: %d, Y: %d, Z: %d", accX8, accY8, accZ8);
+  //INFO("Sum: %d", sum);
+
+  if (rawEventData.count < RAW_DATA_CAPTURE_SIZE)
+  {
+    rawEventData.raw_data[rawEventData.count] = accX8;
+    rawEventData.count++;
+  }
+  if (sum > eventData.peak_level)
+  {
+    eventData.peak_level = sum;
+  }
+  */
+}
+
+void startRawSampling()
+{
+  LIS2DH12_startDAPolling();
+}
+
+void stopRawSampling()
+{
+  LIS2DH12_stopDAPolling();
+
+}
 
 
 
@@ -222,10 +274,12 @@ void createDeviceInfoService() {
 void updateEventBLE()
 {
   //uint8_t currentKillNumber = TrapState::getKillNumber();
-  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DISPLAYED,  &killNumber,                                sizeof(killNumber));
-  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DATA,       getEvent(killNumber),                sizeof(TrapState::event_data_t));
-  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_CONFIG,     TrapState::getConfig(),                     sizeof(TrapState::trap_detector_config_t));
-  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_TRAP_TIME,        CurrentTime::getCurrentTime(),              sizeof(CurrentTime::current_time_t));
+  CurrentTime::current_time_t currentTime = *CurrentTime::getCurrentTime();
+  INFO("current time: %d", currentTime.time);
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DISPLAYED,  &killNumber,               sizeof(killNumber));
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DATA,       getEvent(killNumber),      sizeof(TrapState::event_data_t));
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_CONFIG,     TrapState::getConfig(),    sizeof(TrapState::trap_detector_config_t));
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_TRAP_TIME,        &currentTime,              sizeof(CurrentTime::current_time_t));
 
 }
 
@@ -254,10 +308,11 @@ void eventDisplayedHandler(uint8_t const* data, uint16_t len)
 
 void trapTimeHandler(uint8_t const* data, uint16_t len)
 {
-  CurrentTime::current_time_t* p_currentTime = CurrentTime::getCurrentTime();
-  memcpy(p_currentTime, data, len);
-  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_TRAP_TIME, p_currentTime, sizeof(CurrentTime::current_time_t));
-  DEBUG("Time Set To: %d", p_currentTime->time);
+  CurrentTime::current_time_t currentTime;
+  memcpy(&currentTime, data, len);
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_TRAP_TIME, &currentTime, sizeof(CurrentTime::current_time_t));
+  CurrentTime::setCurrentTime(currentTime);
+  DEBUG("Time Set To: %d", currentTime.time);
 }
 
 ///////////////////////////////////////////////////
@@ -291,6 +346,7 @@ void initialisePeripherals()
   LIS2DH12_init(LIS2DH12_POWER_LOW, LIS2DH12_SCALE4G, LIS2DH12_SAMPLE_50HZ);
   LIS2DH12_enableHighPass();
   LIS2DH12_enableTemperatureSensor();
+  LIS2DH12_initDAPolling(accReadRawDataHandler);
 
   INFO("Trap State starting");
   TrapState::initialise();
@@ -363,15 +419,6 @@ int main(void)
 
 	startBLE();
 
-
-
-  //Timer blinkTimer;
-  //blinkTimer.startTimer(1000, led2Toggle);
-
-  EVENTS::eventPut(10);
-
-
-  INFO("Looping");
   while(true)
   {
 

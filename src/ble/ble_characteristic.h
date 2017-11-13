@@ -45,10 +45,6 @@ typedef enum
   GN_CHAR_VALUE_TOO_LONG
 } gn_char_error_t;
 
-typedef struct
-{
-    uint8_t						id;
-}ble_char_id_t;
 
 typedef enum
 {

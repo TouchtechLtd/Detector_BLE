@@ -31,6 +31,13 @@ extern "C"
 
 /* TYPES ******************************************************************************************/
 
+typedef struct
+{
+    int16_t x;
+    int16_t y;
+    int16_t z;
+} acceleration_t;
+
 
 /** Available Power Modes for the LIS2DH12 */
 typedef enum{
@@ -185,6 +192,8 @@ extern LIS2DH12_Ret LIS2DH12_getZmG(int32_t* const accZ);
  * @retval LIS2DH12_RET_NULL NULL 	Pointer detected
  */
 extern LIS2DH12_Ret LIS2DH12_getALLmG(int32_t* const accX, int32_t* const accY, int32_t* const accZ);
+
+extern LIS2DH12_Ret LIS2DH12_getAccelerationData(acceleration_t* accData);
 
 
 extern void LIS2DH12_clearInterrupts();

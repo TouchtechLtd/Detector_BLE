@@ -25,7 +25,7 @@ void startClock() {
   m_minuteTimer.startTimer(60000, minuteHandler);
 }
 
-current_time_t* getCurrentTime() {
+const current_time_t* getCurrentTime() {
   return &m_currentTime;
 }
 

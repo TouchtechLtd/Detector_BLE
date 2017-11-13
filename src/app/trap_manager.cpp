@@ -8,7 +8,6 @@
 
 #include <stdint.h>
 #include <string.h>
-#include <math.h>
 
 #include "app/trap_manager.h"
 #include "app/state_machine.h"
@@ -23,12 +22,6 @@
 namespace TrapState
 {
 static StateMachine detectorStateMachine(WAIT_STATE, MAX_STATES, MAX_EVENTS);
-//static event_data_t       eventData;
-//static event_data_t       recordData = { 0 };
-//static raw_event_data_t   rawEventData;
-//static trap_event_handler_t g_eventHandler = NULL;
-
-//static uint8_t            killNumber = 0;
 
 Timer sampleTimer;
 Timer movementCountdown;
@@ -45,11 +38,6 @@ static trap_detector_config_t detectorConfig = {
     SET_BUFFER_MS                             // Set Buffer Length
 };
 
-/*
-void updateEventHandler(trap_event_e event)
-{
-  if (g_eventHandler != NULL) { g_eventHandler(event); }
-}*/
 
 
 ///////////////////////////////////////////////////
@@ -78,40 +66,6 @@ event_data_t* getEvent(uint8_t eventID)
 //////           Timer handlers         ///////////
 ///////////////////////////////////////////////////
 
-uint8_t accConverter(int32_t inputInt)
-{
-  if (inputInt < 0) { inputInt = -inputInt; }
-  return inputInt >> 5;
-}
-
-void accReadTimerHandler(void* p_context)
-{
-  /*
-  LIS2DH12_sample();
-
-  static int32_t accX32, accY32, accZ32 = 0;
-  static uint8_t accX8, accY8, accZ8 = 0;
-
-  LIS2DH12_getALLmG(&accX32, &accY32, &accZ32);
-
-  accX8 = accConverter(accX32);
-  accY8 = accConverter(accY32);
-  accZ8 = accConverter(accZ32);
-  uint8_t sum = sqrt((accX8*accX8) + (accY8*accY8) + (accZ8*accZ8));
-  //INFO("X: %d, Y: %d, Z: %d", accX8, accY8, accZ8);
-  //INFO("Sum: %d", sum);
-
-  if (rawEventData.count < RAW_DATA_CAPTURE_SIZE)
-  {
-    rawEventData.raw_data[rawEventData.count] = accX8;
-    rawEventData.count++;
-  }
-  if (sum > eventData.peak_level)
-  {
-    eventData.peak_level = sum;
-  }
-  */
-}
 
 void trapBufferCountdownHandler(void* p_context)
 {
@@ -139,15 +93,12 @@ void triggeredFromWaitTransition()
   EVENTS::eventPut(TRAP_TRIGGERED_EVENT);
   EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
 
-  LIS2DH12_startDAPolling();
   INFO("Triggerd from wait");
   trapBufferCountdown.startCountdown(detectorConfig.triggerBufferLength, trapBufferCountdownHandler);
 }
 
 void trapBufferEndedTransition()
 {
-  LIS2DH12_stopDAPolling();
-
   EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
   INFO("Trap buffer end");
 
@@ -222,7 +173,6 @@ void initialise()
   createTransitionTable();
 
   LIS2DH12_initThresholdInterrupt(detectorConfig.triggerThreshold, detectorConfig.triggerDuration, LIS2DH12_INTERRUPT_THRESHOLD_XYZ, true, accTriggeredHandler);
-  LIS2DH12_initDAPolling(accReadTimerHandler);
 }
 
 

@@ -61,12 +61,7 @@ For a detailed description see the detailed description in @ref LIS2DH12.h
 
 /* TYPES ******************************************************************************************/
 /** Structure containing sensor data for all 3 axis */
-typedef struct
-{
-    int16_t x;
-    int16_t y;
-    int16_t z;
-} acceleration_t;
+
 
 /** Union to split raw data to values for each axis */
 typedef union
@@ -353,6 +348,22 @@ extern LIS2DH12_Ret LIS2DH12_getALLmG(int32_t* const accX, int32_t* const accY, 
     return LIS2DH12_RET_OK;
 }
 
+extern LIS2DH12_Ret LIS2DH12_getAccelerationData(acceleration_t* const p_accData)
+{
+  if (p_accData == NULL) { return LIS2DH12_RET_NULL; }
+  *p_accData = g_sensorData.sensor;
+
+  return LIS2DH12_RET_OK;
+}
+
+
+extern LIS2DH12_Ret LIS2DH12_convertAccToAbs8(acceleration_t* const p_accData,
+                                              uint8_t* const accX,
+                                              uint8_t* const accY,
+                                              uint8_t* const accZ )
+{
+
+}
 
 /* INTERRUPT FUNCTIONS *****************************************************************************/
 
