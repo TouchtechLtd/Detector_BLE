@@ -125,6 +125,7 @@ _build/nrf52832_xxaa/main.cpp.o: ../../../../src/app/main.cpp \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_memobj/nrf_memobj.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/balloc/nrf_balloc.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_default_backends.h \
+ ../../../../src/app/events.h \
  ../../../../src/peripheral/timer_interface.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/timer/app_timer.h \
  ../../../../src/peripheral/adc_interface.h \
@@ -144,8 +145,7 @@ _build/nrf52832_xxaa/main.cpp.o: ../../../../src/app/main.cpp \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/cmath \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/bits/cpp_type_traits.h \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/ext/type_traits.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/math.h \
- ../../../../src/app/events.h
+ /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/math.h
 
 ../../../../src/app/trap_manager_config.h:
 
@@ -403,6 +403,8 @@ _build/nrf52832_xxaa/main.cpp.o: ../../../../src/app/main.cpp \
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_default_backends.h:
 
+../../../../src/app/events.h:
+
 ../../../../src/peripheral/timer_interface.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/timer/app_timer.h:
@@ -442,5 +444,3 @@ _build/nrf52832_xxaa/main.cpp.o: ../../../../src/app/main.cpp \
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/c++/6.3.1/ext/type_traits.h:
 
 /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/math.h:
-
-../../../../src/app/events.h:

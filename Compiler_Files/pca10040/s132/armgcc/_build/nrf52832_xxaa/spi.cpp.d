@@ -101,7 +101,7 @@ _build/nrf52832_xxaa/spi.cpp.o: ../../../../src/peripheral/spi.cpp \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_memobj/nrf_memobj.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/balloc/nrf_balloc.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_default_backends.h \
- ../../../../src/peripheral/gpio_interface.h \
+ ../../../../src/app/events.h ../../../../src/peripheral/gpio_interface.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/gpiote/app_gpiote.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/drivers_nrf/gpiote/nrf_drv_gpiote.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/drivers_nrf/hal/nrf_gpiote.h
@@ -309,6 +309,8 @@ _build/nrf52832_xxaa/spi.cpp.o: ../../../../src/peripheral/spi.cpp \
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/balloc/nrf_balloc.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_default_backends.h:
+
+../../../../src/app/events.h:
 
 ../../../../src/peripheral/gpio_interface.h:
 

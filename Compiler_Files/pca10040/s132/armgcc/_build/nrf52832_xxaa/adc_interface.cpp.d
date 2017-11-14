@@ -93,6 +93,7 @@ _build/nrf52832_xxaa/adc_interface.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/alloca.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/balloc/nrf_balloc.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_default_backends.h \
+ ../../../../src/app/events.h \
  ../../../../src/peripheral/timer_interface.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/timer/app_timer.h \
  ../../../../src/peripheral/adc_interface.h
@@ -282,6 +283,8 @@ _build/nrf52832_xxaa/adc_interface.cpp.o: \
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/balloc/nrf_balloc.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_default_backends.h:
+
+../../../../src/app/events.h:
 
 ../../../../src/peripheral/timer_interface.h:
 

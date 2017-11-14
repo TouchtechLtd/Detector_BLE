@@ -26,7 +26,8 @@ enum {
   BLE_CONNECTED_EVENT = BLE_EVENT_OFFSET,
   BLE_DISCONNECTED_EVENT,
   BLE_WRITE_EVENT,
-  BLE_STATE_CHANGE_EVENT
+  BLE_STATE_CHANGE_EVENT,
+  BLE_EVENT_EVENT
 };
 
 
@@ -47,6 +48,7 @@ typedef enum{
 
 void init(void);
 bool isConnected();
+void waitForTx();
 void setPower(BLEPowerLevel powerLevel);
 
 void addService(Service* service, uint8_t serviceID);

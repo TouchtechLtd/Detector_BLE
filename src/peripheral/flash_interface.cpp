@@ -99,57 +99,6 @@ static char const * fds_evt_str[] =
 
 
 
-//@brief   Function for initializing the SoftDevice and enabling the BLE stack.
-static void ble_stack_init(void)
-{
-    ret_code_t rc;
-    uint32_t   ram_start = 0;
-
-    // Enable the SoftDevice.
-    rc = nrf_sdh_enable_request();
-    ERROR_CHECK(rc);
-
-    rc = nrf_sdh_ble_default_cfg_set(APP_BLE_CONN_CFG_TAG, &ram_start);
-    ERROR_CHECK(rc);
-
-    rc = nrf_sdh_ble_enable(&ram_start);
-    ERROR_CHECK(rc);
-
-}
-
-
-
-//@brief   Initialize the timer.
-static void timer_init(void)
-{
-    ret_code_t err_code = app_timer_init();
-    ERROR_CHECK(err_code);
-}
-
-
-//@brief   Initialize logging.
-static void log_init(void)
-{
-  uint32_t err_code;
-
-  err_code = NRF_LOG_INIT(NULL);
-  ERROR_CHECK(err_code);
-
-  NRF_LOG_DEFAULT_BACKENDS_INIT();
-
-  NRF_LOG_INFO("Logging:");
-  NRF_LOG_INFO("");
-}
-
-
-//@brief   Sleep until an event is received.
-static void power_manage(void)
-{
-    (void) sd_app_evt_wait();
-}
-
-
-
 void Flash_Record::read(uint16_t file_id, uint16_t key_id, void* p_data, uint32_t len)
 {
   fds_record_desc_t desc = {0};
@@ -324,7 +273,7 @@ void FDS::waitForInitialisation(void)
 {
     while (!m_initialised)
     {
-        power_manage();
+      (void) sd_app_evt_wait();
     }
 }
 
@@ -333,7 +282,7 @@ void FDS::waitForWrite(void)
 {
     while (!m_writeEvent)
     {
-        power_manage();
+      (void) sd_app_evt_wait();
     }
     m_writeEvent = false;
 }
@@ -343,7 +292,7 @@ void FDS::waitForUpdate(void)
 {
     while (!m_updateEvent)
     {
-        power_manage();
+      (void) sd_app_evt_wait();
     }
     m_updateEvent = false;
 }

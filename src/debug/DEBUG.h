@@ -22,7 +22,9 @@
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
+#include "app/events.h"
 
+#define DEBUG_ERROR_EVENT 0xFFFF
 
 #define DEBUG_INIT() NRF_LOG_INIT(NULL); \
                       NRF_LOG_DEFAULT_BACKENDS_INIT();
@@ -50,10 +52,15 @@
 
 
 #ifdef ERROR_ENABLED
-
+#define ERROR_CHECK(err_code) do { if (err_code != NRF_SUCCESS) { \
+                                  EVENTS::eventPut(DEBUG_ERROR_EVENT, &err_code, sizeof(err_code)); \
+                                   DEBUG("Error: %d", err_code); \
+                                   } } while (0)
+/*
 #define ERROR_CHECK(err_code) do { if (err_code != NRF_SUCCESS) \
 									{ NRF_LOG_INFO("Error: %s:%d:%s(): %d", __FILE__, __LINE__, __func__, err_code); \
 									while(true) {}}} while(0)
+									*/
 /*
 #define ERROR_CHECK(err_code) do { if (err_code != NRF_SUCCESS) \
                   { UART_write("Error: %s:%d:%s(): %d", __FILE__, __LINE__, __func__, err_code); \

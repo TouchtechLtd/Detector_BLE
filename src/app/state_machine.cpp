@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include "app/state_machine.h"
+#include "app/events.h"
 #include "debug/DEBUG.h"
 
 StateMachine::StateMachine(state_t i_initState, uint8_t max_states, uint8_t max_events) {

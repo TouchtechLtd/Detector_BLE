@@ -77,9 +77,16 @@ void Characteristic::attachToService(uint16_t i_serviceHandle)
 
 gn_char_error_t Characteristic::set(void* data, uint16_t dataLength)
 {
-  if (m_notificationEnabled) { return notify(data, dataLength); }
-  else if (m_readEnabled)    { return update(data, dataLength); }
-  else                       { return GN_CHAR_READ_NOT_ENABLED; }
+  gn_char_error_t err_code;
+  if (m_readEnabled)
+  {
+    err_code = update(data, dataLength);
+  }
+  if (m_notificationEnabled && BLE_CONN_HANDLE_INVALID != m_connHandle)
+  {
+    err_code = notify(data, dataLength);
+  }
+  return err_code;
 }
 
 void Characteristic::configure(uint16_t uuid, void* p_data, uint16_t dataLen, char_access_e access)
@@ -282,18 +289,30 @@ void Characteristic::eventHandler(ble_evt_t const * p_ble_evt)
           {
            m_writeHandler(p_ble_evt->evt.gatts_evt.params.write.data, p_ble_evt->evt.gatts_evt.params.write.len);
           }
-
         }
-
         break;
+/*
+      case BLE_GATTS_EVT_RW_AUTHORIZE_REQUEST:
+        if (p_ble_evt->evt.gatts_evt.params.authorize_request.request.read.handle == m_charHandle.value_handle)
+        {
+          m_readHandler();
+        }
+        */
 
       default:
           // No implementation needed.
           break;
   }
 }
+/*
+void Characteristic::updateConnectionState (uint16_t connHandle)
+{
 
+}
 
+void Characteristic::updateReadHandler
+
+*/
 
 
 } // BLE_SERVER

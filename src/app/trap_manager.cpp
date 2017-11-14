@@ -99,7 +99,7 @@ void triggeredFromWaitTransition()
 
 void trapBufferEndedTransition()
 {
-  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
+  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT, 0);
   INFO("Trap buffer end");
 
   moveBufferCountdown.startCountdown(detectorConfig.moveBufferLength, moveBufferCountdownHandler);
@@ -108,15 +108,15 @@ void trapBufferEndedTransition()
 
 void moveBufferEndedTransition()
 {
-  EVENTS::eventPut(TRAP_KILLED_EVENT);
-  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
+  EVENTS::eventPut(TRAP_KILLED_EVENT, 0);
+  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT, 0);
   LIS2DH12_setInterruptThreshold(detectorConfig.triggerThreshold);
 }
 
 void triggeredFromMoveTransition()
 {
-  EVENTS::eventPut(TRAP_MOVING_EVENT);
-  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
+  EVENTS::eventPut(TRAP_MOVING_EVENT, 0);
+  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT, 0);
   INFO("Triggerd from move");
 
   movementCountdown.stopTimer();
@@ -125,8 +125,8 @@ void triggeredFromMoveTransition()
 
 void moveToWaitTransition()
 {
-  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
-  EVENTS::eventPut(TRAP_SET_EVENT);
+  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT, 0);
+  EVENTS::eventPut(TRAP_SET_EVENT, 0);
 
   INFO("Trap set");
   LIS2DH12_setInterruptThreshold(detectorConfig.triggerThreshold);
@@ -171,8 +171,12 @@ void createTransitionTable(void)
 void initialise()
 {
   createTransitionTable();
-
   LIS2DH12_initThresholdInterrupt(detectorConfig.triggerThreshold, detectorConfig.triggerDuration, LIS2DH12_INTERRUPT_THRESHOLD_XYZ, true, accTriggeredHandler);
+}
+
+void stop()
+{
+  detectorStateMachine.stop();
 }
 
 

@@ -44,33 +44,54 @@
 #define LED_FAST_BLINK 200
 #define LED_SLOW_BLINK 1000
 
-#define CONFIG_FILE     (0xF010)
-#define CONFIG_REC_KEY  (0x7010)
+#define CONFIG_FILE_ID     (0xF010)
+#define CONFIG_REC_KEY_ID  (0x7010)
+
+#define ERROR_FILE_ID   0x5432
+#define ERROR_KEY_ID    0x6543
+
+#define RAW_DATA_BLE_SIZE 5
+
+#define MAIN_EVENT_OFFSET 0x1500
+
+
+typedef enum {
+  IDLE_STATE,
+  ACTIVE_STATE,
+  ERROR_STATE,
+  MAX_STATES,
+} main_state_e;
+
+
+typedef enum {
+  TIMESET_EVENT,
+  PROGRAM_ERROR_EVENT,
+  MAX_EVENTS
+} main_event_e;
+
+enum {
+  RAW_DATA_FULL = MAIN_EVENT_OFFSET,
+  SEND_RAW_DATA
+};
 
 
 Timer ledTimer;
-
-
 static TrapState::event_data_t       recordData = { 0 };
 static TrapState::event_data_t       eventData = { 0 };
 static uint8_t                       killNumber = 0;
 
-static acceleration_t g_accelerationData[RAW_DATA_CAPTURE_SIZE] = { 0 };
+static TrapState::raw_event_data_t g_accelerationData[RAW_DATA_CAPTURE_SIZE] = { 0 };
 static uint16_t       g_accDataCount = 0;
 
-
-#define MAIN_EVENT_OFFSET 0x1500
-
-enum {
-  RAW_DATA_FULL = MAIN_EVENT_OFFSET
-};
+static StateMachine mainStateMachine(IDLE_STATE, MAX_STATES, MAX_EVENTS);
 
 ///////////////////////////////////////////////////
 //////////        Event handlers        ///////////
 ///////////////////////////////////////////////////
 
+void processRawData();
 
-void onKillEvent()
+void onKillEvent(EVENTS::event_data_t data)
 {
   INFO("Killed");
 
@@ -80,6 +101,8 @@ void onKillEvent()
   int32_t temp;
   LIS2DH12_updateTemperatureSensor();
   LIS2DH12_getTemperature(&temp);
+
+  processRawData();
 
   eventData.timestamp   =     *CurrentTime::getCurrentTime();
   eventData.trap_id     =     0x12345678;
@@ -99,53 +122,46 @@ void accReadRawDataHandler(void* p_context)
 
   LIS2DH12_sample();
 
-  if (g_accDataCount > RAW_DATA_CAPTURE_SIZE)
+  if (g_accDataCount >= RAW_DATA_CAPTURE_SIZE - 1)
   {
-    EVENTS::eventPut(RAW_DATA_FULL);
+    EVENTS::eventPut(RAW_DATA_FULL, 0);
     return;
   }
-  LIS2DH12_getAccelerationData(&g_accelerationData[g_accDataCount]);
+  LIS2DH12_getAccelerationData_8Bit(&g_accelerationData[g_accDataCount].acc);
 
   g_accDataCount++;
+
 }
 
 void processRawData()
 {
-  /*
 
-  static int32_t accX32, accY32, accZ32 = 0;
-  static uint8_t accX8, accY8, accZ8 = 0;
-
-  LIS2DH12_getALLmG(&accX32, &accY32, &accZ32);
-
-  accX8 = accConverter(accX32);
-  accY8 = accConverter(accY32);
-  accZ8 = accConverter(accZ32);
-  uint8_t sum = sqrt((accX8*accX8) + (accY8*accY8) + (accZ8*accZ8));
-  //INFO("X: %d, Y: %d, Z: %d", accX8, accY8, accZ8);
-  //INFO("Sum: %d", sum);
-
-  if (rawEventData.count < RAW_DATA_CAPTURE_SIZE)
+  for (int i = 0; i < g_accDataCount; i++)
   {
-    rawEventData.raw_data[rawEventData.count] = accX8;
-    rawEventData.count++;
+
+    g_accelerationData[i].sum = sqrt((g_accelerationData[i].acc.x*g_accelerationData[i].acc.x) +
+                                     (g_accelerationData[i].acc.y*g_accelerationData[i].acc.y) +
+                                     (g_accelerationData[i].acc.z*g_accelerationData[i].acc.z));
+    //INFO("X: %d, Y: %d, Z: %d", g_accelerationData[i].x, g_accelerationData[i].y, g_accelerationData[i].z);
+    //INFO("Sum: %d", sum);
+
+    if (g_accelerationData[i].sum > eventData.peak_level)
+    {
+      eventData.peak_level = g_accelerationData[i].sum;
+    }
   }
-  if (sum > eventData.peak_level)
-  {
-    eventData.peak_level = sum;
-  }
-  */
+  Flash_Record::write(KILL_RAW_DATA_FILE_ID, killNumber, &g_accelerationData, sizeof(g_accelerationData));
+
 }
 
-void startRawSampling()
+void startRawSampling(EVENTS::event_data_t data)
 {
   LIS2DH12_startDAPolling();
 }
 
-void stopRawSampling()
+void stopRawSampling(EVENTS::event_data_t data)
 {
   LIS2DH12_stopDAPolling();
-
 }
 
 
@@ -184,7 +200,7 @@ void led2Toggle(void*)
 //////////        User output          ///////////
 ///////////////////////////////////////////////////
 
-void showState()
+void showState(EVENTS::event_data_t data)
 {
 
   switch (TrapState::getState())
@@ -253,7 +269,15 @@ void createTrapDataService()
   trapTime.configure(BLE_UUID_CHAR_TRAP_TIME, &startTime, sizeof(startTime), BLE_SERVER::CHAR_READ_WRITE);
   trapData.addCharacteristic(&trapTime, CHAR_TRAP_TIME);
 
-  //Characteristic rawEventData;
+  BLE_SERVER::Characteristic rawEventData;
+  TrapState::raw_event_data_t tmpRawData[RAW_DATA_BLE_SIZE] = {0};
+  rawEventData.configure(BLE_UUID_CHAR_RAW_DATA, &tmpRawData, sizeof(tmpRawData), BLE_SERVER::CHAR_READ_ONLY);
+  trapData.addCharacteristic(&rawEventData, CHAR_RAW_DATA);
+
+  BLE_SERVER::Characteristic errorData;
+  uint32_t errorInitData = 0;
+  errorData.configure(BLE_UUID_CHAR_ERROR_DATA, &errorInitData, sizeof(errorInitData), BLE_SERVER::CHAR_READ_ONLY);
+  trapData.addCharacteristic(&errorData, CHAR_ERROR_DATA);
 
   trapData.attachService();
   BLE_SERVER::addService(&trapData, SERVICE_TRAP_DATA);
@@ -271,7 +295,7 @@ void createDeviceInfoService() {
 }
 
 
-void updateEventBLE()
+void updateEventBLE(EVENTS::event_data_t data)
 {
   //uint8_t currentKillNumber = TrapState::getKillNumber();
   CurrentTime::current_time_t currentTime = *CurrentTime::getCurrentTime();
@@ -286,6 +310,29 @@ void updateEventBLE()
 ///////////////////////////////////////////////////
 //////     BLE Write handlers     /////////////////
 ///////////////////////////////////////////////////
+
+void sendRawData(EVENTS::event_data_t data)
+{
+  uint8_t requestedKill = *(uint8_t*)data.p_data;
+
+  DEBUG("Confirm Requested Kill: %d", requestedKill);
+
+  TrapState::raw_event_data_t requestedRawData[RAW_DATA_CAPTURE_SIZE] = { 0 };
+  Flash_Record::read(KILL_RAW_DATA_FILE_ID, requestedKill, &requestedRawData, sizeof(requestedRawData));
+
+  TrapState::raw_event_data_t bleRawData[RAW_DATA_BLE_SIZE] = { 0 };
+
+  uint32_t err_code;
+  for (int i = 0; i < RAW_DATA_CAPTURE_SIZE/RAW_DATA_BLE_SIZE; i++)
+  {
+    memcpy(&bleRawData, &requestedRawData[i*RAW_DATA_BLE_SIZE], sizeof(bleRawData));
+    err_code = BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_RAW_DATA, &bleRawData, sizeof(bleRawData));
+
+    ERROR_CHECK(err_code);
+    nrf_delay_ms(50);
+  }
+
+}
 
 void eventConfigHandler(uint8_t const* data, uint16_t len)
 {
@@ -302,6 +349,8 @@ void eventDisplayedHandler(uint8_t const* data, uint16_t len)
   uint8_t requestedKill;
   memcpy(&requestedKill, data, len);
   uint32_t err_code = BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DATA, getEvent(requestedKill), sizeof(TrapState::event_data_t));
+
+  EVENTS::eventPut(SEND_RAW_DATA, &requestedKill, 1);
   ERROR_CHECK(err_code);
   DEBUG("Requested Kill: %d", requestedKill);
 }
@@ -313,6 +362,8 @@ void trapTimeHandler(uint8_t const* data, uint16_t len)
   BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_TRAP_TIME, &currentTime, sizeof(CurrentTime::current_time_t));
   CurrentTime::setCurrentTime(currentTime);
   DEBUG("Time Set To: %d", currentTime.time);
+
+  mainStateMachine.transition(TIMESET_EVENT);
 }
 
 ///////////////////////////////////////////////////
@@ -330,9 +381,6 @@ void initialisePeripherals()
   INFO("Timer Init");
   Timer::initialisePeripheral();
 
-  INFO("Clock Init");
-  CurrentTime::startClock();
-
   INFO("GPIO Init");
   GPIO::init();
   GPIO::setOutput(LED_1_PIN, HIGH);
@@ -348,8 +396,7 @@ void initialisePeripherals()
   LIS2DH12_enableTemperatureSensor();
   LIS2DH12_initDAPolling(accReadRawDataHandler);
 
-  INFO("Trap State starting");
-  TrapState::initialise();
+
 }
 
 
@@ -357,6 +404,15 @@ void initialisePeripherals()
 void loadDataFromFlash()
 {
   Flash_Record::read(KILL_NUMBER_FILE_ID, KILL_NUMBER_KEY_ID, &killNumber, sizeof(killNumber));
+
+  static uint8_t bootNum = 0;
+  Flash_Record::read(CONFIG_FILE_ID, CONFIG_REC_KEY_ID, &bootNum, sizeof(bootNum));
+  bootNum++;
+  if (bootNum > 5)
+  {
+    while(1) sd_app_evt_wait();
+  }
+  Flash_Record::write(CONFIG_FILE_ID, CONFIG_REC_KEY_ID, &bootNum, sizeof(bootNum));
 }
 
 void setButtonInterrupt()
@@ -393,13 +449,74 @@ void startBLE()
 }
 
 
+void idleToActiveTransition()
+{
+  INFO("Clock Init");
+  CurrentTime::startClock();
+
+  INFO("Trap State starting");
+  TrapState::initialise();
+}
+
+
+////////////////////////////////////////////
+//////////    Error Handling    ////////////
+////////////////////////////////////////////
+
+static uint32_t finalErrorCode;
+void errorHandler(EVENTS::event_data_t data)
+{
+  finalErrorCode = *(uint32_t*)data.p_data;
+  mainStateMachine.transition(PROGRAM_ERROR_EVENT);
+}
+
+void errorShowHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
+{
+  GPIO::toggle(LED_1_PIN);
+}
+
+void errorStateHandler()
+{
+  TrapState::stop();
+  GPIO::initIntInput(BUTTON_1,
+                NRF_GPIOTE_POLARITY_HITOLO,
+                NRF_GPIO_PIN_PULLUP,
+                false,
+                false,
+                errorShowHandler);
+  GPIO::interruptEnable(BUTTON_1);
+
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_ERROR_DATA,  &finalErrorCode, sizeof(finalErrorCode));
+  Flash_Record::write(ERROR_FILE_ID, ERROR_KEY_ID, &finalErrorCode, sizeof(finalErrorCode));
+
+  for(;;)
+  {
+    sd_app_evt_wait();
+  }
+}
+
+
 void registerEventCallbacks ()
 {
+  EVENTS::registerEventHandler(TrapState::TRAP_KILLED_EVENT,        stopRawSampling);
   EVENTS::registerEventHandler(TrapState::TRAP_KILLED_EVENT,        onKillEvent);
   EVENTS::registerEventHandler(TrapState::TRAP_STATE_CHANGE_EVENT,  showState);
   EVENTS::registerEventHandler(BLE_SERVER::BLE_CONNECTED_EVENT,     updateEventBLE);
+  EVENTS::registerEventHandler(TrapState::TRAP_TRIGGERED_EVENT,     startRawSampling);
+  EVENTS::registerEventHandler(TrapState::TRAP_MOVING_EVENT,        stopRawSampling);
+  EVENTS::registerEventHandler(RAW_DATA_FULL,                       stopRawSampling);
+  EVENTS::registerEventHandler(SEND_RAW_DATA,                       sendRawData);
+  EVENTS::registerEventHandler(DEBUG_ERROR_EVENT,                   errorHandler);
 }
 
+void createMainTransitionTable()
+{
+  mainStateMachine.registerTransition(IDLE_STATE,   ACTIVE_STATE, TIMESET_EVENT, &idleToActiveTransition);
+  mainStateMachine.registerTransition(ACTIVE_STATE, IGNORED,      TIMESET_EVENT, NULL);
+  mainStateMachine.registerTransition(IDLE_STATE,   ERROR_STATE,  PROGRAM_ERROR_EVENT, &errorStateHandler);
+  mainStateMachine.registerTransition(ACTIVE_STATE, ERROR_STATE,  PROGRAM_ERROR_EVENT, &errorStateHandler);
+  mainStateMachine.registerTransition(ERROR_STATE,  IGNORED,      PROGRAM_ERROR_EVENT, NULL);
+}
 
 
 ///////////////////////////////////////////////////
@@ -418,6 +535,10 @@ int main(void)
 	setButtonInterrupt();
 
 	startBLE();
+	createMainTransitionTable();
+
+
+  INFO("Starting main loop");
 
   while(true)
   {

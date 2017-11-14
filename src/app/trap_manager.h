@@ -12,6 +12,7 @@
 #include <stdint.h>
 #include "trap_manager_config.h"
 #include "app/current_time.h"
+#include "peripheral/LIS2DH12.h"
 
 namespace TrapState
 {
@@ -40,8 +41,8 @@ CurrentTime::current_time_t  timestamp;
 
 typedef struct
 {
-  uint16_t      count;
-  uint8_t       raw_data[RAW_DATA_CAPTURE_SIZE];
+  uint8_t                 sum;
+  acceleration_8b_t       acc;
 }raw_event_data_t;
 
 typedef struct {
@@ -65,12 +66,11 @@ typedef struct {
 
   event_data_t* getEvent(uint8_t eventID);
   void recordCurrentEvent();
-  bool isAnimalKilled();
 
   trap_detector_config_t* getConfig();
   uint8_t getKillNumber();
-  //void registerEventHandler(trap_event_handler_t handler);
 
+  void stop();
 
 
 }

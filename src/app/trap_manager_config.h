@@ -23,6 +23,7 @@
 
 
 #define KILL_DATA_FILE_ID       (0xDA7A)
+#define KILL_RAW_DATA_FILE_ID   (0xDA8A)
 #define KILL_NUMBER_FILE_ID     (0x5111)
 #define KILL_NUMBER_KEY_ID      (0x1111)
 

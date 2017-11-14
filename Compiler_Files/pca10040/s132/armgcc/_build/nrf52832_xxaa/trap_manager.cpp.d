@@ -61,7 +61,6 @@ _build/nrf52832_xxaa/trap_manager.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/app_util.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/device/compiler_abstraction.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/nordic_common.h \
- ../../../../src/app/state_machine.h ../../../../src/app/events.h \
  ../../../../src/peripheral/LIS2DH12.h \
  ../../../../src/peripheral/LIS2DH12_registers.h \
  ../../../../src/peripheral/gpio_interface.h \
@@ -85,6 +84,7 @@ _build/nrf52832_xxaa/trap_manager.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/boards/boards.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/boards/custom_board.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/boards/ruuvitag_b3.h \
+ ../../../../src/app/state_machine.h ../../../../src/app/events.h \
  ../../../../src/peripheral/flash_interface.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/fds/fds.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/app_util_platform.h \
@@ -233,10 +233,6 @@ _build/nrf52832_xxaa/trap_manager.cpp.o: \
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/nordic_common.h:
 
-../../../../src/app/state_machine.h:
-
-../../../../src/app/events.h:
-
 ../../../../src/peripheral/LIS2DH12.h:
 
 ../../../../src/peripheral/LIS2DH12_registers.h:
@@ -282,6 +278,10 @@ _build/nrf52832_xxaa/trap_manager.cpp.o: \
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/boards/custom_board.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/boards/ruuvitag_b3.h:
+
+../../../../src/app/state_machine.h:
+
+../../../../src/app/events.h:
 
 ../../../../src/peripheral/flash_interface.h:
 

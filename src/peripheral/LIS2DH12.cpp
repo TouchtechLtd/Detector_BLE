@@ -333,6 +333,12 @@ extern LIS2DH12_Ret LIS2DH12_getZmG(int32_t* const accZ)
   return LIS2DH12_RET_OK;
 }
 
+extern LIS2DH12_Ret LIS2DH12_accToMgConverter(int16_t acc, int16_t* mgOut)
+{
+  int32_t tmpMg = (((32768+acc)>>(16-g_resolution))-(1<<(g_resolution-1)))*(g_mgpb << g_scale) ;
+  *mgOut = tmpMg;
+}
+
 extern LIS2DH12_Ret LIS2DH12_getALLmG(int32_t* const accX, int32_t* const accY, int32_t* const accZ)
 {
 
@@ -348,21 +354,32 @@ extern LIS2DH12_Ret LIS2DH12_getALLmG(int32_t* const accX, int32_t* const accY, 
     return LIS2DH12_RET_OK;
 }
 
-extern LIS2DH12_Ret LIS2DH12_getAccelerationData(acceleration_t* const p_accData)
+extern LIS2DH12_Ret LIS2DH12_getAccelerationData_16Bit(acceleration_t* const p_accData)
 {
   if (p_accData == NULL) { return LIS2DH12_RET_NULL; }
-  *p_accData = g_sensorData.sensor;
+
+  LIS2DH12_accToMgConverter(g_sensorData.sensor.x, &p_accData->x);
+  LIS2DH12_accToMgConverter(g_sensorData.sensor.y, &p_accData->y);
+  LIS2DH12_accToMgConverter(g_sensorData.sensor.z, &p_accData->z);
 
   return LIS2DH12_RET_OK;
 }
 
 
-extern LIS2DH12_Ret LIS2DH12_convertAccToAbs8(acceleration_t* const p_accData,
-                                              uint8_t* const accX,
-                                              uint8_t* const accY,
-                                              uint8_t* const accZ )
+extern LIS2DH12_Ret LIS2DH12_getAccelerationData_8Bit(acceleration_8b_t* const p_accData)
 {
 
+  if (p_accData == NULL) { return LIS2DH12_RET_NULL; }
+
+  int16_t tmp_accX, tmp_accY, tmp_accZ = 0;
+
+  LIS2DH12_accToMgConverter(g_sensorData.sensor.x, &tmp_accX);
+  LIS2DH12_accToMgConverter(g_sensorData.sensor.y, &tmp_accY);
+  LIS2DH12_accToMgConverter(g_sensorData.sensor.z, &tmp_accZ);
+
+  p_accData->x = tmp_accX >> 5;
+  p_accData->y = tmp_accY >> 5;
+  p_accData->z = tmp_accZ >> 5;
 }
 
 /* INTERRUPT FUNCTIONS *****************************************************************************/
@@ -493,7 +510,7 @@ extern void LIS2DH12_startDAPolling()
 
 extern void LIS2DH12_stopDAPolling()
 {
-  g_daTimer.killTimer();
+  g_daTimer.stopTimer();
 }
 
 

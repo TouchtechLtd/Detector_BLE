@@ -81,6 +81,8 @@ void GPIO::initIntInput(unsigned long pin,
 						gpio_event_handler_t handler) {
 
 
+  if (interruptIsSet(pin)) { interruptClear(pin); }
+
 	nrf_drv_gpiote_in_config_t in_config;
 	in_config.sense = sense;					//NRF_GPIOTE_POLARITY_HITOLO;
 	in_config.pull = pull;						//NRF_GPIO_PIN_PULLUP;

@@ -56,7 +56,7 @@ NRF_BLE_GATT_DEF(m_gatt);
 static Service m_serviceList[MAX_NUMBER_SERVICES] = {0};
 static uint8_t m_serviceCount = 0;
 static bool m_isConnected = false;
-
+static bool m_txEvent     = false;
 
 static void ble_stack_init();
 static void gatt_init();
@@ -100,6 +100,20 @@ bool isConnected()
   return m_isConnected;
 }
 
+void waitForTx()
+{
+  while (!m_txEvent)
+  {
+    sd_app_evt_wait();
+  }
+  m_txEvent = false;
+}
+
+void fwd_ble_evt(ble_evt_t const * p_ble_evt, void* context)
+{
+  ble_evt_t* p_ble_evt_data = const_cast<ble_evt_t*>(p_ble_evt);
+  EVENTS::eventPut(BLE_EVENT_EVENT, p_ble_evt_data, sizeof(*p_ble_evt));
+}
 
 /**@brief Function for handling the Application's BLE stack events.
  *
@@ -108,6 +122,8 @@ bool isConnected()
 void on_ble_evt(ble_evt_t const * p_ble_evt, void* context)
 {
     uint32_t err_code;
+
+    //ble_evt_t * p_ble_evt = (ble_evt_t*) data.p_data;
 
     switch (p_ble_evt->header.evt_id)
     {
@@ -162,10 +178,29 @@ void on_ble_evt(ble_evt_t const * p_ble_evt, void* context)
 
         case BLE_GATTS_EVT_RW_AUTHORIZE_REQUEST:
         {
+
             ble_gatts_evt_rw_authorize_request_t  req;
             ble_gatts_rw_authorize_reply_params_t auth_reply;
+            memset(&auth_reply, 0, sizeof(ble_gatts_rw_authorize_reply_params_t));
 
             req = p_ble_evt->evt.gatts_evt.params.authorize_request;
+
+            INFO("RW Request: %d", req.request.read.handle);
+
+            if (req.type == BLE_GATTS_AUTHORIZE_TYPE_READ)
+            {
+              auth_reply.type = BLE_GATTS_AUTHORIZE_TYPE_READ;
+            }
+            else if (req.type == BLE_GATTS_AUTHORIZE_TYPE_WRITE)
+            {
+              auth_reply.type = BLE_GATTS_AUTHORIZE_TYPE_WRITE;
+            }
+
+            err_code = sd_ble_gatts_rw_authorize_reply(p_ble_evt->evt.gatts_evt.conn_handle,
+                                                       &auth_reply);
+            ERROR_CHECK(err_code);
+
+            /*
 
             if (req.type != BLE_GATTS_AUTHORIZE_TYPE_INVALID)
             {
@@ -187,14 +222,23 @@ void on_ble_evt(ble_evt_t const * p_ble_evt, void* context)
                     ERROR_CHECK(err_code);
                 }
             }
+            */
+
         } break; // BLE_GATTS_EVT_RW_AUTHORIZE_REQUEST
+
+        case BLE_GATTS_EVT_HVN_TX_COMPLETE:
+          m_txEvent = true;
+          break;
+
+        case BLE_GATTS_EVT_WRITE:
+          //EVENTS::eventPut(BLE_WRITE_EVENT);
+          break;
 
         default:
             // No implementation needed.
             break;
     }
 
-    ble_evt_dispatch(p_ble_evt);
 }
 
 
@@ -281,19 +325,19 @@ void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
 {
     ret_code_t err_code = NRF_SUCCESS;
 
-    EVENTS::eventPut(BLE_STATE_CHANGE_EVENT);
+    EVENTS::eventPut(BLE_STATE_CHANGE_EVENT, 0);
 
     switch (p_ble_evt->header.evt_id)
     {
         case BLE_GAP_EVT_CONNECTED:
             INFO("Connected");
             m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
-            EVENTS::eventPut(BLE_CONNECTED_EVENT);
+            EVENTS::eventPut(BLE_CONNECTED_EVENT, 0);
             break;
 
         case BLE_GAP_EVT_DISCONNECTED:
             INFO("Disconnected");
-            EVENTS::eventPut(BLE_DISCONNECTED_EVENT);
+            EVENTS::eventPut(BLE_DISCONNECTED_EVENT, 0);
             m_conn_handle = BLE_CONN_HANDLE_INVALID;
             break;
 
@@ -319,7 +363,6 @@ void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
             break;
     }
 
-    ble_evt_dispatch(p_ble_evt);
 }
 
 
@@ -331,8 +374,10 @@ void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
  *
  * @param[in] p_ble_evt  Bluetooth stack event.
  */
-void ble_evt_dispatch(ble_evt_t const * p_ble_evt)
+void ble_evt_dispatch(ble_evt_t const * p_ble_evt, void* context)
 {
+  //ble_evt_t * p_ble_evt = (ble_evt_t*) data.p_data;
+
   DEBUG("Dispatching event: %d", p_ble_evt->header.evt_id);
   for (int i = 0; i < MAX_NUMBER_SERVICES; i++)
   {
@@ -369,6 +414,10 @@ void ble_stack_init(void)
 
     // Subscribe for BLE events.
     NRF_SDH_BLE_OBSERVER(m_ble_observer, APP_BLE_OBSERVER_PRIO, on_ble_evt, NULL);
+    NRF_SDH_BLE_OBSERVER(m_ble_dispatcher, APP_BLE_OBSERVER_PRIO, ble_evt_dispatch, NULL);
+    //EVENTS::registerEventHandler(BLE_EVENT_EVENT, on_ble_evt);
+    //EVENTS::registerEventHandler(BLE_EVENT_EVENT, ble_evt_dispatch);
+
 }
 
 gn_char_error_t setCharacteristic(uint8_t serviceID, uint8_t charID, void* p_data, uint16_t length)

@@ -64,7 +64,8 @@ extern void spi_init(void)
   spi_config.sck_pin  = SPI_SCK_PIN;
   spi_config.irq_priority = SPI_IRQ_PRIORITY;
 
-  ERROR_CHECK(nrf_drv_spi_init(&spi, &spi_config, spi_event_handler, NULL));
+  uint32_t err_code = nrf_drv_spi_init(&spi, &spi_config, spi_event_handler, NULL);
+  ERROR_CHECK(err_code);
 
   initDone = true;
 }
