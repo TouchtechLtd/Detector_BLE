@@ -50,6 +50,8 @@
 #define ERROR_FILE_ID   0x5432
 #define ERROR_KEY_ID    0x6543
 
+#define TRAP_ID       0x12345678
+
 #define RAW_DATA_BLE_SIZE 5
 
 #define MAIN_EVENT_OFFSET 0x1500
@@ -95,7 +97,6 @@ void onKillEvent(EVENTS::event_data_t data)
 {
   INFO("Killed");
 
-  eventData = { 0 };
   killNumber++;
 
   int32_t temp;
@@ -105,7 +106,7 @@ void onKillEvent(EVENTS::event_data_t data)
   processRawData();
 
   eventData.timestamp   =     *CurrentTime::getCurrentTime();
-  eventData.trap_id     =     0x12345678;
+  eventData.trap_id     =     TRAP_ID;
   eventData.temperature =     static_cast<int8_t>(temp);
   eventData.killNumber  =     killNumber;
 
@@ -113,6 +114,11 @@ void onKillEvent(EVENTS::event_data_t data)
   Flash_Record::write(KILL_NUMBER_FILE_ID, KILL_NUMBER_KEY_ID, &killNumber, sizeof(killNumber));
 
   BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DISPLAYED, &killNumber, sizeof(killNumber));
+
+  memset(&eventData, 0, sizeof(eventData));
+  memset(&g_accelerationData, 0, sizeof(g_accelerationData));
+
+  BLE_SERVER::setPower(BLE_POWER_LEVEL_HIGH);
 
 }
 
@@ -142,14 +148,13 @@ void processRawData()
     g_accelerationData[i].sum = sqrt((g_accelerationData[i].acc.x*g_accelerationData[i].acc.x) +
                                      (g_accelerationData[i].acc.y*g_accelerationData[i].acc.y) +
                                      (g_accelerationData[i].acc.z*g_accelerationData[i].acc.z));
-    //INFO("X: %d, Y: %d, Z: %d", g_accelerationData[i].x, g_accelerationData[i].y, g_accelerationData[i].z);
-    //INFO("Sum: %d", sum);
 
     if (g_accelerationData[i].sum > eventData.peak_level)
     {
       eventData.peak_level = g_accelerationData[i].sum;
     }
   }
+  g_accDataCount = 0;
   Flash_Record::write(KILL_RAW_DATA_FILE_ID, killNumber, &g_accelerationData, sizeof(g_accelerationData));
 
 }
@@ -165,6 +170,10 @@ void stopRawSampling(EVENTS::event_data_t data)
 }
 
 
+void onBLEDisconnect(EVENTS::event_data_t)
+{
+  BLE_SERVER::setPower(BLE_POWER_LEVEL_LOW);
+}
 
 
 
@@ -408,11 +417,17 @@ void loadDataFromFlash()
   static uint8_t bootNum = 0;
   Flash_Record::read(CONFIG_FILE_ID, CONFIG_REC_KEY_ID, &bootNum, sizeof(bootNum));
   bootNum++;
-  if (bootNum > 5)
+  INFO("Bootnum: %d", bootNum);
+  if (bootNum > 20)
   {
     while(1) sd_app_evt_wait();
   }
   Flash_Record::write(CONFIG_FILE_ID, CONFIG_REC_KEY_ID, &bootNum, sizeof(bootNum));
+
+  static uint32_t previousError = 0;
+  Flash_Record::read(ERROR_FILE_ID, ERROR_KEY_ID, &previousError, sizeof(previousError));
+  if (previousError != 0) { INFO("Program has exited with error: %d", previousError); }
+
 }
 
 void setButtonInterrupt()
@@ -502,6 +517,7 @@ void registerEventCallbacks ()
   EVENTS::registerEventHandler(TrapState::TRAP_KILLED_EVENT,        onKillEvent);
   EVENTS::registerEventHandler(TrapState::TRAP_STATE_CHANGE_EVENT,  showState);
   EVENTS::registerEventHandler(BLE_SERVER::BLE_CONNECTED_EVENT,     updateEventBLE);
+  EVENTS::registerEventHandler(BLE_SERVER::BLE_DISCONNECTED_EVENT,  onBLEDisconnect);
   EVENTS::registerEventHandler(TrapState::TRAP_TRIGGERED_EVENT,     startRawSampling);
   EVENTS::registerEventHandler(TrapState::TRAP_MOVING_EVENT,        stopRawSampling);
   EVENTS::registerEventHandler(RAW_DATA_FULL,                       stopRawSampling);
