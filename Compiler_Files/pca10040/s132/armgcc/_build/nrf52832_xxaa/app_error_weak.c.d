@@ -53,11 +53,10 @@ _build/nrf52832_xxaa/app_error_weak.c.o: \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/sdk_macros.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_section_vars/nrf_section.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/nordic_common.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/strerror/nrf_strerror.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/sdk_errors.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/src/nrf_log_internal.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/app_util.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_ctrl.h \
+ /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/sdk_errors.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/src/nrf_log_ctrl_internal.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_backend_interface.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_memobj/nrf_memobj.h \
@@ -71,6 +70,7 @@ _build/nrf52832_xxaa/app_error_weak.c.o: \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_error.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_nvic.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/nrf_assert.h \
+ /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/strerror/nrf_strerror.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_sdm.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_soc.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_error_sdm.h
@@ -181,15 +181,13 @@ _build/nrf52832_xxaa/app_error_weak.c.o: \
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/nordic_common.h:
 
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/strerror/nrf_strerror.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/sdk_errors.h:
-
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/src/nrf_log_internal.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/app_util.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_ctrl.h:
+
+/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/sdk_errors.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/src/nrf_log_ctrl_internal.h:
 
@@ -216,6 +214,8 @@ _build/nrf52832_xxaa/app_error_weak.c.o: \
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_nvic.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/nrf_assert.h:
+
+/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/strerror/nrf_strerror.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_sdm.h:
 

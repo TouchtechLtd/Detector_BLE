@@ -18,6 +18,7 @@ namespace TrapState
 {
 
 #define TRAP_EVENT_OFFSET 0x1000
+#define TRAP_ID       0x00000066
 
 enum {
   TRAP_TRIGGERED_EVENT = TRAP_EVENT_OFFSET,
@@ -41,9 +42,10 @@ CurrentTime::current_time_t  timestamp;
 
 typedef struct
 {
-  uint8_t                 sum;
-  acceleration_8b_t       acc;
+  uint8_t                           sum;
+  LIS2DH12::acceleration_8b_t       acc;
 }raw_event_data_t;
+
 
 typedef struct {
     uint16_t triggerThreshold;
@@ -59,18 +61,13 @@ typedef struct {
 
 //typedef void (*trap_event_handler_t)(trap_event_e trap_event);
 
-
   void initialise();
-  void simulateTrigger();
-  detector_state_e getState();
-
-  event_data_t* getEvent(uint8_t eventID);
-  void recordCurrentEvent();
-
-  trap_detector_config_t* getConfig();
-  uint8_t getKillNumber();
-
   void stop();
+  void simulateTrigger();
+
+  detector_state_e getState();
+  const trap_detector_config_t* getConfig();
+  void setConfig(trap_detector_config_t inputConfig);
 
 
 }

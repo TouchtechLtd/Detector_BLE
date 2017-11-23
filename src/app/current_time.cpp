@@ -8,7 +8,10 @@
 
 #include <stdint.h>
 #include "app/current_time.h"
+#include "debug/DEBUG.h"
 
+#define NRF_LOG_MODULE_NAME CLOCK
+NRF_LOG_MODULE_REGISTER();
 
 namespace CurrentTime
 {
@@ -21,7 +24,8 @@ void minuteHandler(void*) {
 }
 
 
-void startClock() {
+void startClock(EVENTS::event_data_t data) {
+  INFO("STARTING - Clock Peripheral");
   m_minuteTimer.startTimer(60000, minuteHandler);
 }
 

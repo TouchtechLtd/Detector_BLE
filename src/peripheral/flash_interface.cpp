@@ -47,19 +47,14 @@
 #include "fds.h"
 #include "app_timer.h"
 #include "app_error.h"
-//#include "fds_example.h"
 #include "nrf_delay.h"
 #include "nrf_assert.h"
 
 #include "flash_interface.h"
 #include "debug/DEBUG.h"
 
-/*
-#define NRF_LOG_MODULE_NAME flash
-#include "nrf_log.h"
-#include "nrf_log_ctrl.h"
-#include "nrf_log_default_backends.h"
-*/
+#define NRF_LOG_MODULE_NAME FLASH
+NRF_LOG_MODULE_REGISTER();
 
 // A tag identifying the SoftDevice BLE configuration.
 #define APP_BLE_CONN_CFG_TAG    1
@@ -107,6 +102,9 @@ void Flash_Record::read(uint16_t file_id, uint16_t key_id, void* p_data, uint32_
   uint32_t rc = fds_record_find(file_id, key_id, &desc, &tok);
 
   if (rc == FDS_SUCCESS) {
+
+    INFO("READING - record - ID: 0x%04x - File ID: 0x%04x - Key ID: 0x%04x", desc.record_id, file_id, key_id);
+
     // A config file is in flash. Let's update it.
     fds_flash_record_t record = {0};
 
@@ -117,13 +115,15 @@ void Flash_Record::read(uint16_t file_id, uint16_t key_id, void* p_data, uint32_
     // Copy the configuration from flash into m_dummy_cfg.
     memcpy(p_data, record.p_data, len);
 
-    INFO("Reading record");
     // Close the record when done reading.
     rc = fds_record_close(&desc);
     ERROR_CHECK(rc);
 
   }
-  else { INFO("Data not written yet!"); }
+  else
+  {
+    INFO("READING - record not written yet!");
+  }
 
 }
 
@@ -154,17 +154,21 @@ void Flash_Record::write(uint16_t file_id, uint16_t key_id, void* p_data, uint32
 
   if (rc == FDS_SUCCESS)
   {
-    INFO("Updating record - ID: %d", desc.record_id);
+    INFO("UPDATING - record - ID: 0x%04x - File ID: 0x%04x - Key ID: 0x%04x", desc.record_id, file_id, key_id);
     rc = fds_record_update(&desc, &record);
     ERROR_CHECK(rc);
     FDS::waitForUpdate();
   }
-  else
+  else if (rc == FDS_ERR_NOT_FOUND)
   {
-    INFO("Writing record - ID: %d", desc.record_id);
+    INFO("WRITING - record - ID: 0x%04x - File ID: 0x%04x - Key ID: 0x%04x", desc.record_id, file_id, key_id);
     rc = fds_record_write(&desc, &record);
     ERROR_CHECK(rc);
     FDS::waitForWrite();
+  }
+  else
+  {
+    ERROR_CHECK(rc);
   }
 }
 
@@ -220,7 +224,7 @@ void FDS::event_handler(fds_evt_t const * p_evt)
             if (p_evt->result == FDS_SUCCESS)
             {
                 INFO("Record ID:\t0x%04x",  p_evt->write.record_id);
-                INFO("File ID:\t0x%04x",    p_evt->write.file_id);
+                INFO("File ID:\t\t0x%04x",    p_evt->write.file_id);
                 INFO("Record key:\t0x%04x", p_evt->write.record_key);
                 m_writeEvent = true;
             }
@@ -231,7 +235,7 @@ void FDS::event_handler(fds_evt_t const * p_evt)
             if (p_evt->result == FDS_SUCCESS)
             {
                 INFO("Record ID:\t0x%04x",  p_evt->write.record_id);
-                INFO("File ID:\t0x%04x",    p_evt->write.file_id);
+                INFO("File ID:\t\t0x%04x",    p_evt->write.file_id);
                 INFO("Record key:\t0x%04x", p_evt->write.record_key);
                 m_updateEvent = true;
             }
@@ -259,7 +263,7 @@ void FDS::init()
   // Register first to receive an event when initialization is complete.
   (void) fds_register(event_handler);
 
-  INFO("Initializing fds...");
+  INFO("INITIALISING - Flash Peripheral");
 
   uint32_t rc = fds_init();
   ERROR_CHECK(rc);

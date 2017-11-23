@@ -26,7 +26,7 @@
 #include <stdint.h>
 #include "ble.h"
 #include "ble_srv_common.h"
-
+#include "app/events.h"
 
 namespace BLE_SERVER {
 
@@ -34,6 +34,8 @@ namespace BLE_SERVER {
 #define GN_CHAR_ERROR_OFFSET 20
 #define GN_SUCCESS 0
 
+
+#define CHARACTERISTIC_WRITE_EVENT_OFFSET 0x0101
 
 
 typedef enum
@@ -52,7 +54,8 @@ typedef enum
   CHAR_READ_WRITE
 }char_access_e;
 
-typedef void (*char_write_handler_t) (uint8_t const* data, uint16_t len);
+//typedef void (*char_write_handler_t) (uint8_t const* data, uint16_t len);
+typedef EVENTS::event_callback_t char_write_handler_t;
 
 class Characteristic
 {
@@ -81,6 +84,7 @@ public:
   void setUUIDType(uint8_t type);
   void setDataPointer(void* p_value, uint16_t len);
   void setWriteHandler(char_write_handler_t writeHandler);
+  void setEventModifier(uint8_t eventModifier);
 
   // INQUIRY
   bool    isInit();
@@ -106,6 +110,9 @@ private:
   bool m_isRunning;
   bool m_notificationEnabled;
   bool m_readEnabled;
+  bool m_txComplete;
+
+  uint8_t            m_eventIDModifier;
 
 
   void enableRead();

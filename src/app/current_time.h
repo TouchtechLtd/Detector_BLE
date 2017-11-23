@@ -10,6 +10,7 @@
 
 
 #include "peripheral/timer_interface.h"
+#include "app/events.h"
 
 namespace CurrentTime
 {
@@ -24,7 +25,7 @@ typedef struct
 
 const current_time_t* getCurrentTime();
 void                  setCurrentTime(current_time_t currentTime);
-void                  startClock();
+void                  startClock(EVENTS::event_data_t data);
 
 
 

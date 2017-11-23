@@ -25,6 +25,10 @@ For a detailed description see the detailed description in @ref LIS2DH12.h
 #include <string.h>
 
 
+
+namespace LIS2DH12 {
+
+
 /* CONSTANTS **************************************************************************************/
 /** Maximum Size of SPI Addresses */
 #define ADR_MAX 0x3FU
@@ -158,7 +162,7 @@ extern LIS2DH12_Ret clearRegister(uint8_t address, uint8_t dataToClear)
 }
 
 
-extern LIS2DH12_Ret LIS2DH12_clearRegisters()
+extern LIS2DH12_Ret clearRegisters()
 {
   clearRegister(LIS2DH_CTRL_REG1 , LIS2DH_CLEAR_REGISTER_MASK);
   clearRegister(LIS2DH_CTRL_REG2 , LIS2DH_CLEAR_REGISTER_MASK);
@@ -168,6 +172,8 @@ extern LIS2DH12_Ret LIS2DH12_clearRegisters()
   clearRegister(LIS2DH_CTRL_REG6 , LIS2DH_CLEAR_REGISTER_MASK);
 }
 
+
+} //namespace LIS2DH12
 
 
 

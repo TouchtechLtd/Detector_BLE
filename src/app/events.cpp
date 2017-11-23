@@ -10,6 +10,9 @@
 #include "debug/DEBUG.h"
 
 
+#define NRF_LOG_MODULE_NAME EVENTS
+NRF_LOG_MODULE_REGISTER();
+
 namespace EVENTS
 
 {
@@ -66,15 +69,19 @@ void eventPut(uint16_t eventID, const void* eventData, uint16_t dataLen)
   {
     m_queue_event_signals[event_index].eventData.len          = dataLen;
     m_queue_event_signals[event_index].eventData.p_data       =  (void*) malloc(dataLen);
-    if (m_queue_event_signals[event_index].eventData.p_data == NULL) { INFO("Screwed up"); }
+    if (m_queue_event_signals[event_index].eventData.p_data == NULL)
+    {
+      INFO("Event data malloc failed for event ID: 0x%04x", eventID);
+    }
     memcpy(m_queue_event_signals[event_index].eventData.p_data, eventData, dataLen);
   }
 
-  INFO("Received event: %d", eventID);
+  INFO("Event: 0x%04x received", eventID);
 
 }
 void registerEventHandler(uint16_t eventID, event_callback_t callback)
 {
+  INFO("ATTACHING - event handler to eventID: 0x%04x", eventID);
   m_queue_event_listeners[m_handlerCount].eventID = eventID;
   m_queue_event_listeners[m_handlerCount].callback = callback;
   m_handlerCount++;
@@ -87,6 +94,8 @@ void processEvents()
     uint16_t event_index = m_queue_start_index;
 
     event_signal_t* p_event_signal = &m_queue_event_signals[event_index];
+
+    INFO("Event: 0x%04x dispatching", p_event_signal->eventID);
 
     for (int i = 0; i < m_handlerCount; i++)
     {

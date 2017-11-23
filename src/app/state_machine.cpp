@@ -46,6 +46,10 @@ void StateMachine::transition(event_e event) {
     }
     _currentState = transition_table[_currentState][event];
   }
+  else
+  {
+    INFO("Transition event ignored");
+  }
 }
 
 void StateMachine::stop()

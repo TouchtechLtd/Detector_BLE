@@ -96,7 +96,7 @@ _build/nrf52832_xxaa/ble_interface.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/boards/ruuvitag_b3.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/ble/nrf_ble_gatt/nrf_ble_gatt.h \
  ../../../../src/ble/ble_interface.h ../../../../src/ble/ble_service.h \
- ../../../../src/ble/ble_characteristic.h \
+ ../../../../src/ble/ble_characteristic.h ../../../../src/app/events.h \
  ../../../../src/ble/gn_ble_advertising.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/common/nrf_sdh.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_section_vars/nrf_section_iter.h \
@@ -107,7 +107,7 @@ _build/nrf52832_xxaa/ble_interface.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_error_soc.h \
  ../../../../src/ble/gn_ble_advertising.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/timer/app_timer.h \
- ../../../../src/app/events.h ../../../../src/peripheral/gpio_interface.h \
+ ../../../../src/peripheral/gpio_interface.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/gpiote/app_gpiote.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/drivers_nrf/gpiote/nrf_drv_gpiote.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/drivers_nrf/hal/nrf_gpiote.h \
@@ -119,7 +119,6 @@ _build/nrf52832_xxaa/ble_interface.cpp.o: \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/app_util.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/sdk_macros.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_section_vars/nrf_section.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/strerror/nrf_strerror.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/src/nrf_log_internal.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_ctrl.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/src/nrf_log_ctrl_internal.h \
@@ -327,6 +326,8 @@ _build/nrf52832_xxaa/ble_interface.cpp.o: \
 
 ../../../../src/ble/ble_characteristic.h:
 
+../../../../src/app/events.h:
+
 ../../../../src/ble/gn_ble_advertising.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/common/nrf_sdh.h:
@@ -346,8 +347,6 @@ _build/nrf52832_xxaa/ble_interface.cpp.o: \
 ../../../../src/ble/gn_ble_advertising.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/timer/app_timer.h:
-
-../../../../src/app/events.h:
 
 ../../../../src/peripheral/gpio_interface.h:
 
@@ -372,8 +371,6 @@ _build/nrf52832_xxaa/ble_interface.cpp.o: \
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/sdk_macros.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_section_vars/nrf_section.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/strerror/nrf_strerror.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/src/nrf_log_internal.h:
 

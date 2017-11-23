@@ -41,36 +41,7 @@ _build/nrf52832_xxaa/nrf_log_backend_serial.c.o: \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/device/nrf51_to_nrf52.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/device/nrf52_name_change.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/device/compiler_abstraction.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/sdk_macros.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/src/nrf_log_backend_serial.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_backend_interface.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_memobj/nrf_memobj.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/stdlib.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/stdlib.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/sdk_errors.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/balloc/nrf_balloc.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/app_util_platform.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_soc.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_svc.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_error_soc.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_error.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_nvic.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/nrf_assert.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/app_error.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/stdio.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/lib/gcc/arm-none-eabi/6.3.1/include/stdarg.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/types.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_pthreadtypes.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/types.h \
- /Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/stdio.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/app_error_weak.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/app_util.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/external/fprintf/nrf_fprintf.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_str_formatter.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_ctrl.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/src/nrf_log_ctrl_internal.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_backend_interface.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/src/nrf_log_internal.h
+ /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/sdk_macros.h
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/sdk_common.h:
 
@@ -155,61 +126,3 @@ _build/nrf52832_xxaa/nrf_log_backend_serial.c.o: \
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/device/compiler_abstraction.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/sdk_macros.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/src/nrf_log_backend_serial.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_backend_interface.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_memobj/nrf_memobj.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/stdlib.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/stdlib.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/sdk_errors.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/balloc/nrf_balloc.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/app_util_platform.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_soc.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_svc.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_error_soc.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_error.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/softdevice/s132/headers/nrf_nvic.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/nrf_assert.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/app_error.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/stdio.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/lib/gcc/arm-none-eabi/6.3.1/include/stdarg.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/types.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/_pthreadtypes.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/machine/types.h:
-
-/Users/michaelmcadam/SDK/Nordic_nf52/gcc-arm-none-eabi-6.3.1/arm-none-eabi/include/sys/stdio.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/app_error_weak.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/app_util.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/external/fprintf/nrf_fprintf.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_str_formatter.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_ctrl.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/src/nrf_log_ctrl_internal.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log_backend_interface.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/src/nrf_log_internal.h:

@@ -70,7 +70,6 @@ _build/nrf52832_xxaa/nrf_sdh.c.o: \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/nrf_assert.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_section_vars/nrf_section.h \
- /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/strerror/nrf_strerror.h \
  /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/src/nrf_log_internal.h
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/util/sdk_common.h:
@@ -212,7 +211,5 @@ _build/nrf52832_xxaa/nrf_sdh.c.o: \
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/nrf_log.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_section_vars/nrf_section.h:
-
-/Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/strerror/nrf_strerror.h:
 
 /Users/michaelmcadam/SDK/Nordic_nRF52832/nRF5_SDK_14.1.0_1dda907/components/libraries/experimental_log/src/nrf_log_internal.h:

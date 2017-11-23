@@ -17,13 +17,13 @@
 #include "debug/DEBUG.h"
 
 
-
+#define NRF_LOG_MODULE_NAME TRAP_STATE
+NRF_LOG_MODULE_REGISTER();
 
 namespace TrapState
 {
 static StateMachine detectorStateMachine(WAIT_STATE, MAX_STATES, MAX_EVENTS);
 
-Timer sampleTimer;
 Timer movementCountdown;
 Timer trapBufferCountdown;
 Timer moveBufferCountdown;
@@ -40,13 +40,28 @@ static trap_detector_config_t detectorConfig = {
 
 
 
+
 ///////////////////////////////////////////////////
 //////           Getter functions       ///////////
 ///////////////////////////////////////////////////
 
-trap_detector_config_t* getConfig()
+const trap_detector_config_t* getConfig()
 {
   return &detectorConfig;
+}
+
+
+void setConfig(trap_detector_config_t inputConfig)
+{
+  detectorConfig = inputConfig;
+  INFO("UPDATING - Detector Configuration Updated");
+  INFO("UPDATING - Trigger Threshold: %d",  detectorConfig.triggerThreshold);
+  INFO("UPDATING - Move Threshold: %d",     detectorConfig.moveThreshold);
+  INFO("UPDATING - Trigger Duration: %d",   detectorConfig.triggerDuration);
+  INFO("UPDATING - Move Duration: %d",      detectorConfig.moveDuration);
+  INFO("UPDATING - Trigger Buffer: %d",     detectorConfig.triggerBufferLength);
+  INFO("UPDATING - Move Buffer: %d",        detectorConfig.moveBufferLength);
+  INFO("UPDATING - Set Buffer: %d",         detectorConfig.setBufferLength);
 }
 
 detector_state_e getState()
@@ -54,13 +69,6 @@ detector_state_e getState()
   return static_cast<detector_state_e>(detectorStateMachine.getCurrentState());
 }
 
-/*
-event_data_t* getEvent(uint8_t eventID)
-{
-  Flash_Record::read(KILL_DATA_FILE_ID, eventID, &recordData, sizeof(recordData));
-  return &recordData;
-}
-*/
 
 ///////////////////////////////////////////////////
 //////           Timer handlers         ///////////
@@ -93,43 +101,45 @@ void triggeredFromWaitTransition()
   EVENTS::eventPut(TRAP_TRIGGERED_EVENT);
   EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
 
-  INFO("Triggerd from wait");
+  INFO("TRANSITION - Wait to Trap Buffer");
   trapBufferCountdown.startCountdown(detectorConfig.triggerBufferLength, trapBufferCountdownHandler);
 }
 
 void trapBufferEndedTransition()
 {
-  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT, 0);
-  INFO("Trap buffer end");
+  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
 
+  INFO("TRANSITION - Trap Buffer to Move Buffer");
   moveBufferCountdown.startCountdown(detectorConfig.moveBufferLength, moveBufferCountdownHandler);
-  LIS2DH12_setInterruptThreshold(detectorConfig.moveThreshold);
+  LIS2DH12::setInterruptThreshold(detectorConfig.moveThreshold);
 }
 
 void moveBufferEndedTransition()
 {
-  EVENTS::eventPut(TRAP_KILLED_EVENT, 0);
-  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT, 0);
-  LIS2DH12_setInterruptThreshold(detectorConfig.triggerThreshold);
+  EVENTS::eventPut(TRAP_KILLED_EVENT);
+  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
+
+  INFO("TRANSITION - Move Buffer to Wait");
+  LIS2DH12::setInterruptThreshold(detectorConfig.triggerThreshold);
 }
 
 void triggeredFromMoveTransition()
 {
-  EVENTS::eventPut(TRAP_MOVING_EVENT, 0);
-  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT, 0);
-  INFO("Triggerd from move");
+  EVENTS::eventPut(TRAP_MOVING_EVENT);
+  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
 
+  INFO("TRANSITION - Move Buffer to Set Buffer");
   movementCountdown.stopTimer();
   movementCountdown.startCountdown(detectorConfig.setBufferLength, movementCountdownHandler);
 }
 
 void moveToWaitTransition()
 {
-  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT, 0);
-  EVENTS::eventPut(TRAP_SET_EVENT, 0);
+  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
+  EVENTS::eventPut(TRAP_SET_EVENT);
 
-  INFO("Trap set");
-  LIS2DH12_setInterruptThreshold(detectorConfig.triggerThreshold);
+  INFO("TRANSITION - Set Buffer to Wait");
+  LIS2DH12::setInterruptThreshold(detectorConfig.triggerThreshold);
 }
 
 ///////////////////////////////////////////////////
@@ -138,9 +148,10 @@ void moveToWaitTransition()
 
 void accTriggeredHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
-  LIS2DH12_clearInterrupts();
+  LIS2DH12::clearInterrupts();
+  INFO("Event: Accelerometer Triggered");
   detectorStateMachine.transition(TRIGGERED_EVENT);
-  INFO("accTriggered");
+
 }
 
 void simulateTrigger()
@@ -170,13 +181,16 @@ void createTransitionTable(void)
 
 void initialise()
 {
+  LIS2DH12::initThresholdInterrupt(detectorConfig.triggerThreshold, detectorConfig.triggerDuration, LIS2DH12::INTERRUPT_THRESHOLD_XYZ, true, accTriggeredHandler);
+  LIS2DH12::clearInterrupts();
   createTransitionTable();
-  LIS2DH12_initThresholdInterrupt(detectorConfig.triggerThreshold, detectorConfig.triggerDuration, LIS2DH12_INTERRUPT_THRESHOLD_XYZ, true, accTriggeredHandler);
+  detectorStateMachine.start(WAIT_STATE);
 }
 
 void stop()
 {
   detectorStateMachine.stop();
+  LIS2DH12::clearInterruptHandler();
 }
 
 

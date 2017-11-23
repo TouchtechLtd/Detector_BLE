@@ -40,6 +40,9 @@ Characteristic::Characteristic() {
 
   m_writeHandler =  NULL;
   m_connHandle =    BLE_CONN_HANDLE_INVALID;
+  m_txComplete = false;
+
+  m_eventIDModifier = 0;
 }
 
 
@@ -152,6 +155,12 @@ void Characteristic::setDataPointer(void* p_value, uint16_t len)
 void Characteristic::setWriteHandler(char_write_handler_t writeHandler)
 {
   m_writeHandler = writeHandler;
+  EVENTS::registerEventHandler(CHARACTERISTIC_WRITE_EVENT_OFFSET + m_eventIDModifier, writeHandler);
+}
+
+void Characteristic::setEventModifier(uint8_t eventModifier)
+{
+  m_eventIDModifier = eventModifier;
 }
 
 
@@ -243,6 +252,12 @@ gn_char_error_t Characteristic::notify(void* data, uint16_t  dataLength)
   err_code = sd_ble_gatts_hvx(m_connHandle, &m_hvxParams);
   ERROR_CHECK(err_code);
 
+  while (!m_txComplete)
+  {
+    (void) sd_app_evt_wait();
+  }
+  m_txComplete = false;
+
   return static_cast <gn_char_error_t> (GN_SUCCESS);
 }
 
@@ -276,6 +291,7 @@ void Characteristic::eventHandler(ble_evt_t const * p_ble_evt)
           break;
       case BLE_GAP_EVT_DISCONNECTED:
           m_connHandle = BLE_CONN_HANDLE_INVALID;
+          m_notificationEnabled = false;
           break;
       case BLE_GATTS_EVT_WRITE:
 
@@ -285,12 +301,22 @@ void Characteristic::eventHandler(ble_evt_t const * p_ble_evt)
         }
         if (p_ble_evt->evt.gatts_evt.params.write.handle == m_charHandle.value_handle)
         {
+          EVENTS::eventPut(CHARACTERISTIC_WRITE_EVENT_OFFSET + m_eventIDModifier,
+              p_ble_evt->evt.gatts_evt.params.write.data,
+              p_ble_evt->evt.gatts_evt.params.write.len);
+          /*
           if (m_writeHandler != NULL)
           {
            m_writeHandler(p_ble_evt->evt.gatts_evt.params.write.data, p_ble_evt->evt.gatts_evt.params.write.len);
           }
+          */
         }
         break;
+
+      case BLE_GATTS_EVT_HVN_TX_COMPLETE:
+        m_txComplete = true;
+        break;
+
 /*
       case BLE_GATTS_EVT_RW_AUTHORIZE_REQUEST:
         if (p_ble_evt->evt.gatts_evt.params.authorize_request.request.read.handle == m_charHandle.value_handle)

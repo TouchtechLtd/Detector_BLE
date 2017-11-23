@@ -10,6 +10,9 @@
 
 #include <stdint.h>
 
+
+namespace LIS2DH12 {
+
 /** States of the module */
 typedef enum
 {
@@ -249,6 +252,9 @@ extern LIS2DH12_Ret setRegister(uint8_t address, uint8_t dataToWrite);
 
 extern LIS2DH12_Ret clearRegister(uint8_t address, uint8_t dataToClear);
 
-extern LIS2DH12_Ret LIS2DH12_clearRegisters();
+extern LIS2DH12_Ret clearRegisters();
+
+
+} // namespace LIS2DH12
 
 #endif /* _LIS2DH12REG_H_ */

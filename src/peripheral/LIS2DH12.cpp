@@ -23,6 +23,11 @@ For a detailed description see the detailed description in @ref LIS2DH12.h
 #include "debug/DEBUG.h"
 #include "peripheral/timer_interface.h"
 
+#define NRF_LOG_MODULE_NAME LIS2DH12
+NRF_LOG_MODULE_REGISTER();
+
+
+namespace LIS2DH12 {
 
 /* CONSTANTS **************************************************************************************/
 /** Maximum Size of SPI Addresses */
@@ -62,7 +67,6 @@ For a detailed description see the detailed description in @ref LIS2DH12.h
 /* TYPES ******************************************************************************************/
 /** Structure containing sensor data for all 3 axis */
 
-
 /** Union to split raw data to values for each axis */
 typedef union
 {
@@ -92,9 +96,9 @@ static LIS2DH12_Ret selftest(void);
 
 static sensor_buffer_t g_sensorData;                    /**< Union to covert raw data to value for each axis */
 static temperature_t   g_temperatureData;
-static LIS2DH12_PowerMode g_powerMode = LIS2DH12_POWER_DOWN; /**< Current power mode */
-static LIS2DH12_Scale g_scale = LIS2DH12_SCALE2G;       /**< Selected scale */
-static LIS2DH12_SampleRate g_sampleRate = LIS2DH12_SAMPLE_1HZ; /**< Current power mode */
+static power_mode_t g_powerMode   = POWER_DOWN; /**< Current power mode */
+static scale_t g_scale            = SCALE2G;       /**< Selected scale */
+static sample_rate_t g_sampleRate = SAMPLE_1HZ; /**< Current power mode */
 static uint16_t g_sampleRateValue = 0;
 static uint8_t g_mgpb = 1;                              /**< milli-g per bit */
 static uint8_t g_resolution = 10;                        /**< milli-g nb of bits */
@@ -104,7 +108,7 @@ static app_timer_timeout_handler_t g_daHandler;
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
 
-extern LIS2DH12_Ret LIS2DH12_init(LIS2DH12_PowerMode powerMode, LIS2DH12_Scale scale, LIS2DH12_SampleRate sampleRate)
+extern LIS2DH12_Ret init(power_mode_t powerMode, scale_t scale, sample_rate_t sampleRate)
 {
     int retVal = LIS2DH12_RET_OK;
 
@@ -117,22 +121,22 @@ extern LIS2DH12_Ret LIS2DH12_init(LIS2DH12_PowerMode powerMode, LIS2DH12_Scale s
     /* Start Selftest */
     retVal |= selftest();
 
-    LIS2DH12_clearRegisters();
+    clearRegisters();
 
     if (LIS2DH12_RET_OK == retVal)
     {
 
-        LIS2DH12_setScale(scale);
+        setScale(scale);
         /* Set Power Mode */
-        LIS2DH12_setPowerMode(powerMode);
-        LIS2DH12_setSampleRate(sampleRate);
-        LIS2DH12_enableXYZ();
+        setPowerMode(powerMode);
+        setSampleRate(sampleRate);
+        enableXYZ();
     }
 
     return (LIS2DH12_Ret)retVal;
 }
 
-extern LIS2DH12_Ret LIS2DH12_sample()
+extern LIS2DH12_Ret sample()
 {
   LIS2DH12_Ret err_code = LIS2DH12_RET_OK;
   err_code = readRegister(LIS2DH_OUT_X_L, g_sensorData.raw, SENSOR_DATA_SIZE);
@@ -140,7 +144,7 @@ extern LIS2DH12_Ret LIS2DH12_sample()
 }
 
 
-extern LIS2DH12_Ret LIS2DH12_setPowerMode(LIS2DH12_PowerMode powerMode)
+extern LIS2DH12_Ret setPowerMode(power_mode_t powerMode)
 {
   LIS2DH12_Ret err_code = LIS2DH12_RET_OK;
   clearRegister(LIS2DH_CTRL_REG1, LIS2DH_LPEN_MASK);
@@ -148,21 +152,25 @@ extern LIS2DH12_Ret LIS2DH12_setPowerMode(LIS2DH12_PowerMode powerMode)
 
   switch(powerMode)
   {
-    case LIS2DH12_POWER_NORMAL:
+    case POWER_NORMAL:
+        INFO("INTIALISING - Power Mode: Normal");
         g_mgpb = 4;         // 4mg per bits at normal power/2g, adjust by scaling
         g_resolution = 10;
         break;
-    case LIS2DH12_POWER_LOW:
+    case POWER_LOW:
+        INFO("INTIALISING - Power Mode: Low Power");
         setRegister(LIS2DH_CTRL_REG1, LIS2DH_LPEN_MASK);
         g_mgpb = 16;        // 16mg per bits in low power/2g, adjust by scaling
         g_resolution = 8;
         break;
-    case LIS2DH12_POWER_HIGHRES:
+    case POWER_HIGHRES:
+        INFO("INTIALISING - Power Mode: High Resolution");
         setRegister(LIS2DH_CTRL_REG4, LIS2DH_HR_MASK);
         g_mgpb = 1;         // 1 mg bits per mg at high power/2g, adjust by scaling
         g_resolution = 12;
         break;
-    case LIS2DH12_POWER_DOWN:
+    case POWER_DOWN:
+        INFO("INTIALISING - Power Mode: Power Down");
         clearRegister(LIS2DH_CTRL_REG1, LIS2DH_CLEAR_REGISTER_MASK);
         break;
   }
@@ -173,7 +181,7 @@ extern LIS2DH12_Ret LIS2DH12_setPowerMode(LIS2DH12_PowerMode powerMode)
   return err_code;
 
 }
-extern LIS2DH12_Ret LIS2DH12_setSampleRate(LIS2DH12_SampleRate sampleRate)
+extern LIS2DH12_Ret setSampleRate(sample_rate_t sampleRate)
 {
   LIS2DH12_Ret err_code = LIS2DH12_RET_OK;
 
@@ -183,36 +191,41 @@ extern LIS2DH12_Ret LIS2DH12_setSampleRate(LIS2DH12_SampleRate sampleRate)
   g_sampleRate = sampleRate;
   g_sampleRateValue = GET_SAMPLERATE(sampleRate);
 
+  INFO("INTIALISING - Sample Rate: %d", g_sampleRateValue);
+
   return err_code;
 
 }
-extern LIS2DH12_Ret LIS2DH12_setScale(LIS2DH12_Scale scale)
+extern LIS2DH12_Ret setScale(scale_t scale)
 {
   LIS2DH12_Ret err_code = LIS2DH12_RET_OK;
 
   g_scale = scale;
+
   uint8_t ctrl4RegVal = ((uint8_t)g_scale)<<4U;
   clearRegister(LIS2DH_CTRL_REG4 , LIS2DH_FS_MASK);
   setRegister(LIS2DH_CTRL_REG4, ctrl4RegVal);
+
+  INFO("INTIALISING - Scale: %d", g_scale);
 
   return err_code;
 }
 
 
-extern LIS2DH12_Ret LIS2DH12_enableHighPass()
+extern LIS2DH12_Ret enableHighPass()
 {
   uint8_t err_code = LIS2DH12_RET_OK;
   err_code = setRegister(LIS2DH_CTRL_REG2, LIS2DH_FDS_MASK);
-  err_code |= LIS2DH12_setHighPassReference();
+  err_code |= setHighPassReference();
   return (LIS2DH12_Ret) err_code;
 }
-extern LIS2DH12_Ret LIS2DH12_disableHighPass()
+extern LIS2DH12_Ret disableHighPass()
 {
   LIS2DH12_Ret err_code = LIS2DH12_RET_OK;
   err_code = clearRegister(LIS2DH_CTRL_REG2, LIS2DH_FDS_MASK);
   return err_code;
 }
-extern LIS2DH12_Ret LIS2DH12_setHighPassReference()
+extern LIS2DH12_Ret setHighPassReference()
 {
   LIS2DH12_Ret err_code = LIS2DH12_RET_OK;
   // Read REFERENCE
@@ -224,7 +237,7 @@ extern LIS2DH12_Ret LIS2DH12_setHighPassReference()
 
 
 
-extern LIS2DH12_Ret LIS2DH12_enableTemperatureSensor()
+extern LIS2DH12_Ret enableTemperatureSensor()
 {
   uint8_t err_code = LIS2DH12_RET_OK;
   err_code = setRegister(LIS2DH_TEMP_CFG_REG, LIS2DH_TEMP_EN_MASK);
@@ -233,7 +246,7 @@ extern LIS2DH12_Ret LIS2DH12_enableTemperatureSensor()
   return (LIS2DH12_Ret) err_code;
 }
 
-extern LIS2DH12_Ret LIS2DH12_updateTemperatureSensor()
+extern LIS2DH12_Ret updateTemperatureSensor()
 {
   uint8_t err_code = LIS2DH12_RET_OK;
 
@@ -242,7 +255,7 @@ extern LIS2DH12_Ret LIS2DH12_updateTemperatureSensor()
 }
 
 
-extern LIS2DH12_Ret LIS2DH12_getTemperature(int32_t* const temp)
+extern LIS2DH12_Ret getTemperature(int32_t* const temp)
 {
   if (temp == NULL) { return LIS2DH12_RET_NULL; }
 
@@ -255,43 +268,43 @@ extern LIS2DH12_Ret LIS2DH12_getTemperature(int32_t* const temp)
 
 
 
-extern LIS2DH12_Ret LIS2DH12_enableX()
+extern LIS2DH12_Ret enableX()
 {
   LIS2DH12_Ret err_code = LIS2DH12_RET_OK;
   err_code = setRegister(LIS2DH_CTRL_REG1, LIS2DH_X_EN_MASK);
   return err_code;
 }
-extern LIS2DH12_Ret LIS2DH12_enableY()
+extern LIS2DH12_Ret enableY()
 {
   LIS2DH12_Ret err_code = LIS2DH12_RET_OK;
   err_code = setRegister(LIS2DH_CTRL_REG1, LIS2DH_Y_EN_MASK);
   return err_code;
 }
-extern LIS2DH12_Ret LIS2DH12_enableZ()
+extern LIS2DH12_Ret enableZ()
 {
   LIS2DH12_Ret err_code = LIS2DH12_RET_OK;
   err_code = setRegister(LIS2DH_CTRL_REG1, LIS2DH_Z_EN_MASK);
   return err_code;
 }
-extern LIS2DH12_Ret LIS2DH12_enableXYZ()
+extern LIS2DH12_Ret enableXYZ()
 {
   LIS2DH12_Ret err_code = LIS2DH12_RET_OK;
   err_code = setRegister(LIS2DH_CTRL_REG1, LIS2DH_XYZ_EN_MASK);
   return err_code;
 }
-extern LIS2DH12_Ret LIS2DH12_disableX()
+extern LIS2DH12_Ret disableX()
 {
   LIS2DH12_Ret err_code = LIS2DH12_RET_OK;
   err_code = clearRegister(LIS2DH_CTRL_REG1, LIS2DH_X_EN_MASK);
   return err_code;
 }
-extern LIS2DH12_Ret LIS2DH12_disableY()
+extern LIS2DH12_Ret disableY()
 {
   LIS2DH12_Ret err_code = LIS2DH12_RET_OK;
   err_code = clearRegister(LIS2DH_CTRL_REG1, LIS2DH_Y_EN_MASK);
   return err_code;
 }
-extern LIS2DH12_Ret LIS2DH12_disableZ()
+extern LIS2DH12_Ret disableZ()
 {
   LIS2DH12_Ret err_code = LIS2DH12_RET_OK;
   err_code = clearRegister(LIS2DH_CTRL_REG1, LIS2DH_Z_EN_MASK);
@@ -300,7 +313,7 @@ extern LIS2DH12_Ret LIS2DH12_disableZ()
 
 
 
-extern LIS2DH12_Ret LIS2DH12_getXmG(int32_t* const accX)
+extern LIS2DH12_Ret getXmG(int32_t* const accX)
 {
   if (accX == NULL) { return LIS2DH12_RET_NULL; }
 
@@ -311,7 +324,7 @@ extern LIS2DH12_Ret LIS2DH12_getXmG(int32_t* const accX)
   return LIS2DH12_RET_OK;
 }
 
-extern LIS2DH12_Ret LIS2DH12_getYmG(int32_t* const accY)
+extern LIS2DH12_Ret getYmG(int32_t* const accY)
 {
   if (accY == NULL) { return LIS2DH12_RET_NULL; }
 
@@ -322,7 +335,7 @@ extern LIS2DH12_Ret LIS2DH12_getYmG(int32_t* const accY)
   return LIS2DH12_RET_OK;
 }
 
-extern LIS2DH12_Ret LIS2DH12_getZmG(int32_t* const accZ)
+extern LIS2DH12_Ret getZmG(int32_t* const accZ)
 {
   if (accZ == NULL) { return LIS2DH12_RET_NULL; }
 
@@ -333,13 +346,13 @@ extern LIS2DH12_Ret LIS2DH12_getZmG(int32_t* const accZ)
   return LIS2DH12_RET_OK;
 }
 
-extern LIS2DH12_Ret LIS2DH12_accToMgConverter(int16_t acc, int16_t* mgOut)
+extern void accToMgConverter(int16_t acc, int16_t* mgOut)
 {
   int32_t tmpMg = (((32768+acc)>>(16-g_resolution))-(1<<(g_resolution-1)))*(g_mgpb << g_scale) ;
   *mgOut = tmpMg;
 }
 
-extern LIS2DH12_Ret LIS2DH12_getALLmG(int32_t* const accX, int32_t* const accY, int32_t* const accZ)
+extern LIS2DH12_Ret getALLmG(int32_t* const accX, int32_t* const accY, int32_t* const accZ)
 {
 
     if ((NULL == accX) || (NULL == accY) || (NULL == accZ))
@@ -347,39 +360,41 @@ extern LIS2DH12_Ret LIS2DH12_getALLmG(int32_t* const accX, int32_t* const accY, 
         return LIS2DH12_RET_NULL;
     }
 
-    LIS2DH12_getXmG(accX);
-    LIS2DH12_getYmG(accY);
-    LIS2DH12_getZmG(accZ);
+    getXmG(accX);
+    getYmG(accY);
+    getZmG(accZ);
 
     return LIS2DH12_RET_OK;
 }
 
-extern LIS2DH12_Ret LIS2DH12_getAccelerationData_16Bit(acceleration_t* const p_accData)
+extern LIS2DH12_Ret getAccelerationData(acceleration_t* const p_accData)
 {
   if (p_accData == NULL) { return LIS2DH12_RET_NULL; }
 
-  LIS2DH12_accToMgConverter(g_sensorData.sensor.x, &p_accData->x);
-  LIS2DH12_accToMgConverter(g_sensorData.sensor.y, &p_accData->y);
-  LIS2DH12_accToMgConverter(g_sensorData.sensor.z, &p_accData->z);
+  accToMgConverter(g_sensorData.sensor.x, &p_accData->x);
+  accToMgConverter(g_sensorData.sensor.y, &p_accData->y);
+  accToMgConverter(g_sensorData.sensor.z, &p_accData->z);
 
   return LIS2DH12_RET_OK;
 }
 
 
-extern LIS2DH12_Ret LIS2DH12_getAccelerationData_8Bit(acceleration_8b_t* const p_accData)
+extern LIS2DH12_Ret getAccelerationData(acceleration_8b_t* const p_accData)
 {
 
   if (p_accData == NULL) { return LIS2DH12_RET_NULL; }
 
   int16_t tmp_accX, tmp_accY, tmp_accZ = 0;
 
-  LIS2DH12_accToMgConverter(g_sensorData.sensor.x, &tmp_accX);
-  LIS2DH12_accToMgConverter(g_sensorData.sensor.y, &tmp_accY);
-  LIS2DH12_accToMgConverter(g_sensorData.sensor.z, &tmp_accZ);
+  accToMgConverter(g_sensorData.sensor.x, &tmp_accX);
+  accToMgConverter(g_sensorData.sensor.y, &tmp_accY);
+  accToMgConverter(g_sensorData.sensor.z, &tmp_accZ);
 
   p_accData->x = tmp_accX >> 5;
   p_accData->y = tmp_accY >> 5;
   p_accData->z = tmp_accZ >> 5;
+
+  return LIS2DH12_RET_OK;
 }
 
 /* INTERRUPT FUNCTIONS *****************************************************************************/
@@ -409,7 +424,7 @@ static uint8_t findInterruptThreshold(uint16_t intThreshold_mg)
 }
 
 
-extern void LIS2DH12_clearInterrupts()
+extern void clearInterrupts()
 {
   uint8_t dummyRead[1];
   readRegister(LIS2DH_INT1_SOURCE, dummyRead, 1);
@@ -419,50 +434,57 @@ extern void LIS2DH12_clearInterrupts()
 
 
 
-extern void LIS2DH12_setInterruptThreshold(uint16_t threshold)
+extern void setInterruptThreshold(uint16_t threshold)
 {
   // Set threshold on INT1
   uint8_t intThreshold = findInterruptThreshold(threshold);
-  DEBUG("Threshold: 0x%02x", intThreshold);
+  INFO("SETTING - Threshold Value: 0x%02x", intThreshold);
   clearRegister(LIS2DH_INT1_THS, LIS2DH_CLEAR_REGISTER_MASK);
   setRegister(LIS2DH_INT1_THS, intThreshold);
 }
 
 
-extern void LIS2DH12_setInterruptDuration(uint8_t duration)
+extern void setInterruptDuration(uint8_t duration)
 {
   // Set duration on INT1
   uint8_t intDuration = findInterruptDuration(duration);
-  DEBUG("Duration: 0x%02x", intDuration);
+  INFO("SETTING - Threshold Duration: 0x%02x", intDuration);
   clearRegister(LIS2DH_INT1_DURATION, LIS2DH_CLEAR_REGISTER_MASK);
   setRegister(LIS2DH_INT1_DURATION, intDuration);
 }
 
 
-extern void LIS2DH12_setInterruptHandler(gpio_event_handler_t handler)
+extern void setInterruptHandler(gpio_event_handler_t handler)
 {
 #ifdef BOARD_RUUVITAG_B3
-  if (GPIO::interruptIsSet(INT_ACC2_PIN))
-  {
-    GPIO::interruptClear(INT_ACC2_PIN);
-  }
+
+  GPIO::interruptClear(INT_ACC2_PIN);
 
   GPIO::initIntInput(INT_ACC2_PIN,
           NRF_GPIOTE_POLARITY_LOTOHI,
-          NRF_GPIO_PIN_NOPULL,
+          NRF_GPIO_PIN_PULLDOWN,
           false,
           false,
           handler);
 
+  nrf_delay_ms(100);
 
   GPIO::interruptEnable(INT_ACC2_PIN);
 #endif
 }
 
+extern void clearInterruptHandler()
+{
+  #ifdef BOARD_RUUVITAG_B3
+  GPIO::interruptClear(INT_ACC2_PIN);
+  #endif
 
-extern void LIS2DH12_initThresholdInterrupt(uint16_t threshold,
+}
+
+
+extern void initThresholdInterrupt(uint16_t threshold,
                                              uint8_t duration,
-                                             LIS2DH12_InterruptThresholdMask intThreshMask,
+                                             interrupt_threshold_mask_t intThreshMask,
                                              bool latchEnabled,
                                              gpio_event_handler_t handler)
 {
@@ -471,15 +493,15 @@ extern void LIS2DH12_initThresholdInterrupt(uint16_t threshold,
 
   // Enable HPF on INT1
   setRegister(LIS2DH_CTRL_REG2, LIS2DH_HPIS1_MASK);
-  LIS2DH12_setHighPassReference();
+  setHighPassReference();
 
   if (latchEnabled) {
     // Enable/ Disable Latch on INT1
     setRegister(LIS2DH_CTRL_REG5, LIS2DH_LIR_INT1_MASK);
   }
 
-  LIS2DH12_setInterruptThreshold(threshold);
-  LIS2DH12_setInterruptDuration(duration);
+  setInterruptThreshold(threshold);
+  setInterruptDuration(duration);
 
   // Set cfg on INT1
   setRegister(LIS2DH_INT1_CFG, intThreshMask);
@@ -487,12 +509,12 @@ extern void LIS2DH12_initThresholdInterrupt(uint16_t threshold,
   //Enable Interrupt on INT1
   setRegister(LIS2DH_CTRL_REG6, LIS2DH_I1_IA1);
 
-  LIS2DH12_setInterruptHandler(handler);
+  setInterruptHandler(handler);
 
 }
 
 
-extern void LIS2DH12_initDAPolling(app_timer_timeout_handler_t handler)
+extern void initDAPolling(app_timer_timeout_handler_t handler)
 {
 #ifdef BOARD_RUUVITAG_B3
   GPIO::setInput(INT_ACC1_PIN);
@@ -502,13 +524,13 @@ extern void LIS2DH12_initDAPolling(app_timer_timeout_handler_t handler)
   setRegister(LIS2DH_CTRL_REG3, LIS2DH_I1_DRDY2);
 }
 
-extern void LIS2DH12_startDAPolling()
+extern void startDAPolling()
 {
   g_daTimer.startTimer(1000/ g_sampleRateValue, g_daHandler);
 }
 
 
-extern void LIS2DH12_stopDAPolling()
+extern void stopDAPolling()
 {
   g_daTimer.stopTimer();
 }
@@ -530,6 +552,7 @@ static LIS2DH12_Ret selftest(void)
 }
 
 
+} // namespace LIS2DH12
 
 
 

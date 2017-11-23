@@ -31,6 +31,9 @@
 #include "debug/DEBUG.h"
 
 
+#define NRF_LOG_MODULE_NAME BLE
+NRF_LOG_MODULE_REGISTER();
+
 #define APP_FEATURE_NOT_SUPPORTED       BLE_GATT_STATUS_ATTERR_APP_BEGIN + 2    /**< Reply when unsupported features are requested. */
 
 #define APP_BLE_OBSERVER_PRIO           3                                       //!< Application's BLE observer priority. You shouldn't need to modify this value.
@@ -42,6 +45,7 @@
 
 #define MEM_BUFF_SIZE                   512
 #define DEAD_BEEF                       0xDEADBEEF                              /**< Value used as error code on stack dump, can be used to identify stack location on stack unwind. */
+
 
 
 namespace BLE_SERVER
@@ -57,6 +61,7 @@ static Service m_serviceList[MAX_NUMBER_SERVICES] = {0};
 static uint8_t m_serviceCount = 0;
 static bool m_isConnected = false;
 static bool m_txEvent     = false;
+static BLEPowerLevel m_powerLevel = BLE_POWER_0_DB;
 
 static void ble_stack_init();
 static void gatt_init();
@@ -129,13 +134,15 @@ void on_ble_evt(ble_evt_t const * p_ble_evt, void* context)
     {
 
         case BLE_GAP_EVT_CONNECTED:
-            INFO("Device connected to BLE");
+            INFO("Event: Device connected to BLE");
+            EVENTS::eventPut(BLE_CONNECTED_EVENT);
             m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
             m_isConnected = true;
             break; // BLE_GAP_EVT_CONNECTED
 
         case BLE_GAP_EVT_DISCONNECTED:
-            INFO("Deviced disconnected from BLE");
+            INFO("Event: Deviced disconnected from BLE");
+            EVENTS::eventPut(BLE_DISCONNECTED_EVENT);
             m_conn_handle = BLE_CONN_HANDLE_INVALID;
             m_isConnected = false;
             break; // BLE_GAP_EVT_DISCONNECTED
@@ -157,7 +164,7 @@ void on_ble_evt(ble_evt_t const * p_ble_evt, void* context)
 
         case BLE_GATTC_EVT_TIMEOUT:
             // Disconnect on GATT Client timeout event.
-            DEBUG("GATT Client Timeout.\r\n");
+            INFO("Event: GATT Client Timeout.\r\n");
             err_code = sd_ble_gap_disconnect(p_ble_evt->evt.gattc_evt.conn_handle,
                                              BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
             ERROR_CHECK(err_code);
@@ -165,7 +172,7 @@ void on_ble_evt(ble_evt_t const * p_ble_evt, void* context)
 
         case BLE_GATTS_EVT_TIMEOUT:
             // Disconnect on GATT Server timeout event.
-            DEBUG("GATT Server Timeout.\r\n");
+            INFO("Event: GATT Server Timeout.\r\n");
             err_code = sd_ble_gap_disconnect(p_ble_evt->evt.gatts_evt.conn_handle,
                                              BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
             ERROR_CHECK(err_code);
@@ -199,30 +206,6 @@ void on_ble_evt(ble_evt_t const * p_ble_evt, void* context)
             err_code = sd_ble_gatts_rw_authorize_reply(p_ble_evt->evt.gatts_evt.conn_handle,
                                                        &auth_reply);
             ERROR_CHECK(err_code);
-
-            /*
-
-            if (req.type != BLE_GATTS_AUTHORIZE_TYPE_INVALID)
-            {
-                if ((req.request.write.op == BLE_GATTS_OP_PREP_WRITE_REQ)     ||
-                    (req.request.write.op == BLE_GATTS_OP_EXEC_WRITE_REQ_NOW) ||
-                    (req.request.write.op == BLE_GATTS_OP_EXEC_WRITE_REQ_CANCEL))
-                {
-                    if (req.type == BLE_GATTS_AUTHORIZE_TYPE_WRITE)
-                    {
-                        auth_reply.type = BLE_GATTS_AUTHORIZE_TYPE_WRITE;
-                    }
-                    else
-                    {
-                        auth_reply.type = BLE_GATTS_AUTHORIZE_TYPE_READ;
-                    }
-                    auth_reply.params.write.gatt_status = APP_FEATURE_NOT_SUPPORTED;
-                    err_code = sd_ble_gatts_rw_authorize_reply(p_ble_evt->evt.gatts_evt.conn_handle,
-                                                               &auth_reply);
-                    ERROR_CHECK(err_code);
-                }
-            }
-            */
 
         } break; // BLE_GATTS_EVT_RW_AUTHORIZE_REQUEST
 
@@ -309,60 +292,13 @@ void conn_params_init(void)
 
 void setPower(BLEPowerLevel powerLevel)
 {
-  uint32_t err_code = sd_ble_gap_tx_power_set(powerLevel);
-  ERROR_CHECK(err_code);
-}
-
-
-
-
-/**@brief Function for handling BLE events.
- *
- * @param[in]   p_ble_evt   Bluetooth stack event.
- * @param[in]   p_context   Unused.
- */
-void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
-{
-    ret_code_t err_code = NRF_SUCCESS;
-
-    EVENTS::eventPut(BLE_STATE_CHANGE_EVENT, 0);
-
-    switch (p_ble_evt->header.evt_id)
-    {
-        case BLE_GAP_EVT_CONNECTED:
-            INFO("Connected");
-            m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
-            EVENTS::eventPut(BLE_CONNECTED_EVENT, 0);
-            break;
-
-        case BLE_GAP_EVT_DISCONNECTED:
-            INFO("Disconnected");
-            EVENTS::eventPut(BLE_DISCONNECTED_EVENT, 0);
-            m_conn_handle = BLE_CONN_HANDLE_INVALID;
-            break;
-
-
-        case BLE_GATTC_EVT_TIMEOUT:
-            // Disconnect on GATT Client timeout event.
-            DEBUG("GATT Client Timeout.");
-            err_code = sd_ble_gap_disconnect(p_ble_evt->evt.gattc_evt.conn_handle,
-                                             BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
-            ERROR_CHECK(err_code);
-            break;
-
-        case BLE_GATTS_EVT_TIMEOUT:
-            // Disconnect on GATT Server timeout event.
-            DEBUG("GATT Server Timeout.");
-            err_code = sd_ble_gap_disconnect(p_ble_evt->evt.gatts_evt.conn_handle,
-                                             BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
-            ERROR_CHECK(err_code);
-            break;
-
-        default:
-            // No implementation needed.
-            break;
-    }
-
+  if (powerLevel != m_powerLevel)
+  {
+    INFO("SETTING - TX Power: %ddB", powerLevel);
+    uint32_t err_code = sd_ble_gap_tx_power_set(powerLevel);
+    m_powerLevel = powerLevel;
+    ERROR_CHECK(err_code);
+  }
 }
 
 
@@ -378,7 +314,7 @@ void ble_evt_dispatch(ble_evt_t const * p_ble_evt, void* context)
 {
   //ble_evt_t * p_ble_evt = (ble_evt_t*) data.p_data;
 
-  DEBUG("Dispatching event: %d", p_ble_evt->header.evt_id);
+  INFO("Event: %d dispatching", p_ble_evt->header.evt_id);
   for (int i = 0; i < MAX_NUMBER_SERVICES; i++)
   {
     if (m_serviceList[i].isRunning()) { m_serviceList[i].eventHandler(p_ble_evt); }
