@@ -22,7 +22,7 @@ NRF_LOG_MODULE_REGISTER();
 
 namespace TrapState
 {
-static StateMachine detectorStateMachine(WAIT_STATE, MAX_STATES, MAX_EVENTS);
+static StateMachine detectorStateMachine;
 
 Timer movementCountdown;
 Timer trapBufferCountdown;
@@ -77,17 +77,18 @@ detector_state_e getState()
 
 void trapBufferCountdownHandler(void* p_context)
 {
-  detectorStateMachine.transition(BUFFER_END_EVENT);
+  //detectorStateMachine.transition(BUFFER_END_EVENT);
+  EVENTS::eventPut(TRAP_BUFFER_END_EVENT);
 }
 
 void moveBufferCountdownHandler(void* p_context)
 {
-  detectorStateMachine.transition(MOVEMENT_BUFFER_END_EVENT);
+  EVENTS::eventPut(MOVEMENT_BUFFER_END_EVENT);
 }
 
 void movementCountdownHandler(void* p_context)
 {
-  detectorStateMachine.transition(SET_BUFFER_END_EVENT);
+  EVENTS::eventPut(SET_BUFFER_END_EVENT);
 }
 
 
@@ -98,7 +99,6 @@ void movementCountdownHandler(void* p_context)
 
 void triggeredFromWaitTransition()
 {
-  EVENTS::eventPut(TRAP_TRIGGERED_EVENT);
   EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
 
   INFO("TRANSITION - Wait to Trap Buffer");
@@ -111,7 +111,7 @@ void trapBufferEndedTransition()
 
   INFO("TRANSITION - Trap Buffer to Move Buffer");
   moveBufferCountdown.startCountdown(detectorConfig.moveBufferLength, moveBufferCountdownHandler);
-  LIS2DH12::setInterruptThreshold(detectorConfig.moveThreshold);
+  LIS2DH12::setInterruptThreshold(detectorConfig.moveThreshold, LIS2DH12::INTERRUPT_1);
 }
 
 void moveBufferEndedTransition()
@@ -120,12 +120,11 @@ void moveBufferEndedTransition()
   EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
 
   INFO("TRANSITION - Move Buffer to Wait");
-  LIS2DH12::setInterruptThreshold(detectorConfig.triggerThreshold);
+  LIS2DH12::setInterruptThreshold(detectorConfig.triggerThreshold, LIS2DH12::INTERRUPT_1);
 }
 
 void triggeredFromMoveTransition()
 {
-  EVENTS::eventPut(TRAP_MOVING_EVENT);
   EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
 
   INFO("TRANSITION - Move Buffer to Set Buffer");
@@ -136,10 +135,9 @@ void triggeredFromMoveTransition()
 void moveToWaitTransition()
 {
   EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
-  EVENTS::eventPut(TRAP_SET_EVENT);
 
   INFO("TRANSITION - Set Buffer to Wait");
-  LIS2DH12::setInterruptThreshold(detectorConfig.triggerThreshold);
+  LIS2DH12::setInterruptThreshold(detectorConfig.triggerThreshold, LIS2DH12::INTERRUPT_1);
 }
 
 ///////////////////////////////////////////////////
@@ -148,15 +146,24 @@ void moveToWaitTransition()
 
 void accTriggeredHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
-  LIS2DH12::clearInterrupts();
   INFO("Event: Accelerometer Triggered");
-  detectorStateMachine.transition(TRIGGERED_EVENT);
+  //detectorStateMachine.transition(TRIGGERED_EVENT);
 
+  EVENTS::eventPut(TRAP_TRIGGERED_EVENT);
 }
 
 void simulateTrigger()
 {
   accTriggeredHandler(0, NRF_GPIOTE_POLARITY_LOTOHI);
+}
+
+
+void positionTriggered(void*)
+{
+  if (LIS2DH12::getInterruptSource(LIS2DH12::INTERRUPT_2) == LIS2DH12::INTERRUPT_SOURCE_ZL)
+  {
+    EVENTS::eventPut(UPSIDE_DOWN_EVENT);
+  }
 }
 
 ///////////////////////////////////////////////////
@@ -168,29 +175,41 @@ void simulateTrigger()
 void createTransitionTable(void)
 {
   /*                                      Start state,        End state,          Triggered by,               Transition handler */
-  detectorStateMachine.registerTransition(WAIT_STATE,         EVENT_BUFFER_STATE, TRIGGERED_EVENT,           &triggeredFromWaitTransition);
-  detectorStateMachine.registerTransition(EVENT_BUFFER_STATE, IGNORED,            TRIGGERED_EVENT,           NULL);
-  detectorStateMachine.registerTransition(EVENT_BUFFER_STATE, DETECT_MOVE_STATE,  BUFFER_END_EVENT,          &trapBufferEndedTransition);
+  detectorStateMachine.registerTransition(WAIT_STATE,         EVENT_BUFFER_STATE, TRAP_TRIGGERED_EVENT,      &triggeredFromWaitTransition);
+  detectorStateMachine.registerTransition(EVENT_BUFFER_STATE, DETECT_MOVE_STATE,  TRAP_BUFFER_END_EVENT,     &trapBufferEndedTransition);
   detectorStateMachine.registerTransition(DETECT_MOVE_STATE,  WAIT_STATE,         MOVEMENT_BUFFER_END_EVENT, &moveBufferEndedTransition);
-  detectorStateMachine.registerTransition(DETECT_MOVE_STATE,  MOVING_STATE,       TRIGGERED_EVENT,           &triggeredFromMoveTransition);
-  detectorStateMachine.registerTransition(MOVING_STATE,       MOVING_STATE,       TRIGGERED_EVENT,           &triggeredFromMoveTransition);
-  detectorStateMachine.registerTransition(MOVING_STATE,       WAIT_STATE,         SET_BUFFER_END_EVENT,      &moveToWaitTransition);
-  detectorStateMachine.registerTransition(MOVING_STATE,       IGNORED,            MOVEMENT_BUFFER_END_EVENT, NULL);
+  //detectorStateMachine.registerTransition(DETECT_MOVE_STATE,  MOVING_STATE,       TRAP_TRIGGERED_EVENT,      &triggeredFromMoveTransition);
+  //detectorStateMachine.registerTransition(MOVING_STATE,       MOVING_STATE,       TRAP_TRIGGERED_EVENT,      &triggeredFromMoveTransition);
+  //detectorStateMachine.registerTransition(MOVING_STATE,       WAIT_STATE,         SET_BUFFER_END_EVENT,      &moveToWaitTransition);
+  detectorStateMachine.registerTransition(EVENT_BUFFER_STATE, WAIT_STATE,         0x1505,                    &stop);
+  detectorStateMachine.registerTransition(DETECT_MOVE_STATE,  WAIT_STATE,         0x1505,                    &stop);
+  detectorStateMachine.registerTransition(MOVING_STATE,       WAIT_STATE,         0x1505,                    &stop);
+  detectorStateMachine.registerTransition(WAIT_STATE,         WAIT_STATE,         0x1505,                    &stop);
+
 
 }
 
 void initialise()
 {
-  LIS2DH12::initThresholdInterrupt(detectorConfig.triggerThreshold, detectorConfig.triggerDuration, LIS2DH12::INTERRUPT_THRESHOLD_XYZ, true, accTriggeredHandler);
+  LIS2DH12::initThresholdInterrupt(detectorConfig.triggerThreshold, detectorConfig.triggerDuration, LIS2DH12::INTERRUPT_2, LIS2DH12::INTERRUPT_THRESHOLD_XYZ, true, accTriggeredHandler);
   LIS2DH12::clearInterrupts();
+
+/*
+  Timer testTimer;
+  testTimer.startTimer(2000, positionTriggered);
+
+  LIS2DH12::initThresholdInterrupt(800, 100, LIS2DH12::INTERRUPT_2, LIS2DH12::INTERRUPT_MOVEMENT_Z, false, NULL);
+  LIS2DH12::clearInterrupts();
+  */
   createTransitionTable();
   detectorStateMachine.start(WAIT_STATE);
 }
 
 void stop()
 {
+  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
   detectorStateMachine.stop();
-  LIS2DH12::clearInterruptHandler();
+  LIS2DH12::clearInterrupts();
 }
 
 

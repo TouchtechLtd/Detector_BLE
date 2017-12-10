@@ -67,9 +67,9 @@ typedef enum{
 
 /** Available Interrupts */
 typedef enum{
-  INTERRUPT_PIN_1 = 0,
-  INTERRUPT_PIN_2 = 1
-} InterruptPinNumber;
+  INTERRUPT_1 = 0,
+  INTERRUPT_2 = 1
+} interrupt_number_t;
 
 /** Available Interrupts */
 typedef enum{
@@ -80,7 +80,35 @@ typedef enum{
   INTERRUPT_THRESHOLD_XZ = LIS2DH_XHIE_MASK | LIS2DH_ZHIE_MASK,
   INTERRUPT_THRESHOLD_YZ = LIS2DH_YHIE_MASK | LIS2DH_ZHIE_MASK,
   INTERRUPT_THRESHOLD_XYZ = LIS2DH_XYZ_HIE_MASK,
-} interrupt_threshold_mask_t;
+  INTERRUPT_MOVEMENT_XH = LIS2DH_6D_MASK | LIS2DH_XHIE_MASK,
+  INTERRUPT_MOVEMENT_XL = LIS2DH_6D_MASK | LIS2DH_XLIE_MASK,
+  INTERRUPT_MOVEMENT_X =  LIS2DH_6D_MASK | LIS2DH_XLIE_MASK | LIS2DH_XHIE_MASK,
+  INTERRUPT_MOVEMENT_YH = LIS2DH_6D_MASK | LIS2DH_YHIE_MASK,
+  INTERRUPT_MOVEMENT_YL = LIS2DH_6D_MASK | LIS2DH_YLIE_MASK,
+  INTERRUPT_MOVEMENT_Y =  LIS2DH_6D_MASK | LIS2DH_YLIE_MASK | LIS2DH_YHIE_MASK,
+  INTERRUPT_MOVEMENT_ZH = LIS2DH_6D_MASK | LIS2DH_XHIE_MASK,
+  INTERRUPT_MOVEMENT_ZL = LIS2DH_6D_MASK | LIS2DH_XLIE_MASK,
+  INTERRUPT_MOVEMENT_Z =  LIS2DH_6D_MASK | LIS2DH_ZLIE_MASK | LIS2DH_ZHIE_MASK,
+  INTERRUPT_POSITION_XH = LIS2DH_AOI_MASK | LIS2DH_6D_MASK | LIS2DH_XHIE_MASK,
+  INTERRUPT_POSITION_XL = LIS2DH_AOI_MASK | LIS2DH_6D_MASK | LIS2DH_XLIE_MASK,
+  INTERRUPT_POSITION_X =  LIS2DH_AOI_MASK | LIS2DH_6D_MASK | LIS2DH_XLIE_MASK | LIS2DH_XHIE_MASK,
+  INTERRUPT_POSITION_YH = LIS2DH_AOI_MASK | LIS2DH_6D_MASK | LIS2DH_YHIE_MASK,
+  INTERRUPT_POSITION_YL = LIS2DH_AOI_MASK | LIS2DH_6D_MASK | LIS2DH_YLIE_MASK,
+  INTERRUPT_POSITION_Y =  LIS2DH_AOI_MASK | LIS2DH_6D_MASK | LIS2DH_YLIE_MASK | LIS2DH_YHIE_MASK,
+  INTERRUPT_POSITION_ZH = LIS2DH_AOI_MASK | LIS2DH_6D_MASK | LIS2DH_XHIE_MASK,
+  INTERRUPT_POSITION_ZL = LIS2DH_AOI_MASK | LIS2DH_6D_MASK | LIS2DH_XLIE_MASK,
+  INTERRUPT_POSITION_Z =  LIS2DH_AOI_MASK | LIS2DH_6D_MASK | LIS2DH_ZLIE_MASK | LIS2DH_ZHIE_MASK,
+} interrupt_mode_t;
+
+
+typedef enum{
+  INTERRUPT_SOURCE_XL = 0x01,
+  INTERRUPT_SOURCE_XH = 0x02,
+  INTERRUPT_SOURCE_YL = 0x04,
+  INTERRUPT_SOURCE_YH = 0x08,
+  INTERRUPT_SOURCE_ZL = 0x10,
+  INTERRUPT_SOURCE_ZH = 0x20
+} interrupt_source_trigger_t;
 
 
 /** Available Scales */
@@ -139,6 +167,7 @@ extern LIS2DH12_Ret sample();
 
 extern LIS2DH12_Ret enableHighPass();
 extern LIS2DH12_Ret disableHighPass();
+extern LIS2DH12_Ret enableFIFO();
 extern LIS2DH12_Ret setHighPassReference();
 extern LIS2DH12_Ret enableTemperatureSensor();
 extern LIS2DH12_Ret updateTemperatureSensor();
@@ -205,16 +234,19 @@ extern LIS2DH12_Ret getAccelerationData(acceleration_8b_t* accData);
 
 extern void clearInterrupts();
 
-extern void setInterruptThreshold(uint16_t threshold);
-extern void setInterruptDuration(uint8_t duration);
+extern void setInterruptThreshold(uint16_t threshold, interrupt_number_t intNum);
+extern void setInterruptDuration(uint8_t duration,    interrupt_number_t intNum);
 extern void setInterruptHandler(gpio_event_handler_t handler);
 extern void clearInterruptHandler();
-extern void initThresholdInterrupt(uint16_t threshold,
-                                             uint8_t duration,
-                                             interrupt_threshold_mask_t intThreshMask,
-                                             bool latchEnabled,
-                                             gpio_event_handler_t handler);
 
+extern void initThresholdInterrupt(uint16_t threshold,
+                                   uint8_t duration,
+                                   interrupt_number_t intNum,
+                                   interrupt_mode_t mode,
+                                   bool latchEnabled,
+                                   gpio_event_handler_t handler);
+
+extern uint8_t getInterruptSource(interrupt_number_t intNum);
 
 
 extern void initDAPolling(app_timer_timeout_handler_t handler);

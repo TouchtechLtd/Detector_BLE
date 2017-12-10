@@ -139,7 +139,7 @@ void ADC::start() {
 
 	if (peripheralCount % SAMPLES_IN_BUFFER != 0)
 	{
-		DEBUG("Samples need to be multiple of initialised ADC");
+		INFO("Samples need to be multiple of initialised ADC");
 	}
 
 	uint32_t err_code;

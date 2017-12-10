@@ -60,6 +60,18 @@ namespace LIS2DH12 {
 /** Max */
 #define MAX_INTERRUPT_THRESHOLD 0x7FU
 
+#ifdef BOARD_RUUVITAG_B3
+
+#define INT1_PIN INT_ACC1_PIN
+#define INT2_PIN INT_ACC2_PIN
+
+#else
+
+#define INT1_PIN 0
+#define INT2_PIN 0
+
+#endif
+
 /* MACROS *****************************************************************************************/
 
 #define GET_SAMPLERATE(samplerate) sampleRateLookup[(samplerate >> 4) - 1]
@@ -86,6 +98,47 @@ static const uint16_t sampleRateLookup[] =
     1, 10, 25, 50, 100, 200, 400
 };
 
+typedef struct
+{
+  uint8_t highpassMask;
+  uint8_t latchMask;
+  uint8_t cfgRegister;
+  uint8_t srcRegister;
+  uint8_t thresholdRegister;
+  uint8_t durationRegister;
+  uint8_t enableMask;
+  uint8_t enableRegister;
+  uint8_t interruptPin;
+}interrupt_lookup_t;
+
+interrupt_lookup_t interrupt1 =
+{
+    LIS2DH_HPIS1_MASK,
+    LIS2DH_LIR_INT1_MASK,
+    LIS2DH_INT1_CFG,
+    LIS2DH_INT1_SOURCE,
+    LIS2DH_INT1_THS,
+    LIS2DH_INT1_DURATION,
+    LIS2DH_I1_IA1,
+    LIS2DH_CTRL_REG3,
+    INT1_PIN
+};
+
+interrupt_lookup_t interrupt2 =
+{
+    LIS2DH_HPIS2_MASK,
+    LIS2DH_LIR_INT2_MASK,
+    LIS2DH_INT2_CFG,
+    LIS2DH_INT2_SOURCE,
+    LIS2DH_INT2_THS,
+    LIS2DH_INT2_DURATION,
+    LIS2DH_I2_IA2,
+    LIS2DH_CTRL_REG6,
+    INT2_PIN
+};
+
+interrupt_lookup_t interrupts[2] = { interrupt1, interrupt2 };
+
 
 /* PROTOTYPES *************************************************************************************/
 
@@ -105,6 +158,8 @@ static uint8_t g_resolution = 10;                        /**< milli-g nb of bits
 
 static Timer g_daTimer;
 static app_timer_timeout_handler_t g_daHandler;
+
+static bool isDAPolling = false;
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
 
@@ -118,7 +173,7 @@ extern LIS2DH12_Ret init(power_mode_t powerMode, scale_t scale, sample_rate_t sa
         spi_init();
     }
 
-    /* Start Selftest */
+    // Start Selftest
     retVal |= selftest();
 
     clearRegisters();
@@ -127,7 +182,6 @@ extern LIS2DH12_Ret init(power_mode_t powerMode, scale_t scale, sample_rate_t sa
     {
 
         setScale(scale);
-        /* Set Power Mode */
         setPowerMode(powerMode);
         setSampleRate(sampleRate);
         enableXYZ();
@@ -235,6 +289,15 @@ extern LIS2DH12_Ret setHighPassReference()
   return err_code;
 }
 
+
+extern LIS2DH12_Ret enableFIFO()
+{
+  uint8_t err_code = LIS2DH12_RET_OK;
+  err_code = setRegister(LIS2DH_CTRL_REG5, LIS2DH_FIFO_EN_MASK);
+  err_code = setRegister(LIS2DH_FIFO_CTRL_REG, LIS2DH_FIFO_MODE_STREAM);
+
+  return (LIS2DH12_Ret) err_code;
+}
 
 
 extern LIS2DH12_Ret enableTemperatureSensor()
@@ -434,33 +497,37 @@ extern void clearInterrupts()
 
 
 
-extern void setInterruptThreshold(uint16_t threshold)
+extern void setInterruptThreshold(uint16_t threshold, interrupt_number_t intNum)
 {
-  // Set threshold on INT1
+  interrupt_lookup_t interrupt = interrupts[intNum];
+
+  // Set threshold on selected interrupt
   uint8_t intThreshold = findInterruptThreshold(threshold);
   INFO("SETTING - Threshold Value: 0x%02x", intThreshold);
-  clearRegister(LIS2DH_INT1_THS, LIS2DH_CLEAR_REGISTER_MASK);
-  setRegister(LIS2DH_INT1_THS, intThreshold);
+  clearRegister(interrupt.thresholdRegister, LIS2DH_CLEAR_REGISTER_MASK);
+  setRegister  (interrupt.thresholdRegister, intThreshold);
 }
 
 
-extern void setInterruptDuration(uint8_t duration)
+extern void setInterruptDuration(uint8_t duration, interrupt_number_t intNum)
 {
-  // Set duration on INT1
+  interrupt_lookup_t interrupt = interrupts[intNum];
+
+  // Set duration on selected interrupt
   uint8_t intDuration = findInterruptDuration(duration);
-  INFO("SETTING - Threshold Duration: 0x%02x", intDuration);
-  clearRegister(LIS2DH_INT1_DURATION, LIS2DH_CLEAR_REGISTER_MASK);
-  setRegister(LIS2DH_INT1_DURATION, intDuration);
+  INFO("SETTING - Threshold Duration: 0x%02x on Interrupt: ", intDuration, intNum + 1);
+  clearRegister(interrupt.durationRegister, LIS2DH_CLEAR_REGISTER_MASK);
+  setRegister  (interrupt.durationRegister, intDuration);
 }
 
 
-extern void setInterruptHandler(gpio_event_handler_t handler)
+extern void setInterruptHandler(gpio_event_handler_t handler, uint32_t pin)
 {
 #ifdef BOARD_RUUVITAG_B3
 
-  GPIO::interruptClear(INT_ACC2_PIN);
+  GPIO::interruptClear(pin);
 
-  GPIO::initIntInput(INT_ACC2_PIN,
+  GPIO::initIntInput(pin,
           NRF_GPIOTE_POLARITY_LOTOHI,
           NRF_GPIO_PIN_PULLDOWN,
           false,
@@ -469,70 +536,92 @@ extern void setInterruptHandler(gpio_event_handler_t handler)
 
   nrf_delay_ms(100);
 
-  GPIO::interruptEnable(INT_ACC2_PIN);
+  GPIO::interruptEnable(pin);
 #endif
 }
 
-extern void clearInterruptHandler()
+
+
+extern void initThresholdInterrupt(uint16_t threshold,
+                                   uint8_t duration,
+                                   interrupt_number_t intNum,
+                                   interrupt_mode_t mode,
+                                   bool latchEnabled,
+                                   gpio_event_handler_t handler)
 {
-  #ifdef BOARD_RUUVITAG_B3
-  GPIO::interruptClear(INT_ACC2_PIN);
-  #endif
+
+  interrupt_lookup_t interrupt = interrupts[intNum];
+
+  clearRegister(interrupt.cfgRegister, LIS2DH_CLEAR_REGISTER_MASK);
+
+  if (!(mode & (LIS2DH_AOI_MASK | LIS2DH_6D_MASK)))
+  {
+    // Enable HPF on INT1
+    setRegister(LIS2DH_CTRL_REG2, interrupt.highpassMask);
+    setHighPassReference();
+  }
+
+
+  if (latchEnabled) {
+    // Enable/ Disable Latch on INT1
+    setRegister(LIS2DH_CTRL_REG5, interrupt.latchMask);
+  }
+
+  setInterruptThreshold(threshold, intNum);
+  setInterruptDuration(duration, intNum);
+
+  // Set cfg on INT1
+  setRegister(interrupt.cfgRegister, mode);
+
+  //Enable Interrupt on INT1
+  setRegister(interrupt.enableRegister, interrupt.enableMask);
+
+  if (handler != NULL)
+  {
+    setInterruptHandler(handler, interrupt.interruptPin);
+  }
 
 }
 
 
-extern void initThresholdInterrupt(uint16_t threshold,
-                                             uint8_t duration,
-                                             interrupt_threshold_mask_t intThreshMask,
-                                             bool latchEnabled,
-                                             gpio_event_handler_t handler)
+
+
+extern uint8_t getInterruptSource(interrupt_number_t intNum)
 {
+  interrupt_lookup_t interrupt = interrupts[intNum];
 
-  clearRegister(LIS2DH_INT1_CFG, LIS2DH_CLEAR_REGISTER_MASK);
-
-  // Enable HPF on INT1
-  setRegister(LIS2DH_CTRL_REG2, LIS2DH_HPIS1_MASK);
-  setHighPassReference();
-
-  if (latchEnabled) {
-    // Enable/ Disable Latch on INT1
-    setRegister(LIS2DH_CTRL_REG5, LIS2DH_LIR_INT1_MASK);
-  }
-
-  setInterruptThreshold(threshold);
-  setInterruptDuration(duration);
-
-  // Set cfg on INT1
-  setRegister(LIS2DH_INT1_CFG, intThreshMask);
-
-  //Enable Interrupt on INT1
-  setRegister(LIS2DH_CTRL_REG6, LIS2DH_I1_IA1);
-
-  setInterruptHandler(handler);
-
+  uint8_t sourceData[1];
+  readRegister(interrupt.srcRegister, sourceData, 1);
+  return sourceData[0] & 0x3F;
 }
 
 
 extern void initDAPolling(app_timer_timeout_handler_t handler)
 {
+  /*
 #ifdef BOARD_RUUVITAG_B3
   GPIO::setInput(INT_ACC1_PIN);
 #endif
+*/
   g_daHandler = handler;
 
-  setRegister(LIS2DH_CTRL_REG3, LIS2DH_I1_DRDY2);
+  //setRegister(LIS2DH_CTRL_REG3, LIS2DH_I1_DRDY2);
 }
 
 extern void startDAPolling()
 {
+  if (!isDAPolling)
+  {
   g_daTimer.startTimer(1000/ g_sampleRateValue, g_daHandler);
+  isDAPolling = true;
+  }
 }
 
 
 extern void stopDAPolling()
 {
   g_daTimer.stopTimer();
+  isDAPolling = false;
 }
 
 

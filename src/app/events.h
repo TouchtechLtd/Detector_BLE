@@ -14,6 +14,7 @@
 
 #define EVENT_PROCESSOR_MAX_SIGNALS    100
 #define EVENT_PROCESSOR_MAX_LISTENERS  20
+#define EVENT_PROCESSOR_MAX_REPEATERS  2
 
 namespace EVENTS
 
@@ -28,6 +29,8 @@ typedef struct
 
 typedef void (*event_callback_t)(event_data_t eventData);
 
+typedef void (*event_signal_callback_t)();
+typedef void (*event_message_callback_t)(event_data_t eventData);
 
 
 typedef struct
@@ -39,13 +42,18 @@ typedef struct
 typedef struct
 {
   uint16_t eventID;
-  event_callback_t callback;
+  event_signal_callback_t signal_callback;
+  event_message_callback_t message_callback;
+  bool isSignal;
 } event_listener_t;
 
+typedef void (*event_repeater_t)(event_signal_t eventSignal);
 
 
 void eventPut(uint16_t eventID, const void* eventData = NULL, uint16_t dataLen = 0);
-void registerEventHandler(uint16_t eventID, event_callback_t handler);
+void registerEventHandler(uint16_t eventID, event_signal_callback_t handler);
+void registerEventHandler(uint16_t eventID, event_message_callback_t handler);
+void registerEventRepeater(event_repeater_t repeater);
 
 void processEvents();
 

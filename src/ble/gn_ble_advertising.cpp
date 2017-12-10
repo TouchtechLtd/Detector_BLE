@@ -62,7 +62,6 @@ static void on_adv_evt(ble_evt_t const * p_ble_evt, void * p_context)
 
           case BLE_GAP_EVT_DISCONNECTED:
               INFO("Starting Advertising");
-              start(320);
               break;
       }
 }

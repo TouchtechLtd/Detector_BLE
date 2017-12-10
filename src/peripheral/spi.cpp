@@ -30,7 +30,7 @@ For a detailed description see the detailed description in @ref spi.h
 #include "peripheral/gpio_interface.h"
 
 /* CONSTANTS **************************************************************************************/
-#define SPI_INSTANCE  1 /**< SPI instance index. */
+#define SPI_INSTANCE  0 /**< SPI instance index. */
 
 #define SPI_SCK_PIN 29
 #define SPI_MISO_PIN 28
@@ -68,6 +68,8 @@ extern void spi_init(void)
   ERROR_CHECK(err_code);
 
   initDone = true;
+
+  NRF_SPI0->ENABLE = 0;
 }
 
 
@@ -78,6 +80,7 @@ extern bool spi_isInitialized(void)
 
 extern SPI_Ret spi_transfer(uint8_t* const p_toWrite, uint8_t count, uint8_t* const p_toRead)
 {
+    NRF_SPI0->ENABLE = 1;
     /* Ensure read and write pointers are valid */
     if ((NULL == p_toWrite) || (NULL == p_toRead)) { return SPI_RET_ERROR; }
     /* check if an other SPI transfer is running */
@@ -96,6 +99,8 @@ extern SPI_Ret spi_transfer(uint8_t* const p_toWrite, uint8_t count, uint8_t* co
         //DEBUG("Here");
         //__WFE();
     }
+
+    NRF_SPI0->ENABLE = 0;
     return  SPI_RET_OK;
 }
 

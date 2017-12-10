@@ -71,7 +71,7 @@ void Characteristic::attachToService(uint16_t i_serviceHandle)
     m_isRunning = true;
 
   } else {
-    DEBUG("Please set UUID before adding service");
+    INFO("ERROR: Please set UUID before adding service");
   }
 }
 

@@ -10,45 +10,79 @@
 #include "app/events.h"
 #include "debug/DEBUG.h"
 
-StateMachine::StateMachine(state_t i_initState, uint8_t max_states, uint8_t max_events) {
-    for (int i = 0; i < max_states; i++) {
-    	for (int j = 0; j < max_events; j++) {
-    		event_table[i][j] = &StateMachine::error_handler;
-    		transition_table[i][j] = ERROR;
-    	}
-    }
-    _currentState = i_initState;
-    m_running = true;
+
+int StateMachine::machineCount = 0;
+bool StateMachine::isInitialised = false;
+StateMachine* StateMachine::allMachines[MAX_NUMBER_MACHINES] = {0};
+
+
+void StateMachine::addMachine(StateMachine* machine)
+{
+  if (machineCount < MAX_NUMBER_MACHINES)
+  {
+    allMachines[machineCount] = machine;
+    machineCount++;
+  }
+  else { INFO("Machine max reached"); }
+}
+
+void StateMachine::dispatch(EVENTS::event_signal_t eventSignal)
+{
+  //INFO("State machine disptach called");
+  for (int i = 0; i < machineCount; i++)
+  {
+    allMachines[i]->transition(eventSignal);
+  }
 }
 
 
+StateMachine::StateMachine()
+{
+  m_running = false;
+
+  if (!isInitialised)
+  {
+    EVENTS::registerEventRepeater(dispatch);
+    isInitialised = true;
+  }
+}
+
+
+
 void StateMachine::error_handler() {
-	DEBUG("Error - cannot make this transition");
+	INFO("ERROR: Cannot make this transition");
 }
 
 
 void StateMachine::registerTransition(	state_t startState,
 										state_t endState,
-										event_e event,
+										uint16_t event,
 										state_event_handler_t event_handler)
 {
-	event_table[startState][event] = event_handler;
-	transition_table[startState][event] = endState;
+  state_table[startState].eventLookup[state_table[startState].numberOfEvents].eventID =          event;
+  state_table[startState].eventLookup[state_table[startState].numberOfEvents].destinationState = endState;
+  state_table[startState].eventLookup[state_table[startState].numberOfEvents].transitionCallback = event_handler;
+
+  state_table[startState].numberOfEvents++;
+
 }
 
 
-void StateMachine::transition(event_e event) {
+void StateMachine::transition(EVENTS::event_signal_t eventSignal)
+{
   if (!m_running) { return; }
 
-  if (transition_table[_currentState][event] != IGNORED) {
-    if (event_table[_currentState][event] != NULL) {
-      event_table[_currentState][event]();
-    }
-    _currentState = transition_table[_currentState][event];
-  }
-  else
+  //INFO("Made it here for event: 0x%04x", eventSignal.eventID);
+
+
+  for (int i = 0; i < state_table[_currentState].numberOfEvents; i++)
   {
-    INFO("Transition event ignored");
+    if (eventSignal.eventID == state_table[_currentState].eventLookup[i].eventID)
+    {
+      state_table[_currentState].eventLookup[i].transitionCallback();
+      _currentState = state_table[_currentState].eventLookup[i].destinationState;
+      INFO("Current State Now: %d", _currentState);
+    }
   }
 }
 
@@ -61,6 +95,7 @@ void StateMachine::start(state_t state)
 {
   _currentState = state;
   m_running = true;
+  addMachine(this);
 }
 
 bool StateMachine::isRunning()

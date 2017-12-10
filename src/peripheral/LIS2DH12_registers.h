@@ -229,6 +229,12 @@ typedef enum
 // None
 
 
+// FIFO_MODE masks
+#define LIS2DH_FIFO_MODE_BUFFER 0x00
+#define LIS2DH_FIFO_MODE_FIFO   0x40
+#define LIS2DH_FIFO_MODE_STREAM 0x80
+#define LIS2DH_FIFO_MODE_F2S    0xC0
+
 
 /* PROTOTYPES *************************************************************************************/
 

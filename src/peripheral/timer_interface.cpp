@@ -68,7 +68,7 @@ Timer::Timer()
 {
   m_is_running = false;
   if (_timerCount >= MAX_NUMBER_TIMERS) {
-    DEBUG("Timer limit reached!");
+    LOG_DEBUG("Timer limit reached!");
   }
   else {
     m_timer_id = &timer_id_data[_timerCount];
@@ -84,6 +84,11 @@ void Timer::startTimer(uint32_t ms,
   uint32_t err_code;
 
   if (!_timerPeripheralInitialised) { initialisePeripheral(); }
+  if (m_is_running)
+  {
+    INFO("WARNING: Timer already running!");
+    return;
+  }
 
 
   // Create timers
@@ -100,7 +105,7 @@ void Timer::startTimer(uint32_t ms,
 void Timer::stopTimer() {
 
     if (!m_is_running) {
-      DEBUG("Timer not running");
+      INFO("WARNING: Timer not running");
       return;
     }
 

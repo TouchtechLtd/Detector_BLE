@@ -19,15 +19,17 @@ namespace EVENTS
 
 static event_signal_t m_queue_event_signals[EVENT_PROCESSOR_MAX_SIGNALS] = {{0}};
 static event_listener_t m_queue_event_listeners[EVENT_PROCESSOR_MAX_LISTENERS] = {{0}};
+static event_repeater_t m_queue_event_repeaters[EVENT_PROCESSOR_MAX_REPEATERS] = {0};
 
 static volatile uint8_t m_queue_start_index = 0;    /**< Index of queue entry at the start of the queue. */
 static volatile uint8_t m_queue_end_index = 0;      /**< Index of queue entry at the end of the queue. */
 
 static uint8_t m_handlerCount = 0;
+static uint8_t m_repeaterCount = 0;
 
 static __INLINE uint8_t next_index(uint8_t index)
 {
-    return (index < EVENT_PROCESSOR_MAX_SIGNALS) ? (index + 1) : 0;
+    return ((index + 1) < EVENT_PROCESSOR_MAX_SIGNALS) ? (index + 1) : 0;
 }
 
 
@@ -55,11 +57,12 @@ void eventPut(uint16_t eventID, const void* eventData, uint16_t dataLen)
       event_index                 = m_queue_end_index;
       m_queue_end_index           = next_index(m_queue_end_index);
   }
+
   CRITICAL_REGION_EXIT();
 
   if (0xFFFF == event_index)
   {
-    DEBUG("Queue full!");
+    INFO("ERROR: Event queue full!");
     return;
   }
 
@@ -69,23 +72,43 @@ void eventPut(uint16_t eventID, const void* eventData, uint16_t dataLen)
   {
     m_queue_event_signals[event_index].eventData.len          = dataLen;
     m_queue_event_signals[event_index].eventData.p_data       =  (void*) malloc(dataLen);
+
     if (m_queue_event_signals[event_index].eventData.p_data == NULL)
     {
       INFO("Event data malloc failed for event ID: 0x%04x", eventID);
+      return;
     }
     memcpy(m_queue_event_signals[event_index].eventData.p_data, eventData, dataLen);
   }
 
-  INFO("Event: 0x%04x received", eventID);
+  INFO("Event: 0x%04x received - Index: %d", eventID, event_index);
 
 }
-void registerEventHandler(uint16_t eventID, event_callback_t callback)
+void registerEventHandler(uint16_t eventID, event_signal_callback_t callback)
 {
   INFO("ATTACHING - event handler to eventID: 0x%04x", eventID);
   m_queue_event_listeners[m_handlerCount].eventID = eventID;
-  m_queue_event_listeners[m_handlerCount].callback = callback;
+  m_queue_event_listeners[m_handlerCount].signal_callback = callback;
+  m_queue_event_listeners[m_handlerCount].isSignal = true;
   m_handlerCount++;
 }
+
+void registerEventHandler(uint16_t eventID, event_message_callback_t callback)
+{
+  INFO("ATTACHING - event handler to eventID: 0x%04x", eventID);
+  m_queue_event_listeners[m_handlerCount].eventID = eventID;
+  m_queue_event_listeners[m_handlerCount].message_callback = callback;
+  m_queue_event_listeners[m_handlerCount].isSignal = false;
+  m_handlerCount++;
+}
+
+
+void registerEventRepeater(event_repeater_t repeater)
+{
+  m_queue_event_repeaters[m_repeaterCount] = repeater;
+  m_repeaterCount++;
+}
+
 
 void processEvents()
 {
@@ -102,9 +125,23 @@ void processEvents()
 
       if (p_event_signal->eventID == m_queue_event_listeners[i].eventID)
       {
-        m_queue_event_listeners[i].callback(p_event_signal->eventData);
+        if (m_queue_event_listeners[i].isSignal == true)
+        {
+          m_queue_event_listeners[i].signal_callback();
+        }
+        else
+        {
+          m_queue_event_listeners[i].message_callback(p_event_signal->eventData);
+        }
+
       }
     }
+
+    for (int j = 0; j < m_repeaterCount; j++)
+    {
+      m_queue_event_repeaters[j](*p_event_signal);
+    }
+
 
     free(p_event_signal->eventData.p_data);
 

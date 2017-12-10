@@ -17,9 +17,9 @@
 #define SET_BUFFER_MS                     10000
 
 #define TRAP_TRIGGER_EVENT_THRESHOLD      500
-#define TRAP_TRIGGER_MOVE_THRESHOLD       100
+#define TRAP_TRIGGER_MOVE_THRESHOLD       200
 
-#define TRAP_TRIGGER_DURATION             40
+#define TRAP_TRIGGER_DURATION             0
 
 
 #define KILL_DATA_FILE_ID       (0xDA7A)
@@ -46,7 +46,7 @@ namespace TrapState
     MAX_STATES,
   } detector_state_e;
 
-
+/*
   typedef enum {
     TRIGGERED_EVENT,
     BUFFER_END_EVENT,
@@ -55,7 +55,7 @@ namespace TrapState
     SET_BUFFER_END_EVENT,
     MAX_EVENTS
   } detector_event_e;
-
+*/
 }
 
 #endif /* CPP_TRAP_EVENT_H */

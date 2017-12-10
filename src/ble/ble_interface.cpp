@@ -194,18 +194,23 @@ void on_ble_evt(ble_evt_t const * p_ble_evt, void* context)
 
             INFO("RW Request: %d", req.request.read.handle);
 
-            if (req.type == BLE_GATTS_AUTHORIZE_TYPE_READ)
+            if ((req.request.write.op == BLE_GATTS_OP_PREP_WRITE_REQ)     ||
+                (req.request.write.op == BLE_GATTS_OP_EXEC_WRITE_REQ_NOW) ||
+                (req.request.write.op == BLE_GATTS_OP_EXEC_WRITE_REQ_CANCEL))
             {
-              auth_reply.type = BLE_GATTS_AUTHORIZE_TYPE_READ;
-            }
-            else if (req.type == BLE_GATTS_AUTHORIZE_TYPE_WRITE)
-            {
-              auth_reply.type = BLE_GATTS_AUTHORIZE_TYPE_WRITE;
-            }
+              if (req.type == BLE_GATTS_AUTHORIZE_TYPE_READ)
+              {
+                auth_reply.type = BLE_GATTS_AUTHORIZE_TYPE_READ;
+              }
+              else if (req.type == BLE_GATTS_AUTHORIZE_TYPE_WRITE)
+              {
+                auth_reply.type = BLE_GATTS_AUTHORIZE_TYPE_WRITE;
+              }
 
-            err_code = sd_ble_gatts_rw_authorize_reply(p_ble_evt->evt.gatts_evt.conn_handle,
-                                                       &auth_reply);
-            ERROR_CHECK(err_code);
+              err_code = sd_ble_gatts_rw_authorize_reply(p_ble_evt->evt.gatts_evt.conn_handle,
+                                                         &auth_reply);
+              ERROR_CHECK(err_code);
+            }
 
         } break; // BLE_GATTS_EVT_RW_AUTHORIZE_REQUEST
 

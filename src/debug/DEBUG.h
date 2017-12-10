@@ -35,10 +35,10 @@
 #endif
 
 #ifdef DEBUG_ENABLED
-#define DEBUG(fmt, ...) do { NRF_LOG_DEBUG("%s:%d:%s(): " fmt, __FILE__, __LINE__, __func__, ##__VA_ARGS__); } while (0)
+#define LOG_DEBUG(fmt, ...) do { NRF_LOG_DEBUG("%s:%d:%s(): " fmt, __FILE__, __LINE__, __func__, ##__VA_ARGS__); } while (0)
 //#define DEBUG(fmt, ...) do { UART_write("%s:%d:%s(): " fmt, __FILE__, __LINE__, __func__, ##__VA_ARGS__); } while (0)
 #else
-#define DEBUG(fmt, ...)
+#define LOG_DEBUG(fmt, ...)
 #endif
 
 
@@ -54,7 +54,7 @@
 #ifdef ERROR_ENABLED
 #define ERROR_CHECK(err_code) do { if (err_code != NRF_SUCCESS) { \
                                   EVENTS::eventPut(DEBUG_ERROR_EVENT, &err_code, sizeof(err_code)); \
-                                   DEBUG("Error: %d", err_code); \
+                                   LOG_DEBUG("Error: %d", err_code); \
                                    } } while (0)
 /*
 #define ERROR_CHECK(err_code) do { if (err_code != NRF_SUCCESS) \
