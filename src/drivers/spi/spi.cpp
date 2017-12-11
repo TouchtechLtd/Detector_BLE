@@ -25,9 +25,9 @@ For a detailed description see the detailed description in @ref spi.h
 #include "nrf_delay.h"
 #include "app_util_platform.h"
 #include "boards.h"
-#include "debug/DEBUG.h"
 
-#include "peripheral/gpio_interface.h"
+#include "libraries/debug/DEBUG.h"
+#include "drivers/gpio/gpio_interface.h"
 
 /* CONSTANTS **************************************************************************************/
 #define SPI_INSTANCE  0 /**< SPI instance index. */

@@ -12,7 +12,7 @@
 #include <stdint.h>
 #include "ble.h"
 #include "ble_srv_common.h"
-#include "ble/ble_interface.h"
+#include "libraries/ble/ble_interface.h"
 
 
 #define  APP_MAIN_OBSERVER_PRIO           3

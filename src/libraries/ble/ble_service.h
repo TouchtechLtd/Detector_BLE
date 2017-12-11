@@ -12,7 +12,7 @@
 #include <stdint.h>
 #include "ble.h"
 #include "ble_srv_common.h"
-#include "ble/ble_characteristic.h"
+#include "libraries/ble/ble_characteristic.h"
 
 
 #define MAX_NUMBER_CHAR	10

@@ -10,8 +10,8 @@
 #define _GOODNATURE_BLE_BLE_INTERFACE_H_
 
 #include "ble_conn_params.h"
-#include "ble/ble_service.h"
-#include "gn_ble_advertising.h"
+#include "libraries/ble/ble_service.h"
+#include "libraries/ble/gn_ble_advertising.h"
 #include "nrf_sdh.h"
 #include "nrf_sdh_ble.h"
 #include "nrf_sdh_soc.h"

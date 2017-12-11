@@ -6,9 +6,9 @@
  */
 
 #include <stdlib.h>
-#include "app/state_machine.h"
-#include "app/events.h"
-#include "debug/DEBUG.h"
+#include "libraries/state/state_machine.h"
+#include "libraries/events/events.h"
+#include "libraries/debug/DEBUG.h"
 
 
 int StateMachine::machineCount = 0;

@@ -9,12 +9,11 @@
 #include <stdint.h>
 #include <string.h>
 #include "nrf_gpio.h"
-#include "ble/ble_characteristic.h"
 #include "ble_srv_common.h"
 #include "app_error.h"
 
-#include "debug/DEBUG.h"
-
+#include "libraries/debug/DEBUG.h"
+#include "libraries/ble/ble_characteristic.h"
 
 namespace BLE_SERVER {
 

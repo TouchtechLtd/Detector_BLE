@@ -13,10 +13,10 @@
 #include "ble_srv_common.h"
 #include "app_error.h"
 
-#include "ble/ble_service.h"
-#include "ble/ble_characteristic.h"
+#include "libraries/ble/ble_service.h"
+#include "libraries/ble/ble_characteristic.h"
 
-#include "debug/DEBUG.h"
+#include "libraries/debug/DEBUG.h"
 
 namespace BLE_SERVER {
 

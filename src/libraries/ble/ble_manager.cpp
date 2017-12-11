@@ -6,7 +6,8 @@
  *      Author: michaelmcadam
  */
 
-#include <ble/gn_ble_config.h>
+/*
+#include "libraries/ble/gn_ble_config.h"
 #include <stdint.h>
 #include <string.h>
 #include "nrf_gpio.h"
@@ -16,12 +17,12 @@
 #include "nrf_sdh_ble.h"
 #include "nrf_sdh_soc.h"
 
-#include "ble/ble_interface.h"
-#include "ble/ble_service.h"
-#include "ble/ble_characteristic.h"
-#include "ble/gn_ble_advertising.h"
+#include "libraries/ble/ble_interface.h"
+#include "libraries/ble/ble_service.h"
+#include "libraries/ble/ble_characteristic.h"
+#include "libraries/ble/gn_ble_advertising.h"
 
-#include "debug/DEBUG.h"
+#include "libraries/debug/DEBUG.h"
 
 #define APP_BLE_MANAGER_OBSERVER_PRIO           3
 
@@ -128,3 +129,4 @@ BLE_Manager & BLE_Manager::manager(){
   static BLE_Manager manager;
   return manager;
 }
+*/

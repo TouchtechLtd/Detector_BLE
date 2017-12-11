@@ -6,8 +6,8 @@
  */
 
 #include <stdlib.h>
-#include "app/events.h"
-#include "debug/DEBUG.h"
+#include "libraries/events/events.h"
+#include "libraries/debug/DEBUG.h"
 
 
 #define NRF_LOG_MODULE_NAME EVENTS

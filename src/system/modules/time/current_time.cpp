@@ -7,8 +7,8 @@
 
 
 #include <stdint.h>
-#include "app/current_time.h"
-#include "debug/DEBUG.h"
+#include "./current_time.h"
+#include "libraries/debug/DEBUG.h"
 
 #define NRF_LOG_MODULE_NAME CLOCK
 NRF_LOG_MODULE_REGISTER();

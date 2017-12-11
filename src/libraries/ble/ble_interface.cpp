@@ -21,14 +21,14 @@
 #include "boards.h"
 #include "nrf_ble_gatt.h"
 
-#include "ble/ble_interface.h"
-#include "ble/gn_ble_advertising.h"
-#include "ble/ble_service.h"
+#include "libraries/ble/ble_interface.h"
+#include "libraries/ble/gn_ble_advertising.h"
+#include "libraries/ble/ble_service.h"
 #include "app_timer.h"
 
-#include "app/events.h"
-#include "peripheral/gpio_interface.h"
-#include "debug/DEBUG.h"
+#include "libraries/events/events.h"
+#include "drivers/gpio/gpio_interface.h"
+#include "libraries/debug/DEBUG.h"
 
 
 #define NRF_LOG_MODULE_NAME BLE

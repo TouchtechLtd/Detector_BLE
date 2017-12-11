@@ -6,7 +6,7 @@
  *      Author: Michael McAdam
  */
 
-#include <app/trap_manager_config.h>
+#include <system/modules/detector/old_files/trap_manager_config.h>
 #include <stdbool.h>
 #include <string.h>
 #include <stdint.h>
@@ -18,21 +18,21 @@
 #include "boards.h"
 #include "nrf_drv_gpiote.h"
 
-#include "app/state_machine.h"
-#include "ble/ble_interface.h"
-#include "ble/gn_ble_advertising.h"
-#include "ble/gn_ble_config.h"
-#include "debug/DEBUG.h"
-#include "peripheral/timer_interface.h"
-#include "peripheral/adc_interface.h"
-#include "peripheral/gpio_interface.h"
-#include "app/current_time.h"
-#include "peripheral/flash_interface.h"
-#include "peripheral/LIS2DH12.h"
+#include "libraries/state/state_machine.h"
+#include "libraries/ble/ble_interface.h"
+#include "libraries/ble/gn_ble_advertising.h"
+#include "libraries/ble/gn_ble_config.h"
+#include "libraries/debug/DEBUG.h"
+#include "drivers/timer/timer_interface.h"
+#include "drivers/adc/adc_interface.h"
+#include "drivers/gpio/gpio_interface.h"
+#include "modules/time/current_time.h"
+#include "drivers/flash/flash_interface.h"
+#include "drivers/LIS2DH12/LIS2DH12.h"
 
-#include "ble/ble_buttonless_dfu.h"
+#include "libraries/ble/ble_buttonless_dfu.h"
 
-#include "app/trap_manager.h"
+#include "system/modules/detector/old_files/trap_manager.h"
 
 #include <math.h>
 
@@ -40,7 +40,7 @@
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
 
-#include "app/events.h"
+#include "libraries/events/events.h"
 
 
 #define NRF_LOG_MODULE_NAME MAIN

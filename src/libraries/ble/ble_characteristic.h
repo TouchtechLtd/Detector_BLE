@@ -26,7 +26,7 @@
 #include <stdint.h>
 #include "ble.h"
 #include "ble_srv_common.h"
-#include "app/events.h"
+#include "libraries/events/events.h"
 
 namespace BLE_SERVER {
 

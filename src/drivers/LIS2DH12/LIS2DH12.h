@@ -18,8 +18,8 @@ Hardware Driver for the LIS2DH12 Acceleration Sensor
 #include "LIS2DH12_registers.h"
 #include "nordic_common.h"
 
-#include "peripheral/gpio_interface.h"
-#include "peripheral/timer_interface.h"
+#include "drivers/gpio/gpio_interface.h"
+#include "drivers/timer/timer_interface.h"
 
 /* CONSTANTS **************************************************************************************/
 

@@ -17,9 +17,9 @@
 #include "nrf_sdh_soc.h"
 #include "ble_advertising.h"
 #include "ble_srv_common.h"
-#include "gn_ble_advertising.h"
+#include "libraries/ble/gn_ble_advertising.h"
 
-#include "debug/DEBUG.h"
+#include "libraries/debug/DEBUG.h"
 
 #define APP_ADV_TIMEOUT_IN_SECONDS      BLE_GAP_ADV_TIMEOUT_GENERAL_UNLIMITED   /**< The advertising time-out (in units of seconds). When set to 0, we will never time out. */
 #define DEVICE_NAME                     "RuuviName"                         /**< Name of device. Will be included in the advertising data. */

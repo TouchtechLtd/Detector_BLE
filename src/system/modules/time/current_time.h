@@ -9,8 +9,8 @@
 #define SRC_APP_CURRENT_TIME_H_
 
 
-#include "peripheral/timer_interface.h"
-#include "app/events.h"
+#include "drivers/timer/timer_interface.h"
+#include "libraries/events/events.h"
 
 namespace CurrentTime
 {

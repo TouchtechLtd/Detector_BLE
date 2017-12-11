@@ -13,15 +13,15 @@ For a detailed description see the detailed description in @ref LIS2DH12.h
 /* INCLUDES ***************************************************************************************/
 #include "LIS2DH12_registers.h"
 #include "LIS2DH12.h"
-#include "peripheral/spi.h"
 #include "nrf.h"
 #include "bsp.h"
 #include "boards.h"
 
 #include "nrf_delay.h"
 
-#include "debug/DEBUG.h"
-#include "peripheral/timer_interface.h"
+#include "libraries/debug/DEBUG.h"
+#include "drivers/spi/spi.h"
+#include "drivers/timer/timer_interface.h"
 
 #define NRF_LOG_MODULE_NAME LIS2DH12
 NRF_LOG_MODULE_REGISTER();

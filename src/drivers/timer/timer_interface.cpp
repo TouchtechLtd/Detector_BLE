@@ -13,8 +13,8 @@
 #include "app_timer.h"
 #include "nrf_drv_clock.h"
 
-#include "debug/DEBUG.h"
-#include "peripheral/timer_interface.h"
+#include "libraries/debug/DEBUG.h"
+#include "drivers/timer/timer_interface.h"
 
 // General application timer settings.
 #define APP_TIMER_PRESCALER             15    // Value of the RTC1 PRESCALER register.

@@ -78,7 +78,10 @@ SRC_FILES += \
   $(SDK_ROOT)/components/softdevice/common/nrf_sdh_ble.c \
   $(SDK_ROOT)/components/softdevice/common/nrf_sdh_soc.c \
   \
-  $(PROJ_DIR)/main.c
+  $(shell find ./src -name *.cpp) 
+  
+ 
+  #$(PROJ_DIR)/main.c
   #$(PROJ_DIR)/peripheral/uart_interface.cpp \
   $(PROJ_DIR)/peripheral/gpio_interface.cpp \
   $(PROJ_DIR)/peripheral/adc_interface.cpp \
@@ -94,8 +97,9 @@ SRC_FILES += \
   $(PROJ_DIR)/ble/ble_characteristic.cpp \
   $(PROJ_DIR)/ble/gn_ble_advertising.cpp \
   $(PROJ_DIR)/ble/ble_buttonless_dfu.cpp \
-  $(PROJ_DIR)/app/current_time.cpp \
-  $(PROJ_DIR)/app/events.cpp \
+  $(PROJ_DIR)/system/modules/time/gn_time.cpp \
+  $(PROJ_DIR)/system/modules/battery/gn_battery.cpp \
+  $(PROJ_DIR)/libraries/events/events.cpp \
   $(PROJ_DIR)/system/main.cpp \
   #$(PROJ_DIR)/peripheral/cli.c \
   

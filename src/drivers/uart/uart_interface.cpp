@@ -15,7 +15,7 @@
 #include "boards.h"
 
 #include <string.h>
-#include "peripheral/uart_interface.h"
+#include "drivers/uart/uart_interface.h"
 
 
 #define MAX_TEST_DATA_BYTES     (15U)                /**< max number of test bytes to be used for tx and rx. */

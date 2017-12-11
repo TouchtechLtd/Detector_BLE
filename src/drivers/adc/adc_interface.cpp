@@ -15,9 +15,9 @@
 #include "app_error.h"
 #include "app_util_platform.h"
 
-#include "debug/DEBUG.h"
-#include "peripheral/timer_interface.h"
-#include "peripheral/adc_interface.h"
+#include "libraries/debug/DEBUG.h"
+#include "drivers/timer/timer_interface.h"
+#include "drivers/adc/adc_interface.h"
 
 
 

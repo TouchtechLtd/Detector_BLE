@@ -18,11 +18,10 @@
 
 
 #if defined(INFO_ENABLED) || defined(DEBUG_ENABLED) || defined(ERROR_ENABLED)
-#include "peripheral/uart_interface.h"
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
-#include "app/events.h"
+#include "libraries/events/events.h"
 
 #define DEBUG_ERROR_EVENT 0xFFFF
 

@@ -15,12 +15,12 @@ For a detailed description see the detailed description in @ref LIS2DH12.h
 #include <stdint.h>
 
 #include "LIS2DH12_registers.h"
-#include "peripheral/spi.h"
 #include "nrf.h"
 #include "bsp.h"
 #include "boards.h"
 
-#include "debug/DEBUG.h"
+#include "drivers/spi/spi.h"
+#include "libraries/debug/DEBUG.h"
 
 #include <string.h>
 

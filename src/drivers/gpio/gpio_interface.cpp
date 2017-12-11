@@ -17,8 +17,8 @@
 #include "nrf.h"
 #include "boards.h"
 
-#include "debug/DEBUG.h"
-#include "peripheral/gpio_interface.h"
+#include "libraries/debug/DEBUG.h"
+#include "drivers/gpio/gpio_interface.h"
 
 
 // Function for configuring GPIO.

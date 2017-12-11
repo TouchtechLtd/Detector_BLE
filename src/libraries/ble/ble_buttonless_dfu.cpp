@@ -16,10 +16,10 @@
 #include "ble_dfu.h"
 
 
-#include "app/events.h"
-#include "ble/ble_buttonless_dfu.h"
-#include "peripheral/gpio_interface.h"
-#include "debug/DEBUG.h"
+#include "libraries/events/events.h"
+#include "libraries/ble/ble_buttonless_dfu.h"
+#include "drivers/gpio/gpio_interface.h"
+#include "libraries/debug/DEBUG.h"
 
 
 #define NRF_LOG_MODULE_NAME BUTTONLESS_DFU
