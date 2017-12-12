@@ -57,11 +57,11 @@ void StateMachine::error_handler() {
 void StateMachine::registerTransition(	state_t startState,
 										state_t endState,
 										uint16_t event,
-										state_event_handler_t event_handler)
+										state_change_event_t transition_event)
 {
-  state_table[startState].eventLookup[state_table[startState].numberOfEvents].eventID =          event;
+  state_table[startState].eventLookup[state_table[startState].numberOfEvents].eventID          = event;
   state_table[startState].eventLookup[state_table[startState].numberOfEvents].destinationState = endState;
-  state_table[startState].eventLookup[state_table[startState].numberOfEvents].transitionCallback = event_handler;
+  state_table[startState].eventLookup[state_table[startState].numberOfEvents].transitionEvent  = transition_event;
 
   state_table[startState].numberOfEvents++;
 
@@ -79,7 +79,7 @@ void StateMachine::transition(EVENTS::event_signal_t eventSignal)
   {
     if (eventSignal.eventID == state_table[_currentState].eventLookup[i].eventID)
     {
-      state_table[_currentState].eventLookup[i].transitionCallback();
+      EVENTS::eventPut(state_table[_currentState].eventLookup[i].transitionEvent);
       _currentState = state_table[_currentState].eventLookup[i].destinationState;
       INFO("Current State Now: %d", _currentState);
     }

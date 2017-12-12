@@ -15,8 +15,8 @@
 
 
 
-typedef void (*state_event_handler_t)(void);
-
+//typedef void (*state_event_handler_t)(void);
+typedef uint16_t state_change_event_t;
 
 typedef uint8_t state_t ;
 typedef uint8_t event_e ;
@@ -34,7 +34,7 @@ typedef struct
 {
   uint16_t eventID;
   state_t  destinationState;
-  state_event_handler_t transitionCallback;
+  state_change_event_t transitionEvent;
 } state_event_lookup_t;
 
 typedef struct
@@ -54,7 +54,7 @@ public:
 	void registerTransition(state_t startState,
 							state_t endState,
 							uint16_t event,
-							state_event_handler_t event_handler);
+							state_change_event_t transition_event);
 
   state_t getCurrentState();
 
@@ -68,7 +68,7 @@ private:
 
     my_state_type_t state_table[STATE_MACHINE_MAX_STATES];
 
-    state_event_handler_t event_table[STATE_MACHINE_MAX_STATES][STATE_MACHINE_MAX_EVENTS];
+    state_change_event_t event_table[STATE_MACHINE_MAX_STATES][STATE_MACHINE_MAX_EVENTS];
     state_t transition_table[STATE_MACHINE_MAX_STATES][STATE_MACHINE_MAX_EVENTS];
 
 
