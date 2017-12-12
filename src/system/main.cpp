@@ -255,9 +255,9 @@ void onBLEConnect()
 
 void buttonHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
-  //TrapState::simulateTrigger();
+  DETECTOR::simulateTrigger();
 
-  EVENTS::eventPut(ACTIVATE_EVENT);
+  //EVENTS::eventPut(ACTIVATE_EVENT);
   INFO("Event: Button 1 Pressed");
 }
 
@@ -540,7 +540,7 @@ void loadDataFromFlash()
   Flash_Record::read(CONFIG_FILE_ID, TRAP_ID_KEY_ID, &g_trapID, sizeof(g_trapID));
   INFO("READING - Trap ID - Value: %d", g_trapID);
 }
-
+*/
 void setButtonInterrupt()
 {
   GPIO::initIntInput(BUTTON_1,
@@ -551,7 +551,7 @@ void setButtonInterrupt()
                 buttonHandler);
   GPIO::interruptEnable(BUTTON_1);
 }
-*/
+
 
 void startBLE()
 {
@@ -559,7 +559,7 @@ void startBLE()
   createDeviceInfoService();
 
 //#ifndef DEBUG
-  BLE_DFU::createDFUService();
+  //BLE_DFU::createDFUService();
 //#endif
 
   BLE_ADVERTISING::start(BLE_ADVERTISING_SPEED_SLOW);
@@ -689,9 +689,14 @@ int main(void)
   INFO("\n\r\n\rDebug started...");
 
 	initialisePeripherals();
+
+#ifdef DEBUG
+	GPIO::low(LED_1_PIN);
+#endif
+
 	//loadDataFromFlash();
 	//registerEventCallbacks();
-	//setButtonInterrupt();
+	setButtonInterrupt();
 
 	DETECTOR::init();
 
