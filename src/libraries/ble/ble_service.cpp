@@ -140,7 +140,7 @@ void Service::createSIG(uint16_t uuid)
 void Service::addCharacteristic(Characteristic* p_char, uint8_t charID) {
 
 	p_char->setUUIDType(_service.uuid.type);
-	p_char->setEventModifier(charID);
+	//p_char->setEventModifier(charID);
 	_charList[charID] = *p_char;
 }
 

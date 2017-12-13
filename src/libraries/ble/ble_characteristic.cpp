@@ -68,6 +68,7 @@ void Characteristic::attachToService(uint16_t i_serviceHandle)
     ERROR_CHECK(err_code);
 
     m_isRunning = true;
+    m_eventIDModifier = m_charHandle.value_handle;
 
   } else {
     INFO("ERROR: Please set UUID before adding service");
@@ -157,11 +158,13 @@ void Characteristic::setWriteHandler(char_write_handler_t writeHandler)
   EVENTS::registerEventHandler(CHARACTERISTIC_WRITE_EVENT_OFFSET + m_eventIDModifier, writeHandler);
 }
 
+/*
 void Characteristic::setEventModifier(uint8_t eventModifier)
 {
-  m_eventIDModifier = eventModifier;
+  //m_eventIDModifier = eventModifier;
+  //m_eventIDModifier = m_charHandle.value_handle;
 }
-
+*/
 
 //============================= INQUIRY    ===================================
 

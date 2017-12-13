@@ -84,7 +84,7 @@ public:
   void setUUIDType(uint8_t type);
   void setDataPointer(void* p_value, uint16_t len);
   void setWriteHandler(char_write_handler_t writeHandler);
-  void setEventModifier(uint8_t eventModifier);
+  //void setEventModifier(uint8_t eventModifier);
 
   // INQUIRY
   bool    isInit();

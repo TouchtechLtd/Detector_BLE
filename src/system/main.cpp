@@ -26,7 +26,7 @@
 #include "drivers/timer/timer_interface.h"
 #include "drivers/adc/adc_interface.h"
 #include "drivers/gpio/gpio_interface.h"
-#include "modules/time/current_time.h"
+#include "libraries/current_time/current_time.h"
 #include "drivers/flash/flash_interface.h"
 #include "drivers/LIS2DH12/LIS2DH12.h"
 
@@ -35,8 +35,9 @@
 //#include "system/modules/detector/old_files/trap_manager.h"
 
 #include "system/modules/detector/gn_detector.h"
+#include "system/modules/raw_event/gn_raw_event.h"
+#include "system/modules/time/gn_time.h"
 
-#include <math.h>
 
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
@@ -59,8 +60,6 @@ NRF_LOG_MODULE_REGISTER();
 #define TRAP_ID_KEY_ID  0x1212
 
 
-#define RAW_DATA_BLE_SIZE 4
-
 #define MAIN_EVENT_OFFSET 0x1500
 
 
@@ -71,15 +70,10 @@ typedef enum {
   MAX_STATES,
 } main_state_e;
 
+
+
 /*
 #pragma pack(push, 1)
-
-typedef struct
-{
-  TrapState::raw_event_data_t data[RAW_DATA_BLE_SIZE];
-  uint8_t packetNumber;
-  uint8_t killNumber;
-}raw_event_data_packet_t;
 
 
 typedef struct
@@ -123,8 +117,6 @@ static TrapState::event_data_t       recordData = { 0 };
 static TrapState::event_data_t       eventData = { 0 };
 static uint32_t                      g_trapID   = 0;
 
-static TrapState::raw_event_data_t g_accelerationData[RAW_DATA_CAPTURE_SIZE] = { 0 };
-static uint16_t       g_accDataCount = 0;
 
 static StateMachine mainStateMachine;
 */
@@ -180,59 +172,6 @@ void setBLEOutputHigh(EVENTS::event_data_t)
   BLE_SERVER::setPower(BLE_POWER_LEVEL_HIGH);
 }
 
-
-/*
-void startRawSampling()
-{
-  LIS2DH12::startDAPolling();
-}
-
-void stopRawSampling()
-{
-  LIS2DH12::stopDAPolling();
-}
-
-
-void accReadRawDataHandler(void* p_context)
-{
-
-  LIS2DH12::sample();
-
-  if (g_accDataCount >= RAW_DATA_CAPTURE_SIZE - 1)
-  {
-    EVENTS::eventPut(RAW_DATA_FULL, 0);
-    stopRawSampling();
-    return;
-  }
-  LIS2DH12::getAccelerationData(&g_accelerationData[g_accDataCount].acc);
-
-  g_accDataCount++;
-
-}
-
-void findAccelerationSum(int i)
-{
-  g_accelerationData[i].sum = sqrt((g_accelerationData[i].acc.x*g_accelerationData[i].acc.x) +
-                                   (g_accelerationData[i].acc.y*g_accelerationData[i].acc.y) +
-                                   (g_accelerationData[i].acc.z*g_accelerationData[i].acc.z));
-}
-
-void findEventPeak(int i)
-{
-  if (g_accelerationData[i].sum > eventData.peak_level)
-  {
-    eventData.peak_level = g_accelerationData[i].sum;
-  }
-}
-void processRawData()
-{
-  for (int i = 0; i < g_accDataCount; i++)
-  {
-    findAccelerationSum(i);
-    findEventPeak(i);
-  }
-}
-*/
 
 void onBLEDisconnect()
 {
@@ -371,32 +310,7 @@ void updateEventBLE(EVENTS::event_data_t data)
 ///////////////////////////////////////////////////
 
 /*
-void sendRawData(EVENTS::event_data_t data)
-{
-  uint8_t requestedKill = *(uint8_t*)data.p_data;
 
-  INFO("SENDING - Raw Data for kill: %d", requestedKill);
-  raw_event_data_packet_t bleRawData = { 0 };
-  bleRawData.killNumber = requestedKill;
-
-  TrapState::raw_event_data_t requestedRawData[RAW_DATA_CAPTURE_SIZE] = { 0 };
-  Flash_Record::read(KILL_RAW_DATA_FILE_ID, requestedKill, &requestedRawData, sizeof(requestedRawData));
-
-  uint32_t err_code;
-  for (int i = 0; i < RAW_DATA_CAPTURE_SIZE/RAW_DATA_BLE_SIZE; i++)
-  {
-    //INFO("SENDING - Raw Data Kill %d Packet: %d/%d", requestedKill, i, RAW_DATA_CAPTURE_SIZE/RAW_DATA_BLE_SIZE);
-
-    memcpy(&bleRawData.data, &requestedRawData[i*RAW_DATA_BLE_SIZE], sizeof(bleRawData.data));
-    bleRawData.packetNumber = i;
-    err_code = BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_RAW_DATA, &bleRawData, sizeof(bleRawData));
-
-    ERROR_CHECK(err_code);
-    //NRF_LOG_PROCESS();
-    nrf_delay_ms(10);
-  }
-
-}
 
 void eventConfigHandler(EVENTS::event_data_t data)
 {
@@ -504,7 +418,6 @@ void initialisePeripherals()
   LIS2DH12::enableHighPass();
   LIS2DH12::enableFIFO();
   LIS2DH12::enableTemperatureSensor();
-  //LIS2DH12::initDAPolling(accReadRawDataHandler);
 
 
 }
@@ -633,10 +546,18 @@ void errorHandler(EVENTS::event_data_t data)
   //mainStateMachine.transition(PROGRAM_ERROR_EVENT);
   errorStateHandler();
 }
+*/
 
+
+void eventTriggered()
+{
+  EVENTS::eventPut(RAW_EVENT::EVENT_TRIGGERED);
+}
 
 void registerEventCallbacks ()
 {
+  EVENTS::registerEventHandler(DETECTOR::DETECTOR_TRIGGERED,     eventTriggered);
+  /*
   //EVENTS::registerEventHandler(TrapState::TRAP_KILLED_EVENT,        stopRawSampling);
   //EVENTS::registerEventHandler(TrapState::TRAP_KILLED_EVENT,        onKillEvent);
   //EVENTS::registerEventHandler(TrapState::TRAP_STATE_CHANGE_EVENT,  showState);
@@ -654,8 +575,10 @@ void registerEventCallbacks ()
   EVENTS::registerEventHandler(BLE_SERVER::BLE_CONNECTED_EVENT,     setBLEOutputHigh);
   EVENTS::registerEventHandler(TIMESET_EVENT,                       CurrentTime::startClock);
   EVENTS::registerEventHandler(TrapState::TRAP_TRIGGERED_EVENT,     LIS2DH12::clearInterrupts);
+  */
 }
 
+/*
 void createMainTransitionTable()
 {
 
@@ -695,10 +618,12 @@ int main(void)
 #endif
 
 	//loadDataFromFlash();
-	//registerEventCallbacks();
+	registerEventCallbacks();
 	setButtonInterrupt();
 
+	TIME::init();
 	DETECTOR::init();
+	RAW_EVENT::init();
 
 	//sensors_init();
 	startBLE();
