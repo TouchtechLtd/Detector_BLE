@@ -19,7 +19,10 @@ namespace DEVICE
 #define DEVICE_EVENT_OFFSET 0x1400
 
 enum {
-  DEVICE_EVENT = DEVICE_EVENT_OFFSET
+  ACTIVATE_EVENT = DEVICE_EVENT_OFFSET,
+  DEACTIVATE_EVENT,
+  DEVICE_ACTIVATED,
+  DEVICE_DEACTIVATED
 };
 
 
@@ -35,14 +38,24 @@ typedef struct
 typedef struct
 {
   uint8_t activate;
-  uint32_t trapID;
 } trap_control_t;
+
+typedef struct
+{
+  uint8_t major;
+  uint8_t minor;
+} software_version_t;
 
 #pragma pack(pop)
 
+uint32_t getBootNum();
+void setBootNum(uint32_t newBootNum);
 
 uint32_t getDeviceID();
 void setDeviceID(uint32_t newID);
+uint8_t getDeviceState();
+software_version_t getSoftwareVersion();
+
 void init();
 
 

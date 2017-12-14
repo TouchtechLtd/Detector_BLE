@@ -37,6 +37,11 @@ bool g_initialised = false;
 ///////////////////////////////////////////////////
 
 
+uint8_t getCurrentState()
+{
+  return detectorStateMachine.getCurrentState();
+}
+
 
 void createTransitionTable(void)
 {
@@ -65,7 +70,7 @@ void start()
 void stop()
 {
   INFO("STOPPING - Detector State Machine");
-  EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
+  //EVENTS::eventPut(TRAP_STATE_CHANGE_EVENT);
   detectorStateMachine.stop();
 }
 

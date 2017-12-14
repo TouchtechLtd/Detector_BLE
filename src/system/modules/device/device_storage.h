@@ -31,6 +31,8 @@ namespace STORAGE
 void       recordID();
 uint32_t   getID();
 
+void recordBootNum();
+
 void start();
 
 

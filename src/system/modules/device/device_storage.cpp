@@ -24,7 +24,8 @@ namespace DEVICE
 namespace STORAGE
 {
 
-static uint32_t deviceIDRecord = 0;;
+static uint32_t deviceIDRecord = 0;
+static uint32_t deviceBootNum  = 0;
 
 void recordID()
 {
@@ -39,24 +40,18 @@ uint32_t getID()
   return deviceIDRecord;
 }
 
+void recordBootNum()
+{
+  deviceBootNum = getBootNum();
+  Flash_Record::write(CONFIG_FILE_ID, CONFIG_REC_KEY_ID, &deviceBootNum, sizeof(deviceBootNum));
+}
+
 void start()
 {
-  /*
+  Flash_Record::read(CONFIG_FILE_ID, CONFIG_REC_KEY_ID, &deviceBootNum, sizeof(deviceBootNum));
+  deviceBootNum++;
+  setBootNum(deviceBootNum);
 
-  static uint8_t bootNum = 0;
-    Flash_Record::read(CONFIG_FILE_ID, CONFIG_REC_KEY_ID, &bootNum, sizeof(bootNum));
-    bootNum++;
-    INFO("READING - Bootnumber - Value: %d", bootNum);
-    // If the number of times the program has booted is greater than 20 something has probably gone wrong, so busy wait to save power
-
-    if (bootNum > 20)
-    {
-      while(1) sd_app_evt_wait();
-    }
-
-    Flash_Record::write(CONFIG_FILE_ID, CONFIG_REC_KEY_ID, &bootNum, sizeof(bootNum));
-
-  */
 
   setDeviceID(getID());
 }

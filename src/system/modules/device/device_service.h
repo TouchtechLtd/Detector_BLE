@@ -24,18 +24,23 @@ namespace SERVICE
 
 enum DeviceService_UUID
 {
-  BLE_UUID_CHAR_DEVICE_ID       = 0xDE12,
-  BLE_UUID_CHAR_DEVICE_CONTROL  = 0xDE13
+  BLE_UUID_CHAR_DEVICE_ID           = 0xDE12,
+  BLE_UUID_CHAR_DEVICE_CONTROL      = 0xDE13,
+  BLE_UUID_CHAR_DEVICE_STATE        = 0xDE14,
+  BLE_UUID_CHAR_SOFTWARE_VERSION    = 0xDE15
 };
 
 enum DeviceService_Characteristics
 {
   CHAR_DEVICE_ID,
-  CHAR_DEVICE_CONTROL
+  CHAR_DEVICE_CONTROL,
+  CHAR_DEVICE_STATE,
+  CHAR_SOFTWARE_VERSION
 };
 
 void start();
-void update();
+void updateID();
+void updateState();
 
 }
 }

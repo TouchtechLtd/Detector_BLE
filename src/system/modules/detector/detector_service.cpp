@@ -29,14 +29,12 @@ namespace SERVICE
 void eventConfigHandler(EVENTS::event_data_t data)
 {
   detector_config_t config = *(detector_config_t*)data.p_data;;
-  //memcpy(&config, data, len);
   setConfig(config);
 
   INFO("CONFIGURING - event config");
 
   uint32_t err_code = BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_CONFIG, &config, sizeof(detector_config_t));
   ERROR_CHECK(err_code);
-
 }
 
 
@@ -45,12 +43,6 @@ void eventDisplayedHandler(EVENTS::event_data_t data)
   uint8_t requestedKill = *(uint8_t*)data.p_data;;
   showKill(requestedKill);
 
-  /*
-  TrapState::event_data_t tmpData = *getEvent(requestedKill);
-  uint32_t err_code = BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_DATA, &tmpData, sizeof(TrapState::event_data_t));
-  EVENTS::eventPut(SEND_RAW_DATA, &requestedKill, 1);
-  ERROR_CHECK(err_code);
-  */
   INFO("Requested Kill: %d", requestedKill);
 }
 
@@ -61,13 +53,6 @@ void start()
   BLE_SERVER::Service trapData;
   trapData.createCustom(BLE_UUID_SERVICE_TRAP_DATA, BLE_UUID_GOODNATURE_BASE);
 
-  /*
-  INFO("INITIALISING - trap info characteristic\t\t - UUID: %x, ID: %d", BLE_UUID_CHAR_TRAP_INFO, CHAR_TRAP_INFO);
-   BLE_SERVER::Characteristic trapInfoChar;
-   //trap_info_t trapInfo = *TrapState::getTrapInfo();
-   trapInfoChar.configure(BLE_UUID_CHAR_TRAP_INFO, &g_trapInfo, sizeof(g_trapInfo), BLE_SERVER::CHAR_READ_ONLY);
-   trapData.addCharacteristic(&trapInfoChar, CHAR_TRAP_INFO);
-*/
 
   INFO("INITIALISING - event data characteristic\t\t - UUID: %x, ID: %d", BLE_UUID_CHAR_TRAP_EVENT_DATA, CHAR_EVENT_DATA);
   BLE_SERVER::Characteristic eventData;
@@ -87,19 +72,16 @@ void start()
   eventDisplayed.configure(BLE_UUID_CHAR_TRAP_EVENT_DISPLAYED, killNumber, sizeof(*killNumber), BLE_SERVER::CHAR_READ_WRITE);
   trapData.addCharacteristic(&eventDisplayed, CHAR_EVENT_DISPLAYED);
 
+
+  INFO("INITIALISING - device state characteristic\t\t - UUID: %x, ID: %d", BLE_UUID_CHAR_TRAP_EVENT_STATE, CHAR_EVENT_STATE);
+  BLE_SERVER::Characteristic detectorStateChar;
+  uint8_t detectorState = getDetectorState();
+  detectorStateChar.configure(BLE_UUID_CHAR_TRAP_EVENT_STATE, &detectorState, sizeof(detectorState), BLE_SERVER::CHAR_READ_ONLY);
+  trapData.addCharacteristic(&detectorStateChar, CHAR_EVENT_STATE);
+
+
+
   /*
-  INFO("INITIALISING - trap time characteristic\t\t - UUID: %x, ID: %d", BLE_UUID_CHAR_TRAP_TIME, CHAR_TRAP_TIME);
-  BLE_SERVER::Characteristic trapTime;
-  CurrentTime::current_time_t startTime = *CurrentTime::getCurrentTime();
-  trapTime.configure(BLE_UUID_CHAR_TRAP_TIME, &startTime, sizeof(startTime), BLE_SERVER::CHAR_READ_WRITE);
-  trapData.addCharacteristic(&trapTime, CHAR_TRAP_TIME);
-
-
-  INFO("INITIALISING - raw event data characteristic\t - UUID: %x, ID: %d", BLE_UUID_CHAR_RAW_DATA, CHAR_RAW_DATA);
-  BLE_SERVER::Characteristic rawEventData;
-  raw_event_data_packet_t tmpRawData = { 0 };
-  rawEventData.configure(BLE_UUID_CHAR_RAW_DATA, &tmpRawData, sizeof(tmpRawData), BLE_SERVER::CHAR_READ_ONLY);
-  trapData.addCharacteristic(&rawEventData, CHAR_RAW_DATA);
 
   INFO("INITIALISING - error data characteristic\t\t - UUID: %x, ID: %d", BLE_UUID_CHAR_ERROR_DATA, CHAR_ERROR_DATA);
   BLE_SERVER::Characteristic errorData;
@@ -107,11 +89,6 @@ void start()
   errorData.configure(BLE_UUID_CHAR_ERROR_DATA, &errorInitData, sizeof(errorInitData), BLE_SERVER::CHAR_READ_ONLY);
   trapData.addCharacteristic(&errorData, CHAR_ERROR_DATA);
 
-  INFO("INITIALISING - trap control characteristic\t\t - UUID: %x, ID: %d", BLE_UUID_CHAR_TRAP_CONTROL, CHAR_TRAP_CONTROL);
-  BLE_SERVER::Characteristic trapControl;
-  trap_control_t trapControlData = { 0 };
-  trapControl.configure(BLE_UUID_CHAR_TRAP_CONTROL, &trapControlData, sizeof(trap_control_t), BLE_SERVER::CHAR_READ_WRITE);
-  trapData.addCharacteristic(&trapControl, CHAR_TRAP_CONTROL);
 */
 
   INFO("ATTACHING - trap data service");
@@ -138,6 +115,14 @@ void update()
   BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_CONFIG,     &detectorConfig,            sizeof(detector_config_t));
 
 }
+
+void updateState()
+{
+  INFO("UPDATING - Detector State");
+  uint8_t detectorState = getDetectorState();
+  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_EVENT_STATE, &detectorState, sizeof(detectorState));
+}
+
 
 void sendKill(event_data_t* eventData)
 {

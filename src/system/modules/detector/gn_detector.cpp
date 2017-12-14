@@ -130,6 +130,11 @@ detector_config_t* getConfig()
   return &g_detectorConfig;
 }
 
+uint8_t getDetectorState()
+{
+  return STATE::getCurrentState();
+}
+
 void setConfig(detector_config_t inputConfig)
 {
   g_detectorConfig = inputConfig;
@@ -228,8 +233,26 @@ void registerEvents()
   EVENTS::registerEventHandler(TRAP_KILLED_EVENT, recordEventData);
   EVENTS::registerEventHandler(TRAP_KILLED_EVENT, showKill);
   EVENTS::registerEventHandler(TRAP_TRIGGERED_EVENT,     LIS2DH12::clearInterrupts);
+
+  EVENTS::registerEventHandler(DETECTOR_TRIGGERED,      SERVICE::updateState);
+  EVENTS::registerEventHandler(DETECTOR_BUFFER_ENDED,   SERVICE::updateState);
+  EVENTS::registerEventHandler(DETECTED_MOVEMENT,       SERVICE::updateState);
+  EVENTS::registerEventHandler(DETECTED_KILL,           SERVICE::updateState);
+  EVENTS::registerEventHandler(DETECTED_SET,            SERVICE::updateState);
+  EVENTS::registerEventHandler(DETECTOR_TRIGGERED,      SERVICE::updateState);
+
 }
 
+
+void start()
+{
+  STATE::start();
+}
+
+void stop()
+{
+  STATE::stop();
+}
 
 void init()
 {
@@ -244,7 +267,6 @@ void init()
   LIS2DH12::clearInterrupts();
 */
 
-  STATE::start();
   SERVICE::start();
   STORAGE::start();
 

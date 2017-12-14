@@ -28,6 +28,7 @@ typedef enum {
 } detector_state_e;
 
 
+uint8_t getCurrentState();
 void start();
 void stop();
 

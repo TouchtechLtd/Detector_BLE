@@ -61,12 +61,15 @@ typedef struct {
 
 event_data_t*      getEvent(uint8_t eventID);
 detector_config_t* getConfig();
+uint8_t getDetectorState();
 void setConfig(detector_config_t inputConfig);
 uint8_t*           getKillNumber();
 
 void showKill(uint8_t eventID);
 
 void simulateTrigger();
+void start();
+void stop();
 void init();
 
 

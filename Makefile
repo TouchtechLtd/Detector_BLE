@@ -205,6 +205,8 @@ CFLAGS += -DNRF_SD_BLE_API_VERSION=5
 CFLAGS += -DS132
 CFLAGS += -DSOFTDEVICE_PRESENT
 CFLAGS += -DSWI_DISABLE0
+CFLAGS += -DVERSION_MAJOR=0
+CFLAGS += -DVERSION_MINOR=1
 CFLAGS += -mcpu=cortex-m4
 CFLAGS += -mthumb -mabi=aapcs
 CFLAGS +=  -Wall
@@ -213,6 +215,7 @@ CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 # keep every function in separate section, this allows linker to discard unused ones
 CFLAGS += -ffunction-sections -fdata-sections -fno-strict-aliasing
 CFLAGS += -fno-builtin -fshort-enums 
+
 
 
 # C++ flags common to all targets
