@@ -19,6 +19,8 @@
 #include "./detector_storage.h"
 
 #include "system/modules/raw_event/gn_raw_event.h"
+#include "system/modules/time/gn_time.h"
+#include "system/modules/device/gn_device.h"
 
 #define NRF_LOG_MODULE_NAME DETECTOR
 NRF_LOG_MODULE_REGISTER();
@@ -180,7 +182,7 @@ void setEventData()
   LIS2DH12::getTemperature(&temp);
 
   g_eventData.timestamp   =     *TIME::getCurrentTime();
-  g_eventData.trap_id     =     TRAP_ID;
+  g_eventData.trap_id     =     DEVICE::getDeviceID();
   g_eventData.temperature =     static_cast<int8_t>(temp);
   g_eventData.killNumber  =     static_cast<uint8_t>(g_killNumber);
   g_eventData.rawEventData =    *RAW_EVENT::getEventNumber();

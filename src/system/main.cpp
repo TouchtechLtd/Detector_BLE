@@ -37,6 +37,7 @@
 #include "system/modules/detector/gn_detector.h"
 #include "system/modules/raw_event/gn_raw_event.h"
 #include "system/modules/time/gn_time.h"
+#include "system/modules/device/gn_device.h"
 
 
 #include "nrf_log.h"
@@ -71,26 +72,6 @@ typedef enum {
 } main_state_e;
 
 
-
-/*
-#pragma pack(push, 1)
-
-
-typedef struct
-{
-  uint32_t trapID;
-  uint8_t mainState;
-  uint8_t detectorState;
-}trap_info_t;
-
-typedef struct
-{
-  uint8_t activate;
-  uint32_t trapID;
-} trap_control_t;
-
-#pragma pack(pop)
-*/
 
 enum {
   RAW_DATA_FULL = MAIN_EVENT_OFFSET,
@@ -622,6 +603,7 @@ int main(void)
 	setButtonInterrupt();
 
 	TIME::init();
+	DEVICE::init();
 	DETECTOR::init();
 	RAW_EVENT::init();
 

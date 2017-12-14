@@ -134,34 +134,6 @@ void showEvent(uint8_t eventID)
   SERVICE::sendEvent(record_data);
 }
 
-/*
-void sendRawData(EVENTS::event_data_t data)
-{
-  uint8_t requestedKill = *(uint8_t*)data.p_data;
-
-  INFO("SENDING - Raw Data for kill: %d", requestedKill);
-  raw_event_data_packet_t bleRawData = { 0 };
-  bleRawData.killNumber = requestedKill;
-
-  raw_event_data_t requestedRawData[RAW_DATA_CAPTURE_SIZE] = { 0 };
-  Flash_Record::read(KILL_RAW_DATA_FILE_ID, requestedKill, &requestedRawData, sizeof(requestedRawData));
-
-  uint32_t err_code;
-  for (int i = 0; i < RAW_DATA_CAPTURE_SIZE/RAW_DATA_BLE_SIZE; i++)
-  {
-    //INFO("SENDING - Raw Data Kill %d Packet: %d/%d", requestedKill, i, RAW_DATA_CAPTURE_SIZE/RAW_DATA_BLE_SIZE);
-
-    memcpy(&bleRawData.data, &requestedRawData[i*RAW_DATA_BLE_SIZE], sizeof(bleRawData.data));
-    bleRawData.packetNumber = i;
-    err_code = BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_RAW_DATA, &bleRawData, sizeof(bleRawData));
-
-    ERROR_CHECK(err_code);
-    //NRF_LOG_PROCESS();
-    nrf_delay_ms(10);
-  }
-
-}
-*/
 
 void registerEvents()
 {

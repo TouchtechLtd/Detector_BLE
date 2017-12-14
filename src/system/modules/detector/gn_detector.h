@@ -17,7 +17,6 @@
 namespace DETECTOR
 {
 
-#define TRAP_ID       0x00000000
 #define DETECTOR_EVENT_OFFSET 0x1000
 
 enum {
