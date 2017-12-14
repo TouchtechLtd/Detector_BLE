@@ -50,8 +50,6 @@
 #define NRF_LOG_MODULE_NAME MAIN
 NRF_LOG_MODULE_REGISTER();
 
-#define LED_FAST_BLINK 200
-#define LED_SLOW_BLINK 1000
 
 
 #define ERROR_FILE_ID   0x5432
@@ -68,7 +66,7 @@ enum {
 };
 
 
-Timer ledTimer;
+
 /*
 
 */
@@ -114,57 +112,14 @@ void buttonHandler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 /////////        Timer handlers         ///////////
 ///////////////////////////////////////////////////
 
-void led1Toggle(void*)
-{
-  GPIO::toggle(LED_1_PIN);
-}
 
-
-void led2Toggle(void*)
-{
-  GPIO::toggle(LED_2_PIN);
-}
 
 
 ///////////////////////////////////////////////////
 //////////        User output          ///////////
 ///////////////////////////////////////////////////
 
-/*
-void showState()
-{
 
-  TrapState::detector_state_e currentState = TrapState::getState();
-  switch (currentState)
-  {
-    case TrapState::WAIT_STATE:
-      ledTimer.stopTimer();
-      GPIO::setOutput(LED_2_PIN, HIGH);
-      break;
-
-    case TrapState::EVENT_BUFFER_STATE:
-      ledTimer.stopTimer();
-      GPIO::setOutput(LED_2_PIN, LOW);
-      break;
-
-    case TrapState::DETECT_MOVE_STATE:
-      ledTimer.stopTimer();
-      ledTimer.startTimer(LED_FAST_BLINK, led2Toggle);
-      break;
-
-    case TrapState::MOVING_STATE:
-      ledTimer.stopTimer();
-      ledTimer.startTimer(LED_SLOW_BLINK, led2Toggle);
-      break;
-
-    default:
-      break;
-  }
-  g_trapInfo.detectorState = currentState;
-  BLE_SERVER::setCharacteristic(SERVICE_TRAP_DATA, CHAR_TRAP_INFO, &g_trapInfo, sizeof(g_trapInfo));
-}
-
-*/
 ///////////////////////////////////////////////////
 //////        BLE functions             ///////////
 ///////////////////////////////////////////////////

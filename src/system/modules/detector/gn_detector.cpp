@@ -29,6 +29,9 @@ NRF_LOG_MODULE_REGISTER();
 namespace DETECTOR
 {
 
+#define LED_FAST_BLINK 200
+#define LED_SLOW_BLINK 1000
+
 static event_data_t       g_eventData   = { 0 };
 static event_data_t       g_recordData  = { 0 };
 static uint8_t            g_killNumber  = 0;
@@ -61,6 +64,7 @@ Timer movementCountdown;
 Timer trapBufferCountdown;
 Timer moveBufferCountdown;
 
+Timer ledTimer;
 
 
 void trapBufferCountdownHandler(void* p_context)
@@ -220,6 +224,53 @@ void showKill(uint8_t eventID)
 }
 
 
+
+void led1Toggle(void*)
+{
+  GPIO::toggle(LED_1_PIN);
+}
+
+
+void led2Toggle(void*)
+{
+  GPIO::toggle(LED_2_PIN);
+}
+
+void showState()
+{
+
+  uint8_t currentState = STATE::getCurrentState();
+  switch (currentState)
+  {
+    case STATE::WAIT_STATE:
+      ledTimer.stopTimer();
+      GPIO::setOutput(LED_2_PIN, HIGH);
+      break;
+
+    case STATE::EVENT_BUFFER_STATE:
+      ledTimer.stopTimer();
+      GPIO::setOutput(LED_2_PIN, LOW);
+      break;
+
+    case STATE::DETECT_MOVE_STATE:
+      ledTimer.stopTimer();
+      ledTimer.startTimer(LED_FAST_BLINK, led2Toggle);
+      break;
+
+    case STATE::MOVING_STATE:
+      ledTimer.stopTimer();
+      ledTimer.startTimer(LED_SLOW_BLINK, led2Toggle);
+      break;
+
+    default:
+      break;
+  }
+
+  SERVICE::updateState();
+}
+
+
+
 void registerEvents()
 {
   EVENTS::registerEventHandler(DETECTOR_TRIGGERED,     detectorTriggeredEvent);
@@ -234,12 +285,12 @@ void registerEvents()
   EVENTS::registerEventHandler(TRAP_KILLED_EVENT, showKill);
   EVENTS::registerEventHandler(TRAP_TRIGGERED_EVENT,     LIS2DH12::clearInterrupts);
 
-  EVENTS::registerEventHandler(DETECTOR_TRIGGERED,      SERVICE::updateState);
-  EVENTS::registerEventHandler(DETECTOR_BUFFER_ENDED,   SERVICE::updateState);
-  EVENTS::registerEventHandler(DETECTED_MOVEMENT,       SERVICE::updateState);
-  EVENTS::registerEventHandler(DETECTED_KILL,           SERVICE::updateState);
-  EVENTS::registerEventHandler(DETECTED_SET,            SERVICE::updateState);
-  EVENTS::registerEventHandler(DETECTOR_TRIGGERED,      SERVICE::updateState);
+  EVENTS::registerEventHandler(DETECTOR_TRIGGERED,      showState);
+  EVENTS::registerEventHandler(DETECTOR_BUFFER_ENDED,   showState);
+  EVENTS::registerEventHandler(DETECTED_MOVEMENT,       showState);
+  EVENTS::registerEventHandler(DETECTED_KILL,           showState);
+  EVENTS::registerEventHandler(DETECTED_SET,            showState);
+  EVENTS::registerEventHandler(DETECTOR_TRIGGERED,      showState);
 
 }
 
